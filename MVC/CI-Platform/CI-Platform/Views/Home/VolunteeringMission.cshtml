@@ -1,0 +1,708 @@
+﻿@{
+    Layout = "Home_Layout";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        @* Image Slider *@
+        <div class="col-lg-6 ">
+            <div class="container mt-4 h-100">
+                <div class="carousel-container position-relative row ">
+
+                    <!-- Sorry! Lightbox doesn't work - yet. -->
+
+                    <div id="myCarousel" class="carousel px-0 slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item carousel-img-div active" data-slide-number="0" style="max-height:625px ;">
+                                <img src="~/images/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-4.png" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/Pn6iimgM-wo/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
+                            </div>
+                            <div class="carousel-item" data-slide-number="1" style="max-height:625px;">
+                                <img src="~/images/img22.png" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/tXqVe7oO-go/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
+                            </div>
+                            <div class="carousel-item" data-slide-number="2" style="max-height:625px;">
+                                <img src="~/images/Grow-Trees-On-the-path-to-environment-sustainability-4.png" class=" d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/qlYQb7B9vog/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
+                            </div>
+                            <div class="carousel-item " data-slide-number="3" style="max-height:625px;">
+                                <img src="~/images/img2.png" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/QfEfkWk1Uhk/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Carousel Navigation -->
+                    <div id="carousel-thumbs" class="carousel slide">
+                        <div class="carousel-inner h-100 w-100">
+                            <div class="carousel-item h-100 active">
+                                <div class="row mx-0 h-100">
+                                    <div id="carousel-selector-0" class="thumb col-3 h-100 px-1 pt-1 selected" data-target="#myCarousel" data-slide-to="0">
+                                        <img src="~/images/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-6.png" class="img-fluid w-100" alt="...">
+                                    </div>
+                                    <div id="carousel-selector-1" class="thumb col-3 px-1 pt-1" data-target="#myCarousel" data-slide-to="1">
+                                        <img src="~/images/img33.png" class="img-fluid w-100" alt="...">
+                                    </div>
+                                    <div id="carousel-selector-2" class="thumb col-3 px-1 pt-1" data-target="#myCarousel" data-slide-to="2">
+                                        <img src="~/images/Grow-Trees-On-the-path-to-environment-sustainability-5.png" class="img-fluid w-100" alt="...">
+                                    </div>
+                                    <div id="carousel-selector-3" class="thumb col-3 px-1 pt-1" data-target="#myCarousel" data-slide-to="3">
+                                        <img src="~/images/img3.png" class="img-fluid w-100" alt="...">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="carousel-item h-100">
+                                <div class="row mx-0 h-100">
+                                    <div id="carousel-selector-0" class="thumb col-3 h-100 px-1 pt-1 selected" data-target="#myCarousel" data-slide-to="0">
+                                        <img src="~/images/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-6.png" class="img-fluid w-100" alt="...">
+                                    </div>
+                                    <div id="carousel-selector-1" class="thumb col-3 px-1 pt-1" data-target="#myCarousel" data-slide-to="1">
+                                        <img src="~/images/img33.png" class="img-fluid w-100" alt="...">
+                                    </div>
+                                    <div id="carousel-selector-2" class="thumb col-3 px-1 pt-1" data-target="#myCarousel" data-slide-to="2">
+                                        <img src="~/images/Grow-Trees-On-the-path-to-environment-sustainability-5.png" class="img-fluid w-100" alt="...">
+                                    </div>
+                                    <div id="carousel-selector-3" class="thumb col-3 px-1 pt-1" data-target="#myCarousel" data-slide-to="3">
+                                        <img src="~/images/img3.png" class="img-fluid w-100" alt="...">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev bg-black" href="#carousel-thumbs" role="button" data-slide="prev" style="width:25px;">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only"></span>
+                        </a>
+                        <a class="carousel-control-next bg-black" href="#carousel-thumbs" role="button" data-slide="next" style="width:25px;">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only"></span>
+                        </a>
+                    </div>
+
+                </div> <!-- /row -->
+            </div> <!-- /container -->
+        </div>
+
+        @* Details *@
+        <div class="col-lg-6 mt-4">
+            <h3 class="card-title px-3">CSR initiative stands for coffee and farmer Equity</h3>
+            <p class="card-text px-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+            <div class="card-timing mt-5 px-3 ">
+                <div class=" d-flex justify-content-center">
+                    <p class="enrol-time px-3 pt-1">Plant 10,000 Trees</p>
+                </div>
+                <div class="row justify-content-between">
+                    <div class="d-flex col-6 align-items-center justify-content-center">
+                        <img class="timing-img" src="~/images/Seats-left.png" alt="" />
+                        <div>
+                            <p class="mb-0 card-timing-big"><strong>10</strong></p>
+                            <p class="card-text">Seats Left</p>
+                        </div>
+                    </div>
+                    <div class="d-flex col-6 align-items-center justify-content-center">
+                        <img class="timing-img" src="~/images/achieved.png" alt="" />
+                        <div>
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar" role="progressbar" style="width: 80%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <p class="card-text">8000 achived</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pb-4 px-2" style="border-bottom: 1px solid #E8E8E8;">
+                <div class="col-sm-6 pt-3">
+                    <button class="rec-btns">
+                        <img src="~/images/heart1.png" class="me-2" /><span>Add to favourite</span>
+                    </button>
+                </div>
+                <div class="col-sm-6 pt-3">
+                    <button class="rec-btns d-flex justify-content-center align-items-center">
+                        <div></div><span class="ps-2">Recommend to a Co-Worker</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <div class="card-rating rating-bar">
+                    <img src="~/images/star-empty.png" />
+                    <img src="~/images/star-empty.png" />
+                    <img src="~/images/star-empty.png" />
+                    <img src="~/images/star-empty.png" />
+                    <img src="~/images/star-empty.png" />
+                </div>
+            </div>
+
+            <div class="row ps-2 justify-content-center">
+                <div class="col-5 col-sm  col-lg border pt-1 me-2 mt-2">
+                    <img src="~/images/pin1.png ">
+                    <p class="text-muted mb-0 mt-3">City</p>
+                    <p class="mb-1">London</p>
+                </div>
+                <div class="col-5 col-sm  col-lg border pt-1 me-2 mt-2">
+                    <img src="~/images/web.png">
+                    <p class="text-muted mb-0 mt-3">Theme </p>
+                    <p class="mb-1">Environment</p>
+                </div>
+                <div class="col-5 col-sm col-lg border pt-1 me-2 mt-2">
+                    <img src="~/images/calender.png">
+                    <p class="text-muted mb-0 mt-3">Date</p>
+                    <p class="mb-1"> Ongoing Opportunity</p>
+                </div>
+                <div class=" col-5 col-sm col-lg border pt-1 me-2 mt-2">
+                    <img src="~/images/organization.png">
+                    <p class="text-muted mb-0 mt-3">Organization</p>
+                    <p class="mb-1"> CSE Network</p>
+                </div>
+            </div>
+
+            <div class="my-3 d-flex justify-content-center">
+                <button type="button" class="Apply-mission-btn"><span class="me-2">Apply Now</span> <img src="~/images/right-arrow.png" /></button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row mt-md-5 mx-2 mx-md-3 pb-5  border-bottom">
+    @*mission,Organization, Comments*@
+    <div class="col-md-7 col-lg-8">
+
+        <ul class="nav nav-tabs pt-3" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-1" type="button"
+                        role="tab" aria-controls="home" aria-selected="true">
+                    Mission
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2" type="button"
+                        role="tab" aria-controls="profile" aria-selected="false">
+                    Organization
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-3" type="button"
+                        role="tab" aria-controls="contact" aria-selected="false">
+                    Comments
+                </button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            @*Mission*@
+            <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
+                <h3>Introduction</h3>
+                <p class=" = text-muted">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                    ut
+                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco
+                    laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+                <p class=" = text-muted">
+                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                    nulla
+                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt
+                    mollit anim id est laborum.
+                </p>
+                <p class=" = text-muted">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                    incididunt ut
+                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco
+                    laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit
+                    in
+                    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <h3>Challenge</h3>
+                <p class=" = text-muted">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                    incididunt ut
+                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco
+                    laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit
+                    in
+                    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <p class=" = text-muted">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                    incididunt ut
+                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco
+                    laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <h3>Documents</h3>
+                <div>
+                    <button class="btn btn-outline-secondary px-3 mb-2 fav-button border" style="border-radius:23px;">
+                        <img src="~/images/doc.png">
+                        lorem-ipsum.pdf
+                    </button>
+                    <button class="btn btn-outline-secondary px-3 mb-2 fav-button border" style="border-radius:23px;">
+                        <img src="~/images/doc.png">
+                        at_vero_eos_accusamus.doc
+                    </button>
+                    <button class="btn btn-outline-secondary px-3 mb-2 fav-button border" style="border-radius:23px;">
+                        <img src="~/images/doc.png">
+                        important_doc.xls
+                    </button>
+                </div>
+
+
+
+            </div>
+            @* Organization Section *@
+            <div class="tab-pane fade" id="tab-2" role="tabpanel">
+                It
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+                Ipsum has been the industry's standard
+                dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                scrambled it to make a type specimen
+                book. It has survived not only five centuries, but also the leap into electronic
+                typesetting, remaining essentially
+                unchanged. It was popularised in the 1960s with the release of Letraset sheets
+                containing
+            </div>
+            @*Comment Section*@
+            <div class="tab-pane fade" id="tab-3" role="tabpanel">
+                <div class="form-group">
+                    <label for="commentInp">Example textarea</label>
+                    <textarea class="form-control" id="commentInp" rows="3" placeholder="Enter Your Comments..."></textarea>
+                </div>
+                <div class="my-3 ">
+                    <button type="button" id="postComments" onclick="postComment()" class="Apply-mission-btn"><span>Post Comment</span></button>
+                </div>
+                <div id="commentList" class="bg-light p-3">
+                    <div class="comment bg-white p-2 align-items-center border mb-3">
+                        <img src="~/images/volunteer2.png" />
+                        <div class="ms-3 text-wrap">
+                            <h5>Margarelt Walsh</h5>
+                            <p>Wed Feb 22 2023 16:51:48 GMT+0530 (India Standard Time)</p>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        </div>
+                    </div>
+                    <div class="comment bg-white d-flex p-2 align-items-center border mb-3">
+                        <img src="~/images/volunteer2.png" />
+                        <div class="ms-3">
+                            <h5>Margarelt Walsh</h5>
+                            <p>Wed Feb 22 2023 16:51:48 GMT+0530 (India Standard Time)</p>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        </div>
+                    </div>
+                    <div class="comment bg-white d-flex p-2 align-items-center border mb-3">
+                        <img src="~/images/volunteer2.png" />
+                        <div class="ms-3">
+                            <h5>Margarelt Walsh</h5>
+                            <p>Wed Feb 22 2023 16:51:48 GMT+0530 (India Standard Time)</p>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        </div>
+                    </div>
+                    <div class="comment bg-white d-flex p-2 align-items-center border mb-3">
+                        <img src="~/images/volunteer2.png" />
+                        <div class="ms-3">
+                            <h5>Margarelt Walsh</h5>
+                            <p>Wed Feb 22 2023 16:51:48 GMT+0530 (India Standard Time)</p>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        </div>
+                    </div>
+                    <div class="comment bg-white d-flex p-2 align-items-center border mb-3">
+                        <img src="~/images/volunteer2.png" />
+                        <div class="ms-3">
+                            <h5>Margarelt Walsh</h5>
+                            <p>Wed Feb 22 2023 16:51:48 GMT+0530 (India Standard Time)</p>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        </div>
+                    </div>
+                    <div class="comment bg-white d-flex p-2 align-items-center border mb-3">
+                        <img src="~/images/volunteer2.png" />
+                        <div class="ms-3">
+                            <h5>Margarelt Walsh</h5>
+                            <p>Wed Feb 22 2023 16:51:48 GMT+0530 (India Standard Time)</p>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-5 col-lg-4 mt-3 mt-md-0 ps-3">
+        @*Information*@
+        <div class="px-4 border mission-information">
+            <div class="border-bottom">
+                <div class=" py-3" style="border-bottom:2px solid black;width:fit-content;">
+                    <h4>Information</h4>
+                </div>
+            </div>
+
+            <table class="table info-table text-muted">
+                <tr>
+                    <td>Skills</td>
+                    <td>Cool, Easy Going, Math, Computer</td>
+                </tr>
+                <tr>
+                    <td>Days</td>
+                    <td>Weekend Only</td>
+                </tr>
+                <tr>
+                    <td style="border-bottom:none;">Rating</td>
+                    <td style="border-bottom:none;">
+                        <div class="card-rating">
+                            <img src="~/images/selected-star.png" />
+                            <img src="~/images/selected-star.png" />
+                            <img src="~/images/selected-star.png" />
+                            <img src="~/images/selected-star.png" />
+                            <img src="~/images/selected-star.png" />
+                            <span>(By 125 Volunteer)</span>
+                        </div>
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+        @*Recent Volunteer *@
+        <div class="mt-4 border">
+            <div class="border-bottom mx-4">
+                <div class=" py-3" style="border-bottom:2px solid black;width:fit-content;">
+                    <h4>Recent Volunteer</h4>
+                </div>
+            </div>
+            <div id="recentVolunteers">
+                <div class="row active-vol text-muted mx-3 pt-3 " id="recentVolTab1">
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer1.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer2.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer3.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer4.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer5.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer6.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer7.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer8.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer9.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+                </div>
+
+                <div class="row disactive text-muted mx-3 pt-3" id="recentVolTab2" style="display:none;">
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer1.png" alt="volunteer1" />
+                        <p>Johnson</p>
+                    </div>
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer2.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer3.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer4.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer5.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer6.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer7.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer8.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer9.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+                </div>
+
+                <div class="row disactive text-muted mx-3 pt-3" id="recentVolTab3" style="display:none;">
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer4.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer5.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer6.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer1.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer2.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer3.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+
+                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                        <img class="volunteer-profile-img" src="~/images/volunteer7.png" alt="volunteer1" />
+                        <p>Andrew Johnson</p>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="border-top text-wrap text-center d-flex align-items-center mx-0 py-0">
+                <button id="previous-vol" class="py-1" onclick="previousVol()">
+                    <img src="~/images/left.png" />
+                </button>
+                <div class="py-1" style="width:80%">
+                    <span id="currentVol">1 - 9 of 25 Recent Volunteers</span>
+                </div>
+                <button id="next-vol" class="py-1" onclick="nextVol()">
+                    <img src="~/images/right-arrow1.png" />
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+@*Related Missions*@
+<div class="pt-5">
+    <div class="text-center">
+        <h2>Related Missions</h2>
+    </div>
+
+    <div class="container-fluid grid-container">
+        <div class="row justify-content-between">
+            @*Card - 4*@
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-img-div">
+                        <img class="card-img-top" src="~/images/CSR-initiative-stands-for-Coffee--and-Farmer-Equity.png" alt="Card image cap">
+
+                        <div class="d-flex justify-content-center align-items-center">
+                            <p class="card-theme px-3 pt-1">Environment</p>
+                        </div>
+                        <div class="location over-buttons px-3 py-1">
+                            <img src="~/images/pin.png" />
+                            <span>Toronto</span>
+                        </div>
+                        <div class="add-favourite over-buttons">
+                            <img src="~/images/heart.png" />
+                        </div>
+                        <div class="square over-buttons">
+                            <img src="~/images/user.png" />
+                        </div>
+                    </div>
+
+                    <div class="card-body mt-4">
+                        <h5 class="card-title px-3">CSR initiative stands for coffee and farmer Equity</h5>
+                        <p class="card-text px-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
+                        <div class="card-rat-section px-3 d-flex justify-content-between">
+                            <p>CSE Network</p>
+                            <div class="card-rating">
+                                <img src="~/images/selected-star.png" />
+                                <img src="~/images/selected-star.png" />
+                                <img src="~/images/selected-star.png" />
+                                <img src="~/images/star-empty.png" />
+                                <img src="~/images/star-empty.png" />
+                            </div>
+                        </div>
+                        <div class="card-footer px-0">
+                            <div class="card-timing mt-4 px-3 ">
+                                <div class=" d-flex justify-content-center">
+                                    <p class="enrol-time px-3 pt-1">Ongoing Opportunity</p>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <img class="timing-img" src="~/images/Already-volunteered.png" alt="" />
+                                        <div>
+                                            <strong><p class="mb-0 card-timing-big">250</p></strong>
+                                            <p class="card-text">Already volunteer</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="my-3 d-flex justify-content-center ">
+                                <button type="button" class="Apply-mission-btn">Apply <img src="~/images/right-arrow.png" /></button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            @*Card - 5*@
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-img-div">
+                        <img class="card-img-top" src="~/images/Animal-welfare-&-save-birds-campaign.png" alt="Card image cap">
+
+                        <div class="d-flex justify-content-center align-items-center">
+                            <p class="card-theme px-3 pt-1">Environment</p>
+                        </div>
+                        <div class="location over-buttons px-3 py-1">
+                            <img src="~/images/pin.png" />
+                            <span>Cape Town</span>
+                        </div>
+                        <div class="add-favourite over-buttons">
+                            <img src="~/images/heart.png" />
+                        </div>
+                        <div class="square over-buttons">
+                            <img src="~/images/user.png" />
+                        </div>
+                    </div>
+
+
+
+                    <div class="card-body mt-4">
+                        <h5 class="card-title px-3">Animal welfare & save birds campaign</h5>
+                        <p class="card-text px-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
+                        <div class="card-rat-section px-3 d-flex justify-content-between">
+                            <p>JR Foundation</p>
+                            <div class="card-rating">
+                                <img src="~/images/selected-star.png" />
+                                <img src="~/images/selected-star.png" />
+                                <img src="~/images/selected-star.png" />
+                                <img src="~/images/star-empty.png" />
+                                <img src="~/images/star-empty.png" />
+                            </div>
+                        </div>
+                        <div class="card-footer px-0">
+                            <div class="card-timing mt-4 px-3 ">
+                                <div class=" d-flex justify-content-center">
+                                    <p class="enrol-time px-3 pt-1">Plant 10,000 Trees</p>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <img class="timing-img" src="~/images/Seats-left.png" alt="" />
+                                        <div>
+                                            <strong><p class="mb-0 card-timing-big">10</p></strong>
+                                            <p class="card-text">Seats Left</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <img class="timing-img" src="~/images/achieved.png" alt="" />
+                                        <div>
+                                            <div class="progress" style="height: 10px;">
+                                                <div class="progress-bar" role="progressbar" style="width: 80%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <p class="card-text">8000 achived</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="my-3 d-flex justify-content-center ">
+                                <button type="button" class="Apply-mission-btn">Apply <img src="~/images/right-arrow.png" /></button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            @*Card - 6*@
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-img-div">
+                        <img class="card-img-top" src="~/images/Plantation-and-Afforestation-programme.png" alt="Card image cap">
+
+                        <div class="d-flex justify-content-center align-items-center">
+                            <p class="card-theme px-3 pt-1">Health</p>
+                        </div>
+                        <div class="location over-buttons px-3 py-1">
+                            <img src="~/images/pin.png" />
+                            <span>Cape Town</span>
+                        </div>
+                        <div class="add-favourite over-buttons">
+                            <img src="~/images/heart.png" />
+                        </div>
+                        <div class="square over-buttons">
+                            <img src="~/images/user.png" />
+                        </div>
+                    </div>
+
+
+
+                    <div class="card-body mt-4">
+                        <h5 class="card-title px-3">Plantation and Afforetation Programme</h5>
+                        <p class="card-text px-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
+                        <div class="card-rat-section px-3 d-flex justify-content-between">
+                            <p>Amaze Doctors</p>
+                            <div class="card-rating">
+                                <img src="~/images/selected-star.png" />
+                                <img src="~/images/selected-star.png" />
+                                <img src="~/images/selected-star.png" />
+                                <img src="~/images/star-empty.png" />
+                                <img src="~/images/star-empty.png" />
+                            </div>
+                        </div>
+                        <div class="card-footer px-0">
+                            <div class="card-timing mt-4 px-3 ">
+                                <div class=" d-flex justify-content-center">
+                                    <p class="enrol-time px-3 pt-1">Plant 10,000 Trees</p>
+                                </div>
+                                <div class="d-flex justify-content-between">
+
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <img class="timing-img" src="~/images/achieved.png" alt="" />
+                                        <div>
+                                            <div class="progress" style="height: 10px;">
+                                                <div class="progress-bar" role="progressbar" style="width:80%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <p class="card-text">8000 achived</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="my-3 d-flex justify-content-center ">
+                                <button type="button" class="Apply-mission-btn">Apply <img src="~/images/right-arrow.png" /></button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

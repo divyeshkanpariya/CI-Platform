@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CI_Platform.styles.css" asp-append-version="true" />
+</head>
+<body>
+    
+    <div class="container-fluid main">
+        <main role="main">
+        <div class="row vh-100">
+            <div class="img-slider col-xl-8 gx-0">
+                <div id="demo" class="carousel h-100 slide" data-bs-ride="carousel">
+                    <!-- Indicators/dots -->
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+                        <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+                        <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+                    </div>
+
+                    <!-- The slideshow/carousel -->
+                    <div class="carousel-inner h-100">
+                        <div class="carousel-item active h-100">
+                            <img src="~/images/Grow-Trees-On-the-path-to-environment-sustainability-login.png"
+                                 alt="Los Angeles" class="d-block auth-img" style="width:100%">
+                            <div class="carousel-caption">
+                                <p class="img-heading">1 Sed ut perspiciatis unde omnis iste natus voluptatem.</p>
+                                <p class="img-discription">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                    do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                                    dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                                    sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="carousel-item h-100">
+                            <img src="~/images/Grow-Trees-On-the-path-to-environment-sustainability-login.png"
+                                 alt="Chicago" class="d-block auth-img" style="width:100%">
+                            <div class="carousel-caption">
+                                <p class="img-heading">2 Sed ut perspiciatis unde omnis iste natus voluptatem.</p>
+                                <p class="img-discription">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                    do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                                    dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                                    sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="carousel-item h-100">
+                            <img src="~/images/Grow-Trees-On-the-path-to-environment-sustainability-login.png"
+                                 alt="New York" class="d-block auth-img" style="width:100%">
+                            <div class="carousel-caption">
+                                <p class="img-heading">3 Sed ut perspiciatis unde omnis iste natus voluptatem.</p>
+                                <p class="img-discription">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                    do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                                    dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                                    sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Left and right controls/icons -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="dataForm col-xl-4">
+
+                @RenderBody()
+            </div>
+        </div>
+        </main>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,14 @@
+E:\CI-Platform\MVC\CI-Platform\Models\bin\Debug\net6.0\CI_Platform.Models.deps.json
+E:\CI-Platform\MVC\CI-Platform\Models\bin\Debug\net6.0\CI_Platform.Models.runtimeconfig.json
+E:\CI-Platform\MVC\CI-Platform\Models\bin\Debug\net6.0\CI_Platform.Models.dll
+E:\CI-Platform\MVC\CI-Platform\Models\bin\Debug\net6.0\CI_Platform.Models.pdb
+E:\CI-Platform\MVC\CI-Platform\Models\obj\Debug\net6.0\CI_Platform.Models.csproj.AssemblyReference.cache
+E:\CI-Platform\MVC\CI-Platform\Models\obj\Debug\net6.0\CI_Platform.Models.GeneratedMSBuildEditorConfig.editorconfig
+E:\CI-Platform\MVC\CI-Platform\Models\obj\Debug\net6.0\CI_Platform.Models.AssemblyInfoInputs.cache
+E:\CI-Platform\MVC\CI-Platform\Models\obj\Debug\net6.0\CI_Platform.Models.AssemblyInfo.cs
+E:\CI-Platform\MVC\CI-Platform\Models\obj\Debug\net6.0\CI_Platform.Models.csproj.CoreCompileInputs.cache
+E:\CI-Platform\MVC\CI-Platform\Models\obj\Debug\net6.0\CI_Platform.Models.dll
+E:\CI-Platform\MVC\CI-Platform\Models\obj\Debug\net6.0\refint\CI_Platform.Models.dll
+E:\CI-Platform\MVC\CI-Platform\Models\obj\Debug\net6.0\CI_Platform.Models.pdb
+E:\CI-Platform\MVC\CI-Platform\Models\obj\Debug\net6.0\CI_Platform.Models.genruntimeconfig.cache
+E:\CI-Platform\MVC\CI-Platform\Models\obj\Debug\net6.0\ref\CI_Platform.Models.dll

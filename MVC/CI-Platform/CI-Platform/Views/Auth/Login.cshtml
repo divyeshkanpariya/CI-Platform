@@ -1,0 +1,47 @@
+﻿@model CI_Platform.Models.ViewModels.LoginViewModel;
+@{
+    Layout = "~/Views/Shared/Auth_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="~/css/Style.css">
+    <script src="./js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <form method="post">
+      
+        <div class="l-form">
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">Email address</label>
+                <input asp-for="Email" class="form-control" id="emailId" placeholder="name@example.com" autofocus>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Password" for="password" class="form-label">Password</label>
+                <input asp-for="Password" type="password" class="form-control" id="password" placeholder="********">
+            </div>
+            <button type="submit" class="login-btn my-3">Login</button>
+            <div class="text-center small my-3">
+                <a style="text-decoration: none; color: #414141;" asp-area="" asp-controller="Auth" asp-action="Lost_Password">
+                    Lost your Password
+                </a>
+            </div>
+            <div class="text-center small-text my-3">
+                <span>Don't have an Account?</span>
+                <a style="text-decoration:none" asp-area="" asp-controller="Auth" asp-action="Registration">Create an Account</a>
+            </div>
+        </div>
+        <div class="privacy-policy text-center small-text">
+            <a style="text-decoration: none; color: #414141;">Privacy Policy</a>
+        </div>
+    </form>
+
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Mission Listing</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <script src="./js/bootstrap.bundle.js"></script>
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark"><span class=" header-text">Stories</span></a>
+                        </li>
+                        <li class="nav-item d-flex align-items-center">
+                            <a class="nav-link text-dark header-text">
+                                <span>Policy</span> 
+                                <img src="./images/drop-down.png" class="mx-2 dropdown-img" alt="">
+                            </a>
+                        </li>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Dropdown button
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="#">Action</a></li>
+                              <li><a class="dropdown-item" href="#">Another action</a></li>
+                              <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                          </div>
+                    </ul>
+                </div>
+                <a class="navbar-brand d-flex small-text just align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="./images/user-img.png" class="profile-image mx-2" alt="">
+                    <span class="mx-2 header-text">Evan Donghue</span>
+                    <img src="./images/drop-down.png" class="mx-2" alt="">
+                </a>
+            </div>
+        </nav>
+    </header>
+
+</body>
+</html>
