@@ -61,11 +61,12 @@ public partial class CiPlatformContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+
     public virtual DbSet<UserSkill> UserSkills { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=LAPTOP-GR0LVOCR;Database=CI-Platform;MultipleActiveResultSets=False;Encrypt=False;Trusted_Connection=True;");
+        => optionsBuilder.UseSqlServer("Server=LAPTOP-GR0LVOCR;Encrypt=False; Database=CI-Platform; Trusted_Connection=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -640,10 +641,9 @@ public partial class CiPlatformContext : DbContext
 
         modelBuilder.Entity<PasswordReset>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("password_reset");
+            entity.ToTable("password_reset");
 
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
@@ -653,7 +653,7 @@ public partial class CiPlatformContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("email");
             entity.Property(e => e.Token)
-                .HasMaxLength(191)
+                .HasMaxLength(400)
                 .IsUnicode(false)
                 .HasColumnName("token");
         });
@@ -837,8 +837,12 @@ public partial class CiPlatformContext : DbContext
                 .HasMaxLength(2048)
                 .IsUnicode(false)
                 .HasColumnName("avatar");
-            entity.Property(e => e.CityId).HasColumnName("city_id");
-            entity.Property(e => e.CountryId).HasColumnName("country_id");
+            entity.Property(e => e.CityId)
+                .HasDefaultValueSql("('None')")
+                .HasColumnName("city_id");
+            entity.Property(e => e.CountryId)
+                .HasDefaultValueSql("('None')")
+                .HasColumnName("country_id");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")

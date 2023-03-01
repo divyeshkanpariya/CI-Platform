@@ -18,15 +18,17 @@
     <form method="post">
       
         <div class="l-form">
+            <div asp-validation-summary="All" class="text-danger text-center list-unstyled"></div>
             <div class="mb-3">
                 <label asp-for="Email" class="form-label">Email address</label>
-                <input asp-for="Email" class="form-control" id="emailId" placeholder="name@example.com" autofocus>
+                <input asp-for="Email" class="form-control" id="emailId" placeholder="name@example.com" autofocus required>
             </div>
             <div class="mb-3">
                 <label asp-for="Password" for="password" class="form-label">Password</label>
-                <input asp-for="Password" type="password" class="form-control" id="password" placeholder="********">
+                <input asp-for="Password" type="password" class="form-control" id="password" placeholder="********" required>
             </div>
             <button type="submit" class="login-btn my-3">Login</button>
+
             <div class="text-center small my-3">
                 <a style="text-decoration: none; color: #414141;" asp-area="" asp-controller="Auth" asp-action="Lost_Password">
                     Lost your Password
