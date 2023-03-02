@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CI_Platform.Repository\CI_Platform.Repository.csproj" />
     <ProjectReference Include="..\Models\CI_Platform.Models.csproj" />
   </ItemGroup>
 

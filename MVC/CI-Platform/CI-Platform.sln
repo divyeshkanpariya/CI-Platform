@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CI-Platform", "CI-Platform\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CI_Platform.Models", "Models\CI_Platform.Models.csproj", "{D9BF499C-F35F-4A8A-85B0-BE25141876CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CI_Platform.Repository", "CI_Platform.Repository\CI_Platform.Repository.csproj", "{056351E4-629E-4815-A808-810AFF245842}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D9BF499C-F35F-4A8A-85B0-BE25141876CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9BF499C-F35F-4A8A-85B0-BE25141876CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9BF499C-F35F-4A8A-85B0-BE25141876CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{056351E4-629E-4815-A808-810AFF245842}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{056351E4-629E-4815-A808-810AFF245842}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{056351E4-629E-4815-A808-810AFF245842}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{056351E4-629E-4815-A808-810AFF245842}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

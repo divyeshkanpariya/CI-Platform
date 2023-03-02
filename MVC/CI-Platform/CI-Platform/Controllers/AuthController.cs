@@ -1,5 +1,6 @@
 ﻿using CI_Platform.Models.Models;
 using CI_Platform.Models.ViewModels;
+using CI_Platform.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
@@ -11,10 +12,23 @@ namespace CI_Platform.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly CiPlatformContext  _db;
+        /*private readonly CiPlatformIContext  _db;
         public AuthController(CiPlatformContext db)
         {
             _db = db;
+        }*/
+        private readonly IRegistrationRepository _registrationDb;
+        private readonly ILostPasswordRepository _LostPwdDb;
+        private readonly IResetPasswordRepository _ResetPwdDb;
+
+        private readonly IRepository<User> _UserDb;
+
+        public AuthController(IRegistrationRepository registrationDb, IRepository<User> UserDb, ILostPasswordRepository lostPwdDb, IResetPasswordRepository resetPwdDb)
+        {
+            _registrationDb = registrationDb;
+            _UserDb = UserDb;
+            _LostPwdDb = lostPwdDb;
+            _ResetPwdDb = resetPwdDb;
         }
         public IActionResult Login()
         {
@@ -26,7 +40,7 @@ namespace CI_Platform.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userFromDB = _db.Users.Any(u => u.Email == data.Email && u.Password == data.Password);
+                var userFromDB = _UserDb.ExistUser(u => u.Email == data.Email && u.Password == data.Password);
                 if (userFromDB)
                 {
                     return RedirectToAction("MissionListing", "Home");
@@ -49,29 +63,17 @@ namespace CI_Platform.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(data.Password != data.ConfirmPassword)
-                {
-                    ModelState.AddModelError("", "Password and Connfirm Password are not same");
-                    return View(data);
-                }
-                var userFromDB = _db.Users.Any(u => u.Email == data.Email);
+                var userFromDB = _registrationDb.ExistUser(u => u.Email == data.Email);
                 if (userFromDB)
                 {
                     ModelState.AddModelError("", "Email is already Used");
 
                     return View(data);
                 }
-                var user = new User
-                {
-                    FirstName= data.FirstName,
-                    LastName= data.LastName,
-                    Email= data.Email,
-                    PhoneNumber= data.PhoneNumber,
-                    Password= data.Password,
-                   
-                };
-                _db.Users.Add(user);
-                _db.SaveChanges();
+                var user = _registrationDb.NewUser(data);
+
+                _registrationDb.AddNew(user);
+                _registrationDb.Save();
                 return RedirectToAction("Login");
             }
             return View(data);
@@ -89,19 +91,15 @@ namespace CI_Platform.Controllers
             if (ModelState.IsValid)
             {
 
-                var userFromDB = _db.Users.Any(u => u.Email == data.Email);
+                var userFromDB = _UserDb.ExistUser(u => u.Email == data.Email);
                 if (userFromDB)
                 {
                     Random rand = new Random();
-                    string token = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+                    string token = Guid.NewGuid().ToString();
                     SendResetPasswordEmail(data.Email, token);
-                    var reset_pwd = new PasswordReset
-                    {
-                        Email = data.Email,
-                        Token = token,
-                    };
-                    _db.PasswordResets.Add(reset_pwd);
-                    _db.SaveChanges();
+                    var reset_pwd = _LostPwdDb.newToken(data, token);
+                    _LostPwdDb.AddNew(reset_pwd);
+                    _LostPwdDb.Save();
                     return RedirectToAction("Login");
                 }
             }
@@ -162,34 +160,33 @@ namespace CI_Platform.Controllers
                     ModelState.AddModelError("", "Password and Connfirm Password are not same");
                     return View(data);
                 }
-                var isTokenValid = _db.PasswordResets.Where(u=> u.Email == data.Email).OrderBy(u=>u.Id).LastOrDefault();
+                var isTokenValid = _ResetPwdDb.IsTokenValid;
                 if (isTokenValid ==null)
                 {
-                    ModelState.AddModelError("", "Link is Invalid");
-                    return View(data);
-                }else if(isTokenValid.Token != data.Token)
-                {
+                    
                     ModelState.AddModelError("", "Link is Invalid");
                     return View(data);
                 }
-                var userFromDB = _db.Users.Where(u => u.Email == data.Email).FirstOrDefault();
+                var userFromDB = _UserDb.GetFirstOrDefault(u => u.Email == data.Email);
                 
                 if (userFromDB != null)
                 {
                     userFromDB.Password = data.Password;
                     userFromDB.UpdatedAt = DateTime.Now;
                 }
-                _db.Users.Update(userFromDB);
-                _db.SaveChanges();
-                return Json(data);
+                _UserDb.Update(userFromDB);
+                _UserDb.Save();
+                return RedirectToAction("Login");
+
             }
             else
             {
-                return Json(data);
-            }
-                
+                return RedirectToAction("Login");
 
-            
+            }
+
+
+
         }
 
 

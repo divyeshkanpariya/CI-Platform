@@ -1,11 +1,20 @@
 using CI_Platform.Models.Models;
+using CI_Platform.Repository.Interface;
+using CI_Platform.Repository.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<CiPlatformContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); 
+builder.Services.AddDbContext<CiPlatformContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IRepository<User>, Repository<User>>();
+builder.Services.AddScoped<ILostPasswordRepository, LostPasswordRepository>();
+builder.Services.AddScoped<IResetPasswordRepository, ResetPasswordRepository>();
+
+
+builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
