@@ -13,11 +13,13 @@ namespace CI_Platform.Repository.Interface
 
         void AddNew(T entity);
 
+        public IEnumerable<T> GetAll();
+
         T GetFirstOrDefault(Expression<Func<T, bool>> filter);
 
         void Update(T entity);
 
         void Save();
-
+       
     }
 }

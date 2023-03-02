@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\MVC",
+    "\\MVC\\CI-Platform",
+    "\\MVC\\CI-Platform\\CI-Platform\\Controllers"
   ],
-  "SelectedNode": "\\CI-Platform.sln",
+  "SelectedNode": "\\MVC\\CI-Platform\\CI-Platform.sln",
   "PreviewInSolutionExplorer": false
 }

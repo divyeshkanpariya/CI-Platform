@@ -11,6 +11,8 @@ builder.Services.AddDbContext<CiPlatformContext>(options => options.UseSqlServer
 
 builder.Services.AddScoped<IRepository<User>, Repository<User>>();
 builder.Services.AddScoped<ILostPasswordRepository, LostPasswordRepository>();
+builder.Services.AddScoped<IMissionListingRepository, MissionListingRepository>();
+
 builder.Services.AddScoped<IResetPasswordRepository, ResetPasswordRepository>();
 
 

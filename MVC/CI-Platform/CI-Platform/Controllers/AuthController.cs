@@ -94,7 +94,7 @@ namespace CI_Platform.Controllers
                 var userFromDB = _UserDb.ExistUser(u => u.Email == data.Email);
                 if (userFromDB)
                 {
-                    Random rand = new Random();
+                    
                     string token = Guid.NewGuid().ToString();
                     SendResetPasswordEmail(data.Email, token);
                     var reset_pwd = _LostPwdDb.newToken(data, token);

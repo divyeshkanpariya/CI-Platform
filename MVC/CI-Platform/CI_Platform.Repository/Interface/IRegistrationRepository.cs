@@ -12,5 +12,7 @@ namespace CI_Platform.Repository.Interface
     public interface IRegistrationRepository : IRepository<User>
     {
         User NewUser(RegistrationViewModel data);
+
+
     }
 }

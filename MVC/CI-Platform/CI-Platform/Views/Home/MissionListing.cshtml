@@ -1,4 +1,7 @@
-﻿@{
+﻿@using CI_Platform.Models.ViewModels
+@*@model CI_Platform.Models.ViewModels.MissionListingViewModel;*@
+@model IEnumerable<CI_Platform.Models.ViewModels.MissionListingViewModel>
+@{
     Layout = "Home_Layout";
 }
 
@@ -14,17 +17,21 @@
             <div class="navbar-collapsee collapse w-50 d-md-inline-flex ">
                 @*<ul class="navbar-nav filters flex-grow-1 justify-content-around*@
                 <div class="row gx-0 w-100 filters">
-                    <li class="nav-item col-md-3 filter-item dropdown d-flex align-items-center justify-content-center">
+                    <div class="nav-item col-md-3 filter-item dropdown d-flex align-items-center justify-content-center">
                         <a class="nav-link dropdown-toggle text-dark header-text" data-bs-toggle="dropdown" aria-expanded="false">
                             <span>Country</span>
                             <img src="~/images/drop-down.png" class="mx-2 dropdown-img" alt="">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-sm-end">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            @foreach (var item in Model)
+                            {
+                                <li><a class="dropdown-item" href="#"><label class="pe-2" for=@item.Countries.>@item.Name </label><input type="checkbox" class="ms-2" id=@item.Name name="vehicle1" value=@item.Name></a></li>
+                            }
+                 @*           <li><a class="dropdown-item" href="#">Action</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>*@
                         </ul>
-                    </li>
+                    </div>
                     <li class="nav-item col-md-3 filter-item dropdown d-flex align-items-center justify-content-center">
                         <a class="nav-link dropdown-toggle text-dark header-text" data-bs-toggle="dropdown" aria-expanded="false">
                             <span>City</span>
@@ -147,6 +154,7 @@
 
 <div class="container-fluid grid-container" id="missionContainer">
     <div class="row justify-content-between">
+
         @*Card 1*@
         <div class="col-12 col-md-6 col-lg-4">
             <div class="card">
@@ -574,28 +582,7 @@
                         </div>
                     </div>
                     <div class="card-footer px-0 border-top">
-                        @*<div class="card-timing mt-4 px-3 ">
-                        <div class=" d-flex justify-content-center">
-                        <p class="enrol-time px-3 pt-1">From 10/01/2019 until 24/02/2020</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                        <div class="d-flex align-items-center justify-content-center">
-                        <img class="timing-img" src="~/images/Already-volunteered.png" alt="" />
-                        <div>
-                        <strong><p class="mb-0 card-timing-big">10</p></strong>
-                        <p class="card-text">Seats Left</p>
-                        </div>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center">
-                        <img class="timing-img" src="~/images/deadline.png" alt="" />
-                        <div>
-                        <strong><p class="mb-0 card-timing-big">09/01/2019</p></strong>
-                        <p class="card-text">Deadline</p>
-                        </div>
-                        </div>
-                        </div>
-
-                        </div>*@
+                       
                         <div class="my-3 d-flex justify-content-center ">
                             <button type="button" class="Apply-mission-btn">Apply <img src="~/images/right-arrow.png" /></button>
                         </div>
