@@ -10,13 +10,22 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<CiPlatformContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IRepository<User>, Repository<User>>();
+builder.Services.AddScoped<IRepository<City>, Repository<City>>();
+builder.Services.AddScoped<IRepository<Country>, Repository<Country>>();
+builder.Services.AddScoped<IRepository<MissionTheme>, Repository<MissionTheme>>();
+builder.Services.AddScoped<IRepository<Skill>, Repository<Skill>>();
+
+
 builder.Services.AddScoped<ILostPasswordRepository, LostPasswordRepository>();
+builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 builder.Services.AddScoped<IMissionListingRepository, MissionListingRepository>();
 
 builder.Services.AddScoped<IResetPasswordRepository, ResetPasswordRepository>();
 
 
 builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
+builder.Services.AddSession();
+builder.Services.AddMemoryCache();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -33,12 +42,12 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-
+app.UseSession();
 app.MapControllerRoute(
     name: "Default",
     pattern: "{controller=Auth}/{action=Login}");
 
-app.MapControllerRoute(
+/*app.MapControllerRoute(
     name: "Auth",
     pattern: "{controller=Auth}/{action=Registration}");
 
@@ -60,6 +69,6 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "Home",
-    pattern: "{controller=Home}/{action=StoryListing}");
+    pattern: "{controller=Home}/{action=StoryListing}");*/
 
 app.Run();

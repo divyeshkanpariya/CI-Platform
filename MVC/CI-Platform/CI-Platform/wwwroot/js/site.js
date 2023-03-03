@@ -183,3 +183,13 @@ function previousVol() {
         text.innerHTML = "19 - 27 of 25 Recent Volunteers";
     }
 }
+/*
+$('input[type=checkbox]').on("click", function () {
+    console.log("sadd");
+    $('input[type=checkbox]:checked').each(function (e) {
+        $('#selectedFilters').appendChild('<div class="field col-auto py-1 mb-3 px-3">< span class= "field-text" > Tree Plantation</span ><img src="~/images/cancel.png" alt="cancel" /></div >')
+    });
+});
+*/
+
+/*$('#selectedFilters').appendChild()*/

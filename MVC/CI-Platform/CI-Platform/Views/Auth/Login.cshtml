@@ -18,6 +18,12 @@
     <form method="post">
       
         <div class="l-form">
+            @if (TempData["SuccessMessage"] != null)
+             {
+                <div class="alert alert-warning bg-danger bg-opacity-25 alert-dismissable">
+                     <strong>@TempData["SuccessMessage"]</strong>
+                </div>
+             }
             <div asp-validation-summary="All" class="text-danger text-center list-unstyled"></div>
             <div class="mb-3">
                 <label asp-for="Email" class="form-label">Email address</label>

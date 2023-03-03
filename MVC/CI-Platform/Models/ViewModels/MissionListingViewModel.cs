@@ -14,5 +14,10 @@ namespace CI_Platform.Models.ViewModels
 
         public IEnumerable<Country> Countries { get; set; }
 
+        public IEnumerable<MissionTheme> MissionThemes  { get; set; }
+
+        public IEnumerable<Skill> Skills { get; set; }
+
+
     }
 }

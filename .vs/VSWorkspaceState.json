@@ -2,9 +2,7 @@
   "ExpandedNodes": [
     "",
     "\\MVC",
-    "\\MVC\\CI-Platform",
-    "\\MVC\\CI-Platform\\CI-Platform\\Controllers"
+    "\\MVC\\CI-Platform"
   ],
-  "SelectedNode": "\\MVC\\CI-Platform\\CI-Platform.sln",
   "PreviewInSolutionExplorer": false
 }

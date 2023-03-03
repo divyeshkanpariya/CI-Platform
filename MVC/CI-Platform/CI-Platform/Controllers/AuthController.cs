@@ -20,15 +20,19 @@ namespace CI_Platform.Controllers
         private readonly IRegistrationRepository _registrationDb;
         private readonly ILostPasswordRepository _LostPwdDb;
         private readonly IResetPasswordRepository _ResetPwdDb;
+        private readonly ILoginRepository _LoginDb;
+
 
         private readonly IRepository<User> _UserDb;
+        private object context;
 
-        public AuthController(IRegistrationRepository registrationDb, IRepository<User> UserDb, ILostPasswordRepository lostPwdDb, IResetPasswordRepository resetPwdDb)
+        public AuthController(IRegistrationRepository registrationDb, IRepository<User> UserDb, ILostPasswordRepository lostPwdDb, IResetPasswordRepository resetPwdDb, ILoginRepository loginDb)
         {
             _registrationDb = registrationDb;
             _UserDb = UserDb;
             _LostPwdDb = lostPwdDb;
             _ResetPwdDb = resetPwdDb;
+            _LoginDb = loginDb;
         }
         public IActionResult Login()
         {
@@ -43,13 +47,15 @@ namespace CI_Platform.Controllers
                 var userFromDB = _UserDb.ExistUser(u => u.Email == data.Email && u.Password == data.Password);
                 if (userFromDB)
                 {
+                    string username = _LoginDb.getUserName(data.Email);
+                    HttpContext.Session.SetString("UserName", username);
                     return RedirectToAction("MissionListing", "Home");
                 }
                 else
                 {
                     ModelState.AddModelError("", "Invalid Email or Password");
                 }
-                
+
             }
             return View(data);
         }
@@ -81,7 +87,7 @@ namespace CI_Platform.Controllers
         }
         public IActionResult Lost_Password()
         {
-            
+
             return View();
         }
         [HttpPost]
@@ -94,7 +100,7 @@ namespace CI_Platform.Controllers
                 var userFromDB = _UserDb.ExistUser(u => u.Email == data.Email);
                 if (userFromDB)
                 {
-                    
+
                     string token = Guid.NewGuid().ToString();
                     SendResetPasswordEmail(data.Email, token);
                     var reset_pwd = _LostPwdDb.newToken(data, token);
@@ -106,7 +112,7 @@ namespace CI_Platform.Controllers
             return View();
         }
 
-        public void SendResetPasswordEmail(string email,string token)
+        public void SendResetPasswordEmail(string email, string token)
         {
             var link = Url.ActionLink("Reset_Password", "Auth", new { Email = email, Token = token });
             var fromMail = new MailAddress("divpatel5706@gmail.com");
@@ -114,9 +120,9 @@ namespace CI_Platform.Controllers
             var toEmail = new MailAddress(email);
 
             string subject = "Reset Password";
-            string body = "Link for Reser Password <br>"+link;
+            string body = "Link for Reser Password <br>" + link;
 
-            
+
 
             var smtp = new SmtpClient
             {
@@ -133,7 +139,7 @@ namespace CI_Platform.Controllers
             message.Subject = subject;
             message.Body = body;
             message.IsBodyHtml = true;
-            smtp.Send(message); 
+            smtp.Send(message);
         }
         public IActionResult Reset_Password()
         {
@@ -148,7 +154,7 @@ namespace CI_Platform.Controllers
                 Token = Token,
             };
             return View();
-            
+
         }
         [HttpPost]
         public IActionResult Reset_Password(ResetPasswordViewModel data)
@@ -161,14 +167,14 @@ namespace CI_Platform.Controllers
                     return View(data);
                 }
                 var isTokenValid = _ResetPwdDb.IsTokenValid;
-                if (isTokenValid ==null)
+                if (isTokenValid == null)
                 {
-                    
+
                     ModelState.AddModelError("", "Link is Invalid");
                     return View(data);
                 }
                 var userFromDB = _UserDb.GetFirstOrDefault(u => u.Email == data.Email);
-                
+
                 if (userFromDB != null)
                 {
                     userFromDB.Password = data.Password;

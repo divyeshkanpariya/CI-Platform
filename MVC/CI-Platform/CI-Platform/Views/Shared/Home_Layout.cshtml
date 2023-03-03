@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -43,7 +44,7 @@
                 <div class="profile-dropdown dropdown d-flex justify-content-center align-items-center">
                     <a class="dropdown-toggle  small-text" style="text-decoration:none" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="~/images/user-img.png" class="profile-image mx-1" alt="">
-                        <span class="mx-1 header-text">Evan Donghue</span>
+                        <span class="mx-1 header-text">@Context.Session.GetString("UserName")</span>
                         <img src="~/images/drop-down.png" class="mx-1" alt="">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-lg-right">
