@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <form method="post">
+    
       
         <div class="l-form">
             @if (TempData["SuccessMessage"] != null)
@@ -24,17 +24,18 @@
                      <strong>@TempData["SuccessMessage"]</strong>
                 </div>
              }
-            <div asp-validation-summary="All" class="text-danger text-center list-unstyled"></div>
-            <div class="mb-3">
-                <label asp-for="Email" class="form-label">Email address</label>
-                <input asp-for="Email" class="form-control" id="emailId" placeholder="name@example.com" autofocus required>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Password" for="password" class="form-label">Password</label>
-                <input asp-for="Password" type="password" class="form-control" id="password" placeholder="********" required>
-            </div>
-            <button type="submit" class="login-btn my-3">Login</button>
-
+             <form method="post">
+                <div asp-validation-summary="All" class="text-danger text-center list-unstyled"></div>
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label">Email address</label>
+                    <input asp-for="Email" class="form-control" id="emailId" placeholder="name@example.com" autofocus required>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Password" for="password" class="form-label">Password</label>
+                    <input asp-for="Password" type="password" class="form-control" id="password" placeholder="********" required>
+                </div>
+                <button type="submit" class="login-btn my-3">Login</button>
+            </form>
             <div class="text-center small my-3">
                 <a style="text-decoration: none; color: #414141;" asp-area="" asp-controller="Auth" asp-action="Lost_Password">
                     Lost your Password
@@ -48,7 +49,7 @@
         <div class="privacy-policy text-center small-text">
             <a style="text-decoration: none; color: #414141;">Privacy Policy</a>
         </div>
-    </form>
+    
 
 </body>
 

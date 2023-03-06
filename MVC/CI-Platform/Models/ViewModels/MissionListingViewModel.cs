@@ -18,6 +18,11 @@ namespace CI_Platform.Models.ViewModels
 
         public IEnumerable<Skill> Skills { get; set; }
 
+        public IEnumerable<Mission> Missions { get; set; }
+
+        public IEnumerable<MissionMedium> MissionMedia { get; set; }
+
+        public IEnumerable<MissionCardViewModel> MissionCards { get; set; }
 
     }
 }

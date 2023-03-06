@@ -30,6 +30,11 @@ namespace CI_Platform.Controllers
             }
             
         }
+        public IActionResult getCityByCountry(long countryId)
+        {
+            var cities = _missionListingDb.getCityByCountry(countryId);
+            return Json(cities);
+        }
         public IActionResult VolunteeringMission()
         {
             return View();

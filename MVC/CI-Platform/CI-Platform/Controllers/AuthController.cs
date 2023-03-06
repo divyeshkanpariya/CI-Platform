@@ -106,6 +106,7 @@ namespace CI_Platform.Controllers
                     var reset_pwd = _LostPwdDb.newToken(data, token);
                     _LostPwdDb.AddNew(reset_pwd);
                     _LostPwdDb.Save();
+                    TempData["SuccessMessage"] = "Email sent for Password Reset !!!";
                     return RedirectToAction("Login");
                 }
             }

@@ -12,6 +12,6 @@ namespace CI_Platform.Repository.Interface
     {
         public MissionListingViewModel GetAllData();
 
-
+        public IEnumerable<City> getCityByCountry(long CountriesId);
     }
 }

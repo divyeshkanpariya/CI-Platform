@@ -23,10 +23,10 @@
                             <span>Country</span>
                             <img src="~/images/drop-down.png" class="mx-2 dropdown-img" alt="">
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-sm-end">
+                        <ul class="dropdown-menu dropdown-menu-sm-end" id="countries">
                             @foreach (var item in Model.Countries)
                             {
-                                <li><a class="dropdown-item" href="#"><label class="pe-2" for=@item.Name>@item.Name </label><input type="checkbox" class="ms-2" id=@item.Name name="vehicle1" value=@item.Name></a></li>
+                                <li><a class="dropdown-item" href="#"><input type="checkbox" class="me-2" id="@item.Name.Replace(" ",String.Empty)" name="@item.Name.Replace(" ",String.Empty)" value="@item.CountryId"><label class="pe-2" for=@item.Name>@item.Name </label></a></li>
                             }
                  @*           <li><a class="dropdown-item" href="#">Action</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
@@ -38,11 +38,12 @@
                             <span>City</span>
                             <img src="~/images/drop-down.png" class="mx-2 dropdown-img" alt="">
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-sm-end">
-                            @foreach (var item in Model.Cities)
+                        <ul class="dropdown-menu dropdown-menu-sm-end" id="cities">
+                            @*@foreach (var item in Model.Cities)
                             {
-                                <li><a class="dropdown-item" id = "cities" href="#"><label class="pe-2" for=@item.Name>@item.Name </label><input type="checkbox" class="ms-2" id=@item.Name name="vehicle1" value=@item.Name></a></li>
-                            }
+                                <li>
+                                    <a class="dropdown-item" id="cities" href="#"><input type="checkbox" class="me-2" id="city" name="@item.Name.Trim()" value="@item.Name"><label for=@item.Name.Trim()>@item.Name </label></a></li>
+                            }*@
                             @*<li><a class="dropdown-item" href="#">Action</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
                             <li><a class="dropdown-item" href="#">Something else here</a></li>*@
@@ -56,7 +57,7 @@
                         <ul class="dropdown-menu dropdown-menu-sm-end">
                             @foreach (var item in Model.MissionThemes)
                             {
-                                <li><a class="dropdown-item" href="#"><label class="pe-2" for=@item.Title>@item.Title </label><input type="checkbox" class="ms-2" id=@item.Title name="vehicle1" value=@item.Title></a></li>
+                                <li><a class="dropdown-item" href="#"><input type="checkbox" class="me-2" id=@item.Title name="vehicle1" value="@item.Title"><label id="lb" for=@item.Title>@item.Title </label></a></li>
                             }
                             @*<li><a class="dropdown-item" href="#">Action</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
@@ -71,7 +72,7 @@
                         <ul class="dropdown-menu dropdown-menu-sm-end">
                             @foreach (var item in Model.Skills)
                             {
-                                <li><a class="dropdown-item" href="#"><label class="pe-2" for=@item.SkillName>@item.SkillName </label><input type="checkbox" class="ms-2" id=@item.SkillName name="vehicle1" value=@item.SkillName></a></li>
+                                <li><a class="dropdown-item" href="#"><input type="checkbox" class="me-2" id=@item.SkillName.Trim() name="vehicle1" value="@item.SkillName"><label  for=@item.SkillName.Trim()>@item.SkillName </label></a></li>
                             }
                             @*<li><a class="dropdown-item" href="#">Action</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
@@ -130,7 +131,7 @@
             <span class="field-text">Environmental Science</span>
             <img src="~/images/cancel.png" alt="cancel" />
         </div>*@
-        <a href="" id="clearAll" class="field-text my-1 col-auto" style="text-decoration:none">Clear All</a>
+        <a href="" id="clearAll" class="field-text my-1 col-auto" style="text-decoration:none; display:none;">Clear All</a>
     </div>
 </div>
 
@@ -167,7 +168,75 @@
 
 <div class="container-fluid grid-container" id="missionContainer">
     <div class="row justify-content-between">
+        @foreach(var item  in Model.Missions)
+        {
+            <div class="col-12 col-md-6 col-lg-4">
+            <div class="card">
 
+                <div class="card-img-div">
+                    <img class="card-img-top" src="" alt="Card image cap">
+                    <div class="location over-buttons px-3 py-1">
+                        <img src="~/images/pin.png" />
+                        <span>Toronto</span>
+                    </div>
+                    <div class="add-favourite over-buttons">
+                        <img src="~/images/heart.png" />
+                    </div>
+                    <div class="square over-buttons">
+                        <img src="~/images/user.png" />
+                    </div>
+
+                    <div class="d-flex justify-content-center align-items-center">
+                        <p class="card-theme px-3 pt-1">Environment</p>
+                    </div>
+                </div>
+
+                  <div class="card-body mt-4">
+                        <h5 class="card-title px-3">Grow Trees-On the path to environment sustainability</h5>
+                        <p class="card-text px-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
+                        <div class="card-rat-section px-3 d-flex justify-content-between">
+                            <p>Tree Canada</p>
+                            <div class="card-rating">
+                                <img src="~/images/selected-star.png" />
+                                <img src="~/images/selected-star.png" />
+                                <img src="~/images/selected-star.png" />
+                                <img src="~/images/star-empty.png" />
+                                <img src="~/images/star-empty.png" />
+                            </div>
+                        </div>
+                        <div class="card-footer px-0">
+
+                            <div class="card-timing mt-4 px-3 ">
+                                <div class=" d-flex justify-content-center">
+                                    <p class="enrol-time px-3 pt-1">From 10/01/2019 until 24/02/2020</p>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <img class="timing-img" src="~/images/Already-volunteered.png" alt="" />
+                                        <div>
+                                            <strong><p class="mb-0 card-timing-big">10</p></strong>
+                                            <p class="card-text">Seats Left</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <img class="timing-img" src="~/images/deadline.png" alt="" />
+                                        <div>
+                                            <strong><p class="mb-0 card-timing-big">09/01/2019</p></strong>
+                                            <p class="card-text">Deadline</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="my-3 d-flex justify-content-center ">
+                                <button type="button" class="Apply-mission-btn">Apply <img src="~/images/right-arrow.png" /></button>
+                            </div>
+                        </div>
+
+                    </div>
+            </div>
+        </div>
+        }
         @*Card 1*@
         <div class="col-12 col-md-6 col-lg-4">
             <div class="card">
@@ -190,52 +259,49 @@
                     </div>
                 </div>
 
-
-
-
-                <div class="card-body mt-4">
-                    <h5 class="card-title px-3">Grow Trees-On the path to environment sustainability</h5>
-                    <p class="card-text px-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
-                    <div class="card-rat-section px-3 d-flex justify-content-between">
-                        <p>Tree Canada</p>
-                        <div class="card-rating">
-                            <img src="~/images/selected-star.png" />
-                            <img src="~/images/selected-star.png" />
-                            <img src="~/images/selected-star.png" />
-                            <img src="~/images/star-empty.png" />
-                            <img src="~/images/star-empty.png" />
-                        </div>
-                    </div>
-                    <div class="card-footer px-0">
-
-                        <div class="card-timing mt-4 px-3 ">
-                            <div class=" d-flex justify-content-center">
-                                <p class="enrol-time px-3 pt-1">From 10/01/2019 until 24/02/2020</p>
+                  <div class="card-body mt-4">
+                        <h5 class="card-title px-3">Grow Trees-On the path to environment sustainability</h5>
+                        <p class="card-text px-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
+                        <div class="card-rat-section px-3 d-flex justify-content-between">
+                            <p>Tree Canada</p>
+                            <div class="card-rating">
+                                <img src="~/images/selected-star.png" />
+                                <img src="~/images/selected-star.png" />
+                                <img src="~/images/selected-star.png" />
+                                <img src="~/images/star-empty.png" />
+                                <img src="~/images/star-empty.png" />
                             </div>
-                            <div class="d-flex justify-content-between">
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <img class="timing-img" src="~/images/Already-volunteered.png" alt="" />
-                                    <div>
-                                        <strong><p class="mb-0 card-timing-big">10</p></strong>
-                                        <p class="card-text">Seats Left</p>
+                        </div>
+                        <div class="card-footer px-0">
+
+                            <div class="card-timing mt-4 px-3 ">
+                                <div class=" d-flex justify-content-center">
+                                    <p class="enrol-time px-3 pt-1">From 10/01/2019 until 24/02/2020</p>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <img class="timing-img" src="~/images/Already-volunteered.png" alt="" />
+                                        <div>
+                                            <strong><p class="mb-0 card-timing-big">10</p></strong>
+                                            <p class="card-text">Seats Left</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <img class="timing-img" src="~/images/deadline.png" alt="" />
+                                        <div>
+                                            <strong><p class="mb-0 card-timing-big">09/01/2019</p></strong>
+                                            <p class="card-text">Deadline</p>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <img class="timing-img" src="~/images/deadline.png" alt="" />
-                                    <div>
-                                        <strong><p class="mb-0 card-timing-big">09/01/2019</p></strong>
-                                        <p class="card-text">Deadline</p>
-                                    </div>
-                                </div>
+
                             </div>
+                            <div class="my-3 d-flex justify-content-center ">
+                                <button type="button" class="Apply-mission-btn">Apply <img src="~/images/right-arrow.png" /></button>
+                            </div>
+                        </div>
 
-                        </div>
-                        <div class="my-3 d-flex justify-content-center ">
-                            <button type="button" class="Apply-mission-btn">Apply <img src="~/images/right-arrow.png" /></button>
-                        </div>
                     </div>
-
-                </div>
             </div>
         </div>
         @*Card 2*@
@@ -458,9 +524,9 @@
                             <img src="~/images/selected-star.png" />
                             <img src="~/images/selected-star.png" />
                             <img src="~/images/selected-star.png" />
-                            <img src="~/images/star-empty.png" />
-                            <img src="~/images/star-empty.png" />
                         </div>
+                            <img src="~/images/star-empty.png" />
+                            <img src="~/images/star-empty.png" />
                     </div>
                     <div class="card-footer px-0">
                         <div class="card-timing mt-4 px-3 ">
@@ -768,32 +834,108 @@
 </div>
 
 <script>
-    $('input[type=checkbox]').on("click", function (e) {
-        if(e.currentTarget.checked){
+        //$(document).on('load',function(){
+        //    console.log("sdff");
+        //    var x = $('$countries:first-child li a input');
+        //});
 
+    $('input[type=checkbox]').on("click", function (e) {
+        console.log("sdfes");
+        if(e.currentTarget.checked){
+            var x = e.target.parentElement.lastChild.innerHTML;
+            console.log("dsf");
+             console.log(x);
+             
             var main = document.createElement('div');
             main.classList.add("field","col-auto", "py-1","mb-3","px-3");
             main.id = e.target.value+"1";
 
             var sname = document.createElement('span');
             sname.classList.add("field-text");
-            sname.innerHTML = e.target.value;
+            sname.innerHTML = x ;
             
 
             var img = $('<img />', {
                 class: 'ps-2',
-              src: '/images/cancel.png',
-              alt: 'MyAlt'
+                src: '/images/cancel.png',
+                alt: 'MyAlt'
             });
 
             main.appendChild(sname);
             img.appendTo(sname);
-
-            $(main).insertBefore('#clearAll');
-        }else{
+            document.getElementById("clearAll").style.display = "block";
+                $(main).insertBefore('#clearAll');
+            }else{
             var tag = document.getElementById(e.target.value+"1");
             tag.parentNode.removeChild(tag);
+            //var total=$(this).find('input[type=checkbox]:checked').length;
+            //console.log(length);
+            //if(length == 0){
+            //    document.getElementById("clearAll").style.display = "none";
+            //}
         }
     
     });
+    $(document).ready(function () {
+        
+
+        $('#countries li a input[type=checkbox]').click(function (e) {
+            var CountryId = $(this).val();
+            console.log(CountryId); 
+            //console.log(CountryId.substring(CountryId.indexOf("-")+1));
+            ////console.log(CountryId);
+            //var CountryId = parseInt(CountryId);
+            if(e.currentTarget.checked){
+            
+                $.ajax({
+                    url: '/Home/GetCityByCountry',
+                    type: 'GET',
+                    data: { CountryId: CountryId },
+                    dataType: 'json',
+                    success: function (data) {
+                        var cities = $('#cities');
+                        //cities.empty();
+                        var items = "";
+                        $.each(data, function (i, item) {
+                            items += `<li><a class="dropdown-item"><input type="checkbox" class="me-2" id=` + item.name.replaceAll(' ','') + ` value=` + item.cityId + `><label class="form-check-label" for="exampleCheck1" >` + item.name + `</label></li>`
+                            
+                        });
+                        console.log(items);
+                        cities.prepend(items);
+                        //cities.html(items);
+                    }
+                });
+            }else{
+                $.ajax({
+                    url: '/Home/GetCityByCountry',
+                    type: 'GET',
+                    data: { CountryId: CountryId },
+                    dataType: 'json',
+                    success: function (data) {
+                        var cities = $('#cities');
+                        
+                        var items = "";
+                        $.each(data, function (i, item) {
+                            var id = "#"+ item.name.replaceAll(' ','');
+                            console.log(id);
+                            $(id).parent().parent().remove();
+                        });
+                        
+                    }
+                });
+            }
+            
+        });
+    });
+
+
+    $('#clearAll').on("click",function () {
+        $('input[type=checkbox]:checked').each(function(e){
+            e.prop('checked',false);
+            
+        });
+    });
+
+    
+    
 </script>

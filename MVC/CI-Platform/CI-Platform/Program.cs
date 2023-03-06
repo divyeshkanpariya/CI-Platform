@@ -14,8 +14,8 @@ builder.Services.AddScoped<IRepository<City>, Repository<City>>();
 builder.Services.AddScoped<IRepository<Country>, Repository<Country>>();
 builder.Services.AddScoped<IRepository<MissionTheme>, Repository<MissionTheme>>();
 builder.Services.AddScoped<IRepository<Skill>, Repository<Skill>>();
-
-
+builder.Services.AddScoped<IRepository<Mission>, Repository<Mission>>();
+builder.Services.AddScoped<IRepository<MissionMedium>, Repository<MissionMedium>>();
 builder.Services.AddScoped<ILostPasswordRepository, LostPasswordRepository>();
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 builder.Services.AddScoped<IMissionListingRepository, MissionListingRepository>();
