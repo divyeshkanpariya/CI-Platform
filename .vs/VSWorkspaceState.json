@@ -2,7 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\MVC",
-    "\\MVC\\CI-Platform"
+    "\\MVC\\CI-Platform",
+    "\\MVC\\CI-Platform\\CI-Platform",
+    "\\MVC\\CI-Platform\\CI-Platform\\Views",
+    "\\MVC\\CI-Platform\\CI-Platform\\Views\\Home"
   ],
   "PreviewInSolutionExplorer": false
 }

@@ -8,61 +8,61 @@ build_property.PlatformNeutralAssembly =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = CI_Platform
 build_property.RootNamespace = CI_Platform
-build_property.ProjectDir = C:\Users\pci117\Source\Repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI-Platform\
+build_property.ProjectDir = C:\Users\pci117\source\repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI-Platform\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\pci117\Source\Repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI-Platform
+build_property.MSBuildProjectDirectory = C:\Users\pci117\source\repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI-Platform
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/pci117/Source/Repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Auth/Login.cshtml]
+[C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Auth/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pci117/Source/Repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Auth/Lost_Password.cshtml]
+[C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Auth/Lost_Password.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxMb3N0X1Bhc3N3b3JkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pci117/Source/Repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Auth/Registration.cshtml]
+[C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Auth/Registration.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxSZWdpc3RyYXRpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pci117/Source/Repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Auth/Reset_Password.cshtml]
+[C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Auth/Reset_Password.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxSZXNldF9QYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pci117/Source/Repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Home/MissionListing.cshtml]
+[C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Home/MissionListing.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxNaXNzaW9uTGlzdGluZy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pci117/Source/Repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Home/StoryListing.cshtml]
+[C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Home/StoryListing.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTdG9yeUxpc3RpbmcuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pci117/Source/Repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Home/VolunteeringMission.cshtml]
+[C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Home/VolunteeringMission.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxWb2x1bnRlZXJpbmdNaXNzaW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pci117/Source/Repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Shared/Error.cshtml]
+[C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pci117/Source/Repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Shared/Home_Layout.cshtml]
+[C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Shared/Home_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEhvbWVfTGF5b3V0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pci117/Source/Repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pci117/Source/Repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/_ViewImports.cshtml]
+[C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pci117/Source/Repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/_ViewStart.cshtml]
+[C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pci117/Source/Repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Shared/Auth_Layout.cshtml]
+[C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Shared/Auth_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEF1dGhfTGF5b3V0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = b-vqg1wp95el
