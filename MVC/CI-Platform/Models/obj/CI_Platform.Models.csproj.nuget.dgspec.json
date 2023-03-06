@@ -1,25 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\pci117\\Source\\Repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\Models\\CI_Platform.Models.csproj": {}
+    "C:\\Users\\divyesh kanpariya\\source\\repos\\CI-Platform\\MVC\\CI-Platform\\Models\\CI_Platform.Models.csproj": {}
   },
   "projects": {
-    "C:\\Users\\pci117\\Source\\Repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\Models\\CI_Platform.Models.csproj": {
+    "C:\\Users\\divyesh kanpariya\\source\\repos\\CI-Platform\\MVC\\CI-Platform\\Models\\CI_Platform.Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\pci117\\Source\\Repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\Models\\CI_Platform.Models.csproj",
+        "projectUniqueName": "C:\\Users\\divyesh kanpariya\\source\\repos\\CI-Platform\\MVC\\CI-Platform\\Models\\CI_Platform.Models.csproj",
         "projectName": "CI_Platform.Models",
-        "projectPath": "C:\\Users\\pci117\\Source\\Repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\Models\\CI_Platform.Models.csproj",
-        "packagesPath": "C:\\Users\\pci117\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\pci117\\Source\\Repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\Models\\obj\\",
+        "projectPath": "C:\\Users\\divyesh kanpariya\\source\\repos\\CI-Platform\\MVC\\CI-Platform\\Models\\CI_Platform.Models.csproj",
+        "packagesPath": "C:\\Users\\divyesh kanpariya\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\divyesh kanpariya\\Source\\Repos\\CI-Platform\\MVC\\CI-Platform\\Models\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\pci117\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\divyesh kanpariya\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -78,7 +73,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -87,7 +83,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

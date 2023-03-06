@@ -13,3 +13,18 @@ C:\Users\pci117\Source\Repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI_Pla
 C:\Users\pci117\Source\Repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\obj\Debug\net6.0\CI_Platform.Repository.dll
 C:\Users\pci117\Source\Repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\obj\Debug\net6.0\ref\CI_Platform.Repository.dll
 C:\Users\pci117\Source\Repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\obj\Debug\net6.0\CI_Platform.Repository.pdb
+C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\bin\Debug\net6.0\CI_Platform.Repository.deps.json
+C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\bin\Debug\net6.0\CI_Platform.Repository.dll
+C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\bin\Debug\net6.0\CI_Platform.Repository.pdb
+C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\bin\Debug\net6.0\CI_Platform.Models.dll
+C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\bin\Debug\net6.0\CI_Platform.Models.pdb
+C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\obj\Debug\net6.0\CI_Platform.Repository.csproj.AssemblyReference.cache
+C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\obj\Debug\net6.0\CI_Platform.Repository.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\obj\Debug\net6.0\CI_Platform.Repository.AssemblyInfoInputs.cache
+C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\obj\Debug\net6.0\CI_Platform.Repository.AssemblyInfo.cs
+C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\obj\Debug\net6.0\CI_Platform.Repository.csproj.CoreCompileInputs.cache
+C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\obj\Debug\net6.0\CI_Platform.Repository.csproj.CopyComplete
+C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\obj\Debug\net6.0\CI_Platform.Repository.dll
+C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\obj\Debug\net6.0\refint\CI_Platform.Repository.dll
+C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\obj\Debug\net6.0\CI_Platform.Repository.pdb
+C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\obj\Debug\net6.0\ref\CI_Platform.Repository.dll

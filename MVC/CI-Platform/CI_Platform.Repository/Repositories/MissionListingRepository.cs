@@ -44,7 +44,10 @@ namespace CI_Platform.Repository.Repositories
             
         }
 
-
-
+        public IEnumerable<City> getCityByCountry(long CountriesId)
+        {
+            var cities = _CityList.GetAll().Where(u=>u.CountryId== CountriesId);
+            return cities;
+        }
     }
 }
