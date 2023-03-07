@@ -7,12 +7,18 @@ using System.Threading.Tasks;
 
 namespace CI_Platform.Models.ViewModels
 {
-    public class MissionCardViewModel
+    public class MissionCardViewModel : Mission
     {
-        public IEnumerable<Mission> Missions { get; set; }
+        public string City { get; set; }
 
-        public string path { get; set; }
+        public string Country { get; set; }
 
-        public int ? rating { get; set; }
+        public string Theme { get; set; }
+
+        public string Path { get; set; }
+
+        public short ? Ratings { get; set; }
+        
+        public bool? IsOngoingActivity { get; set; } = false;
     }
 }

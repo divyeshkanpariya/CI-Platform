@@ -548,7 +548,7 @@ public partial class CiPlatformContext : DbContext
 
         modelBuilder.Entity<MissionRating>(entity =>
         {
-            entity.HasKey(e => e.MissionRatingId).HasName("PK__mission___320E5172C9697664");
+            entity.HasKey(e => e.MissionRatingId).HasName("PK__mission___320E5172DB825E8E");
 
             entity.ToTable("mission_rating");
 
@@ -561,10 +561,7 @@ public partial class CiPlatformContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("deleted_at");
             entity.Property(e => e.MissionId).HasColumnName("mission_id");
-            entity.Property(e => e.Rating)
-                .HasMaxLength(4)
-                .IsUnicode(false)
-                .HasColumnName("rating");
+            entity.Property(e => e.Rating).HasColumnName("rating");
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
@@ -573,12 +570,12 @@ public partial class CiPlatformContext : DbContext
             entity.HasOne(d => d.Mission).WithMany(p => p.MissionRatings)
                 .HasForeignKey(d => d.MissionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__mission_r__missi__43D61337");
+                .HasConstraintName("FK__mission_r__missi__76619304");
 
             entity.HasOne(d => d.User).WithMany(p => p.MissionRatings)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__mission_r__user___42E1EEFE");
+                .HasConstraintName("FK__mission_r__user___756D6ECB");
         });
 
         modelBuilder.Entity<MissionSkill>(entity =>

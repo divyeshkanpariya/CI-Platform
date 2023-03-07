@@ -165,19 +165,23 @@
 
 @*cards*@
 
-
+@*@foreach(var item in Model.MissionCards)
+{
+    <li>@item.CountryId</li>
+}*@
 <div class="container-fluid grid-container" id="missionContainer">
     <div class="row justify-content-between">
-        @foreach(var item  in Model.Missions)
+        
+        @foreach(var item  in Model.MissionCards)
         {
             <div class="col-12 col-md-6 col-lg-4">
             <div class="card">
 
                 <div class="card-img-div">
-                    <img class="card-img-top" src="" alt="Card image cap">
+                    <img class="card-img-top" src="@item.Path" alt="Card image cap">
                     <div class="location over-buttons px-3 py-1">
                         <img src="~/images/pin.png" />
-                        <span>Toronto</span>
+                        <span>@item.City</span>
                     </div>
                     <div class="add-favourite over-buttons">
                         <img src="~/images/heart.png" />
@@ -187,28 +191,47 @@
                     </div>
 
                     <div class="d-flex justify-content-center align-items-center">
-                        <p class="card-theme px-3 pt-1">Environment</p>
+                        <p class="card-theme px-3 pt-1">@item.Theme</p>
                     </div>
                 </div>
 
                   <div class="card-body mt-4">
-                        <h5 class="card-title px-3">Grow Trees-On the path to environment sustainability</h5>
-                        <p class="card-text px-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
-                        <div class="card-rat-section px-3 d-flex justify-content-between">
-                            <p>Tree Canada</p>
+                        <h5 class="card-title px-3">@item.Title</h5>
+                        <p class="card-text px-3">@item.ShortDescription</p>
+                        @if(@item.Ratings is not null)
+                        {
+                            <div class="card-rat-section px-3 d-flex justify-content-between">
+                            <p>@item.OrganizationName</p>
                             <div class="card-rating">
-                                <img src="~/images/selected-star.png" />
-                                <img src="~/images/selected-star.png" />
-                                <img src="~/images/selected-star.png" />
-                                <img src="~/images/star-empty.png" />
-                                <img src="~/images/star-empty.png" />
+                                @for(var i = 0; i < @item.Ratings; i++)
+                                {
+                                    <img src="~/images/selected-star.png" />
+
+                                }
+                                @for(var i = 5; i > @item.Ratings; i--)
+                                {
+                                     <img src="~/images/star-empty.png" />
+                                }
+                               
+                                
                             </div>
                         </div>
+                        }
+                       
                         <div class="card-footer px-0">
 
                             <div class="card-timing mt-4 px-3 ">
                                 <div class=" d-flex justify-content-center">
-                                    <p class="enrol-time px-3 pt-1">From 10/01/2019 until 24/02/2020</p>
+                                    @if (@item.IsOngoingActivity == true)
+                                    {
+                                        <p class="enrol-time px-3 pt-1">Ongoing Activity</p>
+
+                                    }else if(@item.StartDate !=null && @item.EndDate != null){
+                                            
+                                        <p class="enrol-time px-3 pt-1">From @item.StartDate.ToString().Substring(0,10) until @item.EndDate.ToString().Substring(0,10)</p>
+                                        
+                                    }
+                                    
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <div class="d-flex align-items-center justify-content-center">
@@ -219,11 +242,17 @@
                                         </div>
                                     </div>
                                     <div class="d-flex align-items-center justify-content-center">
+                                        @if(@item.EndDate is not null)
+                                            {
                                         <img class="timing-img" src="~/images/deadline.png" alt="" />
                                         <div>
-                                            <strong><p class="mb-0 card-timing-big">09/01/2019</p></strong>
-                                            <p class="card-text">Deadline</p>
+                                            
+                                                <strong><p class="mb-0 card-timing-big">@item.StartDate.ToString().Substring(0,10)</p></strong>
+                                                <p class="card-text">Deadline</p>
+                                            
+                                            
                                         </div>
+                                        }
                                     </div>
                                 </div>
 
@@ -238,7 +267,7 @@
         </div>
         }
         @*Card 1*@
-        <div class="col-12 col-md-6 col-lg-4">
+@*        <div class="col-12 col-md-6 col-lg-4">
             <div class="card">
 
                 <div class="card-img-div">
@@ -303,9 +332,9 @@
 
                     </div>
             </div>
-        </div>
+        </div>*@
         @*Card 2*@
-        <div class="col-12 col-md-6 col-lg-4">
+@*        <div class="col-12 col-md-6 col-lg-4">
             <div class="card">
                 <div class="card-img-div">
 
@@ -367,9 +396,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>*@
         @*Card-3*@
-        <div class="col-12 col-md-6 col-lg-4">
+@*        <div class="col-12 col-md-6 col-lg-4">
             <div class="card">
                 <div class="card-img-div">
                     <img class="card-img-top" src="~/images/Nourish-the-Children-in--African-country.png" alt="Card image cap">
@@ -432,7 +461,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>*@
         @*Card - 4*@
         <div class="col-12 col-md-6 col-lg-4">
             <div class="card">
@@ -491,7 +520,7 @@
 
                 </div>
             </div>
-        </div>
+        </div>  
         @*Card - 5*@
         <div class="col-12 col-md-6 col-lg-4">
             <div class="card">

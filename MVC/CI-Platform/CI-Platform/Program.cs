@@ -16,14 +16,16 @@ builder.Services.AddScoped<IRepository<MissionTheme>, Repository<MissionTheme>>(
 builder.Services.AddScoped<IRepository<Skill>, Repository<Skill>>();
 builder.Services.AddScoped<IRepository<Mission>, Repository<Mission>>();
 builder.Services.AddScoped<IRepository<MissionMedium>, Repository<MissionMedium>>();
+builder.Services.AddScoped<IRepository<MissionRating>, Repository<MissionRating>>();
+
 builder.Services.AddScoped<ILostPasswordRepository, LostPasswordRepository>();
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
-builder.Services.AddScoped<IMissionListingRepository, MissionListingRepository>();
-
 builder.Services.AddScoped<IResetPasswordRepository, ResetPasswordRepository>();
-
-
 builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
+builder.Services.AddScoped<IMissionListingRepository, MissionListingRepository>();
+builder.Services.AddScoped<IMissionCardRepository,MissionCardRepository>();
+
+
 builder.Services.AddSession();
 builder.Services.AddMemoryCache();
 var app = builder.Build();
