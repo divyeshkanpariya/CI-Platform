@@ -24,6 +24,7 @@ builder.Services.AddScoped<IResetPasswordRepository, ResetPasswordRepository>();
 
 
 builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
+
 builder.Services.AddSession();
 builder.Services.AddMemoryCache();
 var app = builder.Build();

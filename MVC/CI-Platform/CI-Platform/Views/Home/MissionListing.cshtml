@@ -26,7 +26,7 @@
                         <ul class="dropdown-menu dropdown-menu-sm-end" id="countries">
                             @foreach (var item in Model.Countries)
                             {
-                                <li><a class="dropdown-item" href="#"><input type="checkbox" class="me-2" id="@item.Name.Replace(" ",String.Empty)" name="@item.Name.Replace(" ",String.Empty)" value="@item.Name.Replace(" ",String.Empty)-@item.CountryId"><label class="pe-2" for=@item.Name>@item.Name </label></a></li>
+                                <li><a class="dropdown-item" href="#"><input type="checkbox" class="me-2" id="@item.Name.Replace(" ",String.Empty)" name="@item.Name.Replace(" ",String.Empty)" value="@item.CountryId"><label class="pe-2" for=@item.Name>@item.Name </label></a></li>
                             }
                  @*           <li><a class="dropdown-item" href="#">Action</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
@@ -805,11 +805,11 @@
 
     $(document).ready(function () {
         $('#countries li a input[type=checkbox]').click(function (e) {
-            var Country = $(this).val();
-            
-            console.log(CountryId.substring(CountryId.indexOf("-")+1));
+            var CountryId = $(this).val();
+            console.log(CountryId);
+            //console.log(CountryId.substring(CountryId.indexOf("-")+1));
             //console.log(CountryId);
-            var CountryId = parseInt(CountryId);
+            //var CountryId = parseInt(CountryId);
             if(e.currentTarget.checked){
             
                 $.ajax({
