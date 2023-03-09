@@ -3641,7 +3641,7 @@
       "projectName": "CI_Platform.Repository",
       "projectPath": "C:\\Users\\divyesh kanpariya\\source\\repos\\CI-Platform\\MVC\\CI-Platform\\CI_Platform.Repository\\CI_Platform.Repository.csproj",
       "packagesPath": "C:\\Users\\divyesh kanpariya\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\divyesh kanpariya\\Source\\Repos\\CI-Platform\\MVC\\CI-Platform\\CI_Platform.Repository\\obj\\",
+      "outputPath": "C:\\Users\\divyesh kanpariya\\source\\repos\\CI-Platform\\MVC\\CI-Platform\\CI_Platform.Repository\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\divyesh kanpariya\\AppData\\Roaming\\NuGet\\NuGet.Config",

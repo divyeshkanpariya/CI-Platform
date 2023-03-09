@@ -14,16 +14,22 @@ builder.Services.AddScoped<IRepository<City>, Repository<City>>();
 builder.Services.AddScoped<IRepository<Country>, Repository<Country>>();
 builder.Services.AddScoped<IRepository<MissionTheme>, Repository<MissionTheme>>();
 builder.Services.AddScoped<IRepository<Skill>, Repository<Skill>>();
-
+builder.Services.AddScoped<IRepository<Mission>, Repository<Mission>>();
+builder.Services.AddScoped<IRepository<MissionMedium>, Repository<MissionMedium>>();
+builder.Services.AddScoped<IRepository<MissionRating>, Repository<MissionRating>>();
+builder.Services.AddScoped<IRepository<GoalMission>, Repository<GoalMission>>();
+builder.Services.AddScoped<IRepository<MissionSeat>, Repository<MissionSeat>>();
+builder.Services.AddScoped<IRepository<MissionSkill>, Repository<MissionSkill>>();
 
 builder.Services.AddScoped<ILostPasswordRepository, LostPasswordRepository>();
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
-builder.Services.AddScoped<IMissionListingRepository, MissionListingRepository>();
-
 builder.Services.AddScoped<IResetPasswordRepository, ResetPasswordRepository>();
-
-
 builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
+
+builder.Services.AddScoped<IMissionListingRepository, MissionListingRepository>();
+builder.Services.AddScoped<IMissionCardRepository,MissionCardRepository>();
+
+
 
 builder.Services.AddSession();
 builder.Services.AddMemoryCache();

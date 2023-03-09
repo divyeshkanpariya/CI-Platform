@@ -273,11 +273,7 @@ input#search {
     flex-direction: row;
 }
 
-@media (max-width: 800px) {
-    .list-view .card {
-        flex-direction: column;
-    }
-}
+
 
 .list-view .card > .card-img-top {
     object-fit: cover;
@@ -377,7 +373,7 @@ input#search {
     width: 100%;
     padding: 10px;
     border-top: 1px solid #E8E8E8;
-    border-bottom: 1px solid #E8E8E8;
+    /*border-bottom: 1px solid #E8E8E8;*/
     margin-left: 0px;
 }
 
@@ -403,15 +399,16 @@ input#search {
     width: 133px;
     background-color: white;
 }
-
-    .Apply-mission-btn:hover {
-        color: white;
-        background-color: #F88634;
-    }
+.Apply-mission-btn-div {
+    border-top: 1px solid #E8E8E8;
+}
+.Apply-mission-btn:hover {
+    color: white;
+    background-color: #F88634;
+}
 
 .list-view .card-footer {
     display: flex;
-    flex-direction: row-reverse;
 }
 
 .list-view .card-footer {
@@ -420,11 +417,42 @@ input#search {
     align-items: center;
 }
 
-.list-view .card-timing {
-    width: 55%;
-    border-bottom: none;
-}
 
+@media (max-width: 450px) {
+    .list-view .card-footer {
+        flex-direction: column;
+    }
+    .list-view .card-timing {
+        width: 100%;
+        border-bottom: none;
+    }
+    .list-view .Apply-mission-btn-div {
+        border-top: 1px solid #E8E8E8;
+        width:100%;
+    }
+}
+@media (min-width: 450px) {
+    .list-view .card-footer {
+        flex-direction: row;
+    }
+    .list-view .card-timing {
+        width: 65%;
+        border-bottom: none;
+    }
+    .list-view .Apply-mission-btn-div {
+        border-top: none;
+    }
+}
+@media (max-width: 800px) {
+    .list-view .card {
+        flex-direction: column;
+    }
+
+    .list-view .Apply-mission-btn {
+        margin-right: 10px;
+        width: 133px;
+    }
+}
 @media screen and (min-width:800px) {
 
     .list-view .card-img-top {
@@ -435,7 +463,7 @@ input#search {
 
 
     .list-view .Apply-mission-btn {
-        margin-left: 10px;
+        margin-right: 10px;
         width: 133px;
     }
 
@@ -443,6 +471,7 @@ input#search {
         width: 55%;
     }
 }
+
 /* Pagination */
 .pagination {
     display: inline-block;
@@ -481,10 +510,10 @@ input#search {
     background-color: white;
 }
 
-    .Apply-mission-btn:hover {
-        color: white;
-        background-color: #F88634;
-    }
+.Apply-mission-btn:hover {
+    color: white;
+    background-color: #F88634;
+}
 /* divVolunteering Mission*/
 /*.carousel {
     position: relative;

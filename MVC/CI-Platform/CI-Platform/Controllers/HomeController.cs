@@ -2,6 +2,7 @@
 using CI_Platform.Models.Models;
 using CI_Platform.Models.ViewModels;
 using CI_Platform.Repository.Interface;
+using CI_Platform.Repository.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -11,10 +12,12 @@ namespace CI_Platform.Controllers
     {
         private readonly CiPlatformContext _db;
         private readonly IMissionListingRepository _missionListingDb;
-        public HomeController(CiPlatformContext db, IMissionListingRepository missionListingDb)
+        private readonly IMissionCardRepository _MissionCard;
+        public HomeController(CiPlatformContext db, IMissionListingRepository missionListingDb,IMissionCardRepository MissionCard)
         {
             _db = db;
             _missionListingDb = missionListingDb;
+            _MissionCard = MissionCard;
         }
         public IActionResult MissionListing()
         {

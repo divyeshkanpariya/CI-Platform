@@ -43,6 +43,8 @@ public partial class CiPlatformContext : DbContext
 
     public virtual DbSet<MissionRating> MissionRatings { get; set; }
 
+    public virtual DbSet<MissionSeat> MissionSeats { get; set; }
+
     public virtual DbSet<MissionSkill> MissionSkills { get; set; }
 
     public virtual DbSet<MissionTheme> MissionThemes { get; set; }
@@ -303,6 +305,7 @@ public partial class CiPlatformContext : DbContext
             entity.Property(e => e.DeletedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("deleted_at");
+            entity.Property(e => e.GoalArchived).HasColumnName("goal_archived");
             entity.Property(e => e.GoalObjectiveText)
                 .HasMaxLength(255)
                 .IsUnicode(false)
@@ -506,7 +509,7 @@ public partial class CiPlatformContext : DbContext
 
         modelBuilder.Entity<MissionMedium>(entity =>
         {
-            entity.HasKey(e => e.MissionMediaId).HasName("PK__mission___848A78E84B28004E");
+            entity.HasKey(e => e.MissionMediaId).HasName("PK__mission___848A78E800422D90");
 
             entity.ToTable("mission_media");
 
@@ -515,11 +518,7 @@ public partial class CiPlatformContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
-            entity.Property(e => e.Default)
-                .HasMaxLength(4)
-                .IsUnicode(false)
-                .HasDefaultValueSql("((0))")
-                .HasColumnName("default");
+            entity.Property(e => e.Default).HasColumnName("default");
             entity.Property(e => e.DeletedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("deleted_at");
@@ -543,12 +542,12 @@ public partial class CiPlatformContext : DbContext
             entity.HasOne(d => d.Mission).WithMany(p => p.MissionMedia)
                 .HasForeignKey(d => d.MissionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__mission_m__missi__367C1819");
+                .HasConstraintName("FK__mission_m__missi__7D0E9093");
         });
 
         modelBuilder.Entity<MissionRating>(entity =>
         {
-            entity.HasKey(e => e.MissionRatingId).HasName("PK__mission___320E517284A93C21");
+            entity.HasKey(e => e.MissionRatingId).HasName("PK__mission___320E51722AB5CAD8");
 
             entity.ToTable("mission_rating");
 
@@ -561,10 +560,7 @@ public partial class CiPlatformContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("deleted_at");
             entity.Property(e => e.MissionId).HasColumnName("mission_id");
-            entity.Property(e => e.Rating)
-                .HasMaxLength(4)
-                .IsUnicode(false)
-                .HasColumnName("rating");
+            entity.Property(e => e.Rating).HasColumnName("rating");
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
@@ -573,12 +569,40 @@ public partial class CiPlatformContext : DbContext
             entity.HasOne(d => d.Mission).WithMany(p => p.MissionRatings)
                 .HasForeignKey(d => d.MissionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__mission_r__missi__3F115E1A");
+                .HasConstraintName("FK__mission_r__missi__76619304");
 
             entity.HasOne(d => d.User).WithMany(p => p.MissionRatings)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__mission_r__user___3E1D39E1");
+                .HasConstraintName("FK__mission_r__user___756D6ECB");
+        });
+
+        modelBuilder.Entity<MissionSeat>(entity =>
+        {
+            entity.HasKey(e => e.MissionSeatId).HasName("PK__mission___98CA510766C43799");
+
+            entity.ToTable("mission_seats");
+
+            entity.Property(e => e.MissionSeatId).HasColumnName("mission_seat_id");
+            entity.Property(e => e.CreatedTime)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("created_time");
+            entity.Property(e => e.DeletedTime)
+                .HasColumnType("datetime")
+                .HasColumnName("deleted_time");
+            entity.Property(e => e.Islimited).HasColumnName("islimited");
+            entity.Property(e => e.MissionId).HasColumnName("mission_id");
+            entity.Property(e => e.SeatsFilled).HasColumnName("seats_filled");
+            entity.Property(e => e.TotalSeats).HasColumnName("total_seats");
+            entity.Property(e => e.UpdatedTime)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_time");
+
+            entity.HasOne(d => d.Mission).WithMany(p => p.MissionSeats)
+                .HasForeignKey(d => d.MissionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__mission_s__missi__04AFB25B");
         });
 
         modelBuilder.Entity<MissionSkill>(entity =>

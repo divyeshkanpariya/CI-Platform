@@ -15,7 +15,7 @@ public partial class MissionMedium
 
     public string? MediaPath { get; set; }
 
-    public string Default { get; set; } = null!;
+    public byte Default { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
