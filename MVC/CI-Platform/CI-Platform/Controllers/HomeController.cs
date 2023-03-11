@@ -13,11 +13,13 @@ namespace CI_Platform.Controllers
         private readonly CiPlatformContext _db;
         private readonly IMissionListingRepository _missionListingDb;
         private readonly IMissionCardRepository _MissionCard;
-        public HomeController(CiPlatformContext db, IMissionListingRepository missionListingDb,IMissionCardRepository MissionCard)
+        private readonly IRepository<City> _Cities;
+        public HomeController(CiPlatformContext db, IMissionListingRepository missionListingDb,IMissionCardRepository MissionCard,IRepository<City> Cities)
         {
             _db = db;
             _missionListingDb = missionListingDb;
             _MissionCard = MissionCard;
+            _Cities = Cities;
         }
         public IActionResult MissionListing()
         {
@@ -32,6 +34,12 @@ namespace CI_Platform.Controllers
                 return RedirectToAction("Login", "Auth");
             }
             
+        }
+        public IActionResult getAllCities()
+        {
+            IEnumerable<City> cities = _Cities.GetAll();
+            Console.WriteLine(cities);
+            return Json(cities);
         }
         public IActionResult getCityByCountry(long countryId)
         {
