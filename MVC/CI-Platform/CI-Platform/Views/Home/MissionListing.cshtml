@@ -26,7 +26,7 @@
                         <ul class="dropdown-menu dropdown-menu-sm-end" id="countries">
                             @foreach (var item in Model.Countries)
                             {
-                                <li><a class="dropdown-item" href="#"><input type="checkbox" class="me-2" id="@item.Name.Replace(" ",String.Empty)" name="@item.Name.Replace(" ",String.Empty)_@item.CountryId" value="@item.CountryId"><label class="pe-2" for="@item.Name.Replace(" ",String.Empty)">@item.Name </label></a></li>
+                                <li><a class="dropdown-item" href="#"><input type="checkbox" class="me-2" id="@item.Name.Replace(" ",String.Empty)" name="@item.Name" value="@item.CountryId"><label class="pe-2" for="@item.Name.Replace(" ",String.Empty)">@item.Name </label></a></li>
                             }
                             @*           <li><a class="dropdown-item" href="#">Action</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
@@ -42,7 +42,7 @@
                             @foreach (var item in Model.Cities)
                             {
                             <li>
-                                    <a class="dropdown-item" href="#"><input type="checkbox" class="me-2" id="@item.Name.Replace(" ",String.Empty)" name="@item.Name.Replace(" ",String.Empty)" value="@item.Name"><label class="pe-2" for="@item.Name.Replace(" ",String.Empty)">@item.Name </label></a>
+                                    <a class="dropdown-item" href="#"><input type="checkbox" class="me-2" id="@item.Name.Replace(" ",String.Empty)" name="@item.Name" value="@item.CityId"><label class="pe-2" for="@item.Name.Replace(" ",String.Empty)">@item.Name </label></a>
                                 </li>
                             }
                             @*<li><a class="dropdown-item" href="#">Action</a></li>
@@ -55,10 +55,10 @@
                             <span>Theme</span>
                             <img src="~/images/drop-down.png" class="mx-2 dropdown-img" alt="">
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-sm-end">
+                        <ul class="dropdown-menu dropdown-menu-sm-end" id="themes">
                             @foreach (var item in Model.MissionThemes)
                             {
-                                <li><a class="dropdown-item" href="#"><input type="checkbox" class="me-2" id=@item.Title name="vehicle1" value="@item.Title"><label id="lb" for=@item.Title>@item.Title </label></a></li>
+                                <li><a class="dropdown-item" href="#"><input type="checkbox" class="me-2" id="@item.Title.Replace(" ",String.Empty)" name="@item.Title" value="@item.MissionThemeId"><label id="lb" for=@item.Title>@item.Title </label></a></li>
                             }
                             @*<li><a class="dropdown-item" href="#">Action</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
@@ -70,10 +70,10 @@
                             <span>Skills</span>
                             <img src="~/images/drop-down.png" class="mx-2 dropdown-img" alt="">
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-sm-end">
+                        <ul class="dropdown-menu dropdown-menu-sm-end" id="skills">
                             @foreach (var item in Model.Skills)
                             {
-                                <li><a class="dropdown-item" href="#"><input type="checkbox" class="me-2" id=@item.SkillName.Trim() name="vehicle1" value="@item.SkillName"><label for=@item.SkillName.Trim()>@item.SkillName </label></a></li>
+                                <li><a class="dropdown-item" href="#"><input type="checkbox" class="me-2" id="@item.SkillName.Replace(" ",String.Empty)" name="@item.SkillName" value="@item.SkillId"><label for=@item.SkillName.Trim()>@item.SkillName </label></a></li>
                             }
                             @*<li><a class="dropdown-item" href="#">Action</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
@@ -172,12 +172,25 @@
 }*@
 <div class="container-fluid grid-container" id="missionContainer">
     <div class="row justify-content-between">
-
+        
         @foreach (var item in Model.MissionCards)
         {
+            
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card">
-
+                    <div style="display:none;" id="PassMissionTheme">@item.Theme</div>
+                    <div id="missionSkills" style="display:none;">
+                        
+                        @if(@item.MissionSkills != null){
+                        @foreach (var skill in item.MissionSkills)
+                        {
+                            <div id="@skill">@skill</div>
+                        }
+                        }
+                        
+                    </div>
+                    <div id="passCity" style="display:none;">@item.City</div>
+                    <div id="passCountry" style="display:none;">@item.Country</div>
                     <div class="card-img-div">
                         <img class="card-img-top" src="@item.Path" alt="Card image cap">
                         <div class="location over-buttons px-3 py-1">
@@ -241,10 +254,20 @@
                                         else if (@item.StartDate != null && @item.EndDate != null)
                                         {
 
-                                            <p class="enrol-time px-3 pt-1">From @item.StartDate.ToString().Substring(0,10) until @item.EndDate.ToString().Substring(0,10)</p>
+                                                <p class="enrol-time px-3 pt-1">From @item.StartDate.ToString().Substring(0,10) until @item.EndDate.ToString().Substring(0,10)</p>
 
                                         }
-                                    }
+                                        else if (@item.StartDate != null && @item.EndDate == null)
+                                        {
+                                            <p class="enrol-time px-3 pt-1">From @item.StartDate.ToString().Substring(0,10)</p>
+
+                                        }
+                                        else if (@item.StartDate == null && @item.EndDate != null)
+                                        {
+                                            <p class="enrol-time px-3 pt-1">Until @item.EndDate.ToString().Substring(0,10))</p>
+
+                                        }
+                                        }
                                     else
                                     {
                                         @if(item.GoalObjectiveText != null)
@@ -306,6 +329,17 @@
                                                 <div>
 
                                                     <strong><p class="mb-0 card-timing-big">@item.StartDate.ToString().Substring(0,10)</p></strong>
+                                                    <p class="card-text">Deadline</p>
+
+
+                                                </div>
+                                            </div>
+                                        }else{
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <img class="timing-img" src="~/images/deadline.png" alt="" />
+                                                <div>
+
+                                                    <strong><p class="mb-0 card-timing-big">No Deadlines</p></strong>
                                                     <p class="card-text">Deadline</p>
 
 
@@ -439,49 +473,49 @@
     //});
     //function fl(){
 
-        $('#cities li a input[type=checkbox]').click(function (e) {
-            console.log(e);
-        });
+        //$('#cities li a input[type=checkbox]').click(function (e) {
+        //    console.log(e);
+        //});
     //}
 
     
-    $('input[type=checkbox]').on("click", function (e) {
+    //$('input[type=checkbox]').on("click", function (e) {
         
-        if (e.currentTarget.checked) {
-            var x = e.target.parentElement.lastChild.innerHTML;
+    //    if (e.currentTarget.checked) {
+    //        var x = e.target.parentElement.lastChild.innerHTML;
             
 
-            var main = document.createElement('div');
-            main.classList.add("field", "col-auto", "py-1", "mb-3", "px-3");
-            main.id = e.target.value + "1";
+    //        var main = document.createElement('div');
+    //        main.classList.add("field", "col-auto", "py-1", "mb-3", "px-3");
+    //        main.id = e.target.value + "1";
 
-            var sname = document.createElement('span');
-            sname.classList.add("field-text");
-            sname.innerHTML = x;
+    //        var sname = document.createElement('span');
+    //        sname.classList.add("field-text");
+    //        sname.innerHTML = x;
 
 
-            var img = $('<img />', {
-                class: 'ps-2',
-                src: '/images/cancel.png',
-                alt: 'MyAlt'
-            });
+    //        var img = $('<img />', {
+    //            class: 'ps-2',
+    //            src: '/images/cancel.png',
+    //            alt: 'MyAlt'
+    //        });
 
-            main.appendChild(sname);
-            img.appendTo(sname);
-            document.getElementById("clearAll").style.display = "block";
-            $(main).insertBefore('#clearAll');
-        } else {
-            var tag = document.getElementById(e.target.value + "1");
-            tag.parentNode.removeChild(tag);
-            //var total=$(this).find('input[type=checkbox]:checked').length;
-            //console.log(length);
-            //if(length == 0){
-            //    document.getElementById("clearAll").style.display = "none";
-            //}
-        }
+    //        main.appendChild(sname);
+    //        img.appendTo(sname);
+    //        document.getElementById("clearAll").style.display = "block";
+    //        $(main).insertBefore('#clearAll');
+    //    } else {
+    //        var tag = document.getElementById(e.target.value + "1");
+    //        tag.parentNode.removeChild(tag);
+    //        //var total=$(this).find('input[type=checkbox]:checked').length;
+    //        //console.log(length);
+    //        //if(length == 0){
+    //        //    document.getElementById("clearAll").style.display = "none";
+    //        //}
+    //    }
         
 
-    });
+    //});
     
     //$(document).change(function(){
     //    var selectedcountries = $('#countries li a input[type=checkbox]:checked').map(function(){
@@ -501,6 +535,99 @@
     //        console.log("sdes");
     //    }
     //});
+
+    function updateFilters() {
+        var selectedCountries = $('#countries li a input[type=checkbox]:checked').map(function () {
+                    return {
+                        name : this.name,
+                        id : this.value
+                    };
+                });
+                //console.log(selectedCountries);
+
+        var selectedCities = $('#cities li a input[type=checkbox]:checked').map(function () {
+            return {
+                name: this.name,
+                id: this.value
+            };
+        });
+        //console.log(selectedCities);
+
+        var selectedTheme = $('#themes li a input[type=checkbox]:checked').map(function () {
+            return {
+                name: this.name,
+                id: this.value
+            };
+        });
+        //console.log(selectedtheme);
+
+        var selectedSkill = $('#skills li a input[type=checkbox]:checked').map(function () {
+            return {
+                name: this.name,
+                id: this.value
+            };
+        });
+        //console.log(selectedskill);
+        var filters = $('#selectedFilters');
+        filters.empty();
+        addSelected(selectedCountries);
+        addSelected(selectedCities);
+        addSelected(selectedTheme);
+        addSelected(selectedSkill);
+
+        var clearall = document.createElement("a");
+        clearall.id = "clearALl";
+        clearall.classList.add("field-text","my-1","col-auto");
+        clearall.style.textDecoration = "none";
+        clearall.innerHTML = "Clear All";
+        clearall.onclick = clearAll;
+        0
+        
+        if ($('#selectedFilters').find('div').length != 0) {
+            filters.append(clearall);
+        }
+        
+        
+        //$('input[type=checkbox]:checked').each(function () {
+        //    console.log($(this));
+        //    $(this).prop('checked', false);
+
+
+        //});
+
+    }
+    
+    function addSelected(selected){
+        selected.each(function(){
+            var filters = $('#selectedFilters');
+            //cityName = currentCity.substring(0, currentCity.indexOf("_"));
+            console.log(this.name);
+            console.log(this.id);
+
+            var main = document.createElement('div');
+            main.classList.add("field", "col-auto", "py-1", "mb-3", "px-3");
+            main.id = this.name.replaceAll(" ", "");
+
+            var sname = document.createElement('span');
+            sname.classList.add("field-text");
+            sname.innerHTML = this.name;
+
+
+            var img = $('<img />', {
+                class: 'ps-2',
+                src: '/images/cancel.png',
+                alt: 'MyAlt'
+            });
+
+            main.appendChild(sname);
+            img.appendTo(sname);
+            filters.append(main);
+        });
+    }
+    $(document).change(function(){
+        updateFilters();
+        
+    });
     $(document).ready(function () {
 
 
@@ -534,7 +661,7 @@
                             inp.type = "checkbox";
                             inp.id = item.name.replaceAll(' ', '');
                             inp.value = item.cityId;
-                            inp.name = item.name.replaceAll(' ', '') + item.cityId;
+                            inp.name = item.name
                             inp.classList.add("me-2");
 
 
@@ -552,7 +679,7 @@
                             
                         });
                         
-                        selectCities();
+                        //selectCities();
                         
                     }
                         
@@ -637,12 +764,13 @@
     //        }
     //    };
     //})();
-    $('#clearAll').on("click", function () {
-        $('input[type=checkbox]:checked').each(function (e) {
-            e.prop('checked', false);
+    
+    //$('#clearAll').on("click", function () {
+    //    $('input[type=checkbox]:checked').each(function (e) {
+    //        e.prop('checked', false);
 
-        });
-    });
+    //    });
+    //});
    
     //function nsss(){
     //    $('#cities li a input[type=checkbox]').click(function (e) {
