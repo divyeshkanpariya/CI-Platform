@@ -176,27 +176,28 @@
         @foreach (var item in Model.MissionCards)
         {
             
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="card">
-                    <div style="display:none;" id="PassMissionTheme">@item.Theme</div>
-                    <div id="missionSkills" style="display:none;">
+            <div class="col-12 col-md-6 col-lg-4" id="passMissionCard">
+                <div class="card" id="card">
+                    <p style="display:none;" id="PassMissionTheme" name="@item.Theme">@item.Theme</p>
+                    <div id="passMissionSkills" style="display:none;">
                         
                         @if(@item.MissionSkills != null){
                         @foreach (var skill in item.MissionSkills)
                         {
-                            <div id="@skill">@skill</div>
+                            <p id="@skill">@skill</p>
                         }
                         }
                         
                     </div>
-                    <div id="passCity" style="display:none;">@item.City</div>
-                    <div id="passCountry" style="display:none;">@item.Country</div>
+                    <p id="passCity" style="display:none;">@item.City</p>
+                    <p id="passCountry" style="display:none;">@item.Country</p>
                     <div class="card-img-div">
                         <img class="card-img-top" src="@item.Path" alt="Card image cap">
                         <div class="location over-buttons px-3 py-1">
                             <img src="~/images/pin.png" />
                             <span>@item.City</span>
                         </div>
+
                         <div class="add-favourite over-buttons">
                             <img src="~/images/heart.png" />
                         </div>
@@ -581,19 +582,14 @@
         clearall.style.textDecoration = "none";
         clearall.innerHTML = "Clear All";
         clearall.onclick = clearAll;
-        0
+        
         
         if ($('#selectedFilters').find('div').length != 0) {
             filters.append(clearall);
         }
         
         
-        //$('input[type=checkbox]:checked').each(function () {
-        //    console.log($(this));
-        //    $(this).prop('checked', false);
-
-
-        //});
+        
 
     }
     
@@ -601,8 +597,8 @@
         selected.each(function(){
             var filters = $('#selectedFilters');
             //cityName = currentCity.substring(0, currentCity.indexOf("_"));
-            console.log(this.name);
-            console.log(this.id);
+            //console.log(this.name);
+            //console.log(this.id);
 
             var main = document.createElement('div');
             main.classList.add("field", "col-auto", "py-1", "mb-3", "px-3");
@@ -625,11 +621,78 @@
         });
     }
     $(document).change(function(){
-        updateFilters();
-        
-    });
-    $(document).ready(function () {
+        var selectedCountries = $('#countries li a input[type=checkbox]:checked').map(function () {
+            return {
+                name: this.name,
+                id: this.value
+            };
+        });
+        var selectedCities = $('#cities li a input[type=checkbox]:checked').map(function () {
+            return {
+                name: this.name,
+                id: this.value
+            };
+        });
+        $('#missionContainer div').find('#passMissionCard #card').each(function () {
+            
+            var currCity = $(this).find('#passCity').text();
+            var currCountry = $(this).find('#passCountry').text();
+            var currTheme = $(this).find('#PassMissionTheme').text();
 
+            if (minOneSelected(selectedCountries) == true){
+                if (matchCountry(currCountry, selectedCountries) != true) {
+                    //$(this).hide();
+                    $(this).closest('#passMissionCard').hide();
+                    console.log($(this).closest('#passMissionCard'));
+                } else {
+                    $(this).closest('#passMissionCard').show();
+                }
+            }
+            
+            console.log(currCity);
+            console.log(selectedCities.length);
+            if (minOneSelected(selectedCities) == true){
+                if (matchCountry(currCity, selectedCities) != true) {
+                    console.log("not matched");
+                    $(this).closest('#passMissionCard').hide();
+                } else {
+                    console.log($(this).closest('#passMissionCard'))
+                    $(this).closest('#passMissionCard').show();
+                }
+            }
+            
+            ////console.log(matchCountry(currCountry, selectedCountries));
+            ////if(matchCountry(currCountry,selectedCountries) == true){
+            ////    console.log(");
+            ////}
+            //console.log(currCity);
+            //console.log(currCountry);
+            //console.log(currTheme);
+        });
+        
+        updateFilters();
+     
+    });
+    function minOneSelected(selected){
+        if(selected.length !=0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    function matchCountry(currCountry, selectedCountries){
+        
+        for(var item of selectedCountries){
+            if(item.name == currCountry){
+                return true;
+            }
+        }
+         return false;  
+        
+        
+        
+    }
+    $(document).ready(function () {
 
         $('#countries li a input[type=checkbox]').click(function (e) {
             var CountryId = $(this).val();
@@ -677,14 +740,9 @@
                             cities.append(li);
                             //items += `<li><a class="dropdown-item"><input type="checkbox" class="me-2" id=` + item.name.replaceAll(' ', '') + ` value=` + item.cityId + `><label class="form-check-label" for="exampleCheck1" >` + item.name + `</label></li>`
                             
-                        });
-                        
-                        //selectCities();
-                        
+                        });                        
+                        //selectCities();                        
                     }
-                        
-                    
-
                 });
                 
             } else {
@@ -711,11 +769,6 @@
     });
     function selectCities(){
         $('#cities li a input[type=checkbox]').one('click',function (e) {
-            //console.log(e);
-            //var sCities = $('#cities li a input[type=checkbox]:checked').map(function () {
-            //    return this.name;
-            //}).get().join();
-            //console.log(sCities);
             
 
             if(e.currentTarget.checked){
@@ -752,52 +805,7 @@
         });
         
     }
-    //var something = (function () {
-    //    var executed = false;
-    //    return function () {
-    //        if (!executed) {
-    //            executed = true;
-    //             do something
-    //            $('#cities li a input[type=checkbox]').click(function (e) {
-    //                console.log(e);
-    //            });
-    //        }
-    //    };
-    //})();
-    
-    //$('#clearAll').on("click", function () {
-    //    $('input[type=checkbox]:checked').each(function (e) {
-    //        e.prop('checked', false);
 
-    //    });
-    //});
-   
-    //function nsss(){
-    //    $('#cities li a input[type=checkbox]').click(function (e) {
-    //        console.log(e);
-    //    });
-    //}
-    //$('#citiesMenu').mouseup(function () {
-    //    console.log('dsdd');
-    //async function oncha(){
-    //    $(document).click(function(){
-    //        console.log("change");
-    //    });
-    //}
-    //oncha().then(function(){
-    //    $('#cities li a input[type=checkbox]').click(function (e) {
-            
-    //        console.log(e);
-    //    });
-    //});
-        
-    //});
-    
-    //if ($('#cities').find('li a input[type=checkbox]').length !=0){
-    //    $('#cities li a input[type=checkbox]').click(function (e) {
-    //        console.log(e);
-    //    });
-    //}
     
 
 </script>
