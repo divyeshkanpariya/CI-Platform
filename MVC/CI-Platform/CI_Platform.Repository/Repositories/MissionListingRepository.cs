@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace CI_Platform.Repository.Repositories
 {
@@ -47,13 +49,85 @@ namespace CI_Platform.Repository.Repositories
         }
           
         
-        public MissionListingViewModel GetAllData()
+        public MissionListingViewModel GetAllData(string Countryids)
         {
             
 
             MissionListingViewModel viewModel = new MissionListingViewModel();
+            IEnumerable<Mission> AllMissions = _Missions.GetAll();
+            if(Countryids != null && Countryids != "")
+            {
 
-            viewModel.MissionCards = _MissionCard.FillData(_Missions.GetAll());
+                SqlConnection connection = new SqlConnection("Data Source=PCI117\\SQL2017;DataBase=CI-Platform;User ID=sa;Password=Tatva@123;Encrypt=False;MultipleActiveResultSets=True;TrustServerCertificate=True;");
+
+                SqlCommand command = new SqlCommand("my_stored_procedure", connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                command.Parameters.Add("@my_array", SqlDbType.VarChar).Value = Countryids;
+
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                Console.WriteLine(adapter.ToString());
+                List<Mission> newMissions = new List<Mission>();
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    // Access data from the row using the column name or index.
+                    Mission newM = new Mission();
+                    newM.MissionId = Convert.ToInt64(row["mission_id"]);
+                    newM.ThemeId = Convert.ToInt64(row["theme_id"]);
+                    newM.CityId = Convert.ToInt64(row["city_id"]);
+                    newM.CountryId = Convert.ToInt64(row["Country_id"]);
+                    newM.Title = Convert.ToString(row["title"]);
+                    if (row["description"] != DBNull.Value)
+                    {
+                        newM.EndDate = Convert.ToDateTime(row["end_date"]);
+
+                    }
+                    
+                    newM.ShortDescription = Convert.ToString(row["short_description"]);
+                    if(row["start_date"] != DBNull.Value){
+                        newM.StartDate = Convert.ToDateTime(row["start_date"]);
+
+                    }
+                    if(row["end_date"] != DBNull.Value)
+                    {
+                        newM.EndDate = Convert.ToDateTime(row["end_date"]);
+
+                    }
+                    newM.MissionType = Convert.ToString(row["mission_type"]);
+                    newM.Status = Convert.ToString(row["status"]);
+                    newM.OrganizationName = Convert.ToString(row["organization_name"]);
+                    if (row["organization_detail"] != DBNull.Value)
+                    {
+                        newM.OrganizationDetail = Convert.ToString(row["organization_detail"]);
+
+                    }
+                    if (row["availability"] != DBNull.Value)
+                    {
+                        newM.Availability = Convert.ToString(row["availability"]);
+
+                    }
+                    newM.CreatedAt = Convert.ToDateTime(row["created_at"]);
+                    
+                  
+
+                    newMissions.Add(newM);
+                }
+                connection.Close();
+                // AllMissions = _db.Missions
+                //.FromSql($"exec my_stored_procedure {Countryids}")
+                //.ToList();
+                AllMissions = newMissions;
+            }
+            //if (Countryids.Count != 0) {
+            //    AllMissions =AllMissions.Where(u=>Countryids.Contains(u.CountryId.ToString()));
+
+            //}
+
+            viewModel.MissionCards = _MissionCard.FillData(AllMissions);
 
             //MissionCardViewModel cardmodel = new MissionCardViewModel();
             //IEnumerable<Mission> missions = _Missions.GetAll();

@@ -104,34 +104,7 @@
 
 <div class="py-3 px-4" id="addedFilters">
     <div class="row" id="selectedFilters">
-        @*<div class="field col-auto py-1 mb-3 px-3">
-        <span class="field-text">Tree Plantation</span>
-        <img src="~/images/cancel.png" alt="cancel" />
-        </div>
-        <div class="field col-auto py-1  mb-3 px-3">
-        <span class="field-text">Canada</span>
-        <img src="~/images/cancel.png" alt="cancel" />
-        </div>
-        <div class="field col-auto py-1  mb-3 px-3">
-        <span class="field-text">Toronto</span>
-        <img src="~/images/cancel.png" alt="cancel" />
-        </div>
-        <div class="field col-auto py-1  mb-3 px-3">
-        <span class="field-text">Montreal</span>
-        <img src="~/images/cancel.png" alt="cancel" />
-        </div>
-        <div class="field col-auto py-1  mb-3 px-3">
-        <span class="field-text">Environment</span>
-        <img src="~/images/cancel.png" alt="cancel" />
-        </div>
-        <div class="field col-auto py-1 mb-3 px-3">
-        <span class="field-text">Nutrition</span>
-        <img src="~/images/cancel.png" alt="cancel" />
-        </div>
-        <div class="field col-auto py-1 mb-3 px-3">
-        <span class="field-text">Environmental Science</span>
-        <img src="~/images/cancel.png" alt="cancel" />
-        </div>*@
+      
         <a href="" id="clearAll" class="field-text my-1 col-auto" style="text-decoration:none; display:none;">Clear All</a>
     </div>
 </div>
@@ -171,199 +144,10 @@
     <li>@item.CountryId</li>
 }*@
 <div class="container-fluid grid-container" id="missionContainer">
-    <div class="row justify-content-between">
-        
-        @foreach (var item in Model.MissionCards)
-        {
-            
-            <div class="col-12 col-md-6 col-lg-4" id="passMissionCard">
-                <div class="card" id="card">
-                    <p style="display:none;" id="PassMissionTheme" name="@item.Theme">@item.Theme</p>
-                    <div id="passMissionSkills" style="display:none;">
-                        
-                        @if(@item.MissionSkills != null){
-                        @foreach (var skill in item.MissionSkills)
-                        {
-                            <p id="@skill">@skill</p>
-                        }
-                        }
-                        
-                    </div>
-                    <p id="passCity" style="display:none;">@item.City</p>
-                    <p id="passCountry" style="display:none;">@item.Country</p>
-                    <div class="card-img-div">
-                        <img class="card-img-top" src="@item.Path" alt="Card image cap">
-                        <div class="location over-buttons px-3 py-1">
-                            <img src="~/images/pin.png" />
-                            <span>@item.City</span>
-                        </div>
-
-                        <div class="add-favourite over-buttons">
-                            <img src="~/images/heart.png" />
-                        </div>
-                        <div class="square over-buttons">
-                            <img src="~/images/user.png" />
-                        </div>
-
-                        <div class="d-flex justify-content-center align-items-center">
-                            <p class="card-theme px-3 pt-1">@item.Theme</p>
-                        </div>
-                    </div>
-
-                    <div class="card-body mt-4">
-                        <h5 class="card-title px-3">@item.Title</h5>
-                        <p class="card-text px-3">@item.ShortDescription</p>
-                        @if (@item.Ratings is not null)
-                        {
-                            <div class="card-rat-section px-3 d-flex justify-content-between">
-                                <p>@item.OrganizationName</p>
-                                @if(@item.Ratings != 0)
-                                {
-                                    <div class="card-rating">
-                                        @for (var i = 0; i < @item.Ratings; i++)
-                                        {
-                                            <img src="~/images/selected-star.png" />
-
-                                        }
-                                        @for (var i = 5; i > @item.Ratings; i--)
-                                        {
-                                            <img src="~/images/star-empty.png" />
-                                        }
-
-
-                                    </div>
-                                }
-                                
-                            </div>
-                        }
-
-                        <div class="card-footer px-0">
-                            @if(item.GoalObjectiveText !=null || item.StartDate!=null || item.EndDate != null || item.IsSeatDataFound == true)
-                            {
-                                
-                            
-
-                            <div class="card-timing mt-4 px-3 ">
-                                <div class=" d-flex justify-content-center">
-                                    @if(item.MissionType == "Time")
-                                    {
-                                        @if (@item.IsOngoingActivity == true)
-                                        {
-                                            <p class="enrol-time px-3 pt-1">Ongoing Activity</p>
-
-                                        }
-                                        else if (@item.StartDate != null && @item.EndDate != null)
-                                        {
-
-                                                <p class="enrol-time px-3 pt-1">From @item.StartDate.ToString().Substring(0,10) until @item.EndDate.ToString().Substring(0,10)</p>
-
-                                        }
-                                        else if (@item.StartDate != null && @item.EndDate == null)
-                                        {
-                                            <p class="enrol-time px-3 pt-1">From @item.StartDate.ToString().Substring(0,10)</p>
-
-                                        }
-                                        else if (@item.StartDate == null && @item.EndDate != null)
-                                        {
-                                            <p class="enrol-time px-3 pt-1">Until @item.EndDate.ToString().Substring(0,10))</p>
-
-                                        }
-                                        }
-                                    else
-                                    {
-                                        @if(item.GoalObjectiveText != null)
-                                        {
-                                            <p class="enrol-time px-3 pt-1">@item.GoalObjectiveText</p>
-                                        }
-                                    }
-                                    
-
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    
-                                    @if(@item.IsSeatDataFound ==true){
-                                        @if(item.IsLimitedSeats == 1)
-                                        {
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <img class="timing-img" src="~/images/Seats-left.png" alt="" />
-                                                <div>
-                                                    <strong><p class="mb-0 card-timing-big">@item.SeatsLeft</p></strong>
-                                                    <p class="card-text">Seats Left</p>
-                                                </div>
-                                            </div>
-                                        }else if(item.IsLimitedSeats == 0)
-                                        {
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <img class="timing-img" src="~/images/Already-volunteered.png" alt="" />
-                                                <div>
-                                                    <strong><p class="mb-0 card-timing-big">@item.SeatsFilled</p></strong>
-                                                    <p class="card-text">Already Volunteered</p>
-                                                </div>
-                                            </div>
-                                        }
-                                    }
-                                        
-                                    
-                                    
-                                    @if(item.MissionType == "Go")
-                                    {
-                                        @if(item.GoalObjectiveText != null)
-                                        {
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <img class="timing-img" src="~/images/achieved.png" alt="" />
-                                                <div>
-                                                    <div class="progress" style="height: 10px;">
-                                                        <div class="progress-bar" role="progressbar" style="width: @item.prArchivement%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                    <p class="card-text">@item.GoalArchived achived</p>
-                                                </div>
-                                            </div>
-                                        }
-                                            
-                                    }
-                                    else
-                                    {
-                                        @if (@item.EndDate is not null)
-                                        {
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <img class="timing-img" src="~/images/deadline.png" alt="" />
-                                                <div>
-
-                                                    <strong><p class="mb-0 card-timing-big">@item.StartDate.ToString().Substring(0,10)</p></strong>
-                                                    <p class="card-text">Deadline</p>
-
-
-                                                </div>
-                                            </div>
-                                        }else{
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <img class="timing-img" src="~/images/deadline.png" alt="" />
-                                                <div>
-
-                                                    <strong><p class="mb-0 card-timing-big">No Deadlines</p></strong>
-                                                    <p class="card-text">Deadline</p>
-
-
-                                                </div>
-                                            </div>
-                                        }
-                                    }
-                                        
-                                    
-                                </div>
-                            </div>
-                            }
-
-                            <div class="py-3 d-flex justify-content-center Apply-mission-btn-div">
-                                <button type="button" class="Apply-mission-btn">Apply <img src="~/images/right-arrow.png" /></button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        }
-        
+    <div class="row" id="cardContainer">
+@*        
+        @Html.Partial("Cards");
+        *@
 
     </div>
 
@@ -587,9 +371,6 @@
         if ($('#selectedFilters').find('div').length != 0) {
             filters.append(clearall);
         }
-        
-        
-        
 
     }
     
@@ -627,48 +408,86 @@
                 id: this.value
             };
         });
+        var selectedCountryID = $('#countries li a input[type=checkbox]:checked').map(function () {
+            return this.value;
+            
+        }).get().join();
         var selectedCities = $('#cities li a input[type=checkbox]:checked').map(function () {
             return {
                 name: this.name,
                 id: this.value
             };
         });
-        $('#missionContainer div').find('#passMissionCard #card').each(function () {
-            
-            var currCity = $(this).find('#passCity').text();
-            var currCountry = $(this).find('#passCountry').text();
-            var currTheme = $(this).find('#PassMissionTheme').text();
-
-            if (minOneSelected(selectedCountries) == true){
-                if (matchCountry(currCountry, selectedCountries) != true) {
-                    //$(this).hide();
-                    $(this).closest('#passMissionCard').hide();
-                    console.log($(this).closest('#passMissionCard'));
-                } else {
-                    $(this).closest('#passMissionCard').show();
-                }
+        console.log(selectedCountryID);
+        $.ajax({
+            url: '/Home/GetCards',
+            type: 'POST',
+            data: {CountryIDs: selectedCountryID },
+            dataType: 'html',
+            success:function (viewModel) {
+                //console.log(viewModel);
+                
+                $('#cardContainer').html(viewModel);
             }
-            
-            console.log(currCity);
-            console.log(selectedCities.length);
-            if (minOneSelected(selectedCities) == true){
-                if (matchCountry(currCity, selectedCities) != true) {
-                    console.log("not matched");
-                    $(this).closest('#passMissionCard').hide();
-                } else {
-                    console.log($(this).closest('#passMissionCard'))
-                    $(this).closest('#passMissionCard').show();
-                }
-            }
-            
-            ////console.log(matchCountry(currCountry, selectedCountries));
-            ////if(matchCountry(currCountry,selectedCountries) == true){
-            ////    console.log(");
-            ////}
-            //console.log(currCity);
-            //console.log(currCountry);
-            //console.log(currTheme);
         });
+        //$('#missionContainer div').find('#passMissionCard #card').each(function () {
+            
+        //    var currCity = $(this).find('#passCity').text();
+        //    var currCountry = $(this).find('#passCountry').text();
+        //    var currTheme = $(this).find('#PassMissionTheme').text();
+
+
+        //    if(selectedCountries.length == 0 && selectedCities.length == 0){
+        //         $(this).closest('#passMissionCard').show();
+        //    }
+        //    else if(selectedCountries.length == 0 && selectedCities.length != 0){
+        //        if (minOneSelected(selectedCities) == true){
+        //            if (matchCountry(currCity, selectedCities) != true) {
+        //                //console.log("not matched");
+        //                $(this).closest('#passMissionCard').hide();
+        //            } else {
+        //                //console.log($(this).closest('#passMissionCard'));
+        //                $(this).closest('#passMissionCard').show();
+        //            }
+        //        }
+        //    }else if(selectedCountries.length != 0 && selectedCities.length == 0){
+        //        if (minOneSelected(selectedCountries) == true){
+        //            if (matchCountry(currCountry, selectedCountries) != true) {
+        //                //$(this).hide();
+        //                $(this).closest('#passMissionCard').hide();
+        //                //console.log($(this).closest('#passMissionCard'));
+        //            } else {
+
+        //                $(this).closest('#passMissionCard').show();
+        //            }
+        //        }
+        //    }
+        //    else{
+        //        if (minOneSelected(selectedCountries) == true){
+        //            if (matchCountry(currCountry, selectedCountries) != true) {
+        //                //$(this).hide();
+        //                $(this).closest('#passMissionCard').hide();
+        //                //console.log($(this).closest('#passMissionCard'));
+        //            } else {
+
+        //                $(this).closest('#passMissionCard').show();
+        //            }
+        //        }
+            
+        //        //console.log(currCity);
+        //        //console.log(selectedCities.length);
+        //        if (minOneSelected(selectedCities) == true){
+        //            if (matchCountry(currCity, selectedCities) != true) {
+        //                //console.log("not matched");
+        //                $(this).closest('#passMissionCard').hide();
+        //            } else {
+        //                //console.log($(this).closest('#passMissionCard'))
+        //                $(this).closest('#passMissionCard').show();
+        //            }
+        //        }
+        //    }
+                        
+        //});
         
         updateFilters();
      
@@ -689,10 +508,20 @@
         }
          return false;  
         
-        
-        
     }
     $(document).ready(function () {
+        
+        $.ajax({
+            url: '/Home/GetCards',
+            type: 'POST',
+            data: {CountryIDs: ""},
+            dataType: 'html',
+            success:function (viewModel) {
+                console.log("All");
+                $('#cardContainer').html(viewModel);
+            }
+        });
+       
 
         $('#countries li a input[type=checkbox]').click(function (e) {
             var CountryId = $(this).val();
@@ -803,6 +632,7 @@
                 
             }
         });
+
         
     }
 

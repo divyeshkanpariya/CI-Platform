@@ -25,7 +25,8 @@ namespace CI_Platform.Controllers
         {
             if(HttpContext.Session.GetString("UserName") != null)
             {
-                var data = _missionListingDb.GetAllData();
+                string CountryIDs = "";
+                var data = _missionListingDb.GetAllData(CountryIDs);
                 return View(data);
             }else
             {
@@ -34,6 +35,14 @@ namespace CI_Platform.Controllers
                 return RedirectToAction("Login", "Auth");
             }
             
+        }
+        [HttpPost]
+        public IActionResult GetCards(string CountryIDs)
+        {
+            
+            var data = _missionListingDb.GetAllData(CountryIDs);
+            
+            return PartialView("Cards", data);
         }
         public IActionResult getAllCities()
         {

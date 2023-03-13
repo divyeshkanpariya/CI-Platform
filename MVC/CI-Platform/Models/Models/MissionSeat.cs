@@ -15,11 +15,11 @@ public partial class MissionSeat
 
     public int? SeatsFilled { get; set; }
 
-    public DateTime CreatedTime { get; set; }
+    public DateTime CreatedAt { get; set; }
 
-    public DateTime? UpdatedTime { get; set; }
+    public DateTime? UpdatedAt { get; set; }
 
-    public DateTime? DeletedTime { get; set; }
+    public DateTime? DeletedAt { get; set; }
 
     public virtual Mission Mission { get; set; } = null!;
 }
