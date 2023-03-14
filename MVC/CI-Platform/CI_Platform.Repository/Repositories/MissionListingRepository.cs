@@ -49,7 +49,7 @@ namespace CI_Platform.Repository.Repositories
         }
           
         
-        public MissionListingViewModel GetAllData(string Countryids)
+        public MissionListingViewModel GetAllData(string Countryids, string Cityids, string Themeids, string Skillids, string Sortby)
         {
             
 
@@ -64,6 +64,11 @@ namespace CI_Platform.Repository.Repositories
                 command.CommandType = CommandType.StoredProcedure;
 
                 command.Parameters.Add("@my_array", SqlDbType.VarChar).Value = Countryids;
+                command.Parameters.Add("@city_ids", SqlDbType.VarChar).Value = Cityids;
+                command.Parameters.Add("@theme_ids", SqlDbType.VarChar).Value = Themeids;
+                command.Parameters.Add("@skill_ids", SqlDbType.VarChar).Value = Skillids;   
+                command.Parameters.Add("@sortby", SqlDbType.VarChar).Value = Sortby;
+
 
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
 

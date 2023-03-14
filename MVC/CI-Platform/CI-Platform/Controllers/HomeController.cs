@@ -26,7 +26,12 @@ namespace CI_Platform.Controllers
             if(HttpContext.Session.GetString("UserName") != null)
             {
                 string CountryIDs = "";
-                var data = _missionListingDb.GetAllData(CountryIDs);
+                string CityIDs = "";
+                string ThemeIDs = "";
+                string SkillIDs = "";
+                string SortBy = "1";
+
+                var data = _missionListingDb.GetAllData(CountryIDs, CityIDs, ThemeIDs, SkillIDs, SortBy);
                 return View(data);
             }else
             {
@@ -37,13 +42,14 @@ namespace CI_Platform.Controllers
             
         }
         [HttpPost]
-        public IActionResult GetCards(string CountryIDs)
+        public IActionResult GetCards(string CountryIDs,string CityIDs,string ThemeIDs,string SkillIDs,string SortBy)
         {
             
-            var data = _missionListingDb.GetAllData(CountryIDs);
+            var data = _missionListingDb.GetAllData(CountryIDs, CityIDs, ThemeIDs, SkillIDs, SortBy);
             
             return PartialView("Cards", data);
         }
+
         public IActionResult getAllCities()
         {
             IEnumerable<City> cities = _Cities.GetAll();

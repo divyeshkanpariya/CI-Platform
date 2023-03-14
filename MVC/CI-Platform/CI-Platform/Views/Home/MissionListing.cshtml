@@ -33,7 +33,7 @@
                             <li><a class="dropdown-item" href="#">Something else here</a></li>*@
                         </ul>
                     </div>
-                    <li class="nav-item col-md-3 filter-item dropdown d-flex align-items-center justify-content-center">
+                    <li class="nav-item col-md-3 filter-item dropdown d-flex align-items-center justify-content-center" id="cityfinal">
                         <a class="nav-link dropdown-toggle text-dark header-text" data-bs-toggle="dropdown" aria-expanded="false" id="citiesMenu">
                             <span>City</span>
                             <img src="~/images/drop-down.png" class="mx-2 dropdown-img" alt="">
@@ -116,17 +116,32 @@
             <h2> 72 Missions</h2>
         </div>
         <div class="col-sm-6 d-flex  align-items-center justify-content-end" style="padding-right:0px;">
-            <div class="dropdown mx-3">
+            <select class="mx-3 px-2 py-1 sort-by-dd text-wrap" id="sortBy">
+                <option value='1'>Newest</option>
+                <option value='2'>Oldest</option>
+                <option value='3'>Lowest available seats</option>
+                <option value='4'>Highest available seats</option>
+                <option value='5'>My favourites</option>
+                <option value='6'>Registration Deadline</option>
+                
+            </select>
+            @*<div class="dropdown mx-3">
                 <a class="dropdown-toggle sort-by-dd text-dark text-decoration-none d-flex justify-content-between align-items-center px-2" data-bs-toggle="dropdown" aria-expanded="false">
                     <span>Sort By</span>
                     <img src="~/images/drop-down.png" class="mx-2 dropdown-img" alt="">
                 </a>
-                <ul class="dropdown-menu dropdown-menu-sm-end">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something</a></li>
+                
+                <ul class="dropdown-menu dropdown-menu-sm-end" >
+                    
+
+                    <li><a class="dropdown-item" >Newest</a></li>
+                    <li><a class="dropdown-item" href="#">Oldest</a></li>
+                    <li><a class="dropdown-item" href="#">Lowest available seats</a></li>
+                    <li><a class="dropdown-item" href="#">Highest available seats</a></li>
+                    <li><a class="dropdown-item" href="#">My favourites</a></li>
+                    <li><a class="dropdown-item" href="#">Registration Deadline</a></li>
                 </ul>
-            </div>
+            </div>*@
             <div>
                 <button id="gridButton" class="btn-grid"><img src="~/images/grid.png" /></button>
                 <button id="listButton" class="btn-list"><img src="~/images/list.png" /></button>
@@ -184,195 +199,60 @@
 </div>
 
 <script>
-    //$(document).on('load',function(){
-    //    console.log("sdff");
-    //    var x = $('$countries:first-child li a input');
-    //});
-    
-    //$('#citiesMenu').on('click', function () {
-    //    async function ll() {
-    //    var x =  $('#countries').find('li a input[type=checkbox]:checked');
-    //    var y = $('#cities').find('li a input[type=checkbox]');
-    //    //$(document).ready(function () {
-            
-    //    //});
-        
+   
 
-        
-    //    if(x.length == 0 && y.length == 0){
-    //        console.log("df");
-    //        $.ajax({
-    //            url: '/Home/getAllCities',
-    //            type: 'GET',
-    //            data: { },
-    //            dataType: 'json',
-    //            success: function (data) {
-                    
-    //                var cities = $('#cities');
-    
-    //                $.each(data,function (i, item) {
-    //                    var li = document.createElement('li');
+        function updateFilters() {
+            var selectedCountries = $('#countries li a input[type=checkbox]:checked').map(function () {
+                        return {
+                            name : this.name,
+                            id : this.value
+                        };
+                    });
+                    //console.log(selectedCountries);
 
-    //                    var anc = document.createElement('a');
-    //                    anc.classList.add("dropdown-item");
+            var selectedCities = $('#cities li a input[type=checkbox]:checked').map(function () {
+                return {
+                    name: this.name,
+                    id: this.value
+                };
+            });
+            //console.log(selectedCities);
 
-    //                    var inp = document.createElement('input');
-    //                    inp.type = "checkbox";
-    //                    inp.id = item.name.replaceAll(' ', '');
-    //                    inp.value = item.cityId;
-    //                    inp.classList.add("me-2");
-                        
+            var selectedTheme = $('#themes li a input[type=checkbox]:checked').map(function () {
+                return {
+                    name: this.name,
+                    id: this.value
+                };
+            });
+            //console.log(selectedtheme);
 
-    //                    var lable = document.createElement('lable');
-    //                    lable.classList.add("form-check-label");
-    //                    lable.setAttribute("for", item.name.replaceAll(' ', ''));
-    //                    lable.innerHTML = item.name;
+            var selectedSkill = $('#skills li a input[type=checkbox]:checked').map(function () {
+                return {
+                    name: this.name,
+                    id: this.value
+                };
+            });
+            //console.log(selectedskill);
+            var filters = $('#selectedFilters');
+            filters.empty();
+            addSelected(selectedCountries);
+            addSelected(selectedCities);
+            addSelected(selectedTheme);
+            addSelected(selectedSkill);
 
-    //                    anc.appendChild(inp);
-    //                    $(inp).after($(lable));
-    //                    li.appendChild(anc);
-                        
-    //                    cities.append(li);
-    //                    //cities.append(items);
-    //                 //items += `<li><a class="dropdown-item"><input type="checkbox" class="me-2" id=` + item.name.replaceAll(' ', '') + ` value=` + item.cityId + `><label class="form-check-label" for="exampleCheck1" >` + item.name + `</label></li>`;
-    //                });
-    //                //console.log(cities);
-                    
-    //                ////cities.html(items);
-    //            }
-    //        });
-    //    }
-    //    }
-    //    ll().then(() => {
-    //        console.log("dffffff");
-    //        //var x = $('#countries').find('li a input[type=checkbox]:checked');
-    //        console.log($('#cities').find('li a input[type=checkbox]').length);
-    //        var y = $('#cities').find('li a input[type=checkbox]');
-    //        if (y.length != 0) {
-    //            console.log($('#cities').find('li a input[type=checkbox]').length);
-                    
-    //            fl(x);
-    //        }
-
-    //    });
-    //});
-    //function fl(){
-
-        //$('#cities li a input[type=checkbox]').click(function (e) {
-        //    console.log(e);
-        //});
-    //}
-
-    
-    //$('input[type=checkbox]').on("click", function (e) {
-        
-    //    if (e.currentTarget.checked) {
-    //        var x = e.target.parentElement.lastChild.innerHTML;
-            
-
-    //        var main = document.createElement('div');
-    //        main.classList.add("field", "col-auto", "py-1", "mb-3", "px-3");
-    //        main.id = e.target.value + "1";
-
-    //        var sname = document.createElement('span');
-    //        sname.classList.add("field-text");
-    //        sname.innerHTML = x;
-
-
-    //        var img = $('<img />', {
-    //            class: 'ps-2',
-    //            src: '/images/cancel.png',
-    //            alt: 'MyAlt'
-    //        });
-
-    //        main.appendChild(sname);
-    //        img.appendTo(sname);
-    //        document.getElementById("clearAll").style.display = "block";
-    //        $(main).insertBefore('#clearAll');
-    //    } else {
-    //        var tag = document.getElementById(e.target.value + "1");
-    //        tag.parentNode.removeChild(tag);
-    //        //var total=$(this).find('input[type=checkbox]:checked').length;
-    //        //console.log(length);
-    //        //if(length == 0){
-    //        //    document.getElementById("clearAll").style.display = "none";
-    //        //}
-    //    }
-        
-
-    //});
-    
-    //$(document).change(function(){
-    //    var selectedcountries = $('#countries li a input[type=checkbox]:checked').map(function(){
-    //        return this.name;
-    //    }).get().join();
-    //    console.log(selectedcountries);
-    //    function showfilters(element,selectedcountries){
-    //        $('#selectedfilters #'+element).remove();
-    //    }
-        
-    //});
-
-    //$(document).load(function(){
-    //    var x = $('#cities').find().length;
-    //    console.log(x);
-    //    if(x == 0){
-    //        console.log("sdes");
-    //    }
-    //});
-
-    function updateFilters() {
-        var selectedCountries = $('#countries li a input[type=checkbox]:checked').map(function () {
-                    return {
-                        name : this.name,
-                        id : this.value
-                    };
-                });
-                //console.log(selectedCountries);
-
-        var selectedCities = $('#cities li a input[type=checkbox]:checked').map(function () {
-            return {
-                name: this.name,
-                id: this.value
-            };
-        });
-        //console.log(selectedCities);
-
-        var selectedTheme = $('#themes li a input[type=checkbox]:checked').map(function () {
-            return {
-                name: this.name,
-                id: this.value
-            };
-        });
-        //console.log(selectedtheme);
-
-        var selectedSkill = $('#skills li a input[type=checkbox]:checked').map(function () {
-            return {
-                name: this.name,
-                id: this.value
-            };
-        });
-        //console.log(selectedskill);
-        var filters = $('#selectedFilters');
-        filters.empty();
-        addSelected(selectedCountries);
-        addSelected(selectedCities);
-        addSelected(selectedTheme);
-        addSelected(selectedSkill);
-
-        var clearall = document.createElement("a");
-        clearall.id = "clearALl";
-        clearall.classList.add("field-text","my-1","col-auto");
-        clearall.style.textDecoration = "none";
-        clearall.innerHTML = "Clear All";
-        clearall.onclick = clearAll;
+            var clearall = document.createElement("a");
+            clearall.id = "clearALl";
+            clearall.classList.add("field-text","my-1","col-auto");
+            clearall.style.textDecoration = "none";
+            clearall.innerHTML = "Clear All";
+            clearall.onclick = clearAll;
         
         
-        if ($('#selectedFilters').find('div').length != 0) {
-            filters.append(clearall);
+            if ($('#selectedFilters').find('div').length != 0) {
+                filters.append(clearall);
+            }
+
         }
-
-    }
     
     function addSelected(selected){
         selected.each(function(){
@@ -401,120 +281,14 @@
             filters.append(main);
         });
     }
-    $(document).change(function(){
-        var selectedCountries = $('#countries li a input[type=checkbox]:checked').map(function () {
-            return {
-                name: this.name,
-                id: this.value
-            };
-        });
-        var selectedCountryID = $('#countries li a input[type=checkbox]:checked').map(function () {
-            return this.value;
-            
-        }).get().join();
-        var selectedCities = $('#cities li a input[type=checkbox]:checked').map(function () {
-            return {
-                name: this.name,
-                id: this.value
-            };
-        });
-        console.log(selectedCountryID);
-        $.ajax({
-            url: '/Home/GetCards',
-            type: 'POST',
-            data: {CountryIDs: selectedCountryID },
-            dataType: 'html',
-            success:function (viewModel) {
-                //console.log(viewModel);
-                
-                $('#cardContainer').html(viewModel);
-            }
-        });
-        //$('#missionContainer div').find('#passMissionCard #card').each(function () {
-            
-        //    var currCity = $(this).find('#passCity').text();
-        //    var currCountry = $(this).find('#passCountry').text();
-        //    var currTheme = $(this).find('#PassMissionTheme').text();
-
-
-        //    if(selectedCountries.length == 0 && selectedCities.length == 0){
-        //         $(this).closest('#passMissionCard').show();
-        //    }
-        //    else if(selectedCountries.length == 0 && selectedCities.length != 0){
-        //        if (minOneSelected(selectedCities) == true){
-        //            if (matchCountry(currCity, selectedCities) != true) {
-        //                //console.log("not matched");
-        //                $(this).closest('#passMissionCard').hide();
-        //            } else {
-        //                //console.log($(this).closest('#passMissionCard'));
-        //                $(this).closest('#passMissionCard').show();
-        //            }
-        //        }
-        //    }else if(selectedCountries.length != 0 && selectedCities.length == 0){
-        //        if (minOneSelected(selectedCountries) == true){
-        //            if (matchCountry(currCountry, selectedCountries) != true) {
-        //                //$(this).hide();
-        //                $(this).closest('#passMissionCard').hide();
-        //                //console.log($(this).closest('#passMissionCard'));
-        //            } else {
-
-        //                $(this).closest('#passMissionCard').show();
-        //            }
-        //        }
-        //    }
-        //    else{
-        //        if (minOneSelected(selectedCountries) == true){
-        //            if (matchCountry(currCountry, selectedCountries) != true) {
-        //                //$(this).hide();
-        //                $(this).closest('#passMissionCard').hide();
-        //                //console.log($(this).closest('#passMissionCard'));
-        //            } else {
-
-        //                $(this).closest('#passMissionCard').show();
-        //            }
-        //        }
-            
-        //        //console.log(currCity);
-        //        //console.log(selectedCities.length);
-        //        if (minOneSelected(selectedCities) == true){
-        //            if (matchCountry(currCity, selectedCities) != true) {
-        //                //console.log("not matched");
-        //                $(this).closest('#passMissionCard').hide();
-        //            } else {
-        //                //console.log($(this).closest('#passMissionCard'))
-        //                $(this).closest('#passMissionCard').show();
-        //            }
-        //        }
-        //    }
-                        
-        //});
-        
-        updateFilters();
-     
-    });
-    function minOneSelected(selected){
-        if(selected.length !=0){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    function matchCountry(currCountry, selectedCountries){
-        
-        for(var item of selectedCountries){
-            if(item.name == currCountry){
-                return true;
-            }
-        }
-         return false;  
-        
-    }
+    
+ 
     $(document).ready(function () {
         
         $.ajax({
             url: '/Home/GetCards',
             type: 'POST',
-            data: {CountryIDs: ""},
+            data: {CountryIDs: "", CityIDs: "",ThemeIDs: "",SkillIds: "",SortBy: "1"},
             dataType: 'html',
             success:function (viewModel) {
                 console.log("All");
@@ -541,8 +315,8 @@
                         if($('#countries').find('li a input[type=checkbox]:checked').length == 1){
                             cities.empty();
                         }
-                        //cities.empty();
-                        //var items = "";
+                        //cities.empty();   
+                        var items = "";
                         $.each(data, function (i, item) {
                             var li = document.createElement('li');
 
@@ -567,10 +341,13 @@
                             li.appendChild(anc);
 
                             cities.append(li);
-                            //items += `<li><a class="dropdown-item"><input type="checkbox" class="me-2" id=` + item.name.replaceAll(' ', '') + ` value=` + item.cityId + `><label class="form-check-label" for="exampleCheck1" >` + item.name + `</label></li>`
+                            //items += `<li><a class="dropdown-item"><input type="checkbox" name=`+ item.name.replaceAll(' ','') +` class="me-2" id=` + item.name.replaceAll(' ', '') + ` value=` + item.cityId + `><label class="form-check-label" for=`+ item.name.replaceAll(' ', '') +` >` + item.name + `</label></li>`
                             
-                        });                        
-                        //selectCities();                        
+                        });
+                        
+                        //console.log(items);
+                        //cities.html(items);
+                        applyFilter();
                     }
                 });
                 
@@ -589,52 +366,138 @@
                             console.log(id);
                             $(id).parent().parent().remove();
                         });
-
+                        applyFilter();
                     }
                 });
             }
             
-        });
-    });
-    function selectCities(){
-        $('#cities li a input[type=checkbox]').one('click',function (e) {
             
+        });
 
-            if(e.currentTarget.checked){
+        $('#cityfinal').change(function (e){
+            console.log('ccc');
+            applyFilter();
+        });
+
+        $('#themes li a input[type=checkbox]').click(function (e){
+            console.log("thc");
+            applyFilter();
+        });
+
+        $('#skills li a input[type=checkbox]').click(function (e){
+            applyFilter();
+        });
+        $('#sortBy').change(function(){
+            applyFilter()
+            console.log($(this).val());
+        });
+   
+    });
+    function applyFilter(){
+        var selectedCountryID = $('#countries li a input[type=checkbox]:checked').map(function () {return this.value;}).get().join();
+        
+        var selectedCityID = $('#cities li a input[type=checkbox]:checked').map(function () {return this.value;}).get().join();
+
+        var selectedThemeID = $('#themes li a input[type=checkbox]:checked').map(function () {return this.value;}).get().join();
+
+        var selectedSkillID = $('#skills li a input[type=checkbox]:checked').map(function () {return this.value;}).get().join();
+
+        var selectedSort = $('#sortBy').map(function(){return this.value;}).get().join();
+
+        if(selectedCityID == "") {
+            selectedCityID = $('#cities li a input[type=checkbox]').map(function () {
+                return this.value;
+            }).get().join();
+        }
+        
+        if(selectedCountryID == ""){
+            console.log("executed");
+            selectedCountryID = $('#countries li a input[type=checkbox]').map(function () {
+                return this.value;    
+            }).get().join();
+        }
+
+        if(selectedThemeID == ""){
+            selectedThemeID = $('#themes li a input[type=checkbox]').map(function () {
+                return this.value;
+            }).get().join();
+        }
+
+        if(selectedSkillID == ""){
+            selectedSkillID = $('#themes li a input[type=checkbox]').map(function () {
+                return this.value;
+            }).get().join();
+        }
+        console.log(selectedCountryID);
+        console.log(selectedCityID);
+        console.log(selectedThemeID);
+        console.log(selectedSkillID);
+        console.log(selectedSort);
+
+
+        $.ajax({
+            url: '/Home/GetCards',
+            type: 'POST',
+            data: {CountryIDs: selectedCountryID,
+            CityIDs: selectedCityID,
+            ThemeIDs: selectedThemeID,
+            SkillIds: selectedSkillID,
+            SortBy: selectedSort},
+            dataType: 'html',
+            success:function (viewModel) {
+                //console.log(viewModel);
                 
-                console.log(e.target.id);
-                console.log($('#cities li a').find(e.id).length);
-                //var x = await P
-                if($('#cities li a').find(e.target.id).length == 0){
-                    var x = e.target.parentElement.lastChild.innerHTML;
-
-
-                    var main = document.createElement('div');
-                    main.classList.add("field", "col-auto", "py-1", "mb-3", "px-3");
-                    main.id = e.target.value + "1";
-
-                    var sname = document.createElement('span');
-                    sname.classList.add("field-text");
-                    sname.innerHTML = x;
-
-
-                    var img = $('<img />', {
-                        class: 'ps-2',
-                        src: '/images/cancel.png',
-                        alt: 'MyAlt'
-                    });
-
-                    main.appendChild(sname);
-                    img.appendTo(sname);
-                    document.getElementById("clearAll").style.display = "block";
-                    $(main).insertBefore('#clearAll');
-                }
-                
+                $('#cardContainer').html(viewModel);
             }
         });
+        
+        
+        updateFilters();
+    }
+
+    //$('#addToFavourite').click(function(){
+    //    console.log("add to fav");
+    //});
+
+    //function selectCities(){
+    //    $('#cities li a input[type=checkbox]').one('click',function (e) {
+            
+
+    //        if(e.currentTarget.checked){
+                
+    //            console.log(e.target.id);
+    //            console.log($('#cities li a').find(e.id).length);
+    //            //var x = await P
+    //            if($('#cities li a').find(e.target.id).length == 0){
+    //                var x = e.target.parentElement.lastChild.innerHTML;
+
+
+    //                var main = document.createElement('div');
+    //                main.classList.add("field", "col-auto", "py-1", "mb-3", "px-3");
+    //                main.id = e.target.value + "1";
+
+    //                var sname = document.createElement('span');
+    //                sname.classList.add("field-text");
+    //                sname.innerHTML = x;
+
+
+    //                var img = $('<img />', {
+    //                    class: 'ps-2',
+    //                    src: '/images/cancel.png',
+    //                    alt: 'MyAlt'
+    //                });
+
+    //                main.appendChild(sname);
+    //                img.appendTo(sname);
+    //                document.getElementById("clearAll").style.display = "block";
+    //                $(main).insertBefore('#clearAll');
+    //            }
+                
+    //        }
+    //    });
 
         
-    }
+    //}
 
     
 

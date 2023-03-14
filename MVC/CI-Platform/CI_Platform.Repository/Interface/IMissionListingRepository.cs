@@ -10,7 +10,7 @@ namespace CI_Platform.Repository.Interface
 {
     public interface IMissionListingRepository
     {
-        public MissionListingViewModel GetAllData(string CountryIDs);
+        public MissionListingViewModel GetAllData(string CountryIDs, string CityIDs, string ThemeIDs, string SkillIDs,string SortBy);
 
         public IEnumerable<City> getCityByCountry(long CountriesId);
     }
