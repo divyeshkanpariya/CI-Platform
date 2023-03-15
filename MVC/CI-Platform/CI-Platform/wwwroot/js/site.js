@@ -193,16 +193,8 @@ $('input[type=checkbox]').on("click", function () {
 */
 
 /*$('#selectedFilters').appendChild()*/
-function clearAll() {
-    console.log("clicked");
-    $('input[type=checkbox]:checked').each(function () {
-        console.log($(this));
-        //$(this).checked = false;
-        $(this).prop('checked', false);
-        $('#selectedFilters').empty();
 
-
-    });
-}
-
+//function addtofav() {
+//    console.log("XX");
+//}
 

@@ -6,12 +6,15 @@
 @using CI_Platform.Models.ViewModels
 @*@model CI_Platform.Models.ViewModels.MissionListingViewModel;*@
 @model CI_Platform.Models.ViewModels.MissionListingViewModel
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css'>
 
+<p style="display:none" name="@Model.MissionCards.Count()" id="missionCo">@Model.MissionCards.Count()</p>
 @foreach (var item in Model.MissionCards)
         {
             
             <div class="col-12 col-md-6 col-lg-4" id="passMissionCard">
                 <div class="card" id="card">
+                    
                     <p style="display:none;" id="PassMissionTheme" name="@item.Theme">@item.Theme</p>
                     <div id="passMissionSkills" style="display:none;">
                         
@@ -31,11 +34,13 @@
                             <img src="~/images/pin.png" />
                             <span>@item.City</span>
                         </div>
-
-                        <div class="add-favourite over-buttons" id="addToFavourite">
+                        
+                        <button class="add-favourite over-buttons" id="addToFavourite" onclick="addtofav(@item.MissionId)">
+                            <i class="bi bi-heart favourite text-white"></i>
                             
-                            <img src="~/images/heart.png" />
-                        </div>
+                            <i class="bi bi-heart-fill favourite text-danger"></i>
+                            @*<img src="~/images/heart.png"/>*@
+                        </button>
                         <div class="square over-buttons">
                             <img src="~/images/user.png" />
                         </div>
@@ -103,7 +108,7 @@
                                             <p class="enrol-time px-3 pt-1">Until @item.EndDate.ToString().Substring(0,10)</p>
 
                                         }
-                                        }
+                                    }
                                     else
                                     {
                                         @if(item.GoalObjectiveText != null)

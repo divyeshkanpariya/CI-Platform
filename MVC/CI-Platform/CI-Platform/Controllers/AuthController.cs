@@ -48,7 +48,9 @@ namespace CI_Platform.Controllers
                 if (userFromDB)
                 {
                     string username = _LoginDb.getUserName(data.Email);
+                    long userid = _LoginDb.getUserId(data.Email);
                     HttpContext.Session.SetString("UserName", username);
+                    HttpContext.Session.SetString("UserId", Convert.ToString(userid));
                     return RedirectToAction("MissionListing", "Home");
                 }
                 else

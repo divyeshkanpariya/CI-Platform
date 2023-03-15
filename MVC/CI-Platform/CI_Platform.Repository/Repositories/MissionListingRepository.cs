@@ -26,12 +26,13 @@ namespace CI_Platform.Repository.Repositories
         private readonly IRepository<MissionSeat> _MissionSeats;
         private readonly IRepository<GoalMission> _Goals;
         private readonly IRepository<MissionSkill> _MissionSkills;
+        private readonly IRepository<FavoriteMission> _FavoriteMissions;
         
 
         private readonly IMissionCardRepository _MissionCard;
 
 
-        public MissionListingRepository(CiPlatformContext db,IRepository<City> cityList, IRepository<Country> countryList, IRepository<MissionTheme> ThemeList, IRepository<Skill> SkillList, IRepository<Mission> MissionList, IRepository<MissionMedium> MissionMedia, IRepository<MissionMedium> missionMedia,IMissionCardRepository MissionCard,IRepository<MissionRating> missionRating,IRepository<MissionSeat> MissionSeats,IRepository<GoalMission> Goals,IRepository<MissionSkill> MissionSkills)
+        public MissionListingRepository(CiPlatformContext db,IRepository<City> cityList, IRepository<Country> countryList, IRepository<MissionTheme> ThemeList, IRepository<Skill> SkillList, IRepository<Mission> MissionList, IRepository<MissionMedium> MissionMedia, IRepository<MissionMedium> missionMedia,IMissionCardRepository MissionCard,IRepository<MissionRating> missionRating,IRepository<MissionSeat> MissionSeats,IRepository<GoalMission> Goals,IRepository<MissionSkill> MissionSkills,IRepository<FavoriteMission> FavouriteMissions)
         {
             _db = db;
             _CityList = cityList;
@@ -45,11 +46,30 @@ namespace CI_Platform.Repository.Repositories
             _MissionSeats = MissionSeats;
             _Goals = Goals;
             _MissionSkills= MissionSkills;
+            _FavoriteMissions = FavouriteMissions;
+        }
+        public void AddToFavourite(long MissionId,long UserId)
+        {
+            var isfav = _FavoriteMissions.GetAll().Any(u=>u.MissionId == MissionId && u.UserId == UserId);
+            if(isfav == false)
+            {
+                var addfav = new FavoriteMission
+                {
+                    MissionId = MissionId,
+                    UserId = UserId,
+                };
+                _FavoriteMissions.AddNew(addfav);
+                _FavoriteMissions.Save();
+            }else
+            {
+                var field = _FavoriteMissions.GetFirstOrDefault(u=>u.UserId == UserId && u.MissionId == MissionId);
+                _FavoriteMissions.DeleteField(field);
+                _FavoriteMissions.Save();
+            }
             
         }
-          
-        
-        public MissionListingViewModel GetAllData(string Countryids, string Cityids, string Themeids, string Skillids, string Sortby)
+
+        public MissionListingViewModel GetAllData(string Countryids, string Cityids, string Themeids, string Skillids, string Sortby, string SearchText,string UserId)
         {
             
 
@@ -68,6 +88,8 @@ namespace CI_Platform.Repository.Repositories
                 command.Parameters.Add("@theme_ids", SqlDbType.VarChar).Value = Themeids;
                 command.Parameters.Add("@skill_ids", SqlDbType.VarChar).Value = Skillids;   
                 command.Parameters.Add("@sortby", SqlDbType.VarChar).Value = Sortby;
+                command.Parameters.Add("@searchtext", SqlDbType.VarChar).Value = SearchText;
+                command.Parameters.Add("@user_id", SqlDbType.VarChar).Value = UserId;
 
 
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
@@ -253,7 +275,12 @@ namespace CI_Platform.Repository.Repositories
                 }
                 
             }
-                
+            var pageindex = 1;
+            var pagesize = 3;
+            if(pageindex != null)
+            {
+                viewModel.MissionCards = viewModel.MissionCards.Skip((pageindex - 1) * pagesize).Take(pagesize).ToList();
+            }
             
             return viewModel;
 

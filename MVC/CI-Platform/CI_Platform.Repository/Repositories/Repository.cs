@@ -50,6 +50,11 @@ namespace CI_Platform.Repository.Repositories
             IQueryable<T> query = dbSet;
             return query.ToList();
         }
+
+        public void DeleteField(T entity)
+        {
+            dbSet.Remove(entity);
+        }
     }
 
 }

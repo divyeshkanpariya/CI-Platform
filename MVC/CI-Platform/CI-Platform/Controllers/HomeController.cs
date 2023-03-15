@@ -30,8 +30,9 @@ namespace CI_Platform.Controllers
                 string ThemeIDs = "";
                 string SkillIDs = "";
                 string SortBy = "1";
-
-                var data = _missionListingDb.GetAllData(CountryIDs, CityIDs, ThemeIDs, SkillIDs, SortBy);
+                string SearchText = "";
+                string UserId = HttpContext.Session.GetString("UserId");
+                var data = _missionListingDb.GetAllData(CountryIDs, CityIDs, ThemeIDs, SkillIDs, SortBy,SearchText,UserId);
                 return View(data);
             }else
             {
@@ -42,14 +43,35 @@ namespace CI_Platform.Controllers
             
         }
         [HttpPost]
-        public IActionResult GetCards(string CountryIDs,string CityIDs,string ThemeIDs,string SkillIDs,string SortBy)
+        public IActionResult GetCards(string CountryIDs,string CityIDs,string ThemeIDs,string SkillIDs,string SortBy,string SearchText)
         {
-            
-            var data = _missionListingDb.GetAllData(CountryIDs, CityIDs, ThemeIDs, SkillIDs, SortBy);
+            if(SearchText == null)
+            {
+                SearchText = "";
+            }
+            if(CityIDs == null)
+            {
+                var citys = _Cities.GetAll();
+                string citystr = "";
+                foreach(var city in citys)
+                {
+                    citystr += city.CityId.ToString();
+                    citystr += ",";
+                }
+                citystr = citystr.Substring(0, citystr.Length - 2);
+                CityIDs = citystr;
+            }
+            string UserId = HttpContext.Session.GetString("UserId");
+            var data = _missionListingDb.GetAllData(CountryIDs, CityIDs, ThemeIDs, SkillIDs, SortBy,SearchText,UserId);
             
             return PartialView("Cards", data);
         }
-
+        public IActionResult AddToFavourite(long MissionId)
+        {
+            long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+            _missionListingDb.AddToFavourite(MissionId,UserId);
+            return Json(MissionId,UserId);
+        }
         public IActionResult getAllCities()
         {
             IEnumerable<City> cities = _Cities.GetAll();

@@ -20,6 +20,8 @@ namespace CI_Platform.Repository.Interface
         void Update(T entity);
 
         void Save();
+        
+        public void DeleteField(T entity);
        
     }
 }

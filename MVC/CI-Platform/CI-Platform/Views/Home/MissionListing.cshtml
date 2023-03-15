@@ -113,7 +113,7 @@
     <div class="row justify-content-between px-4 align-items-center pb-4">
         <div class="col-sm-6 d-flex">
             <p style="font-size:24px;">Explore </p>&nbsp;
-            <h2> 72 Missions</h2>
+            <h2 id="missionCount">@Model.Missions.Count() Missions</h2>
         </div>
         <div class="col-sm-6 d-flex  align-items-center justify-content-end" style="padding-right:0px;">
             <select class="mx-3 px-2 py-1 sort-by-dd text-wrap" id="sortBy">
@@ -288,7 +288,7 @@
         $.ajax({
             url: '/Home/GetCards',
             type: 'POST',
-            data: {CountryIDs: "", CityIDs: "",ThemeIDs: "",SkillIds: "",SortBy: "1"},
+            data: {CountryIDs: "", CityIDs: "",ThemeIDs: "",SkillIds: "",SortBy: "1",SearchText:""},
             dataType: 'html',
             success:function (viewModel) {
                 console.log("All");
@@ -366,7 +366,14 @@
                             console.log(id);
                             $(id).parent().parent().remove();
                         });
-                        applyFilter();
+                        if($('#cities li').map(function(){return this}).get().join().length == 0){
+                            console.log('getall');
+                            $.when(getAllCities()).then(applyFilter());
+                            
+                        }else{
+                            applyFilter();
+                        }
+                            
                     }
                 });
             }
@@ -375,12 +382,12 @@
         });
 
         $('#cityfinal').change(function (e){
-            console.log('ccc');
+            //console.log('ccc');
             applyFilter();
         });
 
         $('#themes li a input[type=checkbox]').click(function (e){
-            console.log("thc");
+            //console.log("thc");
             applyFilter();
         });
 
@@ -388,11 +395,79 @@
             applyFilter();
         });
         $('#sortBy').change(function(){
-            applyFilter()
-            console.log($(this).val());
+            applyFilter();
+            //console.log($(this).val());
+        });
+
+        $('#search').blur(function(){
+            applyFilter();
+        });
+
+        $('#paginationContainer div a').click(function (e){
+            $('#paginationContainer div a').each(function(){
+                //console.log(this.classList);
+                var x = $(this);
+                if(x.hasClass('active')){
+                    x.removeClass('active');
+                }
+            });
+            e.target.classList.add('active');
         });
    
     });
+    function getAllCities() {
+        $.ajax({
+            url: '/Home/getAllCities',
+            type: 'GET',
+            data: { },
+            dataType: 'json',
+            success: function (data) {
+                var cities = $('#cities');
+
+                //console.log("df");
+                $.each(data, function (i, item) {
+                    var li = document.createElement('li');
+
+                    var anc = document.createElement('a');
+                    anc.classList.add("dropdown-item");
+
+                    var inp = document.createElement('input');
+                    inp.type = "checkbox";
+                    inp.id = item.name.replaceAll(' ', '');
+                    inp.value = item.cityId;
+                    inp.name = item.name;
+                    inp.classList.add("me-2");
+
+
+                    var lable = document.createElement('lable');
+                    lable.classList.add("form-check-label");
+                    lable.setAttribute("for", item.name.replaceAll(' ', ''));
+                    lable.innerHTML = item.name;
+
+                            
+                    anc.appendChild(inp);
+                    $(inp).after($(lable));
+                    li.appendChild(anc);
+
+                            
+                    cities.append(li);
+                });
+                        
+            }
+        });
+    }
+    function clearAll() {
+        console.log("clicked");
+        $('input[type=checkbox]:checked').each(function () {
+            console.log($(this));
+            //$(this).checked = false;
+            $(this).prop('checked', false);
+            $('#selectedFilters').empty();
+
+            
+        });
+        //applyFilter();
+    }
     function applyFilter(){
         var selectedCountryID = $('#countries li a input[type=checkbox]:checked').map(function () {return this.value;}).get().join();
         
@@ -404,14 +479,17 @@
 
         var selectedSort = $('#sortBy').map(function(){return this.value;}).get().join();
 
+        var searchText = $('#search').map(function(){return this.value;}).get().join();
+        console.log(searchText);
+
         if(selectedCityID == "") {
             selectedCityID = $('#cities li a input[type=checkbox]').map(function () {
                 return this.value;
             }).get().join();
+            
         }
         
-        if(selectedCountryID == ""){
-            console.log("executed");
+        if(selectedCountryID == ""){        
             selectedCountryID = $('#countries li a input[type=checkbox]').map(function () {
                 return this.value;    
             }).get().join();
@@ -442,22 +520,36 @@
             CityIDs: selectedCityID,
             ThemeIDs: selectedThemeID,
             SkillIds: selectedSkillID,
-            SortBy: selectedSort},
+            SortBy: selectedSort,
+            SearchText: searchText},
             dataType: 'html',
             success:function (viewModel) {
                 //console.log(viewModel);
                 
                 $('#cardContainer').html(viewModel);
+                
             }
+            
         });
         
         
         updateFilters();
     }
-
-    //$('#addToFavourite').click(function(){
-    //    console.log("add to fav");
-    //});
+    function addtofav(missionid) {
+    
+    console.log(missionid);
+    $.ajax({
+            url: '/Home/AddToFavourite',
+            type: 'POST',
+            data: {MissionId: missionid},
+            dataType: 'json',
+            success:function (viewModel) {
+                console.log(viewModel);
+                
+                
+            }
+        });
+}
 
     //function selectCities(){
     //    $('#cities li a input[type=checkbox]').one('click',function (e) {

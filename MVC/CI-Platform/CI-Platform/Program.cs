@@ -20,6 +20,7 @@ builder.Services.AddScoped<IRepository<MissionRating>, Repository<MissionRating>
 builder.Services.AddScoped<IRepository<GoalMission>, Repository<GoalMission>>();
 builder.Services.AddScoped<IRepository<MissionSeat>, Repository<MissionSeat>>();
 builder.Services.AddScoped<IRepository<MissionSkill>, Repository<MissionSkill>>();
+builder.Services.AddScoped<IRepository<FavoriteMission>, Repository<FavoriteMission>>();
 
 builder.Services.AddScoped<ILostPasswordRepository, LostPasswordRepository>();
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
