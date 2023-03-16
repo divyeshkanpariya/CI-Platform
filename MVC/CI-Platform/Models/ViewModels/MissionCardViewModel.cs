@@ -39,6 +39,10 @@ namespace CI_Platform.Models.ViewModels
 
         public float? prArchivement { get; set; }
 
+        public bool? IsFavourite { get; set; } = false;
+
         public List<string> MissionSkills { get; set; }
+
+        public List<string> MissionMediaPaths { get; set; }
     }
 }

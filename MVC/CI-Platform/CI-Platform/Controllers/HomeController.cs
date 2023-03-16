@@ -13,13 +13,17 @@ namespace CI_Platform.Controllers
         private readonly CiPlatformContext _db;
         private readonly IMissionListingRepository _missionListingDb;
         private readonly IMissionCardRepository _MissionCard;
+        private readonly IVolunteeringMissionRepository _VolunteeringMission;
+        private readonly IFavouriteMission _FavouriteMissions;
         private readonly IRepository<City> _Cities;
-        public HomeController(CiPlatformContext db, IMissionListingRepository missionListingDb,IMissionCardRepository MissionCard,IRepository<City> Cities)
+        public HomeController(CiPlatformContext db, IMissionListingRepository missionListingDb,IMissionCardRepository MissionCard,IRepository<City> Cities,IVolunteeringMissionRepository volunteeringMission,IFavouriteMission FavouriteMissions)
         {
             _db = db;
             _missionListingDb = missionListingDb;
             _MissionCard = MissionCard;
             _Cities = Cities;
+            _VolunteeringMission = volunteeringMission;
+            _FavouriteMissions = FavouriteMissions;
         }
         public IActionResult MissionListing()
         {
@@ -31,8 +35,9 @@ namespace CI_Platform.Controllers
                 string SkillIDs = "";
                 string SortBy = "1";
                 string SearchText = "";
+                string PageIndex = "";
                 string UserId = HttpContext.Session.GetString("UserId");
-                var data = _missionListingDb.GetAllData(CountryIDs, CityIDs, ThemeIDs, SkillIDs, SortBy,SearchText,UserId);
+                var data = _missionListingDb.GetAllData(CountryIDs, CityIDs, ThemeIDs, SkillIDs, SortBy,SearchText,UserId,PageIndex);
                 return View(data);
             }else
             {
@@ -42,8 +47,9 @@ namespace CI_Platform.Controllers
             }
             
         }
+       
         [HttpPost]
-        public IActionResult GetCards(string CountryIDs,string CityIDs,string ThemeIDs,string SkillIDs,string SortBy,string SearchText)
+        public IActionResult GetCards(string CountryIDs,string CityIDs,string ThemeIDs,string SkillIDs,string SortBy,string SearchText,string PageIndex)
         {
             if(SearchText == null)
             {
@@ -62,31 +68,37 @@ namespace CI_Platform.Controllers
                 CityIDs = citystr;
             }
             string UserId = HttpContext.Session.GetString("UserId");
-            var data = _missionListingDb.GetAllData(CountryIDs, CityIDs, ThemeIDs, SkillIDs, SortBy,SearchText,UserId);
+            var data = _missionListingDb.GetAllData(CountryIDs, CityIDs, ThemeIDs, SkillIDs, SortBy,SearchText,UserId,PageIndex);
             
             return PartialView("Cards", data);
         }
         public IActionResult AddToFavourite(long MissionId)
         {
             long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
-            _missionListingDb.AddToFavourite(MissionId,UserId);
-            return Json(MissionId,UserId);
+            _FavouriteMissions.AddToFavourite(MissionId,UserId);
+            return Json(MissionId);
         }
+
         public IActionResult getAllCities()
         {
             IEnumerable<City> cities = _Cities.GetAll();
             Console.WriteLine(cities);
             return Json(cities);
         }
+
         public IActionResult getCityByCountry(long countryId)
         {
             var cities = _missionListingDb.getCityByCountry(countryId);
             return Json(cities);
         }
-        public IActionResult VolunteeringMission()
+
+
+        public IActionResult VolunteeringMission(long mid)
         {
-            return View();
+            MissionListingViewModel data = _VolunteeringMission.GetAllMissionData(mid);
+            return View(data);
         }
+
         public IActionResult StoryListing()
         {
             return View();

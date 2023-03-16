@@ -9,6 +9,8 @@
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css'>
 
 <p style="display:none" name="@Model.MissionCards.Count()" id="missionCo">@Model.MissionCards.Count()</p>
+<div class="container-fluid grid-container" id="missionContainer">
+    <div class="row" id="cardContainer">
 @foreach (var item in Model.MissionCards)
         {
             
@@ -26,6 +28,7 @@
                         }
                         
                     </div>
+                    @*@item.IsFavourite*@
                     <p id="passCity" style="display:none;">@item.City</p>
                     <p id="passCountry" style="display:none;">@item.Country</p>
                     <div class="card-img-div">
@@ -36,9 +39,16 @@
                         </div>
                         
                         <button class="add-favourite over-buttons" id="addToFavourite" onclick="addtofav(@item.MissionId)">
-                            <i class="bi bi-heart favourite text-white"></i>
-                            
-                            <i class="bi bi-heart-fill favourite text-danger"></i>
+                            @if(@item.IsFavourite == true)
+                            {
+                                <i class="bi bi-heart-fill favourite text-danger opacity-100" id="heartDef"></i>
+                                
+
+                            }else{
+                                
+                                <i class="bi bi-heart favourite text-white" id="heartDef"></i>
+                            }
+                             
                             @*<img src="~/images/heart.png"/>*@
                         </button>
                         <div class="square over-buttons">
@@ -193,13 +203,24 @@
                                 </div>
                             </div>
                             }
-
+                            
                             <div class="py-3 d-flex justify-content-center Apply-mission-btn-div">
-                                <button type="button" class="Apply-mission-btn">Apply <img src="~/images/right-arrow.png" /></button>
+                                @*<input type="hidden" value="@item.MissionId" asp-for ="">*@
+                                <a type="submit" class="Apply-mission-btn py-2 text-decoration-none" asp-controller="Home" asp-action="VolunteeringMission" asp-route-mid="@item.MissionId">Apply<img src="~/images/right-arrow.png" /></a>
                             </div>
+                            
                         </div>
 
                     </div>
                 </div>
             </div>
         }
+        
+    </div>
+
+</div>
+<script>
+    $('#heartDef').click(function(){
+        console.log("fav"); 
+    });
+</script>

@@ -1,6 +1,12 @@
 ﻿@{
     Layout = "Home_Layout";
 }
+@using CI_Platform.Models.ViewModels
+
+@model CI_Platform.Models.ViewModels.MissionListingViewModel
+@foreach(var item in Model.MissionCards)
+{
+
 
 <div class="container-fluid">
     <div class="row">
@@ -12,59 +18,87 @@
                     <!-- Sorry! Lightbox doesn't work - yet. -->
 
                     <div id="myCarousel" class="carousel px-0 slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="carousel-item carousel-img-div active" data-slide-number="0" style="max-height:625px ;">
-                                <img src="~/images/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-4.png" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/Pn6iimgM-wo/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
-                            </div>
-                            <div class="carousel-item" data-slide-number="1" style="max-height:625px;">
-                                <img src="~/images/img22.png" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/tXqVe7oO-go/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
-                            </div>
-                            <div class="carousel-item" data-slide-number="2" style="max-height:625px;">
-                                <img src="~/images/Grow-Trees-On-the-path-to-environment-sustainability-4.png" class=" d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/qlYQb7B9vog/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
-                            </div>
-                            <div class="carousel-item " data-slide-number="3" style="max-height:625px;">
-                                <img src="~/images/img2.png" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/QfEfkWk1Uhk/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
+                        <div class="carousel-inner" id= "carouselInnerDiv">
+                                @if (@item.MissionMediaPaths.Count != null)
+                                {
+                                    @for (var i=0;i<@item.MissionMediaPaths.Count;i++)
+                                    {
+                                        @if (i == 0)
+                                        {
+                                            <div class="carousel-item carousel-img-div active" data-slide-number="@i" style="max-height:625px ;">
+                                                <img src="@item.MissionMediaPaths[i]" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/Pn6iimgM-wo/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
+                                            </div>
+                                        }else{
+                                            <div class="carousel-item carousel-img-div" data-slide-number="@i" style="max-height:625px ;">
+                                                <img src="@item.MissionMediaPaths[i]" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/Pn6iimgM-wo/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
+                                            </div>
+                                        }
+
+                                    }
+                                }
+
+
                             </div>
 
                         </div>
-                    </div>
 
-                    <!-- Carousel Navigation -->
+                        <!-- Carousel Navigation -->
                     <div id="carousel-thumbs" class="carousel slide">
-                        <div class="carousel-inner h-100 w-100">
-                            <div class="carousel-item h-100 active">
-                                <div class="row mx-0 h-100">
-                                    <div id="carousel-selector-0" class="thumb col-3 h-100 px-1 pt-1 selected" data-target="#myCarousel" data-slide-to="0">
-                                        <img src="~/images/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-6.png" class="img-fluid w-100" alt="...">
-                                    </div>
-                                    <div id="carousel-selector-1" class="thumb col-3 px-1 pt-1" data-target="#myCarousel" data-slide-to="1">
-                                        <img src="~/images/img33.png" class="img-fluid w-100" alt="...">
-                                    </div>
-                                    <div id="carousel-selector-2" class="thumb col-3 px-1 pt-1" data-target="#myCarousel" data-slide-to="2">
-                                        <img src="~/images/Grow-Trees-On-the-path-to-environment-sustainability-5.png" class="img-fluid w-100" alt="...">
-                                    </div>
-                                    <div id="carousel-selector-3" class="thumb col-3 px-1 pt-1" data-target="#myCarousel" data-slide-to="3">
-                                        <img src="~/images/img3.png" class="img-fluid w-100" alt="...">
-                                    </div>
+                            <div class="carousel-inner h-100 w-100" id="carouselInnerDiv">
+                                
+                                   
+                                        @for(var j = 0; j < (@item.MissionMediaPaths.Count / 4)+1; j++)
+                                        {
+                                            var count = @item.MissionMediaPaths.Count;
+                                            var x = j*4;
+                                            if(x == 0){
+                                                <div class="carousel-item h-100 active">
+                                                    <div class="row mx-0 h-100">
+                                                        @for (var i = 0; i < 4; i++)
+                                                        {
+                                                            @if(count <= x)
+                                                            {
+                                                                break;
+                                                            }
+                                                            @if(x == 0)
+                                                            {
+                                                                <div id="carousel-selector-@x" class="thumb col-3 h-100 px-1 pt-1 selected" data-target="#myCarousel" data-slide-to="@x">
+                                                                    <img src="@item.MissionMediaPaths[x]" class="img-fluid w-100" alt="...">
+                                                                </div>
 
-                                </div>
-                            </div>
-                            <div class="carousel-item h-100">
-                                <div class="row mx-0 h-100">
-                                    <div id="carousel-selector-0" class="thumb col-3 h-100 px-1 pt-1 selected" data-target="#myCarousel" data-slide-to="0">
-                                        <img src="~/images/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-6.png" class="img-fluid w-100" alt="...">
-                                    </div>
-                                    <div id="carousel-selector-1" class="thumb col-3 px-1 pt-1" data-target="#myCarousel" data-slide-to="1">
-                                        <img src="~/images/img33.png" class="img-fluid w-100" alt="...">
-                                    </div>
-                                    <div id="carousel-selector-2" class="thumb col-3 px-1 pt-1" data-target="#myCarousel" data-slide-to="2">
-                                        <img src="~/images/Grow-Trees-On-the-path-to-environment-sustainability-5.png" class="img-fluid w-100" alt="...">
-                                    </div>
-                                    <div id="carousel-selector-3" class="thumb col-3 px-1 pt-1" data-target="#myCarousel" data-slide-to="3">
-                                        <img src="~/images/img3.png" class="img-fluid w-100" alt="...">
-                                    </div>
-                                </div>
-                            </div>
+                                                            }else{
+                                                                <div id="carousel-selector-@x" class="thumb col-3 h-100 px-1 pt-1" data-target="#myCarousel" data-slide-to="@x">
+                                                                    <img src="@item.MissionMediaPaths[x]" class="img-fluid w-100" alt="...">
+                                                                </div>
+                                                            }                                                           
+                                                            x++;
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="carousel-item h-100">
+                                                    <div class="row mx-0 h-100">
+                                                        @for (var i = 0; i < 4; i++)
+                                                        {
+                                                            @if(count <= x)
+                                                            {
+                                                                break;
+                                                            }
+                                                            <div id="carousel-selector-@x" class="thumb col-3 h-100 px-1 pt-1" data-target="#myCarousel" data-slide-to="@x">
+                                                                <img src="@item.MissionMediaPaths[x]" class="img-fluid w-100" alt="...">
+                                                            </div>
+                                                            x++;
+
+                                                        }
+                                                    </div>
+                                                </div>
+
+                                            }
+
+                                        }
+
                         </div>
                         <a class="carousel-control-prev bg-black" href="#carousel-thumbs" role="button" data-slide="prev" style="width:25px;">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -82,14 +116,112 @@
 
         @* Details *@
         <div class="col-lg-6 mt-4">
-            <h3 class="card-title px-3">CSR initiative stands for coffee and farmer Equity</h3>
-            <p class="card-text px-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+            <h3 class="card-title px-3">@item.Title</h3>
+            <p class="card-text px-3">@item.ShortDescription</p>
             <div class="card-timing mt-5 px-3 ">
                 <div class=" d-flex justify-content-center">
-                    <p class="enrol-time px-3 pt-1">Plant 10,000 Trees</p>
+                    @if(item.MissionType == "Time")
+                    {
+                        @if (@item.IsOngoingActivity == true)
+                        {
+                            <p class="enrol-time px-3 pt-1">Ongoing Activity</p>
+
+                        }
+                        else if (@item.StartDate != null && @item.EndDate != null)
+                        {
+
+                                <p class="enrol-time px-3 pt-1">From @item.StartDate.ToString().Substring(0,10) until @item.EndDate.ToString().Substring(0,10)</p>
+
+                        }
+                        else if (@item.StartDate != null && @item.EndDate == null)
+                        {
+                            <p class="enrol-time px-3 pt-1">From @item.StartDate.ToString().Substring(0,10)</p>
+
+                        }
+                        else if (@item.StartDate == null && @item.EndDate != null)
+                        {
+                            <p class="enrol-time px-3 pt-1">Until @item.EndDate.ToString().Substring(0,10)</p>
+
+                        }
+                    }
+                    else
+                    {
+                        @if(item.GoalObjectiveText != null)
+                        {
+                            <p class="enrol-time px-3 pt-1">@item.GoalObjectiveText</p>
+                        }
+                    }
+                    @*<p class="enrol-time px-3 pt-1">Plant 10,000 Trees</p>*@
                 </div>
-                <div class="row justify-content-between">
-                    <div class="d-flex col-6 align-items-center justify-content-center">
+                <div class="d-flex justify-content-around">
+                    @if(@item.IsSeatDataFound ==true){
+                        @if(item.IsLimitedSeats == 1)
+                        {
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img class="timing-img" src="~/images/Seats-left.png" alt="" />
+                                <div>
+                                    <strong><p class="mb-0 card-timing-big">@item.SeatsLeft</p></strong>
+                                    <p class="card-text">Seats Left</p>
+                                </div>
+                            </div>
+                        }else if(item.IsLimitedSeats == 0)
+                        {
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img class="timing-img" src="~/images/Already-volunteered.png" alt="" />
+                                <div>
+                                    <strong><p class="mb-0 card-timing-big">@item.SeatsFilled</p></strong>
+                                    <p class="card-text">Already Volunteered</p>
+                                </div>
+                            </div>
+                        }
+                    }
+                                        
+                                    
+                                    
+                    @if(item.MissionType == "Go")
+                    {
+                        @if(item.GoalObjectiveText != null)
+                        {
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img class="timing-img" src="~/images/achieved.png" alt="" />
+                                <div>
+                                    <div class="progress" style="height: 10px;">
+                                        <div class="progress-bar" role="progressbar" style="width: @item.prArchivement%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <p class="card-text">@item.GoalArchived achived</p>
+                                </div>
+                            </div>
+                        }
+                                            
+                    }
+                    else
+                    {
+                        @if (@item.StartDate is not null)
+                        {
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img class="timing-img" src="~/images/deadline.png" alt="" />
+                                <div>
+
+                                    <strong><p class="mb-0 card-timing-big">@item.StartDate.ToString().Substring(0,10)</p></strong>
+                                    <p class="card-text">Deadline</p>
+
+
+                                </div>
+                            </div>
+                        }else{
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img class="timing-img" src="~/images/deadline.png" alt="" />
+                                <div>
+
+                                    <strong><p class="mb-0 card-timing-big">No Deadlines</p></strong>
+                                    <p class="card-text">Deadline</p>
+
+
+                                </div>
+                            </div>
+                        }
+                    }
+                    @*<div class="d-flex col-6 align-items-center justify-content-center">
                         <img class="timing-img" src="~/images/Seats-left.png" alt="" />
                         <div>
                             <p class="mb-0 card-timing-big"><strong>10</strong></p>
@@ -104,14 +236,22 @@
                             </div>
                             <p class="card-text">8000 achived</p>
                         </div>
-                    </div>
+                    </div>*@
                 </div>
             </div>
             <div class="row pb-4 px-2" style="border-bottom: 1px solid #E8E8E8;">
                 <div class="col-sm-6 pt-3">
-                    <button class="rec-btns">
-                        <img src="~/images/heart1.png" class="me-2" /><span>Add to favourite</span>
-                    </button>
+                        @if(@item.IsFavourite == true)
+                        {
+                            <button class="rec-btns favMission" id="AddToFavBtn" onclick="addtofav(@item.MissionId)">
+                                <img src="~/images/heart1.png" class="me-2" /><span>Remove from favourite</span>
+                            </button>
+                        }else{
+                            <button class="rec-btns" id="AddToFavBtn" onclick="addtofav(@item.MissionId)">
+                                <img src="~/images/heart1.png" class="me-2" /><span>Add to favourite</span>
+                            </button>
+                        }
+                    
                 </div>
                 <div class="col-sm-6 pt-3">
                     <button class="rec-btns d-flex justify-content-center align-items-center">
@@ -134,22 +274,46 @@
                 <div class="col-5 col-sm  col-lg border pt-1 me-2 mt-2">
                     <img src="~/images/pin1.png ">
                     <p class="text-muted mb-0 mt-3">City</p>
-                    <p class="mb-1">London</p>
+                    <p class="mb-1">@item.City</p>
                 </div>
                 <div class="col-5 col-sm  col-lg border pt-1 me-2 mt-2">
                     <img src="~/images/web.png">
                     <p class="text-muted mb-0 mt-3">Theme </p>
-                    <p class="mb-1">Environment</p>
+                    <p class="mb-1">@item.Theme</p>
                 </div>
                 <div class="col-5 col-sm col-lg border pt-1 me-2 mt-2">
                     <img src="~/images/calender.png">
-                    <p class="text-muted mb-0 mt-3">Date</p>
-                    <p class="mb-1"> Ongoing Opportunity</p>
+                    <p class="text-muted mb-0 mt-3">Date</p>   
+                        @if (@item.IsOngoingActivity == true)
+                        {
+                            <p class="mb-1">Ongoing Opportunity</p>
+
+                        }
+                        else if (@item.StartDate != null && @item.EndDate != null)
+                        {
+
+                                <p class="mb-1">From @item.StartDate.ToString().Substring(0,10) until @item.EndDate.ToString().Substring(0,10)</p>
+
+                        }
+                        else if (@item.StartDate != null && @item.EndDate == null)
+                        {
+                            <p class="mb-1">From @item.StartDate.ToString().Substring(0,10)</p>
+
+                        }
+                        else if (@item.StartDate == null && @item.EndDate != null)
+                        {
+                            <p class="mb-1">Until @item.EndDate.ToString().Substring(0,10)</p>
+                            
+                        }else{
+                            <p class="mb-1">Ongoing Opportunity</p>
+
+                        }
+
                 </div>
                 <div class=" col-5 col-sm col-lg border pt-1 me-2 mt-2">
                     <img src="~/images/organization.png">
                     <p class="text-muted mb-0 mt-3">Organization</p>
-                    <p class="mb-1"> CSE Network</p>
+                    <p class="mb-1">@item.OrganizationName</p>
                 </div>
             </div>
 
@@ -339,22 +503,46 @@
             <table class="table info-table text-muted">
                 <tr>
                     <td>Skills</td>
-                    <td>Cool, Easy Going, Math, Computer</td>
+                        <td>
+                            @if (@item.MissionSkills != null)
+                            {
+                                
+                                @foreach (var skill in @item.MissionSkills)
+                                {
+                                    @skill
+                                }
+                            }
+                        </td>
                 </tr>
                 <tr>
                     <td>Days</td>
-                    <td>Weekend Only</td>
+                    <td>
+                            @if(@item.Availability != null)
+                            {
+                                @item.Availability
+                            }
+                        </td>
                 </tr>
                 <tr>
                     <td style="border-bottom:none;">Rating</td>
                     <td style="border-bottom:none;">
-                        <div class="card-rating">
-                            <img src="~/images/selected-star.png" />
-                            <img src="~/images/selected-star.png" />
-                            <img src="~/images/selected-star.png" />
-                            <img src="~/images/selected-star.png" />
-                            <img src="~/images/selected-star.png" />
-                            <span>(By 125 Volunteer)</span>
+                        <div class="card-rating d-flex">
+                            
+                                    <div class="card-rating col">
+                                        @for (var i = 0; i < @item.Ratings; i++)
+                                        {
+                                            <img src="~/images/selected-star.png" />
+
+                                        }
+                                        @for (var i = 5; i > @item.Ratings; i--)
+                                        {
+                                            <img src="~/images/star-empty.png" />
+                                        }
+
+                                        <span>(By 125 Volunteer)</span>
+                                    </div>
+                               
+                            
                         </div>
 
                     </td>
@@ -503,6 +691,7 @@
     </div>
 
 </div>
+}
 @*Related Missions*@
 <div class="pt-5">
     <div class="text-center">
@@ -706,3 +895,46 @@
     </div>
 
 </div>
+
+<script>
+    function addtofav(missionid) {
+        @*var button = $(this);*@
+        @*console.log(this);
+        console.log(missionid);*@
+        $.ajax({
+            url: '/Home/AddToFavourite',
+            type: 'POST',
+            data: {MissionId: missionid},
+            dataType: 'json',
+            success:function (viewModel) {
+                console.log(viewModel);
+                
+                
+            }
+        });
+    }
+    $(document).ready(function(){
+        $('#AddToFavBtn').click(function(){
+            if($(this).hasClass('favMission')){
+                $(this).removeClass("favMission");
+                $(this).children('span').remove();
+                btn = $(this);
+                var newSpan = document.createElement('span');
+                newSpan.innerHTML="Add to Favourites";
+                btn.append(newSpan);
+                console.log(span);
+                console.log("favourite");
+                
+            }else{
+                $(this).addClass("favMission");
+                $(this).children('span').remove();
+                btn = $(this);
+                var newSpan = document.createElement('span');
+                newSpan.innerHTML="remove from favourites";
+                btn.append(newSpan);
+            }
+            
+        });
+        $('')
+    });
+</script>

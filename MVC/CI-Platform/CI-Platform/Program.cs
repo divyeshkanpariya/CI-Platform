@@ -26,6 +26,8 @@ builder.Services.AddScoped<ILostPasswordRepository, LostPasswordRepository>();
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 builder.Services.AddScoped<IResetPasswordRepository, ResetPasswordRepository>();
 builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
+builder.Services.AddScoped<IVolunteeringMissionRepository, VolunteeringMissionRepository>();
+builder.Services.AddScoped<IFavouriteMission, FavouriteMissionRepository>();
 
 builder.Services.AddScoped<IMissionListingRepository, MissionListingRepository>();
 builder.Services.AddScoped<IMissionCardRepository,MissionCardRepository>();

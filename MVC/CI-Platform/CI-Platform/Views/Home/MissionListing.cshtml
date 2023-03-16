@@ -1,6 +1,8 @@
-﻿@using CI_Platform.Models.ViewModels
-@*@model CI_Platform.Models.ViewModels.MissionListingViewModel;*@
-@model CI_Platform.Models.ViewModels.MissionListingViewModel
+﻿
+
+    @using CI_Platform.Models.ViewModels
+    @*@model CI_Platform.Models.ViewModels.MissionListingViewModel;*@
+    @model CI_Platform.Models.ViewModels.MissionListingViewModel
 
 @{
     Layout = "Home_Layout";
@@ -158,22 +160,25 @@
 {
     <li>@item.CountryId</li>
 }*@
-<div class="container-fluid grid-container" id="missionContainer">
+<div id="cardContainer">
+
+</div>
+@*<div class="container-fluid grid-container" id="missionContainer">
     <div class="row" id="cardContainer">
 @*        
         @Html.Partial("Cards");
         *@
-
+@*
     </div>
 
-</div>
+</div>*@
 
 <div id="paginationContainer">
     <div class="pagination d-flex justify-content-center mt-5 mb-5">
         <a href="#"><img src="~/images/previous.png" alt="Previous" /></a>
         <a href="#"><img src="~/images/left.png" alt="Previous" /></a>
 
-        <a href="#" class="active pt-1">1</a>
+        <a href="#" class="active pt-1" id="first">1</a>
         <a href="#" class="pt-1">2</a>
         <a href="#" class="pt-1">3</a>
         <a href="#" class="pt-1">4</a>
@@ -241,7 +246,7 @@
             addSelected(selectedSkill);
 
             var clearall = document.createElement("a");
-            clearall.id = "clearALl";
+            clearall.id = "clearAll";
             clearall.classList.add("field-text","my-1","col-auto");
             clearall.style.textDecoration = "none";
             clearall.innerHTML = "Clear All";
@@ -288,7 +293,7 @@
         $.ajax({
             url: '/Home/GetCards',
             type: 'POST',
-            data: {CountryIDs: "", CityIDs: "",ThemeIDs: "",SkillIds: "",SortBy: "1",SearchText:""},
+            data: {CountryIDs: "", CityIDs: "",ThemeIDs: "",SkillIds: "",SortBy: "1",SearchText:"",PageIndex:"1"},
             dataType: 'html',
             success:function (viewModel) {
                 console.log("All");
@@ -347,7 +352,8 @@
                         
                         //console.log(items);
                         //cities.html(items);
-                        applyFilter();
+                        applyFilter("1");
+                        moveToFirstPage();
                     }
                 });
                 
@@ -371,7 +377,8 @@
                             $.when(getAllCities()).then(applyFilter());
                             
                         }else{
-                            applyFilter();
+                            applyFilter("1");
+                            moveToFirstPage();
                         }
                             
                     }
@@ -383,26 +390,32 @@
 
         $('#cityfinal').change(function (e){
             //console.log('ccc');
-            applyFilter();
+            applyFilter("1");
+            moveToFirstPage();
         });
 
         $('#themes li a input[type=checkbox]').click(function (e){
             //console.log("thc");
-            applyFilter();
+            applyFilter("1");
+            moveToFirstPage();
         });
 
         $('#skills li a input[type=checkbox]').click(function (e){
-            applyFilter();
+            applyFilter("1");
+            moveToFirstPage();
         });
         $('#sortBy').change(function(){
-            applyFilter();
+            applyFilter("1");
+            moveToFirstPage();
             //console.log($(this).val());
         });
 
         $('#search').blur(function(){
-            applyFilter();
+            applyFilter("1");
+            moveToFirstPage();
         });
 
+        
         $('#paginationContainer div a').click(function (e){
             $('#paginationContainer div a').each(function(){
                 //console.log(this.classList);
@@ -412,9 +425,22 @@
                 }
             });
             e.target.classList.add('active');
+            console.log(e.target.innerHTML);
+            applyFilter(e.target.innerHTML);
         });
    
     });
+    function moveToFirstPage(){
+        var first = $('#first');
+        $('#paginationContainer div a').each(function(){
+                //console.log(this.classList);
+                var x = $(this);
+                if(x.hasClass('active')){
+                    x.removeClass('active');
+                }
+            });
+        first.addClass('active');
+    }
     function getAllCities() {
         $.ajax({
             url: '/Home/getAllCities',
@@ -466,9 +492,20 @@
 
             
         });
+        $.ajax({
+            url: '/Home/GetCards',
+            type: 'POST',
+            data: {CountryIDs: "", CityIDs: "",ThemeIDs: "",SkillIds: "",SortBy: "1",SearchText:"",PageIndex:"1"},
+            dataType: 'html',
+            success:function (viewModel) {
+                console.log("All");
+                $('#cardContainer').html(viewModel);
+            }
+        });
+        moveToFirstPage();
         //applyFilter();
     }
-    function applyFilter(){
+    function applyFilter(pageIndex){
         var selectedCountryID = $('#countries li a input[type=checkbox]:checked').map(function () {return this.value;}).get().join();
         
         var selectedCityID = $('#cities li a input[type=checkbox]:checked').map(function () {return this.value;}).get().join();
@@ -480,6 +517,7 @@
         var selectedSort = $('#sortBy').map(function(){return this.value;}).get().join();
 
         var searchText = $('#search').map(function(){return this.value;}).get().join();
+
         console.log(searchText);
 
         if(selectedCityID == "") {
@@ -521,7 +559,8 @@
             ThemeIDs: selectedThemeID,
             SkillIds: selectedSkillID,
             SortBy: selectedSort,
-            SearchText: searchText},
+            SearchText: searchText,
+            PageIndex: pageIndex},
             dataType: 'html',
             success:function (viewModel) {
                 //console.log(viewModel);
@@ -536,9 +575,10 @@
         updateFilters();
     }
     function addtofav(missionid) {
-    
-    console.log(missionid);
-    $.ajax({
+        var button = $(this);
+        console.log(this);
+        console.log(missionid);
+        $.ajax({
             url: '/Home/AddToFavourite',
             type: 'POST',
             data: {MissionId: missionid},
@@ -551,46 +591,5 @@
         });
 }
 
-    //function selectCities(){
-    //    $('#cities li a input[type=checkbox]').one('click',function (e) {
-            
-
-    //        if(e.currentTarget.checked){
-                
-    //            console.log(e.target.id);
-    //            console.log($('#cities li a').find(e.id).length);
-    //            //var x = await P
-    //            if($('#cities li a').find(e.target.id).length == 0){
-    //                var x = e.target.parentElement.lastChild.innerHTML;
-
-
-    //                var main = document.createElement('div');
-    //                main.classList.add("field", "col-auto", "py-1", "mb-3", "px-3");
-    //                main.id = e.target.value + "1";
-
-    //                var sname = document.createElement('span');
-    //                sname.classList.add("field-text");
-    //                sname.innerHTML = x;
-
-
-    //                var img = $('<img />', {
-    //                    class: 'ps-2',
-    //                    src: '/images/cancel.png',
-    //                    alt: 'MyAlt'
-    //                });
-
-    //                main.appendChild(sname);
-    //                img.appendTo(sname);
-    //                document.getElementById("clearAll").style.display = "block";
-    //                $(main).insertBefore('#clearAll');
-    //            }
-                
-    //        }
-    //    });
-
-        
-    //}
-
-    
 
 </script>

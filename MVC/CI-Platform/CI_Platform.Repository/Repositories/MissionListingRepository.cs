@@ -48,28 +48,9 @@ namespace CI_Platform.Repository.Repositories
             _MissionSkills= MissionSkills;
             _FavoriteMissions = FavouriteMissions;
         }
-        public void AddToFavourite(long MissionId,long UserId)
-        {
-            var isfav = _FavoriteMissions.GetAll().Any(u=>u.MissionId == MissionId && u.UserId == UserId);
-            if(isfav == false)
-            {
-                var addfav = new FavoriteMission
-                {
-                    MissionId = MissionId,
-                    UserId = UserId,
-                };
-                _FavoriteMissions.AddNew(addfav);
-                _FavoriteMissions.Save();
-            }else
-            {
-                var field = _FavoriteMissions.GetFirstOrDefault(u=>u.UserId == UserId && u.MissionId == MissionId);
-                _FavoriteMissions.DeleteField(field);
-                _FavoriteMissions.Save();
-            }
-            
-        }
+        
 
-        public MissionListingViewModel GetAllData(string Countryids, string Cityids, string Themeids, string Skillids, string Sortby, string SearchText,string UserId)
+        public MissionListingViewModel GetAllData(string Countryids, string Cityids, string Themeids, string Skillids, string Sortby, string SearchText,string UserId,string PageIndex)
         {
             
 
@@ -144,22 +125,14 @@ namespace CI_Platform.Repository.Repositories
                     newMissions.Add(newM);
                 }
                 connection.Close();
-                // AllMissions = _db.Missions
-                //.FromSql($"exec my_stored_procedure {Countryids}")
-                //.ToList();
+                
                 AllMissions = newMissions;
             }
-            //if (Countryids.Count != 0) {
-            //    AllMissions =AllMissions.Where(u=>Countryids.Contains(u.CountryId.ToString()));
-
-            //}
+            
 
             viewModel.MissionCards = _MissionCard.FillData(AllMissions);
 
-            //MissionCardViewModel cardmodel = new MissionCardViewModel();
-            //IEnumerable<Mission> missions = _Missions.GetAll();
-
-            //IEnumerable<MissionCardViewModel> miss = _MissionCard.FillData(missions);
+             
 
             viewModel.Cities = _CityList.GetAll();
             viewModel.Countries = _CountryList.GetAll();
@@ -273,13 +246,24 @@ namespace CI_Platform.Repository.Repositories
                     }
                     mission.MissionSkills= skillArr;
                 }
-                
+
+                /* Is Favourite Mission */
+                long uid = Convert.ToInt64(UserId);
+                if (_FavoriteMissions.ExistUser(u => u.MissionId == mission.MissionId && u.UserId ==uid))
+                {
+                    mission.IsFavourite = true;
+                }
+
             }
-            var pageindex = 1;
+           
             var pagesize = 3;
-            if(pageindex != null)
+            if(PageIndex != null)
             {
-                viewModel.MissionCards = viewModel.MissionCards.Skip((pageindex - 1) * pagesize).Take(pagesize).ToList();
+                if(PageIndex == "")
+                {
+                    PageIndex = "1";
+                }
+                viewModel.MissionCards = viewModel.MissionCards.Skip((Convert.ToInt16(PageIndex) - 1) * pagesize).Take(pagesize).ToList();
             }
             
             return viewModel;
