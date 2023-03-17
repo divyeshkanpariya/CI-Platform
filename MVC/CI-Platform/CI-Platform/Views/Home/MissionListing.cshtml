@@ -414,6 +414,10 @@
             applyFilter("1");
             moveToFirstPage();
         });
+        //$('#missionContainer').change(function(){
+        //    document.getElementById("missionCount").innerHTML = $('#missionCo').text() + " Missions";
+
+        //});
 
         
         $('#paginationContainer div a').click(function (e){
@@ -440,6 +444,7 @@
                 }
             });
         first.addClass('active');
+
     }
     function getAllCities() {
         $.ajax({
@@ -567,7 +572,11 @@
                 
                 $('#cardContainer').html(viewModel);
                 
+                
             }
+            
+            //console.log($('#missionCount'));
+            //console.log($('#missionCo').text());
             
         });
         

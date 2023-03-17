@@ -4,9 +4,13 @@
 @using CI_Platform.Models.ViewModels
 
 @model CI_Platform.Models.ViewModels.MissionListingViewModel
+<div class="alert alert-success" style="display:none;" id="success-alert">
+   <strong>Success!</strong>
+   Email Sent Successfully
+</div>
 @foreach(var item in Model.MissionCards)
 {
-
+<p id="getMissionId" style="display:none;">@item.MissionId</p>
 
 <div class="container-fluid">
     <div class="row">
@@ -63,7 +67,7 @@
                                                             @if(x == 0)
                                                             {
                                                                 <div id="carousel-selector-@x" class="thumb col-3 h-100 px-1 pt-1 selected" data-target="#myCarousel" data-slide-to="@x">
-                                                                    <img src="@item.MissionMediaPaths[x]" class="img-fluid w-100" alt="...">
+                                                                    <img  src="@item.MissionMediaPaths[x]" class="img-fluid w-100" alt="...">
                                                                 </div>
 
                                                             }else{
@@ -254,15 +258,66 @@
                     
                 </div>
                 <div class="col-sm-6 pt-3">
-                    <button class="rec-btns d-flex justify-content-center align-items-center">
+                    <button class="rec-btns d-flex justify-content-center align-items-center" data-toggle="modal" data-target="#exampleModal">
                         <div></div><span class="ps-2">Recommend to a Co-Worker</span>
                     </button>
+                </div>
+               <!-- Button trigger modal -->
+                @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                  Launch demo modal
+                </button>*@
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Send Invitation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="mb-3">
+                            <table class="table table-bordered text-center user-invite-table table-striped" >
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Send Invite</th>  
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach(var user in Model.Users){
+                                        if(@Convert.ToInt64(@Context.Session.GetString("UserId")) != user.UserId)
+                                        {
+                                            <tr class="">
+                                            <th>@user.FirstName @user.LastName</th>
+                                            <th>
+                                                <div class="py-1">                               
+                                                    <button  class="Apply-mission-btn px-3" data-dismiss="modal" onclick="sendInvitation(@item.MissionId,@Convert.ToInt64(@user.UserId))" value="@user.UserId">Send<img src="~/images/right-arrow.png" /></button>
+                                                </div>
+                                            </th>
+                                        </tr> 
+                                        }
+                                                    
+                                    }
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
             </div>
 
             <div class="d-flex justify-content-center">
-                <div class="card-rating rating-bar">
-                    <img src="~/images/star-empty.png" />
+                <div class="card-rating rating-bar" id="submitRating">
+                    @*<a><img src="~/images/star-empty.png" /></a>*@
+                    <a></a><img src="~/images/star-empty.png" />
                     <img src="~/images/star-empty.png" />
                     <img src="~/images/star-empty.png" />
                     <img src="~/images/star-empty.png" />
@@ -354,11 +409,8 @@
             <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
                 <h3>Introduction</h3>
                 <p class=" = text-muted">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                    ut
-                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat.
+                    @item.OrganizationDetail
+                    @item.Description
                 </p>
                 <p class=" = text-muted">
                     Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
@@ -412,20 +464,10 @@
                     </button>
                 </div>
 
-
-
             </div>
             @* Organization Section *@
             <div class="tab-pane fade" id="tab-2" role="tabpanel">
-                It
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                Ipsum has been the industry's standard
-                dummy text ever since the 1500s, when an unknown printer took a galley of type and
-                scrambled it to make a type specimen
-                book. It has survived not only five centuries, but also the leap into electronic
-                typesetting, remaining essentially
-                unchanged. It was popularised in the 1960s with the release of Letraset sheets
-                containing
+                @item.OrganizationDetail
             </div>
             @*Comment Section*@
             <div class="tab-pane fade" id="tab-3" role="tabpanel">
@@ -437,54 +479,19 @@
                     <button type="button" id="postComments" onclick="postComment()" class="Apply-mission-btn"><span>Post Comment</span></button>
                 </div>
                 <div id="commentList" class="bg-light p-3">
-                    <div class="comment bg-white p-2 align-items-center border mb-3">
-                        <img src="~/images/volunteer2.png" />
-                        <div class="ms-3 text-wrap">
-                            <h5>Margarelt Walsh</h5>
-                            <p>Wed Feb 22 2023 16:51:48 GMT+0530 (India Standard Time)</p>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                        </div>
-                    </div>
-                    <div class="comment bg-white d-flex p-2 align-items-center border mb-3">
-                        <img src="~/images/volunteer2.png" />
-                        <div class="ms-3">
-                            <h5>Margarelt Walsh</h5>
-                            <p>Wed Feb 22 2023 16:51:48 GMT+0530 (India Standard Time)</p>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                        </div>
-                    </div>
-                    <div class="comment bg-white d-flex p-2 align-items-center border mb-3">
-                        <img src="~/images/volunteer2.png" />
-                        <div class="ms-3">
-                            <h5>Margarelt Walsh</h5>
-                            <p>Wed Feb 22 2023 16:51:48 GMT+0530 (India Standard Time)</p>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                        </div>
-                    </div>
-                    <div class="comment bg-white d-flex p-2 align-items-center border mb-3">
-                        <img src="~/images/volunteer2.png" />
-                        <div class="ms-3">
-                            <h5>Margarelt Walsh</h5>
-                            <p>Wed Feb 22 2023 16:51:48 GMT+0530 (India Standard Time)</p>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                        </div>
-                    </div>
-                    <div class="comment bg-white d-flex p-2 align-items-center border mb-3">
-                        <img src="~/images/volunteer2.png" />
-                        <div class="ms-3">
-                            <h5>Margarelt Walsh</h5>
-                            <p>Wed Feb 22 2023 16:51:48 GMT+0530 (India Standard Time)</p>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                        </div>
-                    </div>
-                    <div class="comment bg-white d-flex p-2 align-items-center border mb-3">
-                        <img src="~/images/volunteer2.png" />
-                        <div class="ms-3">
-                            <h5>Margarelt Walsh</h5>
-                            <p>Wed Feb 22 2023 16:51:48 GMT+0530 (India Standard Time)</p>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                        </div>
-                    </div>
+
+                        @foreach(var comment in Model.Comments)
+                        {
+                            <div class="comment bg-white p-2 align-items-center border mb-3">
+                                <img src="@Model.Users.FirstOrDefault(u=>u.UserId == comment.UserId).Avatar" />
+                                <div class="ms-3 text-wrap">
+                                    <h5>@Model.Users.FirstOrDefault(u=>u.UserId == comment.UserId).FirstName @Model.Users.FirstOrDefault(u=>u.UserId == comment.UserId).LastName</h5>
+                                    <p>@comment.CreatedAt (India Standard Time)</p>
+                                    <p>@comment.CommentText</p>
+                                </div>
+                          </div>
+                        }
+                   
                 </div>
             </div>
 
@@ -506,11 +513,13 @@
                         <td>
                             @if (@item.MissionSkills != null)
                             {
-                                
+                                var x = "";
                                 @foreach (var skill in @item.MissionSkills)
                                 {
-                                    @skill
+                                    x += @skill;
+                                    x += ", ";
                                 }
+                                @x.Substring(0,@x.Length-2)
                             }
                         </td>
                 </tr>
@@ -897,6 +906,30 @@
 </div>
 
 <script>
+
+    
+    function sendInvitation(missionId,userId) {
+        console.log(userId);
+        console.log(missionId);
+            $.ajax({
+                url: '/Home/SendInvitation',
+                type: 'POST',
+                data: {EmailTo: userId,
+                MissionId: missionId},
+            
+                success:function () {
+                    console.log("email Sent");
+                
+                
+                }
+            });
+        $("#success-alert").alert().show();
+        window.setTimeout(function () { 
+            $("#success-alert").alert('close'); 
+        }, 1000);   
+        
+        
+    }
     function addtofav(missionid) {
         @*var button = $(this);*@
         @*console.log(this);
@@ -912,8 +945,51 @@
                 
             }
         });
+
     }
     $(document).ready(function(){
+        $('#submitRating img').mouseover(function(){
+
+            var i = $(this).index();
+            $('#submitRating').children('img').each(function(){
+                if(i-->0){
+                    this.setAttribute("src","/images/selected-star.png");
+                }
+            });
+        });
+        $('#submitRating img').mouseleave(function(){
+            
+            $('#submitRating').children('img').each(function(){
+                this.setAttribute("src","/images/star-empty.png");
+            });
+        });
+        $('#submitRating img').click(function(){
+            var i = $(this).index();
+            
+            
+            var missionId = $('#getMissionId').text();
+            console.log(i);
+            console.log(missionId);
+             $.ajax({
+            url: '/Home/RateMission',
+            type: 'POST',
+            data: {Rating: i,
+            MissionId: missionId},
+            success:function () {
+                console.log('executed');
+                $('#submitRating img').off("mouseover");
+                $('#submitRating img').off("mouseleave");
+                $('#submitRating img').off("click");;
+                $('#submitRating').children('img').each(function(){
+                if(i-->0){
+                    this.setAttribute("src","/images/selected-star.png");
+
+                    }
+                });
+                }
+            });
+            
+        });
         $('#AddToFavBtn').click(function(){
             if($(this).hasClass('favMission')){
                 $(this).removeClass("favMission");
@@ -935,6 +1011,6 @@
             }
             
         });
-        $('')
+        
     });
 </script>

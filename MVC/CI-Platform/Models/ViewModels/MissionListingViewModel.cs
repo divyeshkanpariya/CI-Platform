@@ -28,5 +28,8 @@ namespace CI_Platform.Models.ViewModels
 
         public IEnumerable<GoalMission> Goals { get; set; }
 
+        public IEnumerable<User> Users { get; set; }
+
+        public IEnumerable<Comment> Comments { get; set; }
     }
 }

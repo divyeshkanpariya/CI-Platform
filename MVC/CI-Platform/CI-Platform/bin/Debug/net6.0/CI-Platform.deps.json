@@ -794,7 +794,9 @@
       "CI_Platform.Repository/1.0.0": {
         "dependencies": {
           "CI_Platform.Models": "1.0.0",
-          "Microsoft.AspNetCore.Session": "2.2.0"
+          "Microsoft.AspNetCore.Session": "2.2.0",
+          "Microsoft.EntityFrameworkCore": "7.0.3",
+          "Microsoft.IdentityModel.Tokens": "6.27.0"
         },
         "runtime": {
           "CI_Platform.Repository.dll": {}

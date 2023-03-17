@@ -95,10 +95,35 @@ namespace CI_Platform.Controllers
 
         public IActionResult VolunteeringMission(long mid)
         {
-            MissionListingViewModel data = _VolunteeringMission.GetAllMissionData(mid);
-            return View(data);
+            if (HttpContext.Session.GetString("UserName") != null)
+            {
+                MissionListingViewModel data = _VolunteeringMission.GetAllMissionData(mid);
+                return View(data);
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Login is Required";
+
+                return RedirectToAction("Login", "Auth");
+            }
+            
+        }
+        public void SendInvitation(long EmailTo,long MissionId)
+        {
+            long senderId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+            string senderName = HttpContext.Session.GetString("UserName");
+            string url = Url.ActionLink("VolunteeringMission", "Home", new { mid = MissionId });
+            _VolunteeringMission.SendInvitation(EmailTo, senderId, MissionId, senderName,url);
+
+
         }
 
+        public void RateMission(int Rating,string MissionId)
+        {
+            long senderId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+            long mid = Convert.ToInt64(MissionId);
+            _VolunteeringMission.RateMission(Rating, mid, senderId);
+        }
         public IActionResult StoryListing()
         {
             return View();

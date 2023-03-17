@@ -89,7 +89,7 @@ namespace CI_Platform.Repository.Repositories
                     newM.CityId = Convert.ToInt64(row["city_id"]);
                     newM.CountryId = Convert.ToInt64(row["Country_id"]);
                     newM.Title = Convert.ToString(row["title"]);
-                    if (row["description"] != DBNull.Value)
+                    if (row["end_date"] != DBNull.Value)
                     {
                         newM.EndDate = Convert.ToDateTime(row["end_date"]);
 

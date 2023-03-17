@@ -28,3 +28,5 @@ C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI_Platform.
 C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\obj\Debug\net6.0\refint\CI_Platform.Repository.dll
 C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\obj\Debug\net6.0\CI_Platform.Repository.pdb
 C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\obj\Debug\net6.0\ref\CI_Platform.Repository.dll
+C:\Users\pci117\source\repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\bin\Debug\net6.0\CI_Platform.Repository.runtimeconfig.json
+C:\Users\pci117\source\repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI_Platform.Repository\obj\Debug\net6.0\CI_Platform.Repository.genruntimeconfig.cache

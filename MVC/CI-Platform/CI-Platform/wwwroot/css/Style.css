@@ -285,7 +285,11 @@ input#search {
 .card-img-div {
     position: relative;
 }
-
+.card-img-top {
+    object-fit: cover;
+     width:100%;
+    height:100%;
+}
 .over-buttons {
     border-radius: 18px;
     background: #000000 0% 0% no-repeat padding-box;
@@ -441,6 +445,7 @@ input#search {
     .list-view .Apply-mission-btn-div {
         border-top: none;
     }
+    
 }
 @media (max-width: 800px) {
     .list-view .card {
@@ -450,6 +455,9 @@ input#search {
     .list-view .Apply-mission-btn {
         margin-right: 10px;
         width: 133px;
+    }
+    .card-img-div {
+        height: 300px;
     }
 }
 @media screen and (min-width:800px) {
@@ -469,8 +477,15 @@ input#search {
     .list-view .card-body {
         width: 55%;
     }
+    .card-img-div {
+        height: 200px;
+    }
 }
-
+@media screen and (min-width:1400px){
+    .card-img-div {
+        height: 300px;
+    }
+}
 /* Pagination */
 .pagination {
     display: inline-block;
@@ -553,7 +568,9 @@ input#search {
     object-fit: cover;
     aspect-ratio: 4/3;
 }
-
+.thumb img {
+    height:100%;
+}
 @media all and (max-width: 767px) {
     .carousel-container #carousel-thumbs img {
         border-width: 3px;
@@ -585,16 +602,19 @@ input#search {
     color: white;
     
 }
-    .rec-btns div {
-        width: 22px;
-        height: 22px;
-        background-color: #757575;
-    }
+.rec-btns div {
+    width: 22px;
+    height: 22px;
+    background-color: #757575;
+}
 
-    .rec-btns:hover {
-        background-color: lightgray;
-    }
-
+.rec-btns:hover {
+    background-color: lightgray;
+}
+.user-invite-table {
+    max-height:50px;
+    overflow-y:auto;
+}
 .rating-bar {
     margin-top: -15px;
     width: fit-content;

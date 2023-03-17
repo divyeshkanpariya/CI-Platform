@@ -35,6 +35,8 @@ namespace CI_Platform.Repository.Repositories
                 view.ShortDescription = mission.ShortDescription;
                 view.MissionType = mission.MissionType;
                 view.OrganizationName = mission.OrganizationName;
+                view.OrganizationDetail = mission.OrganizationDetail;
+                view.Availability = mission.Availability;
                 
                 MissionCard.Add(view);
             }

@@ -10,5 +10,9 @@ namespace CI_Platform.Repository.Interface
     public interface IVolunteeringMissionRepository
     {
         public MissionListingViewModel GetAllMissionData(long missionId);
+
+        public void SendInvitation(long EmailTo, long Emailfrom,long MissionId,string NameOfSender,string Url);
+
+        public void RateMission(int Rating, long MissionId,long UserId);
     }
 }
