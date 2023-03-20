@@ -6,8 +6,11 @@
 @using CI_Platform.Models.ViewModels
 @*@model CI_Platform.Models.ViewModels.MissionListingViewModel;*@
 @model CI_Platform.Models.ViewModels.MissionListingViewModel
-    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css'>
-<p style="display:none" name="@Model.MissionCount" id="missionCo">@Model.MissionCount</p>
+
+
+    <div class="text-center">
+        <h2>Related Missions</h2>
+    </div>
 
 <div class="container-fluid grid-container" id="missionContainer">
     <div class="row" id="@Model">
@@ -219,8 +222,4 @@
     </div>
 
 </div>
-<script>
-    $('#heartDef').click(function(){
-        console.log("fav"); 
-    });
-</script>
+

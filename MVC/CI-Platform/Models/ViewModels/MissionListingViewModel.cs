@@ -31,5 +31,9 @@ namespace CI_Platform.Models.ViewModels
         public IEnumerable<User> Users { get; set; }
 
         public IEnumerable<Comment> Comments { get; set; }
+
+        public int MissionCount { get; set; }
+
+        
     }
 }

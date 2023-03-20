@@ -18,6 +18,8 @@ namespace CI_Platform.Models.ViewModels
         public string Path { get; set; }
 
         public short ? Ratings { get; set; }
+
+        public int ratingCount { get; set; }
         
         public bool? IsOngoingActivity { get; set; } = false;
 
@@ -41,8 +43,14 @@ namespace CI_Platform.Models.ViewModels
 
         public bool? IsFavourite { get; set; } = false;
 
+        public string ApprovalStatus { get; set; }
+
         public List<string> MissionSkills { get; set; }
 
         public List<string> MissionMediaPaths { get; set; }
+
+        public List<List<string>> RecentVolunteers { get; set; }
+
+        public IEnumerable<MissionDocument> MissionDocumentss { get; set; }
     }
 }

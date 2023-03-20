@@ -27,12 +27,13 @@ namespace CI_Platform.Repository.Repositories
         private readonly IRepository<GoalMission> _Goals;
         private readonly IRepository<MissionSkill> _MissionSkills;
         private readonly IRepository<FavoriteMission> _FavoriteMissions;
+        private readonly IRepository<MissionApplication> _MissionApplicationList;
         
 
         private readonly IMissionCardRepository _MissionCard;
 
 
-        public MissionListingRepository(CiPlatformContext db,IRepository<City> cityList, IRepository<Country> countryList, IRepository<MissionTheme> ThemeList, IRepository<Skill> SkillList, IRepository<Mission> MissionList, IRepository<MissionMedium> MissionMedia, IRepository<MissionMedium> missionMedia,IMissionCardRepository MissionCard,IRepository<MissionRating> missionRating,IRepository<MissionSeat> MissionSeats,IRepository<GoalMission> Goals,IRepository<MissionSkill> MissionSkills,IRepository<FavoriteMission> FavouriteMissions)
+        public MissionListingRepository(CiPlatformContext db,IRepository<City> cityList, IRepository<Country> countryList, IRepository<MissionTheme> ThemeList, IRepository<Skill> SkillList, IRepository<Mission> MissionList, IRepository<MissionMedium> MissionMedia, IRepository<MissionMedium> missionMedia,IMissionCardRepository MissionCard,IRepository<MissionRating> missionRating,IRepository<MissionSeat> MissionSeats,IRepository<GoalMission> Goals,IRepository<MissionSkill> MissionSkills,IRepository<FavoriteMission> FavouriteMissions, IRepository<MissionApplication> MissionApplications)
         {
             _db = db;
             _CityList = cityList;
@@ -47,6 +48,7 @@ namespace CI_Platform.Repository.Repositories
             _Goals = Goals;
             _MissionSkills= MissionSkills;
             _FavoriteMissions = FavouriteMissions;
+            _MissionApplicationList = MissionApplications;
         }
         
 
@@ -132,7 +134,7 @@ namespace CI_Platform.Repository.Repositories
 
             viewModel.MissionCards = _MissionCard.FillData(AllMissions);
 
-             
+            viewModel.MissionCount = AllMissions.Count();
 
             viewModel.Cities = _CityList.GetAll();
             viewModel.Countries = _CountryList.GetAll();
@@ -253,6 +255,10 @@ namespace CI_Platform.Repository.Repositories
                 {
                     mission.IsFavourite = true;
                 }
+
+                
+
+
 
             }
            

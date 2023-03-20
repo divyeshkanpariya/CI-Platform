@@ -23,6 +23,8 @@ builder.Services.AddScoped<IRepository<MissionSkill>, Repository<MissionSkill>>(
 builder.Services.AddScoped<IRepository<FavoriteMission>, Repository<FavoriteMission>>();
 builder.Services.AddScoped<IRepository<MissionInvite>, Repository<MissionInvite>>();
 builder.Services.AddScoped<IRepository<Comment>, Repository<Comment>>();
+builder.Services.AddScoped<IRepository<MissionApplication>, Repository<MissionApplication>>();
+builder.Services.AddScoped<IRepository<MissionDocument>, Repository<MissionDocument>>();
 
 
 builder.Services.AddScoped<ILostPasswordRepository, LostPasswordRepository>();

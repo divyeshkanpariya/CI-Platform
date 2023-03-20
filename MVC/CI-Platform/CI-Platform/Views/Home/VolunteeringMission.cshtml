@@ -8,6 +8,7 @@
    <strong>Success!</strong>
    Email Sent Successfully
 </div>
+
 @foreach(var item in Model.MissionCards)
 {
 <p id="getMissionId" style="display:none;">@item.MissionId</p>
@@ -371,11 +372,19 @@
                     <p class="mb-1">@item.OrganizationName</p>
                 </div>
             </div>
+                @if(@item.ApprovalStatus == "NotApplied")
+                {
+                    <div class="my-3 d-flex justify-content-center">
+                        <button type="button" class="Apply-mission-btn" id ="applyMissionBtn" onclick="ApplyMission()"><span class="me-2">Apply Now</span> <img src="~/images/right-arrow.png" /></button>
+                    </div>
 
-            <div class="my-3 d-flex justify-content-center">
-                <button type="button" class="Apply-mission-btn"><span class="me-2">Apply Now</span> <img src="~/images/right-arrow.png" /></button>
-            </div>
-
+                }else{
+                    
+                    <div class="my-3 d-flex justify-content-center">
+                        <button type="button" class="Apply-mission-btn"><span class="me-2">@item.ApprovalStatus</span> <img src="~/images/right-arrow.png" /></button>
+                    </div>
+                }
+                
         </div>
     </div>
 </div>
@@ -412,57 +421,35 @@
                     @item.OrganizationDetail
                     @item.Description
                 </p>
-                <p class=" = text-muted">
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                    nulla
-                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt
-                    mollit anim id est laborum.
-                </p>
-                <p class=" = text-muted">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt ut
-                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit
-                    in
-                    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-                <h3>Challenge</h3>
-                <p class=" = text-muted">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt ut
-                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit
-                    in
-                    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-                <p class=" = text-muted">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt ut
-                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non
-                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-                <h3>Documents</h3>
-                <div>
-                    <button class="btn btn-outline-secondary px-3 mb-2 fav-button border" style="border-radius:23px;">
-                        <img src="~/images/doc.png">
-                        lorem-ipsum.pdf
-                    </button>
-                    <button class="btn btn-outline-secondary px-3 mb-2 fav-button border" style="border-radius:23px;">
+                
+                @if(@item.MissionDocumentss !=null)
+                {
+                    <h3>Documents</h3>
+                    <div>
+                    @foreach(var doc in @item.MissionDocumentss)
+                    {
+                        <a class="btn btn-outline-secondary px-3 mb-2 fav-button border" style="border-radius:23px;" href="@doc.DocumentPath" target="_blank">
+                            <img src="~/images/doc.png">
+                            @doc.DocumentName
+                        </a>
+                    }
+                        
+                    
+                    
+                    <a class="btn btn-outline-secondary px-3 mb-2 fav-button border" style="border-radius:23px;">
                         <img src="~/images/doc.png">
                         at_vero_eos_accusamus.doc
-                    </button>
+                    </a>
                     <button class="btn btn-outline-secondary px-3 mb-2 fav-button border" style="border-radius:23px;">
                         <img src="~/images/doc.png">
                         important_doc.xls
                     </button>
                 </div>
+            }
+                <a class="btn btn-outline-secondary px-3 mb-2 fav-button border" style="border-radius:23px;">
+                        <img src="~/images/doc.png">
+                        at_vero_eos_accusamus.doc
+                    </a>
 
             </div>
             @* Organization Section *@
@@ -548,7 +535,7 @@
                                             <img src="~/images/star-empty.png" />
                                         }
 
-                                        <span>(By 125 Volunteer)</span>
+                                        <span>(By @item.ratingCount Volunteer)</span>
                                     </div>
                                
                             
@@ -559,52 +546,28 @@
             </table>
         </div>
         @*Recent Volunteer *@
+        @if(@item.RecentVolunteers != null)
+                        {
         <div class="mt-4 border">
             <div class="border-bottom mx-4">
                 <div class=" py-3" style="border-bottom:2px solid black;width:fit-content;">
                     <h4>Recent Volunteer</h4>
                 </div>
             </div>
+            
             <div id="recentVolunteers">
                 <div class="row active-vol text-muted mx-3 pt-3 " id="recentVolTab1">
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer1.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer2.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer3.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer4.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer5.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer6.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer7.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer8.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer9.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
+                        
+                            @foreach(var volunteer in @item.RecentVolunteers)
+                        {
+                            <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                                <img class="volunteer-profile-img" src="@volunteer[0]" alt="volunteer1" />
+                                <p>@volunteer[1] @volunteer[2]</p>
+                            </div>
+                        }
+                        
+                        
+                       
                 </div>
 
                 <div class="row disactive text-muted mx-3 pt-3" id="recentVolTab2" style="display:none;">
@@ -683,7 +646,6 @@
             </div>
 
 
-
             <div class="border-top text-wrap text-center d-flex align-items-center mx-0 py-0">
                 <button id="previous-vol" class="py-1" onclick="previousVol()">
                     <img src="~/images/left.png" />
@@ -697,238 +659,76 @@
             </div>
 
         </div>
+        }
     </div>
+    
+            
 
 </div>
 }
+<div class="pt-5" id="relatedMissions">
 @*Related Missions*@
-<div class="pt-5">
-    <div class="text-center">
-        <h2>Related Missions</h2>
-    </div>
-
-    <div class="container-fluid grid-container">
-        <div class="row justify-content-between">
-            @*Card - 4*@
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="card">
-                    <div class="card-img-div">
-                        <img class="card-img-top" src="~/images/CSR-initiative-stands-for-Coffee--and-Farmer-Equity.png" alt="Card image cap">
-
-                        <div class="d-flex justify-content-center align-items-center">
-                            <p class="card-theme px-3 pt-1">Environment</p>
-                        </div>
-                        <div class="location over-buttons px-3 py-1">
-                            <img src="~/images/pin.png" />
-                            <span>Toronto</span>
-                        </div>
-                        <div class="add-favourite over-buttons">
-                            <img src="~/images/heart.png" />
-                        </div>
-                        <div class="square over-buttons">
-                            <img src="~/images/user.png" />
-                        </div>
-                    </div>
-
-                    <div class="card-body mt-4">
-                        <h5 class="card-title px-3">CSR initiative stands for coffee and farmer Equity</h5>
-                        <p class="card-text px-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
-                        <div class="card-rat-section px-3 d-flex justify-content-between">
-                            <p>CSE Network</p>
-                            <div class="card-rating">
-                                <img src="~/images/selected-star.png" />
-                                <img src="~/images/selected-star.png" />
-                                <img src="~/images/selected-star.png" />
-                                <img src="~/images/star-empty.png" />
-                                <img src="~/images/star-empty.png" />
-                            </div>
-                        </div>
-                        <div class="card-footer px-0">
-                            <div class="card-timing mt-4 px-3 ">
-                                <div class=" d-flex justify-content-center">
-                                    <p class="enrol-time px-3 pt-1">Ongoing Opportunity</p>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <img class="timing-img" src="~/images/Already-volunteered.png" alt="" />
-                                        <div>
-                                            <strong><p class="mb-0 card-timing-big">250</p></strong>
-                                            <p class="card-text">Already volunteer</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <div class="my-3 d-flex justify-content-center ">
-                                <button type="button" class="Apply-mission-btn">Apply <img src="~/images/right-arrow.png" /></button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            @*Card - 5*@
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="card">
-                    <div class="card-img-div">
-                        <img class="card-img-top" src="~/images/Animal-welfare-&-save-birds-campaign.png" alt="Card image cap">
-
-                        <div class="d-flex justify-content-center align-items-center">
-                            <p class="card-theme px-3 pt-1">Environment</p>
-                        </div>
-                        <div class="location over-buttons px-3 py-1">
-                            <img src="~/images/pin.png" />
-                            <span>Cape Town</span>
-                        </div>
-                        <div class="add-favourite over-buttons">
-                            <img src="~/images/heart.png" />
-                        </div>
-                        <div class="square over-buttons">
-                            <img src="~/images/user.png" />
-                        </div>
-                    </div>
-
-
-
-                    <div class="card-body mt-4">
-                        <h5 class="card-title px-3">Animal welfare & save birds campaign</h5>
-                        <p class="card-text px-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
-                        <div class="card-rat-section px-3 d-flex justify-content-between">
-                            <p>JR Foundation</p>
-                            <div class="card-rating">
-                                <img src="~/images/selected-star.png" />
-                                <img src="~/images/selected-star.png" />
-                                <img src="~/images/selected-star.png" />
-                                <img src="~/images/star-empty.png" />
-                                <img src="~/images/star-empty.png" />
-                            </div>
-                        </div>
-                        <div class="card-footer px-0">
-                            <div class="card-timing mt-4 px-3 ">
-                                <div class=" d-flex justify-content-center">
-                                    <p class="enrol-time px-3 pt-1">Plant 10,000 Trees</p>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <img class="timing-img" src="~/images/Seats-left.png" alt="" />
-                                        <div>
-                                            <strong><p class="mb-0 card-timing-big">10</p></strong>
-                                            <p class="card-text">Seats Left</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <img class="timing-img" src="~/images/achieved.png" alt="" />
-                                        <div>
-                                            <div class="progress" style="height: 10px;">
-                                                <div class="progress-bar" role="progressbar" style="width: 80%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <p class="card-text">8000 achived</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="my-3 d-flex justify-content-center ">
-                                <button type="button" class="Apply-mission-btn">Apply <img src="~/images/right-arrow.png" /></button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            @*Card - 6*@
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="card">
-                    <div class="card-img-div">
-                        <img class="card-img-top" src="~/images/Plantation-and-Afforestation-programme.png" alt="Card image cap">
-
-                        <div class="d-flex justify-content-center align-items-center">
-                            <p class="card-theme px-3 pt-1">Health</p>
-                        </div>
-                        <div class="location over-buttons px-3 py-1">
-                            <img src="~/images/pin.png" />
-                            <span>Cape Town</span>
-                        </div>
-                        <div class="add-favourite over-buttons">
-                            <img src="~/images/heart.png" />
-                        </div>
-                        <div class="square over-buttons">
-                            <img src="~/images/user.png" />
-                        </div>
-                    </div>
-
-
-
-                    <div class="card-body mt-4">
-                        <h5 class="card-title px-3">Plantation and Afforetation Programme</h5>
-                        <p class="card-text px-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
-                        <div class="card-rat-section px-3 d-flex justify-content-between">
-                            <p>Amaze Doctors</p>
-                            <div class="card-rating">
-                                <img src="~/images/selected-star.png" />
-                                <img src="~/images/selected-star.png" />
-                                <img src="~/images/selected-star.png" />
-                                <img src="~/images/star-empty.png" />
-                                <img src="~/images/star-empty.png" />
-                            </div>
-                        </div>
-                        <div class="card-footer px-0">
-                            <div class="card-timing mt-4 px-3 ">
-                                <div class=" d-flex justify-content-center">
-                                    <p class="enrol-time px-3 pt-1">Plant 10,000 Trees</p>
-                                </div>
-                                <div class="d-flex justify-content-between">
-
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <img class="timing-img" src="~/images/achieved.png" alt="" />
-                                        <div>
-                                            <div class="progress" style="height: 10px;">
-                                                <div class="progress-bar" role="progressbar" style="width:80%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <p class="card-text">8000 achived</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="my-3 d-flex justify-content-center ">
-                                <button type="button" class="Apply-mission-btn">Apply <img src="~/images/right-arrow.png" /></button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+@*@Html.Partial("RelatedMissions");*@
 
 </div>
-
 <script>
-
+    function ApplyMission(){
+        var missionId = $('#getMissionId').text();
+       
+        $('#applyMissionBtn').find('span').each(function(){
+            $(t
+        });
+        @*console.log();*@
+        @*$.ajax({
+            url: '/Home/ApplyMission',
+            type: 'POST',
+            data: {MissionId: missionId},
+            
+            success:function () {
+                console.log("email Sent");
+                
+                
+            }
+        });*@
+    }
     
     function sendInvitation(missionId,userId) {
         console.log(userId);
         console.log(missionId);
-            $.ajax({
-                url: '/Home/SendInvitation',
-                type: 'POST',
-                data: {EmailTo: userId,
-                MissionId: missionId},
+        $.ajax({
+            url: '/Home/SendInvitation',
+            type: 'POST',
+            data: {EmailTo: userId,
+            MissionId: missionId},
             
-                success:function () {
-                    console.log("email Sent");
+            success:function () {
+                console.log("email Sent");
                 
                 
-                }
-            });
+            }
+        });
         $("#success-alert").alert().show();
         window.setTimeout(function () { 
             $("#success-alert").alert('close'); 
         }, 1000);   
         
         
+    }
+    function postComment() {
+        var text = document.getElementById("commentInp").value;
+        var missionId = $('#getMissionId').text();
+        @*console.log(text);*@
+        console.log(missionId);
+        $.ajax({
+            url: '/Home/PostComment',
+            type: 'POST',
+            data: {MissionId: missionId,
+            CommentText: text},
+            success:function (viewModel) {
+                document.getElementById("commentInp").value = "";
+            }
+        });
+
     }
     function addtofav(missionid) {
         @*var button = $(this);*@
@@ -948,6 +748,21 @@
 
     }
     $(document).ready(function(){
+        var missionId = $('#getMissionId').text();
+        @*console.log(missionId);*@
+       $.ajax({
+            url: '/Home/RelatedMissions',
+            type: 'POST',
+            data: {MissionId:missionId},
+            dataType: 'html',
+            success:function (viewModel) {
+                console.log("All");
+                $('#relatedMissions').html(viewModel);
+            }
+        });
+        $('#applyMissionBtn').click(function(){
+            $(this).find('span').remove();
+        });
         $('#submitRating img').mouseover(function(){
 
             var i = $(this).index();

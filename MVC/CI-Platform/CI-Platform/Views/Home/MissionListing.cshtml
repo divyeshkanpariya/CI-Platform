@@ -350,10 +350,11 @@
                             
                         });
                         
-                        //console.log(items);
-                        //cities.html(items);
+                        
                         applyFilter("1");
                         moveToFirstPage();
+                        changeCount();
+
                     }
                 });
                 
@@ -375,10 +376,14 @@
                         if($('#cities li').map(function(){return this}).get().join().length == 0){
                             console.log('getall');
                             $.when(getAllCities()).then(applyFilter());
+                            changeCount();
+
                             
                         }else{
                             applyFilter("1");
                             moveToFirstPage();
+                            changeCount();
+
                         }
                             
                     }
@@ -392,27 +397,32 @@
             //console.log('ccc');
             applyFilter("1");
             moveToFirstPage();
+            changeCount();
         });
 
         $('#themes li a input[type=checkbox]').click(function (e){
             //console.log("thc");
             applyFilter("1");
             moveToFirstPage();
+            changeCount();
         });
 
         $('#skills li a input[type=checkbox]').click(function (e){
             applyFilter("1");
             moveToFirstPage();
+            changeCount();
         });
         $('#sortBy').change(function(){
             applyFilter("1");
             moveToFirstPage();
+            changeCount();
             //console.log($(this).val());
         });
 
         $('#search').blur(function(){
             applyFilter("1");
             moveToFirstPage();
+            changeCount();
         });
         //$('#missionContainer').change(function(){
         //    document.getElementById("missionCount").innerHTML = $('#missionCo').text() + " Missions";
@@ -434,6 +444,13 @@
         });
    
     });
+    function changeCount() {
+        setTimeout(function(){
+            document.getElementById("missionCount").innerHTML = $('#missionCo').text() + " Missions";
+
+        },500);
+
+    }
     function moveToFirstPage(){
         var first = $('#first');
         $('#paginationContainer div a').each(function(){

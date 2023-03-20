@@ -31,6 +31,8 @@ namespace CI_Platform.Repository.Repositories
         private readonly IRepository<User> _Users;
         private readonly IRepository<MissionInvite> _MissionInviteList;
         private readonly IRepository<Comment> _CommentList;
+        private readonly IRepository<MissionApplication> _MissionApplicationList;
+        private readonly IRepository<MissionDocument> _MissionDocumentList;
 
 
         private readonly IMissionCardRepository _MissionCard;
@@ -52,7 +54,9 @@ namespace CI_Platform.Repository.Repositories
             IRepository<FavoriteMission> FavouriteMissions,
             IRepository<User> Users,
             IRepository<MissionInvite> MissionInvites,
-            IRepository<Comment> Comments
+            IRepository<Comment> Comments,
+            IRepository<MissionApplication> MissionApplications,
+            IRepository<MissionDocument> MissionDocuments
             )
         {
             _db = db;
@@ -71,8 +75,10 @@ namespace CI_Platform.Repository.Repositories
             _Users = Users;
             _MissionInviteList = MissionInvites;
             _CommentList = Comments;
+            _MissionApplicationList = MissionApplications;
+            _MissionDocumentList = MissionDocuments;
         }
-        public MissionListingViewModel GetAllMissionData(long missionId)
+        public MissionListingViewModel GetAllMissionData(long missionId, long UserId)
         {
             MissionListingViewModel viewModel = new MissionListingViewModel();
 
@@ -227,6 +233,52 @@ namespace CI_Platform.Repository.Repositories
                     mediaArr.Add("https://localhost:7172/images/Grow-Trees-On-the-path-to-environment-sustainability.png");
                     mission.MissionMediaPaths = mediaArr;
                 }
+/*                Recent Volunteer */
+                if (_MissionApplicationList.ExistUser(u => u.MissionId == mission.MissionId))
+                {
+                    var usersList = (from users in _db.Users
+                                     join app in _db.MissionApplications on users.UserId equals app.UserId
+                                     where app.MissionId == mission.MissionId
+                                     select new
+                                     {
+                                         users.UserId,
+                                         users.FirstName,
+                                         users.LastName,
+                                         users.Email,
+                                         users.Avatar,
+                                         users.Password,
+                                         users.PhoneNumber,
+                                     }).ToList();
+                    List<List<string>> recentUsers = new List<List<string>>();
+                    foreach (var user in usersList)
+                    {
+                        List<string> newU = new List<string>()
+                        {
+                            user.Avatar,
+                            user.FirstName,
+                            user.LastName
+                        };
+                        recentUsers.Add(newU);
+                    }
+                    mission.RecentVolunteers = recentUsers;
+
+                }
+                /*                Mission Documents */
+                if (_MissionDocumentList.ExistUser(u => u.MissionId == mission.MissionId))
+                {
+                    mission.MissionDocumentss = _MissionDocumentList.GetAll().Where(u => u.MissionId == mission.MissionId).ToList();
+                }
+                /* Mission Approval Status */
+                if (_MissionApplicationList.ExistUser(u => u.MissionId == mission.MissionId && u.UserId == UserId))
+                {
+                    string status = _MissionApplicationList.GetFirstOrDefault(u => u.MissionId == mission.MissionId && u.UserId == UserId).ApprovalStatus;
+                    mission.ApprovalStatus = status;
+                }
+                else
+                {
+                    mission.ApprovalStatus = "NotApplied";
+                }
+
             }
 
             
@@ -236,6 +288,186 @@ namespace CI_Platform.Repository.Repositories
 
         
         }
+
+        public MissionListingViewModel GetRelatedMissions(long missionId,long UserId)
+        {
+            MissionListingViewModel viewModel = new MissionListingViewModel();
+            long cityId = _Missions.GetFirstOrDefault(u=>u.MissionId == missionId).CityId;
+            long countryId = _Missions.GetFirstOrDefault(u => u.MissionId == missionId).CountryId;
+            long themeId = _Missions.GetFirstOrDefault(u => u.MissionId == missionId).ThemeId;
+
+
+            //IEnumerable<Mission> AllMissions = _Missions.GetAll();
+             
+            List<Mission> Relatedmissions = new List<Mission>();
+            
+            IEnumerable<Mission> relatedcity = _Missions.GetAll().Where(u => u.CityId == cityId && u.MissionId != missionId);
+            
+            Relatedmissions.AddRange(relatedcity);
+            if (Relatedmissions.Count() < 3)
+            {
+                IEnumerable<Mission> relatedCountry = _Missions.GetAll().Where(u => u.CityId != cityId && u.CountryId == countryId);
+                Relatedmissions.AddRange(relatedCountry);
+            }
+            if (Relatedmissions.Count() < 3)
+            {
+                IEnumerable<Mission> relatedTheme = _Missions.GetAll().Where(u => u.CityId != cityId && u.CountryId != countryId && u.ThemeId == themeId);
+                Relatedmissions.AddRange(relatedTheme);
+            }
+            //if (selectedMissions.Count() < 3)
+            //{
+            //    IEnumerable<Mission> newms = _Missions.GetAll().Where(u => u.CityId != cityId && u.CountryId == countryId);
+            //    //selectedMissions.ToList().AddRange(newms);
+            //    foreach(Mission m in newms)
+            //    {
+            //        selectedMissions.ToList().Add(m);
+            //    }
+
+            //}
+            //if (selectedMissions.Count() <3)
+            //{
+            //    selectedMissions = _Missions.GetAll().Where(u => u.CityId == cityId || u.CountryId == countryId || u.ThemeId == themeId);
+
+            //}
+
+            IEnumerable<Mission> AllMissions = Relatedmissions.Take(3);
+
+
+
+            viewModel.MissionCards = _MissionCard.FillData(AllMissions);
+
+            viewModel.MissionCount = AllMissions.Count();
+
+            viewModel.Cities = _CityList.GetAll();
+            viewModel.Countries = _CountryList.GetAll();
+            viewModel.MissionThemes = _ThemeList.GetAll();
+            viewModel.Skills = _SkillList.GetAll();
+            viewModel.Missions = _Missions.GetAll();
+            viewModel.MissionMedia = _MissionMedia.GetAll();
+            
+
+            foreach (var mission in viewModel.MissionCards)
+            {
+                mission.City = _CityList.GetFirstOrDefault(u => u.CityId == mission.CityId).Name;
+
+                mission.Country = _CountryList.GetFirstOrDefault(u => u.CountryId == mission.CountryId).Name;
+
+                mission.Theme = _ThemeList.GetFirstOrDefault(u => u.MissionThemeId == mission.ThemeId).Title;
+
+                /* Path */
+                if (_MissionMedia.ExistUser(u => u.MissionId == mission.MissionId))
+                {
+
+                    if (_MissionMedia.GetAll().Any(u => u.MissionId == mission.MissionId && u.Default == 1))
+                    {
+                        mission.Path = _MissionMedia.GetFirstOrDefault(u => u.MissionId == mission.MissionId && u.Default == 1).MediaPath;
+                    }
+                    else
+                    {
+                        mission.Path = _MissionMedia.GetFirstOrDefault(u => u.MissionId == mission.MissionId).MediaPath;
+                    }
+
+                }
+                else
+                {
+                    mission.Path = "https://localhost:7172/images/Grow-Trees-On-the-path-to-environment-sustainability.png";
+                }
+
+                /* Rating */
+
+
+
+                if (_MissionRatingList.ExistUser(u => u.MissionId == mission.MissionId))
+                {
+                    var x = _MissionRatingList.GetAll().Where(u => u.MissionId == mission.MissionId).Average(r => r.Rating);
+                    mission.Ratings = Convert.ToInt16(x);
+                }
+                else
+                {
+                    mission.Ratings = 0;
+                }
+                mission.ratingCount = _MissionRatingList.GetAll().Where(u => u.MissionId == mission.MissionId).Count();
+
+                /* Ongoing Activity or not */
+
+                if (mission.StartDate != null && mission.EndDate != null)
+                {
+                    if (DateTime.Compare((DateTime)mission.StartDate, DateTime.Now) < 0 && DateTime.Compare((DateTime)mission.EndDate, DateTime.Now) >= 0)
+                    {
+                        mission.IsOngoingActivity = true;
+                    }
+                    else
+                    {
+                        mission.IsOngoingActivity = false;
+                    }
+                }
+                /* Goal */
+
+                if (mission.MissionType == "Go")
+                {
+
+                    if (_Goals.GetAll().Any(u => u.MissionId == mission.MissionId))
+                    {
+                        var current = _Goals.GetFirstOrDefault(u => u.MissionId == mission.MissionId);
+                        mission.GoalObjectiveText = current.GoalObjectiveText;
+                        mission.GoalValue = current.GoalValue;
+                        mission.GoalArchived = current.GoalArchived;
+                        mission.prArchivement = (current.GoalArchived * 100) / current.GoalValue;
+                    }
+                }
+
+                /* Seats */
+
+
+                if (_MissionSeats.ExistUser(u => u.MissionId == mission.MissionId))
+                {
+                    mission.IsSeatDataFound = true;
+                    var current = _MissionSeats.GetFirstOrDefault(u => u.MissionId == mission.MissionId);
+
+                    var islimited = current.Islimited;
+                    if (islimited != null)
+                    {
+                        if (islimited == 1)
+                        {
+                            mission.IsLimitedSeats = islimited;
+                            mission.TotalSeats = current.TotalSeats;
+                            mission.SeatsLeft = current.TotalSeats - current.SeatsFilled;
+                            mission.SeatsFilled = current.SeatsFilled;
+
+                        }
+                        else if (islimited == 0)
+                        {
+                            mission.IsLimitedSeats = islimited;
+                            mission.SeatsFilled = current.SeatsFilled;
+                        }
+                    }
+                }
+
+                /* Mission Skills */
+
+                if (_MissionSkills.ExistUser(u => u.MissionId == mission.MissionId))
+                {
+                    var Skills = _MissionSkills.GetAll().Where(u => u.MissionId == mission.MissionId);
+                    List<string> skillArr = new List<string>();
+                    foreach (var skill in Skills)
+                    {
+                        int skillId = skill.SkillId;
+                        skillArr.Add(_SkillList.GetFirstOrDefault(u => u.SkillId == skillId).SkillName);
+                    }
+                    mission.MissionSkills = skillArr;
+                }
+
+                /* Is Favourite Mission */
+                long uid = Convert.ToInt64(UserId);
+                if (_FavoriteMissions.ExistUser(u => u.MissionId == mission.MissionId && u.UserId == uid))
+                {
+                    mission.IsFavourite = true;
+                }
+
+            }
+            return viewModel;
+        }
+
 
         public void RateMission(int Rating, long MissionId,long UserId)
         {
@@ -263,16 +495,10 @@ namespace CI_Platform.Repository.Repositories
 
         public void SendInvitation(long EmailTo, long Emailfrom,long MissionId,string NameOfSender,string Url)
         {
-            //if (_MissionInviteList.ExistUser(u => u.FromUserId == Emailfrom && u.ToUserId == EmailTo && u.MissionId == MissionId))
-            //{
-            //    return;
-            //}
+           
             var email = _Users.GetFirstOrDefault(u=>u.UserId == EmailTo).Email;
             var MissionTitle = _Missions.GetFirstOrDefault(u=>u.MissionId == MissionId).Title;
-            /*UrlHelper u = new UrlHelper(this.ControllerContext.RequestContext);
-            string url = u.Action("About", "Home", null);*/
-
-            //var link = Url.ActionLink("VolunteeringMission", "Home", new { mid = MissionId});
+          
             var fromMail = new MailAddress("divpatel5706@gmail.com");
             var frompwd = "nomqsmrwgidwesns";
             var toEmail = new MailAddress(email);
@@ -313,6 +539,37 @@ namespace CI_Platform.Repository.Repositories
             _MissionInviteList.AddNew(newInvite);
             _MissionInviteList.Save();
         }
+        public void PostComment(long MissionId, string CommentText, long UserId)
+        {
+            Comment comment = new Comment
+            {
+                UserId = UserId,
+                MissionId= MissionId,
+                CommentText = CommentText,
+                ApprovalStatus = "PENDING"
+            };
+            _CommentList.AddNew(comment);
+            _CommentList.Save();
+        }
+
+        public void ApplyMission(long MissionId, long UserId)
+        {
+            if(_MissionApplicationList.ExistUser(u=>u.UserId == UserId && u.MissionId == MissionId) != true)
+            {
+                MissionApplication newApplication = new MissionApplication
+                {
+                    MissionId = MissionId,
+                    UserId = UserId,
+                    ApprovalStatus = "PENDING",
+                    AppliedAt = DateTime.Now
+                };
+                _MissionApplicationList.AddNew(newApplication);
+                _MissionApplicationList.Save();
+            }
+            
+        }
+
+        
     }
     
     }

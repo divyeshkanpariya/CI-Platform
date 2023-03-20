@@ -97,7 +97,8 @@ namespace CI_Platform.Controllers
         {
             if (HttpContext.Session.GetString("UserName") != null)
             {
-                MissionListingViewModel data = _VolunteeringMission.GetAllMissionData(mid);
+                long userId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+                MissionListingViewModel data = _VolunteeringMission.GetAllMissionData(mid,userId);
                 return View(data);
             }
             else
@@ -107,6 +108,13 @@ namespace CI_Platform.Controllers
                 return RedirectToAction("Login", "Auth");
             }
             
+        }
+        public IActionResult RelatedMissions(string MissionId)
+        {
+            long userId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+            long Mid = Convert.ToInt64(MissionId);
+            MissionListingViewModel relatedMissions = _VolunteeringMission.GetRelatedMissions(Mid,userId);
+            return PartialView("RelatedMissions",relatedMissions);
         }
         public void SendInvitation(long EmailTo,long MissionId)
         {
@@ -127,6 +135,18 @@ namespace CI_Platform.Controllers
         public IActionResult StoryListing()
         {
             return View();
+        }
+        public void PostComment(string MissionId,string CommentText)
+        {
+            long Mid = Convert.ToInt64(MissionId);
+            long uid = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+            _VolunteeringMission.PostComment(Mid,CommentText,uid);
+        }
+        public void ApplyMission(string MissionId)
+        {
+            long Mid = Convert.ToInt64(MissionId);
+            long uid = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+            _VolunteeringMission.ApplyMission(Mid, uid);
         }
     }
 }
