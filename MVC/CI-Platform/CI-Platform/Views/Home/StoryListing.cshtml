@@ -1,7 +1,9 @@
 ﻿@{
     Layout = "Home_Layout";
 }
+    @using CI_Platform.Models.ViewModels
 
+    @model CI_Platform.Models.ViewModels.StoryListingViewModel
 <div class="filter-bar">
     <nav class="navbar navbar-expand-md navbar-toggleable-md bg-white navbar-light bg-white border-bottom box-shadow p-0">
         <div class="container-fluid my-0">
@@ -14,26 +16,36 @@
             <div class="navbar-collapsee collapse w-50 d-md-inline-flex ">
                 @*<ul class="navbar-nav filters flex-grow-1 justify-content-around*@
                 <div class="row gx-0 w-100 filters">
-                    <li class="nav-item col-md-3 filter-item dropdown d-flex align-items-center justify-content-center">
-                        <a class="nav-link dropdown-toggle text-dark header-text" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="nav-item col-md-3 filter-item dropdown d-flex align-items-center justify-content-center">
+                        <a class="nav-link dropdown-toggle text-dark header-text" data-bs-toggle="dropdown" aria-expanded="false" id="countriesMenu">
                             <span>Country</span>
                             <img src="~/images/drop-down.png" class="mx-2 dropdown-img" alt="">
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-sm-end">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
+                        <ul class="dropdown-menu dropdown-menu-sm-end" id="countries">
+                            @foreach (var item in Model.Countries)
+                            {
+                                <li><a class="dropdown-item" href="#"><input type="checkbox" class="me-2" id="@item.Name.Replace(" ",String.Empty)" name="@item.Name" value="@item.CountryId"><label class="pe-2" for="@item.Name.Replace(" ",String.Empty)">@item.Name </label></a></li>
+                            }
+                            @*           <li><a class="dropdown-item" href="#">Action</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>*@
                         </ul>
-                    </li>
-                    <li class="nav-item col-md-3 filter-item dropdown d-flex align-items-center justify-content-center">
-                        <a class="nav-link dropdown-toggle text-dark header-text" data-bs-toggle="dropdown" aria-expanded="false">
+                    </div>
+                    <li class="nav-item col-md-3 filter-item dropdown d-flex align-items-center justify-content-center" id="cityfinal">
+                        <a class="nav-link dropdown-toggle text-dark header-text" data-bs-toggle="dropdown" aria-expanded="false" id="citiesMenu">
                             <span>City</span>
                             <img src="~/images/drop-down.png" class="mx-2 dropdown-img" alt="">
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-sm-end">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
+                        <ul class="dropdown-menu dropdown-menu-sm-end" id="cities">
+                            @foreach (var item in Model.Cities)
+                            {
+                            <li>
+                                    <a class="dropdown-item" href="#"><input type="checkbox" class="me-2" id="@item.Name.Replace(" ",String.Empty)" name="@item.Name" value="@item.CityId"><label class="pe-2" for="@item.Name.Replace(" ",String.Empty)">@item.Name </label></a>
+                                </li>
+                            }
+                            @*<li><a class="dropdown-item" href="#">Action</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>*@
                         </ul>
                     </li>
                     <li class="nav-item col-md-3 filter-item dropdown d-flex align-items-center justify-content-center">
@@ -41,10 +53,14 @@
                             <span>Theme</span>
                             <img src="~/images/drop-down.png" class="mx-2 dropdown-img" alt="">
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-sm-end">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
+                        <ul class="dropdown-menu dropdown-menu-sm-end" id="themes">
+                            @foreach (var item in Model.MissionThemes)
+                            {
+                                <li><a class="dropdown-item" href="#"><input type="checkbox" class="me-2" id="@item.Title.Replace(" ",String.Empty)" name="@item.Title" value="@item.MissionThemeId"><label id="lb" for=@item.Title>@item.Title </label></a></li>
+                            }
+                            @*<li><a class="dropdown-item" href="#">Action</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>*@
                         </ul>
                     </li>
                     <li class="nav-item col-md-3 filter-item dropdown d-flex align-items-center justify-content-center">
@@ -52,10 +68,14 @@
                             <span>Skills</span>
                             <img src="~/images/drop-down.png" class="mx-2 dropdown-img" alt="">
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-sm-end">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
+                        <ul class="dropdown-menu dropdown-menu-sm-end" id="skills">
+                            @foreach (var item in Model.Skills)
+                            {
+                                <li><a class="dropdown-item" href="#"><input type="checkbox" class="me-2" id="@item.SkillName.Replace(" ",String.Empty)" name="@item.SkillName" value="@item.SkillId"><label for=@item.SkillName.Trim()>@item.SkillName </label></a></li>
+                            }
+                            @*<li><a class="dropdown-item" href="#">Action</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>*@
                         </ul>
                     </li>
                     <div class="clearAllFilters filter-item align-content-center">
@@ -80,6 +100,7 @@
     </nav>
 </div>
 
+
 <div class="story-listing-img  mb-4">
     <img class="story-img-top" src="~/images/Grow-Trees-On-the-path-to-environment-sustainability-login.png" alt="Card image cap">
 
@@ -97,272 +118,7 @@
 
 
 <div class="container-fluid grid-container px-3 px-sm-5" id="storyContainer">
-    <div class="row justify-content-between">
-        @*Card 1*@
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="card">
-
-                <div class="story-img-div ">
-                    <img class="card-img-top" src="~/images/Grow-Trees-On-the-path-to-environment-sustainability.png" alt="Card image cap">
-                    <div class="d-flex justify-content-center align-items-center">
-                        <p class="card-theme px-3 pt-1">Customer Experience</p>
-                    </div>
-
-                    <div class="card-img-bg"></div>
-
-                    <div class="position-absolute text-center viewStoryDetails w-100">
-                            <button type="button" class="transperentBtn text-center px-3" id="">View Details <img src="~/images/right-arrow.png" /></button>
-                    </div>
-
-                </div>
-
-
-
-
-                <div class="card-body mt-4 px-3">
-                    <h5 class="card-title">10 users and customer Engagement Strategies for 2019</h5>
-                    <p class="card-text text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
-                    <div class="d-flex  align-items-center  pb-3">
-                        <img src="~/images/user-img.png" class="profile-image me-2" alt="">
-                        <span class="text-muted">Andrew Johnson</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @*Card 2*@
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="card">
-
-                <div class="story-img-div">
-                    <img class="card-img-top" src="~/images/Grow-Trees-On-the-path-to-environment-sustainability.png" alt="Card image cap">
-                    <div class="d-flex justify-content-center align-items-center">
-                        <p class="card-theme px-3 pt-1">Childern</p>
-                    </div>
-
-                    <div class="card-img-bg"></div>
-
-                    <div class="position-absolute text-center viewStoryDetails w-100">
-                            <button type="button" class="transperentBtn text-center px-3" id="">View Details <img src="~/images/right-arrow.png" /></button>
-                    </div>
-
-                </div>
-
-                <div class="card-body mt-4 px-3">
-                    <h5 class="card-title">10 users and customer Engagement Strategies for 2019</h5>
-                    <p class="card-text text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
-                    <div class="d-flex  align-items-center  pb-3">
-                        <img src="~/images/volunteer2.png" class="profile-image me-2" alt="">
-                        <span class="text-muted">Andrew Johnson</span>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        @*Card-3*@
-                <div class="col-12 col-md-6 col-lg-4">
-            <div class="card">
-
-                <div class="story-img-div">
-                    <img class="card-img-top" src="~/images/Grow-Trees-On-the-path-to-environment-sustainability.png" alt="Card image cap">
-                    <div class="d-flex justify-content-center align-items-center">
-                        <p class="card-theme px-3 pt-1">Childern</p>
-                    </div>
-
-                    <div class="card-img-bg"></div>
-
-                    <div class="position-absolute text-center viewStoryDetails w-100">
-                            <button type="button" class="transperentBtn text-center px-3" id="">View Details <img src="~/images/right-arrow.png" /></button>
-                    </div>
-
-                </div>
-
-                <div class="card-body mt-4 px-3">
-                    <h5 class="card-title">10 users and customer Engagement Strategies for 2019</h5>
-                    <p class="card-text text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
-                    <div class="d-flex  align-items-center  pb-3">
-                        <img src="~/images/user-img.png" class="profile-image me-2" alt="">
-                        <span class="text-muted">Andrew Johnson</span>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        @*Card - 4*@
-                <div class="col-12 col-md-6 col-lg-4">
-            <div class="card">
-
-                <div class="story-img-div">
-                    <img class="card-img-top" src="~/images/Grow-Trees-On-the-path-to-environment-sustainability.png" alt="Card image cap">
-                    <div class="d-flex justify-content-center align-items-center">
-                        <p class="card-theme px-3 pt-1">Childern</p>
-                    </div>
-
-                    <div class="card-img-bg"></div>
-
-                    <div class="position-absolute text-center viewStoryDetails w-100">
-                            <button type="button" class="transperentBtn text-center px-3" id="">View Details <img src="~/images/right-arrow.png" /></button>
-                    </div>
-
-                </div>
-
-                <div class="card-body mt-4 px-3">
-                    <h5 class="card-title">10 users and customer Engagement Strategies for 2019</h5>
-                    <p class="card-text text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
-                    <div class="d-flex  align-items-center  pb-3">
-                        <img src="~/images/user-img.png" class="profile-image me-2" alt="">
-                        <span class="text-muted">Andrew Johnson</span>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        @*Card - 5*@
-                <div class="col-12 col-md-6 col-lg-4">
-            <div class="card">
-
-                <div class="story-img-div">
-                    <img class="card-img-top" src="~/images/Grow-Trees-On-the-path-to-environment-sustainability.png" alt="Card image cap">
-                    <div class="d-flex justify-content-center align-items-center">
-                        <p class="card-theme px-3 pt-1">Childern</p>
-                    </div>
-
-                    <div class="card-img-bg"></div>
-
-                    <div class="position-absolute text-center viewStoryDetails w-100">
-                            <button type="button" class="transperentBtn text-center px-3" id="">View Details <img src="~/images/right-arrow.png" /></button>
-                    </div>
-
-                </div>
-
-                <div class="card-body mt-4 px-3">
-                    <h5 class="card-title">10 users and customer Engagement Strategies for 2019</h5>
-                    <p class="card-text text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
-                    <div class="d-flex  align-items-center  pb-3">
-                        <img src="~/images/user-img.png" class="profile-image me-2" alt="">
-                        <span class="text-muted">Andrew Johnson</span>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        @*Card - 6*@
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="card">
-
-                <div class="story-img-div">
-                    <img class="card-img-top" src="~/images/Grow-Trees-On-the-path-to-environment-sustainability.png" alt="Card image cap">
-                    <div class="d-flex justify-content-center align-items-center">
-                        <p class="card-theme px-3 pt-1">Childern</p>
-                    </div>
-
-                    <div class="card-img-bg"></div>
-
-                    <div class="position-absolute text-center viewStoryDetails w-100">
-                        <button type="button" class="transperentBtn text-center px-3" id="">View Details <img src="~/images/right-arrow.png" /></button>
-                    </div>
-
-                </div>
-
-                <div class="card-body mt-4 px-3">
-                    <h5 class="card-title">10 users and customer Engagement Strategies for 2019</h5>
-                    <p class="card-text text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
-                    <div class="d-flex  align-items-center  pb-3">
-                        <img src="~/images/user-img.png" class="profile-image me-2" alt="">
-                        <span class="text-muted">Andrew Johnson</span>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        @*Card 7*@
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="card">
-
-                <div class="story-img-div">
-                    <img class="card-img-top" src="~/images/Grow-Trees-On-the-path-to-environment-sustainability.png" alt="Card image cap">
-                    <div class="d-flex justify-content-center align-items-center">
-                        <p class="card-theme px-3 pt-1">Childern</p>
-                    </div>
-
-                    <div class="card-img-bg"></div>
-
-                    <div class="position-absolute text-center viewStoryDetails w-100">
-                        <button type="button" class="transperentBtn text-center px-3" id="">View Details <img src="~/images/right-arrow.png" /></button>
-                    </div>
-
-                </div>
-
-                <div class="card-body mt-4 px-3">
-                    <h5 class="card-title">10 users and customer Engagement Strategies for 2019</h5>
-                    <p class="card-text text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
-                    <div class="d-flex  align-items-center  pb-3">
-                        <img src="~/images/user-img.png" class="profile-image me-2" alt="">
-                        <span class="text-muted">Andrew Johnson</span>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        @*Card 8*@
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="card">
-
-                <div class="story-img-div">
-                    <img class="card-img-top" src="~/images/Grow-Trees-On-the-path-to-environment-sustainability.png" alt="Card image cap">
-                    <div class="d-flex justify-content-center align-items-center">
-                        <p class="card-theme px-3 pt-1">Childern</p>
-                    </div>
-
-                    <div class="card-img-bg"></div>
-
-                    <div class="position-absolute text-center viewStoryDetails w-100">
-                        <button type="button" class="transperentBtn text-center px-3" id="">View Details <img src="~/images/right-arrow.png" /></button>
-                    </div>
-
-                </div>
-
-                <div class="card-body mt-4 px-3">
-                    <h5 class="card-title">10 users and customer Engagement Strategies for 2019</h5>
-                    <p class="card-text text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
-                    <div class="d-flex  align-items-center  pb-3">
-                        <img src="~/images/user-img.png" class="profile-image me-2" alt="">
-                        <span class="text-muted">Andrew Johnson</span>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        @*Card-9*@
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="card">
-
-                <div class="story-img-div">
-                    <img class="card-img-top" src="~/images/Grow-Trees-On-the-path-to-environment-sustainability.png" alt="Card image cap">
-                    <div class="d-flex justify-content-center align-items-center">
-                        <p class="card-theme px-3 pt-1">Childern</p>
-                    </div>
-
-                    <div class="card-img-bg"></div>
-
-                    <div class="position-absolute text-center viewStoryDetails w-100">
-                        <button type="button" class="transperentBtn text-center px-3" id="">View Details <img src="~/images/right-arrow.png" /></button>
-                    </div>
-
-                </div>
-
-                <div class="card-body mt-4 px-3">
-                    <h5 class="card-title">10 users and customer Engagement Strategies for 2019</h5>
-                    <p class="card-text text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
-                    <div class="d-flex  align-items-center  pb-3">
-                        <img src="~/images/user-img.png" class="profile-image me-2" alt="">
-                        <span class="text-muted">Andrew Johnson</span>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-    </div>
+    @Html.Partial("StoryCards")
 
 </div>
 
@@ -382,3 +138,241 @@
     </div>
 </div>
 
+<script>
+    function applyFilter(pageIndex){
+        var selectedCountryID = $('#countries li a input[type=checkbox]:checked').map(function () {return this.value;}).get().join();
+        
+        var selectedCityID = $('#cities li a input[type=checkbox]:checked').map(function () {return this.value;}).get().join();
+
+        var selectedThemeID = $('#themes li a input[type=checkbox]:checked').map(function () {return this.value;}).get().join();
+
+        var selectedSkillID = $('#skills li a input[type=checkbox]:checked').map(function () {return this.value;}).get().join();
+
+        var searchText = $('#search').map(function(){return this.value;}).get().join();
+
+        console.log(searchText);
+
+        if(selectedCityID == "") {
+            selectedCityID = $('#cities li a input[type=checkbox]').map(function () {
+                return this.value;
+            }).get().join();
+            
+        }
+        
+        if(selectedCountryID == ""){        
+            selectedCountryID = $('#countries li a input[type=checkbox]').map(function () {
+                return this.value;    
+            }).get().join();
+        }
+
+        if(selectedThemeID == ""){
+            selectedThemeID = $('#themes li a input[type=checkbox]').map(function () {
+                return this.value;
+            }).get().join();
+        }
+
+        if(selectedSkillID == ""){
+            selectedSkillID = $('#themes li a input[type=checkbox]').map(function () {
+                return this.value;
+            }).get().join();
+        }
+        console.log(selectedCountryID);
+        console.log(selectedCityID);
+        console.log(selectedThemeID);
+        console.log(selectedSkillID);
+        
+
+
+        $.ajax({
+            url: '/Home/GetStoryCards',
+            type: 'POST',
+            data: {CountryIDs: selectedCountryID,
+            CityIDs: selectedCityID,
+            ThemeIDs: selectedThemeID,
+            SkillIds: selectedSkillID,
+            SearchText: searchText,
+            PageIndex: pageIndex},
+            dataType: 'html',
+            success:function (viewModel) {
+                //console.log(viewModel);
+                
+                $('#storyContainer').html(viewModel);
+                
+                
+            }
+   
+        });
+    
+        
+    }
+    $('#countries li a input[type=checkbox]').click(function (e) {
+            var CountryId = $(this).val();
+            console.log(CountryId);
+            //console.log(CountryId.substring(CountryId.indexOf("-")+1));
+            ////console.log(CountryId);
+            //var CountryId = parseInt(CountryId);
+            if (e.currentTarget.checked) {
+
+                $.ajax({
+                    url: '/Home/GetCityByCountry',
+                    type: 'GET',
+                    data: { CountryId: CountryId },
+                    dataType: 'json',
+                    success:function (data) {
+                        var cities = $('#cities');
+                        if($('#countries').find('li a input[type=checkbox]:checked').length == 1){
+                            cities.empty();
+                        }
+                        //cities.empty();   
+                        var items = "";
+                        $.each(data, function (i, item) {
+                            var li = document.createElement('li');
+
+                            var anc = document.createElement('a');
+                            anc.classList.add("dropdown-item");
+
+                            var inp = document.createElement('input');
+                            inp.type = "checkbox";
+                            inp.id = item.name.replaceAll(' ', '');
+                            inp.value = item.cityId;
+                            inp.name = item.name
+                            inp.classList.add("me-2");
+
+
+                            var lable = document.createElement('lable');
+                            lable.classList.add("form-check-label");
+                            lable.setAttribute("for", item.name.replaceAll(' ', ''));
+                            lable.innerHTML = item.name;
+
+                            anc.appendChild(inp);
+                            $(inp).after($(lable));
+                            li.appendChild(anc);
+
+                            cities.append(li);
+                            //items += `<li><a class="dropdown-item"><input type="checkbox" name=`+ item.name.replaceAll(' ','') +` class="me-2" id=` + item.name.replaceAll(' ', '') + ` value=` + item.cityId + `><label class="form-check-label" for=`+ item.name.replaceAll(' ', '') +` >` + item.name + `</label></li>`
+                            
+                        });
+                        
+                        
+                        applyFilter("1");
+                        //moveToFirstPage();
+                        //changeCount();
+
+                    }
+                });
+                
+            } else {
+                $.ajax({
+                    url: '/Home/GetCityByCountry',
+                    type: 'GET',
+                    data: { CountryId: CountryId },
+                    dataType: 'json',
+                    success: function (data) {
+                        var cities = $('#cities');
+
+                        var items = "";
+                        $.each(data, function (i, item) {
+                            var id = "#" + item.name.replaceAll(' ', '');
+                            console.log(id);
+                            $(id).parent().parent().remove();
+                        });
+                        if($('#cities li').map(function(){return this}).get().join().length == 0){
+                            console.log('getall');
+                            getAllCities();
+                            //$.when(getAllCities()).then(applyFilter());
+                            //changeCount();
+                            applyFilter();
+                            
+                        }else{
+                            applyFilter("1");
+                            //moveToFirstPage();
+                            //changeCount();
+
+                        }
+                            
+                    }
+                });
+            }
+            
+            
+        });
+        $(document).ready(function(){
+            $.ajax({
+                url: '/Home/GetStoryCards',
+                type: 'POST',
+                data: {CountryIDs: "", CityIDs: "",ThemeIDs: "",SkillIds: "",SearchText:"",PageIndex:"1"},
+                dataType: 'html',
+                success:function (viewModel) {
+                    console.log("All");
+                    $('#storyContainer').html(viewModel);
+                }
+            });
+            $('#cityfinal').change(function (e){
+                //console.log('ccc');
+                applyFilter("1");
+                
+            });
+
+            $('#themes li a input[type=checkbox]').click(function (e){
+                //console.log("thc");
+                applyFilter("1");
+                
+            });
+
+            $('#skills li a input[type=checkbox]').click(function (e){
+                applyFilter("1");
+                
+            });
+            $('#sortBy').change(function(){
+                applyFilter("1");
+                
+                //console.log($(this).val());
+            });
+
+            $('#search').keyup(function(){
+                applyFilter("1");
+                
+            });
+        });
+    function getAllCities() {
+        $.ajax({
+            url: '/Home/getAllCities',
+            type: 'GET',
+            data: { },
+            dataType: 'json',
+            success: function (data) {
+                var cities = $('#cities');
+
+                //console.log("df");
+                $.each(data, function (i, item) {
+                    var li = document.createElement('li');
+
+                    var anc = document.createElement('a');
+                    anc.classList.add("dropdown-item");
+
+                    var inp = document.createElement('input');
+                    inp.type = "checkbox";
+                    inp.id = item.name.replaceAll(' ', '');
+                    inp.value = item.cityId;
+                    inp.name = item.name;
+                    inp.classList.add("me-2");
+
+
+                    var lable = document.createElement('lable');
+                    lable.classList.add("form-check-label");
+                    lable.setAttribute("for", item.name.replaceAll(' ', ''));
+                    lable.innerHTML = item.name;
+
+                            
+                    anc.appendChild(inp);
+                    $(inp).after($(lable));
+                    li.appendChild(anc);
+
+                            
+                    cities.append(li);
+                });
+                        
+            }
+        });
+    }
+</script>

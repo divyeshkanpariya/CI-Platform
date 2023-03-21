@@ -79,7 +79,7 @@ namespace CI_Platform.Repository.Repositories
 
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
-                Console.WriteLine(adapter.ToString());
+           
                 List<Mission> newMissions = new List<Mission>();
 
                 foreach (DataRow row in dataTable.Rows)

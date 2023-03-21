@@ -1,0 +1,69 @@
+﻿<div class="row">
+        @foreach(var story in @Model.StoryCards)
+        {
+            <div class="col-12 col-md-6 col-lg-4">
+            <div class="card">
+
+                <div class="story-img-div ">
+                    <img class="card-img-top" src="@story.StoryMediaPath" alt="Card image cap">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <p class="card-theme px-3 pt-1">@story.Title</p>
+                    </div>
+
+                    <div class="card-img-bg"></div>
+
+                    <div class="position-absolute text-center viewStoryDetails w-100">
+                            <button type="button" class="transperentBtn text-center px-3" id="">View Details <img src="~/images/right-arrow.png" /></button>
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="card-body mt-4 px-3">
+                    <h5 class="card-title">@story.MissionTitle</h5>
+                    <p class="card-text text-muted">@story.Description</p>
+                    <div class="d-flex  align-items-center  pb-3">
+                        <img src="@story.UserProfile" class="profile-image me-2" alt="">
+                        <span class="text-muted">@story.FirstName @story.LastName</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+        @*Card 1*@
+        @*<div class="col-12 col-md-6 col-lg-4">
+            <div class="card">
+
+                <div class="story-img-div ">
+                    <img class="card-img-top" src="~/images/Grow-Trees-On-the-path-to-environment-sustainability.png" alt="Card image cap">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <p class="card-theme px-3 pt-1">Customer Experience</p>
+                    </div>
+
+                    <div class="card-img-bg"></div>
+
+                    <div class="position-absolute text-center viewStoryDetails w-100">
+                            <button type="button" class="transperentBtn text-center px-3" id="">View Details <img src="~/images/right-arrow.png" /></button>
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="card-body mt-4 px-3">
+                    <h5 class="card-title">10 users and customer Engagement Strategies for 2019</h5>
+                    <p class="card-text text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
+                    <div class="d-flex  align-items-center  pb-3">
+                        <img src="~/images/user-img.png" class="profile-image me-2" alt="">
+                        <span class="text-muted">Andrew Johnson</span>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+        
+        
+
+    </div>

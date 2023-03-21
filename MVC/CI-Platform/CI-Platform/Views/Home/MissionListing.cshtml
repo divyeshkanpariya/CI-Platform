@@ -8,108 +8,7 @@
     Layout = "Home_Layout";
 }
 
-<div class="filter-bar">
-    <nav class="navbar navbar-expand-md navbar-toggleable-md bg-white navbar-light bg-white border-bottom box-shadow p-0">
-        <div class="container-fluid my-0">
-            <div class="navbar-brand search-form">
-
-                <input class="form-control search-input mr-2" type="search" id="search" placeholder="Search Mission..." aria-label="Search" />
-
-            </div>
-
-            <div class="navbar-collapsee collapse w-50 d-md-inline-flex ">
-                @*<ul class="navbar-nav filters flex-grow-1 justify-content-around*@
-                <div class="row gx-0 w-100 filters">
-                    <div class="nav-item col-md-3 filter-item dropdown d-flex align-items-center justify-content-center">
-                        <a class="nav-link dropdown-toggle text-dark header-text" data-bs-toggle="dropdown" aria-expanded="false" id="countriesMenu">
-                            <span>Country</span>
-                            <img src="~/images/drop-down.png" class="mx-2 dropdown-img" alt="">
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-sm-end" id="countries">
-                            @foreach (var item in Model.Countries)
-                            {
-                                <li><a class="dropdown-item" href="#"><input type="checkbox" class="me-2" id="@item.Name.Replace(" ",String.Empty)" name="@item.Name" value="@item.CountryId"><label class="pe-2" for="@item.Name.Replace(" ",String.Empty)">@item.Name </label></a></li>
-                            }
-                            @*           <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>*@
-                        </ul>
-                    </div>
-                    <li class="nav-item col-md-3 filter-item dropdown d-flex align-items-center justify-content-center" id="cityfinal">
-                        <a class="nav-link dropdown-toggle text-dark header-text" data-bs-toggle="dropdown" aria-expanded="false" id="citiesMenu">
-                            <span>City</span>
-                            <img src="~/images/drop-down.png" class="mx-2 dropdown-img" alt="">
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-sm-end" id="cities">
-                            @foreach (var item in Model.Cities)
-                            {
-                            <li>
-                                    <a class="dropdown-item" href="#"><input type="checkbox" class="me-2" id="@item.Name.Replace(" ",String.Empty)" name="@item.Name" value="@item.CityId"><label class="pe-2" for="@item.Name.Replace(" ",String.Empty)">@item.Name </label></a>
-                                </li>
-                            }
-                            @*<li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>*@
-                        </ul>
-                    </li>
-                    <li class="nav-item col-md-3 filter-item dropdown d-flex align-items-center justify-content-center">
-                        <a class="nav-link dropdown-toggle text-dark header-text" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span>Theme</span>
-                            <img src="~/images/drop-down.png" class="mx-2 dropdown-img" alt="">
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-sm-end" id="themes">
-                            @foreach (var item in Model.MissionThemes)
-                            {
-                                <li><a class="dropdown-item" href="#"><input type="checkbox" class="me-2" id="@item.Title.Replace(" ",String.Empty)" name="@item.Title" value="@item.MissionThemeId"><label id="lb" for=@item.Title>@item.Title </label></a></li>
-                            }
-                            @*<li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>*@
-                        </ul>
-                    </li>
-                    <li class="nav-item col-md-3 filter-item dropdown d-flex align-items-center justify-content-center">
-                        <a class="nav-link dropdown-toggle text-dark header-text" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span>Skills</span>
-                            <img src="~/images/drop-down.png" class="mx-2 dropdown-img" alt="">
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-sm-end" id="skills">
-                            @foreach (var item in Model.Skills)
-                            {
-                                <li><a class="dropdown-item" href="#"><input type="checkbox" class="me-2" id="@item.SkillName.Replace(" ",String.Empty)" name="@item.SkillName" value="@item.SkillId"><label for=@item.SkillName.Trim()>@item.SkillName </label></a></li>
-                            }
-                            @*<li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>*@
-                        </ul>
-                    </li>
-                    <div class="clearAllFilters filter-item align-content-center">
-                        <a class="field-text" style="text-decoration:none;">Clear All Filters</a>
-                    </div>
-
-                    @* <li class="nav-item filter-item clearAllFilters d-flex align-items-center justify-content-center" id="clearAllFilters">
-                    <a class="nav-link text-dark header-text" data-bs-toggle="dropdown" aria-expanded="false">
-                    Clear All Filters
-                    </a>
-                    </li>*@
-                </div>
-                @*</ul>*@
-            </div>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapsee" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-        </div>
-    </nav>
-</div>
-
-<div class="py-3 px-4" id="addedFilters">
-    <div class="row" id="selectedFilters">
-      
-        <a href="" id="clearAll" class="field-text my-1 col-auto" style="text-decoration:none; display:none;">Clear All</a>
-    </div>
-</div>
+@Html.Partial("Filters");
 
 <div class="container-fluid" id="viewContainer">
     <div class="row justify-content-between px-4 align-items-center pb-4">
@@ -127,23 +26,7 @@
                 <option value='6'>Registration Deadline</option>
                 
             </select>
-            @*<div class="dropdown mx-3">
-                <a class="dropdown-toggle sort-by-dd text-dark text-decoration-none d-flex justify-content-between align-items-center px-2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span>Sort By</span>
-                    <img src="~/images/drop-down.png" class="mx-2 dropdown-img" alt="">
-                </a>
-                
-                <ul class="dropdown-menu dropdown-menu-sm-end" >
-                    
-
-                    <li><a class="dropdown-item" >Newest</a></li>
-                    <li><a class="dropdown-item" href="#">Oldest</a></li>
-                    <li><a class="dropdown-item" href="#">Lowest available seats</a></li>
-                    <li><a class="dropdown-item" href="#">Highest available seats</a></li>
-                    <li><a class="dropdown-item" href="#">My favourites</a></li>
-                    <li><a class="dropdown-item" href="#">Registration Deadline</a></li>
-                </ul>
-            </div>*@
+           
             <div>
                 <button id="gridButton" class="btn-grid"><img src="~/images/grid.png" /></button>
                 <button id="listButton" class="btn-list"><img src="~/images/list.png" /></button>
@@ -177,12 +60,16 @@
     <div class="pagination d-flex justify-content-center mt-5 mb-5">
         <a href="#"><img src="~/images/previous.png" alt="Previous" /></a>
         <a href="#"><img src="~/images/left.png" alt="Previous" /></a>
-
-        <a href="#" class="active pt-1" id="first">1</a>
-        <a href="#" class="pt-1">2</a>
-        <a href="#" class="pt-1">3</a>
-        <a href="#" class="pt-1">4</a>
-        <a href="#" class="pt-1">5</a>
+        @for(var i= 1; i <= @Model.MissionCount/3+1; i++){
+            @if (i == 1)
+            {
+                <a href="#" class="active pt-1" id="first">@i</a>
+            }else{
+                <a href="#" class="pt-1">@i</a>
+            }
+        }
+        
+        
 
         <a href="#"><img src="~/images/right-arrow1.png" alt="Previous" /></a>
         <a href="#"><img src="~/images/next.png" alt="Previous" /></a>
@@ -419,7 +306,7 @@
             //console.log($(this).val());
         });
 
-        $('#search').blur(function(){
+        $('#search').keyup(function(){
             applyFilter("1");
             moveToFirstPage();
             changeCount();

@@ -16,7 +16,16 @@ namespace CI_Platform.Controllers
         private readonly IVolunteeringMissionRepository _VolunteeringMission;
         private readonly IFavouriteMission _FavouriteMissions;
         private readonly IRepository<City> _Cities;
-        public HomeController(CiPlatformContext db, IMissionListingRepository missionListingDb,IMissionCardRepository MissionCard,IRepository<City> Cities,IVolunteeringMissionRepository volunteeringMission,IFavouriteMission FavouriteMissions)
+        private readonly IStoryListingRepository _StoriyListingDb;
+        private readonly IStoryCardRepository _StoryCard;
+        public HomeController(CiPlatformContext db, 
+            IMissionListingRepository missionListingDb,
+            IMissionCardRepository MissionCard,
+            IRepository<City> Cities,
+            IVolunteeringMissionRepository volunteeringMission,
+            IFavouriteMission FavouriteMissions,
+            IStoryListingRepository StoryListingDb,
+            IStoryCardRepository StoryCards)
         {
             _db = db;
             _missionListingDb = missionListingDb;
@@ -24,6 +33,8 @@ namespace CI_Platform.Controllers
             _Cities = Cities;
             _VolunteeringMission = volunteeringMission;
             _FavouriteMissions = FavouriteMissions;
+            _StoriyListingDb = StoryListingDb;
+            _StoryCard = StoryCards;
         }
         public IActionResult MissionListing()
         {
@@ -121,7 +132,8 @@ namespace CI_Platform.Controllers
             long senderId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
             string senderName = HttpContext.Session.GetString("UserName");
             string url = Url.ActionLink("VolunteeringMission", "Home", new { mid = MissionId });
-            _VolunteeringMission.SendInvitation(EmailTo, senderId, MissionId, senderName,url);
+
+            _VolunteeringMission.SendInvitation(EmailTo, senderId, MissionId, senderName, url);
 
 
         }
@@ -132,10 +144,7 @@ namespace CI_Platform.Controllers
             long mid = Convert.ToInt64(MissionId);
             _VolunteeringMission.RateMission(Rating, mid, senderId);
         }
-        public IActionResult StoryListing()
-        {
-            return View();
-        }
+
         public void PostComment(string MissionId,string CommentText)
         {
             long Mid = Convert.ToInt64(MissionId);
@@ -147,6 +156,45 @@ namespace CI_Platform.Controllers
             long Mid = Convert.ToInt64(MissionId);
             long uid = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
             _VolunteeringMission.ApplyMission(Mid, uid);
+        }
+
+        public IActionResult StoryListing()
+        {
+            string CountryIDs = "";
+            string CityIDs = "";
+            string ThemeIDs = "";
+            string SkillIDs = "";
+            string SortBy = "1";
+            string SearchText = "";
+            string PageIndex = "";
+            string UserId = HttpContext.Session.GetString("UserId");
+            var data = _StoriyListingDb.GetAllData(CountryIDs, CityIDs, ThemeIDs, SkillIDs, SearchText, UserId, PageIndex);
+            return View(data);
+            
+        }
+        [HttpPost]
+        public IActionResult GetStoryCards(string CountryIDs, string CityIDs, string ThemeIDs, string SkillIDs, string SearchText, string PageIndex)
+        {
+            if (SearchText == null)
+            {
+                SearchText = "";
+            }
+            if (CityIDs == null)
+            {
+                var citys = _Cities.GetAll();
+                string citystr = "";
+                foreach (var city in citys)
+                {
+                    citystr += city.CityId.ToString();
+                    citystr += ",";
+                }
+                citystr = citystr.Substring(0, citystr.Length - 2);
+                CityIDs = citystr;
+            }
+            string UserId = HttpContext.Session.GetString("UserId");
+            var data = _StoriyListingDb.GetAllData(CountryIDs, CityIDs, ThemeIDs, SkillIDs, SearchText, UserId, PageIndex);
+
+            return PartialView("StoryCards", data);
         }
     }
 }

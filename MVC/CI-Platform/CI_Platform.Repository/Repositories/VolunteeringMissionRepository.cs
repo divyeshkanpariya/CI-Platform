@@ -238,7 +238,7 @@ namespace CI_Platform.Repository.Repositories
                 {
                     var usersList = (from users in _db.Users
                                      join app in _db.MissionApplications on users.UserId equals app.UserId
-                                     where app.MissionId == mission.MissionId
+                                     where app.MissionId == mission.MissionId && users.UserId != UserId
                                      select new
                                      {
                                          users.UserId,

@@ -456,7 +456,7 @@ input#search {
         margin-right: 10px;
         width: 133px;
     }
-    .card-img-div {
+    .card-img-div, .story-img-div {
         height: 300px;
     }
 }
@@ -477,12 +477,12 @@ input#search {
     .list-view .card-body {
         width: 55%;
     }
-    .card-img-div {
+    .card-img-div, .story-img-div {
         height: 200px;
     }
 }
 @media screen and (min-width:1400px){
-    .card-img-div {
+    .card-img-div, .story-img-div {
         height: 300px;
     }
 }
@@ -491,27 +491,27 @@ input#search {
     display: inline-block;
 }
 
-    .pagination a {
-        float: left;
-        width: 34px;
-        height: 34px;
-        text-align: center;
-        margin: auto;
-        text-decoration: none;
-        transition: background-color .3s;
-        border: 1px solid #ddd;
-        margin: 0 4px;
-        color: #757575;
-    }
+.pagination a {
+    float: left;
+    width: 34px;
+    height: 34px;
+    text-align: center;
+    margin: auto;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+    color: #757575;
+}
 
-        .pagination a.active {
-            background-color: orange;
-            color: white;
-        }
+.pagination a.active {
+    background-color: orange;
+    color: white;
+}
 
-    .pagination :hover {
-        background-color: #DDDDDD;
-    }
+.pagination :hover {
+background-color: #DDDDDD;
+}
 
 .Apply-mission-btn {
     color: #F88634;

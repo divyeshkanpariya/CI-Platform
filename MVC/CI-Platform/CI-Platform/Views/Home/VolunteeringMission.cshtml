@@ -260,7 +260,7 @@
                 </div>
                 <div class="col-sm-6 pt-3">
                     <button class="rec-btns d-flex justify-content-center align-items-center" data-toggle="modal" data-target="#exampleModal">
-                        <div></div><span class="ps-2">Recommend to a Co-Worker</span>
+                        <span class="ps-2">Recommend to a Co-Worker</span>
                     </button>
                 </div>
                <!-- Button trigger modal -->
@@ -318,7 +318,7 @@
             <div class="d-flex justify-content-center">
                 <div class="card-rating rating-bar" id="submitRating">
                     @*<a><img src="~/images/star-empty.png" /></a>*@
-                    <a></a><img src="~/images/star-empty.png" />
+                    <img src="~/images/star-empty.png" />
                     <img src="~/images/star-empty.png" />
                     <img src="~/images/star-empty.png" />
                     <img src="~/images/star-empty.png" />
@@ -378,10 +378,16 @@
                         <button type="button" class="Apply-mission-btn" id ="applyMissionBtn" onclick="ApplyMission()"><span class="me-2">Apply Now</span> <img src="~/images/right-arrow.png" /></button>
                     </div>
 
-                }else{
+                }else if(@item.ApprovalStatus == "PENDING"){
                     
                     <div class="my-3 d-flex justify-content-center">
-                        <button type="button" class="Apply-mission-btn"><span class="me-2">@item.ApprovalStatus</span> <img src="~/images/right-arrow.png" /></button>
+                        <button type="button" class="Apply-mission-btn bg-danger"><span class="me-2">@item.ApprovalStatus APPROVAL</span> <img src="~/images/right-arrow.png" /></button>
+                    </div>
+                }else if(@item.ApprovalStatus == "APPROVE")
+                {
+                    <div class="my-3 alert alert-success" style="" id="success-alert">
+                       
+                       You have already applied in this Mission
                     </div>
                 }
                 
@@ -570,79 +576,7 @@
                        
                 </div>
 
-                <div class="row disactive text-muted mx-3 pt-3" id="recentVolTab2" style="display:none;">
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer1.png" alt="volunteer1" />
-                        <p>Johnson</p>
-                    </div>
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer2.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer3.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer4.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer5.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer6.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer7.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer8.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer9.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-                </div>
-
-                <div class="row disactive text-muted mx-3 pt-3" id="recentVolTab3" style="display:none;">
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer4.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer5.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer6.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer1.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer2.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer3.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-
-                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                        <img class="volunteer-profile-img" src="~/images/volunteer7.png" alt="volunteer1" />
-                        <p>Andrew Johnson</p>
-                    </div>
-                </div>
+                
             </div>
 
 
@@ -675,11 +609,8 @@
     function ApplyMission(){
         var missionId = $('#getMissionId').text();
        
-        $('#applyMissionBtn').find('span').each(function(){
-            $(t
-        });
-        @*console.log();*@
-        @*$.ajax({
+        
+        $.ajax({
             url: '/Home/ApplyMission',
             type: 'POST',
             data: {MissionId: missionId},
@@ -689,7 +620,7 @@
                 
                 
             }
-        });*@
+        });
     }
     
     function sendInvitation(missionId,userId) {
@@ -762,6 +693,13 @@
         });
         $('#applyMissionBtn').click(function(){
             $(this).find('span').remove();
+            var sp = document.createElement('span');
+            $(this).addClass('bg-danger');
+            sp.innerHTML = "PENDING APPROVAL";
+            $(this).prepend(sp);
+            $(this).off('click');
+            $(this).removeAttr('onclick');
+            
         });
         $('#submitRating img').mouseover(function(){
 
