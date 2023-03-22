@@ -10,7 +10,7 @@ namespace CI_Platform.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly CiPlatformContext _db;
+        
         private readonly IMissionListingRepository _missionListingDb;
         private readonly IMissionCardRepository _MissionCard;
         private readonly IVolunteeringMissionRepository _VolunteeringMission;
@@ -18,7 +18,7 @@ namespace CI_Platform.Controllers
         private readonly IRepository<City> _Cities;
         private readonly IStoryListingRepository _StoriyListingDb;
         private readonly IStoryCardRepository _StoryCard;
-        public HomeController(CiPlatformContext db, 
+        public HomeController(
             IMissionListingRepository missionListingDb,
             IMissionCardRepository MissionCard,
             IRepository<City> Cities,
@@ -27,7 +27,7 @@ namespace CI_Platform.Controllers
             IStoryListingRepository StoryListingDb,
             IStoryCardRepository StoryCards)
         {
-            _db = db;
+            
             _missionListingDb = missionListingDb;
             _MissionCard = MissionCard;
             _Cities = Cities;
@@ -196,5 +196,12 @@ namespace CI_Platform.Controllers
 
             return PartialView("StoryCards", data);
         }
+        public IActionResult ShareYourStory()
+        {
+            return View();
+        }
+        
     }
+
+    
 }

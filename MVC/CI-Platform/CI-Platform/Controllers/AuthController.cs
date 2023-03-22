@@ -24,7 +24,6 @@ namespace CI_Platform.Controllers
 
 
         private readonly IRepository<User> _UserDb;
-        private object context;
 
         public AuthController(IRegistrationRepository registrationDb, IRepository<User> UserDb, ILostPasswordRepository lostPwdDb, IResetPasswordRepository resetPwdDb, ILoginRepository loginDb)
         {
