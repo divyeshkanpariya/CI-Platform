@@ -123,7 +123,7 @@ namespace CI_Platform.Repository.Repositories
                 }
                 else
                 {
-                    mission.Path = "https://localhost:7172/images/Grow-Trees-On-the-path-to-environment-sustainability.png";
+                    mission.Path = "/images/Grow-Trees-On-the-path-to-environment-sustainability.png";
                 }
 
                 /* Rating */
@@ -139,7 +139,7 @@ namespace CI_Platform.Repository.Repositories
                 {
                     mission.Ratings = 0;
                 }
-
+                mission.ratingCount = _MissionRatingList.GetAll().Where(u => u.MissionId == mission.MissionId).Count();
                 /* Ongoing Activity or not */
 
                 if (mission.StartDate != null && mission.EndDate != null)
@@ -230,7 +230,7 @@ namespace CI_Platform.Repository.Repositories
                 else
                 {
                     List<string> mediaArr = new List<string>();
-                    mediaArr.Add("https://localhost:7172/images/Grow-Trees-On-the-path-to-environment-sustainability.png");
+                    mediaArr.Add("/images/Grow-Trees-On-the-path-to-environment-sustainability.png");
                     mission.MissionMediaPaths = mediaArr;
                 }
 /*                Recent Volunteer */
@@ -252,9 +252,14 @@ namespace CI_Platform.Repository.Repositories
                     List<List<string>> recentUsers = new List<List<string>>();
                     foreach (var user in usersList)
                     {
+                        string avatar = "/images/volunteer1.png";
+                        if (user.Avatar!=null)
+                        {
+                            avatar = user.Avatar;
+                        }
                         List<string> newU = new List<string>()
                         {
-                            user.Avatar,
+                            avatar,
                             user.FirstName,
                             user.LastName
                         };
@@ -370,7 +375,7 @@ namespace CI_Platform.Repository.Repositories
                 }
                 else
                 {
-                    mission.Path = "https://localhost:7172/images/Grow-Trees-On-the-path-to-environment-sustainability.png";
+                    mission.Path = "/images/Grow-Trees-On-the-path-to-environment-sustainability.png";
                 }
 
                 /* Rating */

@@ -10,11 +10,11 @@
 <p style="display:none" name="@Model.MissionCount" id="missionCo">@Model.MissionCount</p>
 @if(@Model.MissionCount != 0){
 <div class="container-fluid grid-container" id="missionContainer">
-    <div class="row" id="@Model">
+    <div class="row mx-sm-4" id="@Model">
 @foreach (var item in Model.MissionCards)
         {
             
-            <div class="col-12 col-md-6 col-lg-4" id="passMissionCard">
+            <div class="col-12 col-md-6 col-lg-4 pb-5" id="passMissionCard">
                 <div class="card" id="card">
                     
                     <p style="display:none;" id="PassMissionTheme" name="@item.Theme">@item.Theme</p>
@@ -204,9 +204,9 @@
                             </div>
                             }
                             
-                            <div class="py-3 d-flex justify-content-center Apply-mission-btn-div">
+                            <div class="py-3 mx-3 d-flex justify-content-center Apply-mission-btn-div mb-0 " id="#cardEndBtn">
                                 @*<input type="hidden" value="@item.MissionId" asp-for ="">*@
-                                <a type="submit" class="Apply-mission-btn py-2 text-decoration-none" asp-controller="Home" asp-action="VolunteeringMission" asp-route-mid="@item.MissionId">Apply<img src="~/images/right-arrow.png" /></a>
+                                <a type="submit" class="Apply-mission-btn py-2 text-decoration-none" asp-controller="Home" asp-action="VolunteeringMission" asp-route-mid="@item.MissionId">Apply<img class="ms-2" src="~/images/right-arrow.png" /></a>
                             </div>
                             
                         </div>

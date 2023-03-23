@@ -83,7 +83,7 @@ namespace CI_Platform.Repository.Repositories
                 }
                 else
                 {
-                    story.StoryMediaPath = "https://localhost:7172/images/Grow-Trees-On-the-path-to-environment-sustainability.png";
+                    story.StoryMediaPath = "/images/Grow-Trees-On-the-path-to-environment-sustainability.png";
                 }
                 
 

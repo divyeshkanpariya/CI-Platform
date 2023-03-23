@@ -85,42 +85,42 @@ $('#myCarousel .carousel-item img').on('click', function (e) {
 });
 
 //function postComment() {
-//    console.log("sdes");
-//    const child = document.getElementById("commentList").childElementCount;
+    //console.log("sdes");
+    //const child = document.getElementById("commentList").childElementCount;
 
-//    var text = document.getElementById("commentInp");
-//    console.log(text.value);
-//    var commentList = document.getElementById("commentList");
+    //var text = document.getElementById("commentInp");
+    //console.log(text.value);
+    //var commentList = document.getElementById("commentList");
 
-//    var mainDiv = document.createElement("div");
-//    mainDiv.classList.add("d-flex", "comment", "bg-white", "p-2", "align-items-center", "border", "mb-3");
+    //var mainDiv = document.createElement("div");
+    //mainDiv.classList.add("d-flex", "comment", "bg-white", "p-2", "align-items-center", "border", "mb-3");
 
-//    var img = document.createElement("img");
-//    img.src = "/images/volunteer1.png";
-//    mainDiv.appendChild(img);
+    //var img = document.createElement("img");
+    //img.src = "/images/volunteer1.png";
+    //mainDiv.appendChild(img);
 
-//    var commentTexts = document.createElement("div");
-//    commentTexts.classList.add("ms-3");
+    //var commentTexts = document.createElement("div");
+    //commentTexts.classList.add("ms-3");
 
-//    var name = document.createElement("h5");
-//    name.innerHTML = "Kane Williamson";
-//    commentTexts.appendChild(name);
+    //var name = document.createElement("h5");
+    //name.innerHTML = "Kane Williamson";
+    //commentTexts.appendChild(name);
 
-//    var time = document.createElement("p");
-//    time.innerHTML = new Date();
-//    commentTexts.appendChild(time);
+    //var time = document.createElement("p");
+    //time.innerHTML = new Date();
+    //commentTexts.appendChild(time);
 
-//    var cmtext = document.createElement("p");
-//    cmtext.innerHTML = text.value;
-//    commentTexts.appendChild(cmtext);
+    //var cmtext = document.createElement("p");
+    //cmtext.innerHTML = text.value;
+    //commentTexts.appendChild(cmtext);
 
-//    mainDiv.appendChild(commentTexts);
-//    if (child != 0) {
-//        var firstchild = document.getElementById("commentList").firstChild;
-//        commentList.insertBefore(mainDiv, firstchild);
-//    } else {
-//        commentList.appendChild(mainDiv);
-//    }
+    //mainDiv.appendChild(commentTexts);
+    //if (child != 0) {
+    //    var firstchild = document.getElementById("commentList").firstChild;
+    //    commentList.insertBefore(mainDiv, firstchild);
+    //} else {
+    //    commentList.appendChild(mainDiv);
+    //}
 
 //}
 function noMissionFound() {

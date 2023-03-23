@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace CI_Platform.Repository.Interface
 {
-    public interface ILoginRepository
+    public interface IShareStoryRepository
     {
-        public long getUserId(string email);
-
-        public string getUserName(string email);
-
-        public string getUserAvatar(string email);
+        public IEnumerable<Mission> GetMissions(long UserId);
     }
 }

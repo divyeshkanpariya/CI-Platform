@@ -6,50 +6,52 @@
 @{
     Layout = "Home_Layout";
 }
-
+@model CI_Platform.Models.ViewModels.ShareYourStoryViewModel
 
 <div class="container mt-4 mb-4">
-    @*<form>*@
+    <form>
     <div>
             
         <h1 class="h2 mb-4">Share Your Story</h1>
         <div class="row">
             <div class="col">
-                <label" class="form-label" id="mission">Select Mission</label>
-                <select class="form-select mb-3" aria-label=".form-select-lg example">
+                <label asp-for="Mission" class="form-label" id="mission">Select Mission</label>
+                <select asp-for="Mission" name="Mission"class="form-select mb-3" aria-label=".form-select-lg example">
                     <option selected>Select Your Mission</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    @foreach(var mission in @Model.MissionList){
+                        <option value="@mission.MissionId">@mission.Title</option>
+                    }
+                    
                 </select>
+                
             </div>
             
             <div class="col">
-                <label" class="form-label" for="storyTitle">My Story Title</label>
-                <input class="form-control" id="storyTitle" placeholder="Enter Story Title" autofocus required>
+                <label asp-for="StoryTitle" class="form-label" for="storyTitle">My Story Title</label>
+                <input  asp-for="StoryTitle" name="StoryTitle" class="form-control" id="storyTitle" placeholder="Enter Story Title" autofocus required>
             </div>
             <div class="col">
-                <label" class="form-label" for="date">Date</label>
-                <input class="form-control" type="date" placeholder="Select Date">
+                <label asp-for="Date" class="form-label" for="date">Date</label>
+                <input asp-for="Date" name="Date" class="form-control" type="date" placeholder="Select Date">
             </div>
                 
         </div>
-        <label>Describe the issue in detail</label>
+        <label asp-for="StoryDescription">My Story</label>
         <div class="form-group">
-            <textarea id="editor"></textarea>
+            <textarea asp-for="StoryDescription" id="editor"></textarea>
         </div>
         <div >
-                <label" class="form-label" for="videoURL">Enter Video URL</label>
-                <input class="form-control" id="videoURL" placeholder="Enter your URL" autofocus required>
-            </div>
+            <label asp-for="StoryVideoUrl" class="form-label" for="videoURL">Enter Video URL</label>
+            <input asp-for="StoryVideoUrl" class="form-control" id="videoURL" placeholder="Enter your URL" autofocus required>
+        </div>
         <div class="row mt-2">
             <div class="col-12">
                 <div class="form-group">
-                    <label class="form-label">Upload Your Photos</label>
+                    <label asp-for="Photos" class="form-label">Upload Your Photos</label>
                         <div class="d-flex justify-content-center align-items-center border input-div position-relative" style="height:150px">
 
 
-                            <input id="imageupload" type="file" class="file" multiple="multiple" accept="image/jpeg, image/png, image/jpg"><img src="~/images/drag-and-drop.png">
+                            <input asp-for="Photos" id="imageupload" type="file" class="file" multiple="multiple" accept="image/jpeg, image/png, image/jpg"><img src="~/images/drag-and-drop.png">
 
                         </div>
                 </div>
@@ -67,13 +69,13 @@
                         <button type="button" class="Apply-mission-btn px-3 py-2 text-decoration-none">Save</button>
                     </div>
                     <div class="py-3 mx-3">           
-                        <button type="button" class="Apply-mission-btn px-3 py-2 text-decoration-none">Submit</button>
+                        <button type="submit" class="Apply-mission-btn px-3 py-2 text-decoration-none">Submit</button>
                     </div>
                 </div>  
             </div>
         </div>
     </div>
-    @*</form>*@
+    </form>
         
 </div>
 <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>

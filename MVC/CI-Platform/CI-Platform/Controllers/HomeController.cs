@@ -18,6 +18,7 @@ namespace CI_Platform.Controllers
         private readonly IRepository<City> _Cities;
         private readonly IStoryListingRepository _StoriyListingDb;
         private readonly IStoryCardRepository _StoryCard;
+        private readonly IShareStoryRepository _ShareStory;
         public HomeController(
             IMissionListingRepository missionListingDb,
             IMissionCardRepository MissionCard,
@@ -25,7 +26,8 @@ namespace CI_Platform.Controllers
             IVolunteeringMissionRepository volunteeringMission,
             IFavouriteMission FavouriteMissions,
             IStoryListingRepository StoryListingDb,
-            IStoryCardRepository StoryCards)
+            IStoryCardRepository StoryCards,
+            IShareStoryRepository ShareStory)
         {
             
             _missionListingDb = missionListingDb;
@@ -35,6 +37,7 @@ namespace CI_Platform.Controllers
             _FavouriteMissions = FavouriteMissions;
             _StoriyListingDb = StoryListingDb;
             _StoryCard = StoryCards;
+            _ShareStory = ShareStory;
         }
         public IActionResult MissionListing()
         {
@@ -198,9 +201,22 @@ namespace CI_Platform.Controllers
         }
         public IActionResult ShareYourStory()
         {
-            return View();
+            long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+            ShareYourStoryViewModel shareYourStoryViewModel = new ShareYourStoryViewModel();
+            if (_ShareStory.GetMissions(UserId) != null)
+            {
+                shareYourStoryViewModel.MissionList = _ShareStory.GetMissions(UserId);
+
+            }
+            return View(shareYourStoryViewModel);
         }
-        
+        [HttpPost]
+        public IActionResult ShareYourStory(ShareYourStoryViewModel viewModel)
+        {
+            return View(viewModel);
+        }
+
+
     }
 
     

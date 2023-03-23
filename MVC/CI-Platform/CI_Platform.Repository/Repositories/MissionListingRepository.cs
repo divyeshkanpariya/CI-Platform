@@ -162,9 +162,10 @@ namespace CI_Platform.Repository.Repositories
                         mission.Path = _MissionMedia.GetFirstOrDefault(u => u.MissionId == mission.MissionId).MediaPath;
                     }
                     
-                }else
+                }
+                else
                 {
-                    mission.Path = "https://localhost:7172/images/Grow-Trees-On-the-path-to-environment-sustainability.png";
+                    mission.Path = "/images/Grow-Trees-On-the-path-to-environment-sustainability.png";
                 }
 
                 /* Rating */
@@ -262,7 +263,7 @@ namespace CI_Platform.Repository.Repositories
 
             }
            
-            var pagesize = 3;
+            var pagesize = 9;
             if(PageIndex != null)
             {
                 if(PageIndex == "")

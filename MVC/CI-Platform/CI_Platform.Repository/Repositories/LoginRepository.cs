@@ -17,6 +17,16 @@ namespace CI_Platform.Repository.Repositories
             _userRepository = userRepo;
         }
 
+        public string getUserAvatar(string email)
+        {
+            string avatar = "/images/volunteer1.png";
+            if(_userRepository.GetFirstOrDefault(u => u.Email == email).Avatar != null)
+            {
+                avatar = _userRepository.GetFirstOrDefault(u => u.Email == email).Avatar;
+            }
+            return _userRepository.GetFirstOrDefault(u => u.Email == email).Avatar;
+        }
+
         public long getUserId(string email)
         {
             IEnumerable<User> users = _userRepository.GetAll();

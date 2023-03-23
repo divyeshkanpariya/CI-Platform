@@ -12,6 +12,8 @@
 @foreach(var item in Model.MissionCards)
 {
 <p id="getMissionId" style="display:none;">@item.MissionId</p>
+<p id="getUserName" style="display:none;">@Context.Session.GetString("UserName")</p>
+<p id="getUserAvatar" style="display:none;">@Context.Session.GetString("UserAvatar")</p>
 
 <div class="container-fluid">
     <div class="row">
@@ -439,23 +441,9 @@
                             @doc.DocumentName
                         </a>
                     }
-                        
-                    
-                    
-                    <a class="btn btn-outline-secondary px-3 mb-2 fav-button border" style="border-radius:23px;">
-                        <img src="~/images/doc.png">
-                        at_vero_eos_accusamus.doc
-                    </a>
-                    <button class="btn btn-outline-secondary px-3 mb-2 fav-button border" style="border-radius:23px;">
-                        <img src="~/images/doc.png">
-                        important_doc.xls
-                    </button>
-                </div>
-            }
-                <a class="btn btn-outline-secondary px-3 mb-2 fav-button border" style="border-radius:23px;">
-                        <img src="~/images/doc.png">
-                        at_vero_eos_accusamus.doc
-                    </a>
+                    </div>
+                }
+                
 
             </div>
             @* Organization Section *@
@@ -465,9 +453,10 @@
             @*Comment Section*@
             <div class="tab-pane fade" id="tab-3" role="tabpanel">
                 <div class="form-group">
-                    <label for="commentInp">Example textarea</label>
+                    <label for="commentInp">Share Comments</label>
                     <textarea class="form-control" id="commentInp" rows="3" placeholder="Enter Your Comments..."></textarea>
                 </div>
+                <p id="commenterr" class="d-none text-danger">Please Enter Some Text</p>
                 <div class="my-3 ">
                     <button type="button" id="postComments" onclick="postComment()" class="Apply-mission-btn"><span>Post Comment</span></button>
                 </div>
@@ -530,21 +519,20 @@
                     <td style="border-bottom:none;">
                         <div class="card-rating d-flex">
                             
-                                    <div class="card-rating col">
-                                        @for (var i = 0; i < @item.Ratings; i++)
-                                        {
-                                            <img src="~/images/selected-star.png" />
+                            <div class="card-rating col">
+                                @for (var i = 0; i < @item.Ratings; i++)
+                                {
+                                    <img src="~/images/selected-star.png" />
 
-                                        }
-                                        @for (var i = 5; i > @item.Ratings; i--)
-                                        {
-                                            <img src="~/images/star-empty.png" />
-                                        }
+                                }
+                                @for (var i = 5; i > @item.Ratings; i--)
+                                {
+                                    <img src="~/images/star-empty.png" />
+                                }
 
-                                        <span>(By @item.ratingCount Volunteer)</span>
-                                    </div>
+                                <span>(By @item.ratingCount Volunteer)</span>
+                            </div>
                                
-                            
                         </div>
 
                     </td>
@@ -553,47 +541,127 @@
         </div>
         @*Recent Volunteer *@
         @if(@item.RecentVolunteers != null)
-                        {
-        <div class="mt-4 border">
-            <div class="border-bottom mx-4">
-                <div class=" py-3" style="border-bottom:2px solid black;width:fit-content;">
-                    <h4>Recent Volunteer</h4>
+        {
+        <p class="d-none" id="getRecentVolunteerCount">@item.RecentVolunteers.Count</p>
+            
+            <div class="border py-2 mt-4 pb-0">
+                <div class="border-bottom mx-4">
+                    <div class=" py-3" style="border-bottom:2px solid black;width:fit-content;">
+                        <h4>Recent Volunteer</h4>
+                    </div>
                 </div>
+
+                <div id="recentVolunteersSlider" class="carousel slide" style="height:min-content">
+                    <div class="carousel-inner">
+                                @for(var j = 0; j < (@item.RecentVolunteers.Count / 9)+1; j++)
+                                {
+                                    var count = @item.RecentVolunteers.Count;
+                                    var x = j*9;
+                                    if (x == 0)
+                                    {
+                                        <div class="carousel-item active">
+                                            <div class="row text-muted mx-3 pt-3">
+                                                @for (var i = 0; i < 9; i++)
+                                                {
+                                                    @if(count <= x)
+                                                    {
+                                                        break;
+                                                    }
+                                                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                                                        <img class="volunteer-profile-img" src="@item.RecentVolunteers[@x][0]" alt="volunteer1" />
+                                                        <p>@item.RecentVolunteers[@x][1] @item.RecentVolunteers[@x][2]</p>
+                                                    </div>                                                     
+                                                    x++;
+                                                }
+
+                                                
+                                            </div>
+                                        </div>
+
+                                    }else
+                                    {
+                                        <div class="carousel-item">
+                                            <div class="row text-muted mx-3 pt-3">
+                                                @for (var i = 0; i < 9; i++)
+                                                {
+                                                    @if(count <= x)
+                                                    {
+                                                        <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                                                            @*<img class="volunteer-profile-img" src="" alt="" />
+                                                            <p>xyzxyz</p>*@
+                                                        </div>  
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                                                            <img class="volunteer-profile-img" src="@item.RecentVolunteers[@x][0]" alt="volunteer1" />
+                                                            <p>@item.RecentVolunteers[@x][1] @item.RecentVolunteers[@x][2]</p>
+                                                        </div>  
+                                                    }
+                                                                                                   
+                                                    x++;
+                                                }
+
+                                                
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            
+                    </div>
+                </div>
+                <div class="border-top">
+                    <div class="d-flex align-items-center text-wrap text-center mx-0 py-0">
+                        
+                            <a class="changesVolSlide" data-bs-target="#recentVolunteersSlider" role="button" data-bs-slide="prev" style="width:10%" >
+                                <div class="border-end p-0" >
+                                    <img src="~/images/left.png" />
+                                </div>
+                            </a>
+                            <div class=" d-flex align-items-center justify-content-center" style="width:80%">
+
+                                @if (@item.RecentVolunteers.Count <=9)
+                                {
+                                    <p class="mb-0"> 1 - @item.RecentVolunteers.Count of @item.RecentVolunteers.Count Recent Volunteers </p>
+                                }else
+                                {
+                                    <p class="mb-0" id="currVolCount"> 1 - 9 of @item.RecentVolunteers.Count Recent Volunteers </p>
+                                    
+                                }
+                            </div>
+
+                        
+                            <a class="changesVolSlide" data-bs-target="#recentVolunteersSlider" role="button" data-bs-slide="next" style="width:10%;">
+                                <div class="border-start p-0" >
+                                <img src="~/images/right-arrow1.png " />
+                                </div>
+                            </a>
+                        
+                    </div>
+                </div>
+
+
             </div>
             
-            <div id="recentVolunteers">
-                <div class="row active-vol text-muted mx-3 pt-3 " id="recentVolTab1">
-                        
-                            @foreach(var volunteer in @item.RecentVolunteers)
-                        {
-                            <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                                <img class="volunteer-profile-img" src="@volunteer[0]" alt="volunteer1" />
-                                <p>@volunteer[1] @volunteer[2]</p>
-                            </div>
-                        }
-                        
-                        
-                       
-                </div>
 
-                
-            </div>
-
-
-            <div class="border-top text-wrap text-center d-flex align-items-center mx-0 py-0">
-                <button id="previous-vol" class="py-1" onclick="previousVol()">
+            
+            @*<div class="border-top text-wrap text-center d-flex align-items-center mx-0 py-0">*@
+                @*<a id="previous-vol" class="py-1 carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                     <img src="~/images/left.png" />
-                </button>
+                </a>
                 <div class="py-1" style="width:80%">
                     <span id="currentVol">1 - 9 of 25 Recent Volunteers</span>
                 </div>
-                <button id="next-vol" class="py-1" onclick="nextVol()">
-                    <img src="~/images/right-arrow1.png" />
-                </button>
-            </div>
+                <a id="next-vol" class="py-1" onclick="nextVol()">
+                    <img src="~/images/right-arrow1.png" />*@
+                @*</a>*@
+            @*</div>*@
 
-        </div>
+       
         }
+
+ 
     </div>
     
             
@@ -606,6 +674,29 @@
 
 </div>
 <script>
+    $(".changesVolSlide").click(function(){
+            recentVolunteerCount();
+           
+        });
+    function recentVolunteerCount(){
+        var totalCount = $("#getRecentVolunteerCount").text();
+        if(totalCount >9){
+            if($("#recentVolunteersSlider div .active").next().find("div div img").length !=0){
+            
+                var CurrentpageNo = $("#recentVolunteersSlider div .active").index() + 1;
+                var ChildOfTarget = $("#recentVolunteersSlider div .active").next().find("div div img").length;
+                var strr = "";
+                strr += ((CurrentpageNo * 9) +1) + " - ";
+                strr += ((CurrentpageNo * 9) + ChildOfTarget) + " of " + totalCount + " Recent Volunteers";
+          
+                document.getElementById("currVolCount").innerHTML = strr;
+            }else{
+                var strr = "1 - 9 of " + totalCount + " Recent Volunteers";
+                document.getElementById("currVolCount").innerHTML = strr;
+            }
+        }
+        
+    }
     function ApplyMission(){
         var missionId = $('#getMissionId').text();
        
@@ -647,18 +738,59 @@
     }
     function postComment() {
         var text = document.getElementById("commentInp").value;
-        var missionId = $('#getMissionId').text();
+        if(text == ""){
+            $('#commenterr').removeClass("d-none");
+        }else{
+            var missionId = $('#getMissionId').text();
         @*console.log(text);*@
-        console.log(missionId);
-        $.ajax({
-            url: '/Home/PostComment',
-            type: 'POST',
-            data: {MissionId: missionId,
-            CommentText: text},
-            success:function (viewModel) {
-                document.getElementById("commentInp").value = "";
+            console.log(missionId);
+            $.ajax({
+                url: '/Home/PostComment',
+                type: 'POST',
+                data: {MissionId: missionId,
+                CommentText: text},
+                success:function (viewModel) {
+                    document.getElementById("commentInp").value = "";
+                }
+            });
+            console.log("sdes");
+            const child = document.getElementById("commentList").childElementCount;
+
+            var text = document.getElementById("commentInp");
+            console.log(text.value);
+            var commentList = document.getElementById("commentList");
+
+            var mainDiv = document.createElement("div");
+            mainDiv.classList.add("d-flex", "comment", "bg-white", "p-2", "align-items-center", "border", "mb-3");
+
+            var img = document.createElement("img");
+            img.src = $("#getUserAvatar").text();
+            mainDiv.appendChild(img);
+
+            var commentTexts = document.createElement("div");
+            commentTexts.classList.add("ms-3");
+
+            var name = document.createElement("h5");
+            name.innerHTML = $("#getUserName").text();
+            commentTexts.appendChild(name);
+
+            var time = document.createElement("p");
+            time.innerHTML = new Date();
+            commentTexts.appendChild(time);
+
+            var cmtext = document.createElement("p");
+            cmtext.innerHTML = text.value;
+            commentTexts.appendChild(cmtext);
+
+            mainDiv.appendChild(commentTexts);
+            if (child != 0) {
+                var firstchild = document.getElementById("commentList").firstChild;
+                commentList.insertBefore(mainDiv, firstchild);
+            } else {
+                commentList.appendChild(mainDiv);
             }
-        });
+        }
+        
 
     }
     function addtofav(missionid) {
@@ -691,6 +823,8 @@
                 $('#relatedMissions').html(viewModel);
             }
         });
+        
+
         $('#applyMissionBtn').click(function(){
             $(this).find('span').remove();
             var sp = document.createElement('span');
@@ -703,7 +837,7 @@
         });
         $('#submitRating img').mouseover(function(){
 
-            var i = $(this).index();
+            var i = $(this).index()+1;
             $('#submitRating').children('img').each(function(){
                 if(i-->0){
                     this.setAttribute("src","/images/selected-star.png");
@@ -717,7 +851,7 @@
             });
         });
         $('#submitRating img').click(function(){
-            var i = $(this).index();
+            var i = $(this).index()+1;
             
             
             var missionId = $('#getMissionId').text();

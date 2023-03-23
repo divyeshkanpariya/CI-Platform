@@ -37,6 +37,7 @@ builder.Services.AddScoped<IVolunteeringMissionRepository, VolunteeringMissionRe
 builder.Services.AddScoped<IFavouriteMission, FavouriteMissionRepository>();
 builder.Services.AddScoped<IStoryListingRepository, StoryListingRepository>();
 builder.Services.AddScoped<IStoryCardRepository, StoryCardRepository>();
+builder.Services.AddScoped<IShareStoryRepository, ShareStoryRepository>();
 
 builder.Services.AddScoped<IMissionListingRepository, MissionListingRepository>();
 builder.Services.AddScoped<IMissionCardRepository,MissionCardRepository>();
