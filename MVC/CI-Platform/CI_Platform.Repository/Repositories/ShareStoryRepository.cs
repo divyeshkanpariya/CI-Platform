@@ -1,5 +1,7 @@
 ﻿using CI_Platform.Models.Models;
+using CI_Platform.Models.ViewModels;
 using CI_Platform.Repository.Interface;
+using Grpc.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +14,19 @@ namespace CI_Platform.Repository.Repositories
     {
         private readonly IRepository<Mission> _Missions;
         private readonly IRepository<MissionApplication> _MissionApplications;
+        private readonly IRepository<Story> _Storys;
+
 
         public ShareStoryRepository(IRepository<Mission> Missions,
-            IRepository<MissionApplication> MissionApplications)
+            IRepository<MissionApplication> MissionApplications,
+            IRepository<Story> storys)
         {
             _Missions = Missions;
             _MissionApplications = MissionApplications;
+            _Storys = storys;
         }
 
-        public IEnumerable<Mission> GetMissions(long UserId)
+        public List<List<string>> GetMissions(long UserId)
         {
             List<long> missionIds = new List<long>();
 
@@ -31,7 +37,25 @@ namespace CI_Platform.Repository.Repositories
                 missionIds.Add(application.MissionId);
             }
             IEnumerable<Mission> missions = _Missions.GetAll().Where(u => missionIds.Contains(u.MissionId));
-            return missions;
+
+            List<List<string>> selM = new List<List<string>>();
+            foreach (var user in missions)
+            {
+
+                List<string> newU = new List<string>()
+                        {
+
+                            Convert.ToString(user.MissionId),
+                            user.Title
+                        };
+                selM.Add(newU);
+            }
+            return selM;
+        }
+
+        public void UploadStory(ShareYourStoryViewModel ShareStoryModel)
+        {
+            
         }
     }
 }

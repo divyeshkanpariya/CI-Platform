@@ -264,3 +264,10 @@ C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI-Platform\
 C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI-Platform\obj\Debug\net6.0\CI-Platform.pdb
 C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI-Platform\obj\Debug\net6.0\CI-Platform.genruntimeconfig.cache
 C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\CI-Platform\obj\Debug\net6.0\ref\CI-Platform.dll
+C:\Users\pci117\source\repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI-Platform\bin\Debug\net6.0\Grpc.Core.dll
+C:\Users\pci117\source\repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI-Platform\bin\Debug\net6.0\Grpc.Core.Api.dll
+C:\Users\pci117\source\repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI-Platform\bin\Debug\net6.0\runtimes\linux-arm64\native\libgrpc_csharp_ext.arm64.so
+C:\Users\pci117\source\repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI-Platform\bin\Debug\net6.0\runtimes\linux-x64\native\libgrpc_csharp_ext.x64.so
+C:\Users\pci117\source\repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI-Platform\bin\Debug\net6.0\runtimes\osx-x64\native\libgrpc_csharp_ext.x64.dylib
+C:\Users\pci117\source\repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI-Platform\bin\Debug\net6.0\runtimes\win-x64\native\grpc_csharp_ext.x64.dll
+C:\Users\pci117\source\repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI-Platform\bin\Debug\net6.0\runtimes\win-x86\native\grpc_csharp_ext.x86.dll

@@ -19,6 +19,7 @@ namespace CI_Platform.Controllers
         private readonly IStoryListingRepository _StoriyListingDb;
         private readonly IStoryCardRepository _StoryCard;
         private readonly IShareStoryRepository _ShareStory;
+        private readonly IWebHostEnvironment _WebHostEnvironment;
         public HomeController(
             IMissionListingRepository missionListingDb,
             IMissionCardRepository MissionCard,
@@ -27,7 +28,8 @@ namespace CI_Platform.Controllers
             IFavouriteMission FavouriteMissions,
             IStoryListingRepository StoryListingDb,
             IStoryCardRepository StoryCards,
-            IShareStoryRepository ShareStory)
+            IShareStoryRepository ShareStory,
+            IWebHostEnvironment webHostEnvironment)
         {
             
             _missionListingDb = missionListingDb;
@@ -38,6 +40,7 @@ namespace CI_Platform.Controllers
             _StoriyListingDb = StoryListingDb;
             _StoryCard = StoryCards;
             _ShareStory = ShareStory;
+            _WebHostEnvironment = webHostEnvironment;
         }
         public IActionResult MissionListing()
         {
@@ -205,16 +208,61 @@ namespace CI_Platform.Controllers
             ShareYourStoryViewModel shareYourStoryViewModel = new ShareYourStoryViewModel();
             if (_ShareStory.GetMissions(UserId) != null)
             {
-                shareYourStoryViewModel.MissionList = _ShareStory.GetMissions(UserId);
-
+                return View(shareYourStoryViewModel);
             }
-            return View(shareYourStoryViewModel);
+            else
+            {
+                TempData["SuccessMessage"] = "Login is Required";
+
+                return RedirectToAction("Login", "Auth");
+            }
         }
+        [HttpGet]
+        public IActionResult GetMissionsOfUser()
+      {
+            long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+            
+            List<List<string>> recentUsers = _ShareStory.GetMissions(UserId);
+            
+            return Json(recentUsers);
+        }
+
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult ShareYourStory(ShareYourStoryViewModel viewModel)
         {
-            return View(viewModel);
+            if (ModelState.IsValid)
+            {
+
+                _ShareStory.UploadStory(viewModel);
+
+                foreach(var file in viewModel.Photos)
+                {
+                    string folder = "Uploads/Story/";
+                    folder += file.FileName + Guid.NewGuid().ToString();
+                    string serverFolder = Path.Combine(_WebHostEnvironment.WebRootPath, folder);
+                    file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+                }
+
+                return RedirectToAction("StoryListing");
+                
+            }
+            else
+            {
+                return View(viewModel);
+            }
         }
+        //[HttpPost]
+        
+        //public IActionResult SaveStoryDetails(string MissionId, string StoryTitle, string Date, string StoryDesc, string VideoURL,string[] Images,string Status)
+        //{
+
+
+        //    return Json(MissionId);
+            
+            
+        //}
 
 
     }

@@ -7,42 +7,54 @@
     Layout = "Home_Layout";
 }
 @model CI_Platform.Models.ViewModels.ShareYourStoryViewModel
-
+<div class="alert alert-success" style="display:none;" id="success-alert">
+   <strong>Success!</strong>
+   Story Saved as a Draft Successfully !!!!
+</div>
 <div class="container mt-4 mb-4">
-    <form>
+    <form method="post" enctype="multipart/form-data">
     <div>
             
         <h1 class="h2 mb-4">Share Your Story</h1>
         <div class="row">
-            <div class="col">
+            <div class="col mb-3">
                 <label asp-for="Mission" class="form-label" id="mission">Select Mission</label>
-                <select asp-for="Mission" name="Mission"class="form-select mb-3" aria-label=".form-select-lg example">
+                <select asp-for="Mission" asp-validation-for="Mission" name="Mission" id="selectedMission"class="form-select" aria-label=".form-select-lg example">
                     <option selected>Select Your Mission</option>
-                    @foreach(var mission in @Model.MissionList){
-                        <option value="@mission.MissionId">@mission.Title</option>
-                    }
+                    
                     
                 </select>
+                 <span asp-validation-for="Mission" class="text-danger"></span>
+                @*<p class="d-none text-danger" id="validateSelectMission"> Please Select Mission </p>*@
                 
             </div>
             
-            <div class="col">
+            <div class="col mb-3">
                 <label asp-for="StoryTitle" class="form-label" for="storyTitle">My Story Title</label>
-                <input  asp-for="StoryTitle" name="StoryTitle" class="form-control" id="storyTitle" placeholder="Enter Story Title" autofocus required>
+                <input  asp-for="StoryTitle" asp-validation-for="StoryTitle" name="StoryTitle" class="form-control" id="storyTitle" placeholder="Enter Story Title" autofocus>
+                <span asp-validation-for="StoryTitle" class="text-danger"></span>
+                @*<p class="d-none text-danger" id="validateStoryTitle"> Please Enter Story Title </p>*@
             </div>
-            <div class="col">
+            <div class="col mb-3">
                 <label asp-for="Date" class="form-label" for="date">Date</label>
-                <input asp-for="Date" name="Date" class="form-control" type="date" placeholder="Select Date">
+                <input asp-for="Date" name="Date" class="form-control" id="storydate" type="date" placeholder="Select Date">
+                <span asp-validation-for="Date" class="text-danger"></span>
+               @* <p class="d-none text-danger" id="validateDate"> Please Select Date </p>*@
             </div>
                 
         </div>
-        <label asp-for="StoryDescription">My Story</label>
+        <label asp-for="StoryDescription" class="form-label">My Story</label>
         <div class="form-group">
-            <textarea asp-for="StoryDescription" id="editor"></textarea>
+            <textarea asp-for="StoryDescription" name="StoryDescription" id="editor"></textarea>
+            <span asp-validation-for="StoryDescription" class="text-danger"></span>
+            @*<p class="d-none text-danger" id="validateStoryDesc"> Please Enter Some Text </p>*@
+
         </div>
         <div >
             <label asp-for="StoryVideoUrl" class="form-label" for="videoURL">Enter Video URL</label>
-            <input asp-for="StoryVideoUrl" class="form-control" id="videoURL" placeholder="Enter your URL" autofocus required>
+            <textarea asp-for="StoryVideoUrl" class="form-control" id="videoURL" placeholder="Enter your URL"></textarea>
+            <span asp-validation-for="StoryVideoUrl" class="text-danger"></span>
+
         </div>
         <div class="row mt-2">
             <div class="col-12">
@@ -51,12 +63,14 @@
                         <div class="d-flex justify-content-center align-items-center border input-div position-relative" style="height:150px">
 
 
-                            <input asp-for="Photos" id="imageupload" type="file" class="file" multiple="multiple" accept="image/jpeg, image/png, image/jpg"><img src="~/images/drag-and-drop.png">
+                            @*<input asp-for="Photos" id="imageupload" type="file" class="file " multiple="multiple" accept="image/jpeg, image/png, image/jpg"><img src="~/images/drag-and-drop.png" />*@
+                            <input asp-for="Photos" id="imageupload"  class="file"><img src="~/images/drag-and-drop.png">
 
                         </div>
                 </div>
-
+                <span asp-validation-for="Photos" class="text-danger"></span>
             </div>
+
             <output class="mt-3" id="preview"></output>
         </div>
         <div class="row">
@@ -66,10 +80,10 @@
             <div class="col-6 justify-content-end">
                 <div class="d-flex justify-content-end">
                     <div class="py-3 mx-3">              
-                        <button type="button" class="Apply-mission-btn px-3 py-2 text-decoration-none">Save</button>
+                        <button type="button" id="saveStory" class="Apply-mission-btn px-3 py-2 text-decoration-none">Save</button>
                     </div>
                     <div class="py-3 mx-3">           
-                        <button type="submit" class="Apply-mission-btn px-3 py-2 text-decoration-none">Submit</button>
+                        <button type="submit" id="submitStory" class="Apply-mission-btn px-3 py-2 text-decoration-none">Submit</button>
                     </div>
                 </div>  
             </div>
@@ -81,14 +95,92 @@
 <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
 <script>
-  tinymce.init({
-    selector: 'textarea#editor',
-    //statusbar: false,
-    skin: 'bootstrap',
-    plugins: 'lists, link, image, media',
-    toolbar: ' bold italic strikethrough | superscript subscript removeformat ',
-    menubar: false,
-  });
+
+    $(document).ready(function(){
+        console.log("s");
+        $.ajax({
+            url: '/Home/GetMissionsOfUser',
+            type: 'GET',
+            data: {},
+            dataType: 'json',
+            success:function (data) {
+                console.log(data[0][0]);
+                for(var i=0;i<data.length;i++){
+                    var option = document.createElement("option");
+                    option.value = data[i][0];
+                    option.innerHTML = data[i][1];
+                    $("#selectedMission").append(option);
+                }
+            },
+            error: function(req,err) {
+                console.log(err);
+            }
+        });
+    });
+    $("#saveStory").click(function(){
+        if($("#selectedMission").val() == "Select Your Mission"){
+            $("#validateSelectMission").removeClass("d-none");
+            return;
+        }
+        if($("#storyTitle").val() == ""){
+            $("#validateStoryTitle").removeClass("d-none");
+            return;
+        }
+        if($("#storydate").val() == ""){
+            $("#validateDate").removeClass("d-none");
+            return;
+        }
+        if(tinymce.get("editor").getContent() == ""){
+            $("#validateStoryDesc").removeClass("d-none");
+            return;
+        }
+        var files = $("#preview div img").map(function(){
+            return $(this).attr("src");
+        }).get();
+
+        console.log($("#videoURL").val());
+        console.log(files);
+        //saveStoryDetails("DRAFT");
+        //saveStoryDetails(status);
+    });
+    function saveStoryDetails(status){
+        var missionId = $("#selectedMission").val();
+        var storyTitle = $("#storyTitle").val();
+        var date = $("#storydate").val();
+        var storyDesc = tinymce.get("editor").getContent();
+        var videoURL = $("#videoURL").val();
+        var files = $("#preview div img").map(function(){return $(this).attr("src");}).get();
+        console.log("xx");
+        $.ajax({
+            url: '/Home/SaveStoryDetails',
+            type: 'POST',
+            data: {MissionId: missionId,
+            StoryTitle: storyTitle,
+            Date: date,
+            StoryDesc: storyDesc,
+            VideoURL: videoURL,
+            Images: files,
+            Status: status},
+            success:function () {
+                console.log("susccess");     
+                $("#success-alert").alert().show();
+                    window.setTimeout(function () { 
+                        $("#success-alert").alert().hide(); 
+                    }, 1500);  
+            }
+        });
+    }
+    //$("#submitStory").click(function(){
+    //    console.log("submit");
+    //});
+    tinymce.init({
+        selector: 'textarea#editor',
+        //statusbar: false,
+        skin: 'bootstrap',
+        plugins: 'lists, link, image, media',
+        toolbar: ' bold italic strikethrough | superscript subscript removeformat ',
+        menubar: false,
+    });
 
 
     const inputDiv = document.querySelector(".input-div");
@@ -106,24 +198,24 @@
     });
 
     inputDiv.addEventListener("drop", () => {
-    e.preventDefault();
-    const files = e.dataTransfer.files;
-    for (let i = 0; i < files.length; i++) {
-        if (!files[i].type.match("image")) continue;
+        e.preventDefault();
+        const files = e.dataTransfer.files;
+        for (let i = 0; i < files.length; i++) {
+            if (!files[i].type.match("image")) continue;
 
-        if (imagesArray.every(image => image.name !== files[i].name))
-        imagesArray.push(files[i]);
-    }
-    displayImages();
+            if (imagesArray.every(image => image.name !== files[i].name))
+                imagesArray.push(files[i]);
+        }
+        displayImages();
     });
     function displayImages() {
 
         let images = "";
         imagesArray.forEach((image, index) => {
             images += `<div class="image">
-            <img src="${URL.createObjectURL(image)}" alt="image">
-            <span onclick="deleteImage(${index})">&times;</span>
-            </div>`
+                <img src="${URL.createObjectURL(image)}" alt="image">
+                <span onclick="deleteImage(${index})">&times;</span>
+                </div>`
         });
         output.innerHTML = images;
     }

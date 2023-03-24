@@ -24,4 +24,8 @@
     <ProjectReference Include="..\Models\CI_Platform.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Uploads\Story\" />
+  </ItemGroup>
+
 </Project>

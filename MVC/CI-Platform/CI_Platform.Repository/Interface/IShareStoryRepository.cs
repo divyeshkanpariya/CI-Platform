@@ -1,4 +1,5 @@
 ﻿using CI_Platform.Models.Models;
+using CI_Platform.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace CI_Platform.Repository.Interface
 {
     public interface IShareStoryRepository
     {
-        public IEnumerable<Mission> GetMissions(long UserId);
+        public List<List<string>> GetMissions(long UserId);
+
+        public void UploadStory(ShareYourStoryViewModel ShareStoryModel);
     }
 }
