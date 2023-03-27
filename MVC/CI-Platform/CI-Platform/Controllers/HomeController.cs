@@ -234,17 +234,36 @@ namespace CI_Platform.Controllers
         {
             if (ModelState.IsValid)
             {
+                long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+                long StoryId = _ShareStory.UploadStory(viewModel, UserId);
 
-                _ShareStory.UploadStory(viewModel);
-
-                foreach(var file in viewModel.Photos)
+                foreach (var file in viewModel.Photos)
                 {
                     string folder = "Uploads/Story/";
-                    folder += file.FileName + Guid.NewGuid().ToString();
+                    folder += Convert.ToString(StoryId) + "-" + Guid.NewGuid().ToString() + file.FileName;
                     string serverFolder = Path.Combine(_WebHostEnvironment.WebRootPath, folder);
                     file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+                    string path = "/" + folder;
+                    string FileType = Convert.ToString(file.ContentType);
+                    _ShareStory.UploadMedia(StoryId, FileType, path);
                 }
+                
+                string[] Urls = viewModel.StoryVideoUrl.Split('\r');
+                int x=0;
+                foreach (string Url in Urls)
+                {
+                    string finUrl;
+                    if (x++ != 0)
+                    {
+                        finUrl = Url.Remove(0, 1);
+                    }
+                    else
+                    {
+                        finUrl = Url;
+                    }
 
+                    _ShareStory.UploadMedia(StoryId, "URL", finUrl);
+                }
                 return RedirectToAction("StoryListing");
                 
             }
@@ -253,15 +272,33 @@ namespace CI_Platform.Controllers
                 return View(viewModel);
             }
         }
-        //[HttpPost]
         
+        [HttpPost]
+        public IActionResult SaveStoryDraft(ShareYourStoryViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("StoryListing");
+            }
+            return RedirectToAction("StoryListing");
+        }
+        [HttpPost]
+        public IActionResult GetStoryDetails(string MissionId)
+        {
+            long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+
+            List<List<string>> list = _ShareStory.GetStoryDetails(Convert.ToInt64(MissionId), UserId);
+            return Json(list);
+        }
+        //[HttpPost]
+
         //public IActionResult SaveStoryDetails(string MissionId, string StoryTitle, string Date, string StoryDesc, string VideoURL,string[] Images,string Status)
         //{
 
 
         //    return Json(MissionId);
-            
-            
+
+
         //}
 
 

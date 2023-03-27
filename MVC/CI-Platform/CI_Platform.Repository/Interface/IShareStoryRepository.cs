@@ -12,6 +12,10 @@ namespace CI_Platform.Repository.Interface
     {
         public List<List<string>> GetMissions(long UserId);
 
-        public void UploadStory(ShareYourStoryViewModel ShareStoryModel);
+        public long UploadStory(ShareYourStoryViewModel ShareStoryModel,long UserId);
+
+        public void UploadMedia(long StoryId, string Type, string Path);
+
+        public List<List<string>> GetStoryDetails(long MissionId,long UserId);
     }
 }

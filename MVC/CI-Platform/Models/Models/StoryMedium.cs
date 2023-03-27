@@ -9,7 +9,7 @@ public partial class StoryMedium
 
     public long StoryId { get; set; }
 
-    public string Type { get; set; } = null!;
+    public string? Type { get; set; }
 
     public string Path { get; set; } = null!;
 

@@ -797,7 +797,7 @@ public partial class CiPlatformContext : DbContext
                 .HasColumnName("path");
             entity.Property(e => e.StoryId).HasColumnName("story_id");
             entity.Property(e => e.Type)
-                .HasMaxLength(8)
+                .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("type");
             entity.Property(e => e.UpdatedAt)

@@ -1,4 +1,6 @@
 ﻿@*
+
+const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.validate");
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -37,7 +39,7 @@
             </div>
             <div class="col mb-3">
                 <label asp-for="Date" class="form-label" for="date">Date</label>
-                <input asp-for="Date" name="Date" class="form-control" id="storydate" type="date" placeholder="Select Date">
+                <input asp-for="Date" name="Date" class="form-control" id="storydate" type="date" id="storyPubDate" placeholder="Select Date">
                 <span asp-validation-for="Date" class="text-danger"></span>
                @* <p class="d-none text-danger" id="validateDate"> Please Select Date </p>*@
             </div>
@@ -68,7 +70,7 @@
 
                         </div>
                 </div>
-                <span asp-validation-for="Photos" class="text-danger"></span>
+                @*<span asp-validation-for="Photos" class="text-danger"></span>*@
             </div>
 
             <output class="mt-3" id="preview"></output>
@@ -80,10 +82,10 @@
             <div class="col-6 justify-content-end">
                 <div class="d-flex justify-content-end">
                     <div class="py-3 mx-3">              
-                        <button type="button" id="saveStory" class="Apply-mission-btn px-3 py-2 text-decoration-none">Save</button>
+                        <button type="submit" id="saveStory" formaction="@Url.Action("SaveStoryDraft","Home")" class="Apply-mission-btn px-3 py-2 text-decoration-none">Save</button>
                     </div>
                     <div class="py-3 mx-3">           
-                        <button type="submit" id="submitStory" class="Apply-mission-btn px-3 py-2 text-decoration-none">Submit</button>
+                        <button type="submit" id="submitStory" formaction="@Url.Action("ShareYourStory","Home")" class="Apply-mission-btn px-3 py-2 text-decoration-none">Submit</button>
                     </div>
                 </div>  
             </div>
@@ -116,60 +118,115 @@
                 console.log(err);
             }
         });
-    });
-    $("#saveStory").click(function(){
-        if($("#selectedMission").val() == "Select Your Mission"){
-            $("#validateSelectMission").removeClass("d-none");
-            return;
-        }
-        if($("#storyTitle").val() == ""){
-            $("#validateStoryTitle").removeClass("d-none");
-            return;
-        }
-        if($("#storydate").val() == ""){
-            $("#validateDate").removeClass("d-none");
-            return;
-        }
-        if(tinymce.get("editor").getContent() == ""){
-            $("#validateStoryDesc").removeClass("d-none");
-            return;
-        }
-        var files = $("#preview div img").map(function(){
-            return $(this).attr("src");
-        }).get();
 
-        console.log($("#videoURL").val());
-        console.log(files);
-        //saveStoryDetails("DRAFT");
-        //saveStoryDetails(status);
-    });
-    function saveStoryDetails(status){
-        var missionId = $("#selectedMission").val();
-        var storyTitle = $("#storyTitle").val();
-        var date = $("#storydate").val();
-        var storyDesc = tinymce.get("editor").getContent();
-        var videoURL = $("#videoURL").val();
-        var files = $("#preview div img").map(function(){return $(this).attr("src");}).get();
-        console.log("xx");
-        $.ajax({
-            url: '/Home/SaveStoryDetails',
-            type: 'POST',
-            data: {MissionId: missionId,
-            StoryTitle: storyTitle,
-            Date: date,
-            StoryDesc: storyDesc,
-            VideoURL: videoURL,
-            Images: files,
-            Status: status},
-            success:function () {
-                console.log("susccess");     
-                $("#success-alert").alert().show();
-                    window.setTimeout(function () { 
-                        $("#success-alert").alert().hide(); 
-                    }, 1500);  
+        $("#selectedMission").change(() => {
+            var missionId = $("#selectedMission").val();
+            if(missionId != "Select Your Mission"){
+                console.log(missionId);
+                $.ajax({
+                    url: '/Home/GetStoryDetails',
+                    type: 'POST',
+                    data: { MissionId: missionId},
+                    dataType: 'json',
+                    success:function (data) {
+                        console.log("susccess");     
+                        console.log(data);
+                        
+                        if(data.length != 0){
+                            document.getElementById("storyTitle").value = data[0][0];
+                            let date = String(data[1][0]).split("-");
+                            const ddd = new Date(date);
+
+                            const yyyy = date[2];
+                            const mm = date[1];
+                            const dd = date[0];
+                            const formattedDate = `${yyyy}-${mm}-${dd}`;
+                            document.getElementById("storydate").value = formattedDate;
+
+                            console.log(data[2][0]);
+                            tinymce.get("editor").setContent(data[2][0]);
+                            var url = "";
+                            for(var x=0; x<data[3].length;x++){
+                                url+=data[3][x];
+                                url+="\n";
+                            }
+                            console.log(url);
+                            document.getElementById("videoURL").value = url;
+                            //var filereader = new FileReader();
+                            console.log(data[4][0]);
+                            //for(var x=0; x<data[4].length;x++){
+                            //    data[4][x]=filereader.readAsDataURL(data[4][x]);
+                                
+                            //}
+                           var files = new FileList();
+                           for (var i = 0; i < data[4].length; i++) {
+                                var file = new File([imagePaths[i]], imagePaths[i]);
+                                files.append(file);
+                            }
+                            $('#imageupload').prop('files', files);
+                            
+                            
+                        }
+                    }
+                });
             }
         });
-    }
+    });
+
+    
+    //$("#saveStory").click(function(){
+    //    if($("#selectedMission").val() == "Select Your Mission"){
+    //        $("#validateSelectMission").removeClass("d-none");
+    //        return;
+    //    }
+    //    if($("#storyTitle").val() == ""){
+    //        $("#validateStoryTitle").removeClass("d-none");
+    //        return;
+    //    }
+    //    if($("#storydate").val() == ""){
+    //        $("#validateDate").removeClass("d-none");
+    //        return;
+    //    }
+    //    if(tinymce.get("editor").getContent() == ""){
+    //        $("#validateStoryDesc").removeClass("d-none");
+    //        return;
+    //    }
+    //    var files = $("#preview div img").map(function(){
+    //        return $(this).attr("src");
+    //    }).get();
+
+    //    console.log($("#videoURL").val());
+    //    console.log(files);
+    //    //saveStoryDetails("DRAFT");
+    //    //saveStoryDetails(status);
+    //});
+    //function saveStoryDetails(status){
+    //    var missionId = $("#selectedMission").val();
+    //    var storyTitle = $("#storyTitle").val();
+    //    var date = $("#storydate").val();
+    //    var storyDesc = tinymce.get("editor").getContent();
+    //    var videoURL = $("#videoURL").val();
+    //    var files = $("#preview div img").map(function(){return $(this).attr("src");}).get();
+    //    console.log("xx");
+    //    $.ajax({
+    //        url: '/Home/SaveSto ryDetails',
+    //        type: 'POST',
+    //        data: {MissionId: missionId,
+    //        StoryTitle: storyTitle,
+    //        Date: date,
+    //        StoryDesc: storyDesc,
+    //        VideoURL: videoURL,
+    //        Images: files,
+    //        Status: status},
+    //        success:function () {
+    //            console.log("susccess");     
+    //            $("#success-alert").alert().show();
+    //                window.setTimeout(function () { 
+    //                    $("#success-alert").alert().hide(); 
+    //                }, 1500);  
+    //        }
+    //    });
+    //}
     //$("#submitStory").click(function(){
     //    console.log("submit");
     //});
