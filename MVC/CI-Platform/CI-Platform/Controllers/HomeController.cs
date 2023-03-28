@@ -20,6 +20,7 @@ namespace CI_Platform.Controllers
         private readonly IStoryCardRepository _StoryCard;
         private readonly IShareStoryRepository _ShareStory;
         private readonly IWebHostEnvironment _WebHostEnvironment;
+        private readonly IRepository<Story> _StoryList;
         public HomeController(
             IMissionListingRepository missionListingDb,
             IMissionCardRepository MissionCard,
@@ -29,7 +30,8 @@ namespace CI_Platform.Controllers
             IStoryListingRepository StoryListingDb,
             IStoryCardRepository StoryCards,
             IShareStoryRepository ShareStory,
-            IWebHostEnvironment webHostEnvironment)
+            IWebHostEnvironment webHostEnvironment,
+            IRepository<Story> StoryList)
         {
             
             _missionListingDb = missionListingDb;
@@ -41,6 +43,7 @@ namespace CI_Platform.Controllers
             _StoryCard = StoryCards;
             _ShareStory = ShareStory;
             _WebHostEnvironment = webHostEnvironment;
+            _StoryList = StoryList;
         }
         public IActionResult MissionListing()
         {
@@ -230,47 +233,63 @@ namespace CI_Platform.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ShareYourStory(ShareYourStoryViewModel viewModel)
+        public IActionResult ShareYourStory(IFormCollection formData)
         {
-            if (ModelState.IsValid)
+            long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+            
+            ShareYourStoryViewModel viewModel = new ShareYourStoryViewModel()
             {
-                long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
-                long StoryId = _ShareStory.UploadStory(viewModel, UserId);
+                Mission = formData["Mission"],
+                Date = Convert.ToDateTime(formData["Date"]),
+                StoryTitle = formData["StoryTitle"],
+                StoryDescription = formData["StoryDescription"],
+                StoryVideoUrl = formData["StoryVideoUrl"],
+                Photos = formData.Files,
+            };
 
-                foreach (var file in viewModel.Photos)
-                {
-                    string folder = "Uploads/Story/";
-                    folder += Convert.ToString(StoryId) + "-" + Guid.NewGuid().ToString() + file.FileName;
-                    string serverFolder = Path.Combine(_WebHostEnvironment.WebRootPath, folder);
-                    file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
-                    string path = "/" + folder;
-                    string FileType = Convert.ToString(file.ContentType);
-                    _ShareStory.UploadMedia(StoryId, FileType, path);
-                }
+            //if (ModelState.IsValid)
+            //{
                 
-                string[] Urls = viewModel.StoryVideoUrl.Split('\r');
-                int x=0;
-                foreach (string Url in Urls)
-                {
-                    string finUrl;
-                    if (x++ != 0)
-                    {
-                        finUrl = Url.Remove(0, 1);
-                    }
-                    else
-                    {
-                        finUrl = Url;
-                    }
+            //    long StoryId = _ShareStory.UploadStory(viewModel, UserId, "PENDING");
+            //    if (_StoryList.ExistUser(u => u.MissionId == Convert.ToInt64(formData["Mission"]) && u.UserId == UserId))
+            //    {
+            //        _ShareStory.DeleteMedia(StoryId);
+            //    }
+            //    foreach (var file in viewModel.Photos)
+            //    {
+            //        string folder = "Uploads/Story/";
+            //        folder += Convert.ToString(StoryId) + "-" + Guid.NewGuid().ToString() + file.FileName;
+            //        string serverFolder = Path.Combine(_WebHostEnvironment.WebRootPath, folder);
+            //        file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+            //        string path = "/" + folder;
+            //        string FileType = Convert.ToString(file.ContentType);
+            //        _ShareStory.UploadMedia(StoryId, FileType, path);
+            //    }
 
-                    _ShareStory.UploadMedia(StoryId, "URL", finUrl);
-                }
-                return RedirectToAction("StoryListing");
-                
-            }
-            else
-            {
-                return View(viewModel);
-            }
+            //    string[] Urls = viewModel.StoryVideoUrl.Split('\r');
+            //    int x = 0;
+            //    foreach (string Url in Urls)
+            //    {
+            //        string finUrl;
+            //        if (x++ != 0)
+            //        {
+            //            finUrl = Url.Remove(0, 1);
+            //        }
+            //        else
+            //        {
+            //            finUrl = Url;
+            //        }
+
+            //        _ShareStory.UploadMedia(StoryId, "URL", finUrl);
+            //    }
+            //    return RedirectToAction("StoryListing");
+
+            //}
+            //else
+            //{
+            //    return View();
+            //}
+            return View();
         }
         
         [HttpPost]

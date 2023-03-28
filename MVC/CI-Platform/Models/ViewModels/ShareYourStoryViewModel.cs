@@ -17,8 +17,7 @@ namespace CI_Platform.Models.ViewModels
         [Required]
         public string StoryTitle { get; set; }
         [Required]
-
-        public DateOnly Date { get; set; }
+        public DateTime Date { get; set; }
         [Required]
         public string StoryDescription { get; set;}
 

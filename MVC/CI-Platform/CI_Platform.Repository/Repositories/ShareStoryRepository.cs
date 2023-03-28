@@ -56,21 +56,36 @@ namespace CI_Platform.Repository.Repositories
             return selM;
         }
 
-        public long UploadStory(ShareYourStoryViewModel ShareStoryModel,long UserId)
+        public long UploadStory(ShareYourStoryViewModel ShareStoryModel,long UserId,string status)
         {
             long MissionId = Convert.ToInt64(ShareStoryModel.Mission);
-            Story newStory = new Story
+            if (_Storys.GetAll().Any(u=> u.MissionId ==Convert.ToInt64(ShareStoryModel.Mission) && u.UserId == UserId) == true)
             {
-                UserId = UserId,
-                MissionId = MissionId,
-                Title = ShareStoryModel.StoryTitle,
-                Description = ShareStoryModel.StoryDescription,
-                Status = "PENDING",
-                PublishedAt = Convert.ToDateTime(ShareStoryModel.Date)
+                var story = _Storys.GetAll().FirstOrDefault(u => u.MissionId == MissionId && u.UserId == UserId);
+                story.Title = ShareStoryModel.StoryTitle;
+                story.Description = ShareStoryModel.StoryDescription;
+                story.Status = status;
+                story.PublishedAt = Convert.ToDateTime(ShareStoryModel.Date);
+                _Storys.Update(story);
+                _Storys.Save();
+            }
+            else
+            {
+                
+                Story newStory = new Story()
+                {
+                    UserId = UserId,
+                    MissionId = MissionId,
+                    Title = ShareStoryModel.StoryTitle,
+                    Description = ShareStoryModel.StoryDescription,
+                    Status = status,
+                    PublishedAt = Convert.ToDateTime(ShareStoryModel.Date)
 
-            };
-            _Storys.AddNew(newStory);
-            _Storys.Save();
+                };
+                _Storys.AddNew(newStory);
+                _Storys.Save();
+            }
+            
             return _Storys.GetAll().Where(u=> u.UserId == UserId && u.MissionId == MissionId).LastOrDefault().StoryId;
         }
 
@@ -84,6 +99,26 @@ namespace CI_Platform.Repository.Repositories
             };
             _StoryMediaList.AddNew(newMedia);
             _StoryMediaList.Save();
+        }
+        public void DeleteMedia(long StoryId)
+        {
+            var MediaList = _StoryMediaList.GetAll().Where(u=>u.StoryId == StoryId && u.Type != "URL");
+            foreach (var Media in MediaList)
+            {
+                var MediaPath = Media.Path;
+                _StoryMediaList.DeleteField(Media);
+                _StoryMediaList.Save();
+                File.Delete(MediaPath);
+            }
+            var UrlList = _StoryMediaList.GetAll().Where(u => u.StoryId == StoryId && u.Type == "URL");
+            if(UrlList != null)
+            {
+                foreach (var Url in UrlList)
+                {
+                    _StoryMediaList.DeleteField(Url);
+                    _StoryMediaList.Save();
+                }
+            }
         }
 
         public List<List<string>> GetStoryDetails(long MissionId,long UserId)

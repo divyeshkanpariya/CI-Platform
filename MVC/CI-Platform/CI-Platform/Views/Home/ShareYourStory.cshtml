@@ -39,7 +39,7 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
             </div>
             <div class="col mb-3">
                 <label asp-for="Date" class="form-label" for="date">Date</label>
-                <input asp-for="Date" name="Date" class="form-control" id="storydate" type="date" id="storyPubDate" placeholder="Select Date">
+                <input asp-for="Date" name="Date" class="form-control" value="" min="1977-01-01" id="storydate" type="date" id="storyPubDate" placeholder="Select Date">
                 <span asp-validation-for="Date" class="text-danger"></span>
                @* <p class="d-none text-danger" id="validateDate"> Please Select Date </p>*@
             </div>
@@ -97,6 +97,20 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
 <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
 <script>
+    tinymce.init({
+        selector: 'textarea#editor',
+        //statusbar: false,
+        skin: 'bootstrap',
+        plugins: 'lists, link, image, media',
+        toolbar: ' bold italic strikethrough | superscript subscript removeformat ',
+        menubar: false,
+    });
+
+
+    const inputDiv = document.querySelector(".input-div");
+    const input = document.querySelector("#imageupload");
+    const output = document.querySelector("#preview");
+    let imagesArray = [];
 
     $(document).ready(function(){
         console.log("s");
@@ -143,28 +157,74 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
                             const formattedDate = `${yyyy}-${mm}-${dd}`;
                             document.getElementById("storydate").value = formattedDate;
 
-                            console.log(data[2][0]);
+                            
                             tinymce.get("editor").setContent(data[2][0]);
                             var url = "";
                             for(var x=0; x<data[3].length;x++){
                                 url+=data[3][x];
                                 url+="\n";
                             }
-                            console.log(url);
-                            document.getElementById("videoURL").value = url;
-                            //var filereader = new FileReader();
-                            console.log(data[4][0]);
-                            //for(var x=0; x<data[4].length;x++){
-                            //    data[4][x]=filereader.readAsDataURL(data[4][x]);
-                                
-                            //}
-                           var files = new FileList();
-                           for (var i = 0; i < data[4].length; i++) {
-                                var file = new File([imagePaths[i]], imagePaths[i]);
-                                files.append(file);
-                            }
-                            $('#imageupload').prop('files', files);
                             
+                            document.getElementById("videoURL").value = url;
+                            
+
+                            
+                            var images = ""
+                            data[4].forEach((path,index) => {
+                                images += `<div class="image">
+                                    <img src="${path}" alt="image">
+                                    <span onclick="deleteImage(${index})">&times;</span>
+                                    </div>`
+                            });
+                            document.querySelector("#preview").innerHTML = images;
+                            function toDataUrl(url, callback) {
+                                var newUrl = "https://localhost:7172/" + url;
+                                var xhr = new XMLHttpRequest();
+                                xhr.onload = function() {
+                                    callback(xhr.response);
+    
+                                };
+                                xhr.open('GET', newUrl);
+                                
+                                xhr.responseType = 'blob';
+                                xhr.send();
+                            }
+
+                            const dT = new DataTransfer(); 
+
+                            let image;
+                            
+                            for(var j=0;j<data[4].length;j++){
+                                
+                                toDataUrl(data[4][j],function(x){   
+                                    image = x;
+                                    
+                                    
+                                    dT.items.add(new File([image], "myfile.png", {
+                                        type: "image/png"
+                                    }));
+                                    imagesArray.push(new File([image], "myfile.png", {
+                                        type: "image/png"
+                                    }));
+                                    //console.log("image: ", dT);
+                                
+                                document.querySelector('#imageupload').files = dT.files;
+                                });
+                            }
+                            //displayImages();
+                            //toDataUrl(data[4][0],function(x){   
+                            //    image = x;
+                            //    dT.items.add(new File([image], 'myFile.png', {
+                            //        type: "image/png"
+                            //    }));
+                                
+                                console.log("image: ", dT);
+                                
+                            //document.querySelector('#imageupload').files = dT.files;
+                            //});
+                            
+                            
+                                console.log("image: ", imagesArray);
                             
                         }
                     }
@@ -172,86 +232,16 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
             }
         });
     });
-
-    
-    //$("#saveStory").click(function(){
-    //    if($("#selectedMission").val() == "Select Your Mission"){
-    //        $("#validateSelectMission").removeClass("d-none");
-    //        return;
-    //    }
-    //    if($("#storyTitle").val() == ""){
-    //        $("#validateStoryTitle").removeClass("d-none");
-    //        return;
-    //    }
-    //    if($("#storydate").val() == ""){
-    //        $("#validateDate").removeClass("d-none");
-    //        return;
-    //    }
-    //    if(tinymce.get("editor").getContent() == ""){
-    //        $("#validateStoryDesc").removeClass("d-none");
-    //        return;
-    //    }
-    //    var files = $("#preview div img").map(function(){
-    //        return $(this).attr("src");
-    //    }).get();
-
-    //    console.log($("#videoURL").val());
-    //    console.log(files);
-    //    //saveStoryDetails("DRAFT");
-    //    //saveStoryDetails(status);
-    //});
-    //function saveStoryDetails(status){
-    //    var missionId = $("#selectedMission").val();
-    //    var storyTitle = $("#storyTitle").val();
-    //    var date = $("#storydate").val();
-    //    var storyDesc = tinymce.get("editor").getContent();
-    //    var videoURL = $("#videoURL").val();
-    //    var files = $("#preview div img").map(function(){return $(this).attr("src");}).get();
-    //    console.log("xx");
-    //    $.ajax({
-    //        url: '/Home/SaveSto ryDetails',
-    //        type: 'POST',
-    //        data: {MissionId: missionId,
-    //        StoryTitle: storyTitle,
-    //        Date: date,
-    //        StoryDesc: storyDesc,
-    //        VideoURL: videoURL,
-    //        Images: files,
-    //        Status: status},
-    //        success:function () {
-    //            console.log("susccess");     
-    //            $("#success-alert").alert().show();
-    //                window.setTimeout(function () { 
-    //                    $("#success-alert").alert().hide(); 
-    //                }, 1500);  
-    //        }
-    //    });
-    //}
-    //$("#submitStory").click(function(){
-    //    console.log("submit");
-    //});
-    tinymce.init({
-        selector: 'textarea#editor',
-        //statusbar: false,
-        skin: 'bootstrap',
-        plugins: 'lists, link, image, media',
-        toolbar: ' bold italic strikethrough | superscript subscript removeformat ',
-        menubar: false,
-    });
-
-
-    const inputDiv = document.querySelector(".input-div");
-    const input = document.querySelector("#imageupload");
-    const output = document.querySelector("#preview");
-    let imagesArray = [];
-
     input.addEventListener("change", () => {
 
         const files = input.files;
         for (let i = 0; i < files.length; i++) {
             imagesArray.push(files[i])
         }
+        //console.log(imagesArray);
+        fillInp();
         displayImages();
+        
     });
 
     inputDiv.addEventListener("drop", () => {
@@ -263,6 +253,7 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
             if (imagesArray.every(image => image.name !== files[i].name))
                 imagesArray.push(files[i]);
         }
+        fillInp();
         displayImages();
     });
     function displayImages() {
@@ -276,10 +267,19 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
         });
         output.innerHTML = images;
     }
-
+    function fillInp() {
+        var dt = new DataTransfer();
+        for (let i = 0; i < imagesArray.length && i < 20; i++) {
+            dt.items.add(imagesArray[i]);
+        }
+        document.querySelector("#imageupload").files = dt.files;
+        console.log(imagesArray);
+    }
     function deleteImage(index) {
         imagesArray.splice(index, 1);
         displayImages();
+        fillInp();
+        console.log(imagesArray);
     }
-
+  
 </script>
