@@ -1,0 +1,235 @@
+﻿@{
+    Layout = "Home_Layout";
+}
+
+@model IEnumerable<CI_Platform.Models.ViewModels.StoryCardViewModel>
+@{
+    var currCard = @Model.FirstOrDefault();
+}
+<div class="alert alert-success" style="display:none;" id="success-alert">
+   <strong>Success!</strong>
+   Email Sent Successfully
+</div>
+
+<p class="d-none" id="getStoryId">@currCard.StoryId</p>
+<div class="container-fluid">
+    <div class="row">
+        @* -------- Image Slider -------- *@
+        <div class="col-lg-6 ">
+            <div class="container mt-4 h-100">
+                <div class="carousel-container position-relative row ">
+
+                    <!-- Sorry! Lightbox doesn't work - yet. -->
+
+                    <div id="myCarousel" class="carousel px-0 slide" data-ride="carousel">
+                        <div class="carousel-inner" id= "carouselInnerDiv">
+                                @if (@currCard.StoryMediaList.Count != 0)
+                                {
+                                    @for (var i=0;i<@currCard.StoryMediaList.Count;i++)
+                                    {
+                                        @if (i == 0)
+                                        {
+                                            <div class="carousel-item carousel-img-div active" data-slide-number="@i" style="max-height:625px ;">
+                                                <img src="@currCard.StoryMediaList[i]" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/Pn6iimgM-wo/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
+                                            </div>
+                                        }else{
+                                            <div class="carousel-item carousel-img-div" data-slide-number="@i" style="max-height:625px ;">
+                                                <img src="@currCard.StoryMediaList[i]" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/Pn6iimgM-wo/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
+                                            </div>
+                                        }
+
+                                    }
+                                }
+
+
+                            </div>
+
+                        </div>
+
+                        <!-- Carousel Navigation -->
+                    <div id="carousel-thumbs" class="carousel slide">
+                            <div class="carousel-inner h-100 w-100" id="carouselInnerDiv">
+                                
+                                   
+                                        @for(var j = 0; j < (@currCard.StoryMediaList.Count / 4)+1; j++)
+                                        {
+                                            var count = @currCard.StoryMediaList.Count;
+                                            var x = j*4;
+                                            if(x == 0){
+                                                <div class="carousel-item h-100 active">
+                                                    <div class="row mx-0 h-100">
+                                                        @for (var i = 0; i < 4; i++)
+                                                        {
+                                                            @if(count <= x)
+                                                            {
+                                                                break;
+                                                            }
+                                                            @if(x == 0)
+                                                            {
+                                                                <div id="carousel-selector-@x" class="thumb col-3 h-100 px-1 pt-1 selected" data-target="#myCarousel" data-slide-to="@x">
+                                                                    <img  src="@currCard.StoryMediaList[x]" class="img-fluid w-100" alt="...">
+                                                                </div>
+
+                                                            }else{
+                                                                <div id="carousel-selector-@x" class="thumb col-3 h-100 px-1 pt-1" data-target="#myCarousel" data-slide-to="@x">
+                                                                    <img src="@currCard.StoryMediaList[x]" class="img-fluid w-100" alt="...">
+                                                                </div>
+                                                            }                                                           
+                                                            x++;
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="carousel-item h-100">
+                                                    <div class="row mx-0 h-100">
+                                                        @for (var i = 0; i < 4; i++)
+                                                        {
+                                                            @if(count <= x)
+                                                            {
+                                                                break;
+                                                            }
+                                                            <div id="carousel-selector-@x" class="thumb col-3 h-100 px-1 pt-1" data-target="#myCarousel" data-slide-to="@x">
+                                                                <img src="@currCard.StoryMediaList[x]" class="img-fluid w-100" alt="...">
+                                                            </div>
+                                                            x++;
+
+                                                        }
+                                                    </div>
+                                                </div>
+
+                                            }
+
+                                        }
+
+                        </div>
+                        <a class="carousel-control-prev bg-black" href="#carousel-thumbs" role="button" data-slide="prev" style="width:25px;">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only"></span>
+                        </a>
+                        <a class="carousel-control-next bg-black" href="#carousel-thumbs" role="button" data-slide="next" style="width:25px;">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only"></span>
+                        </a>
+                    </div>
+
+                </div> <!-- /row -->
+            </div> <!-- /container -->
+        </div>
+        @* --------- Profile Details --------- *@
+        <div class="col-lg-6 mt-4">
+            <div class="d-flex justify-content-between align-items-end">
+               
+                <div class=" text-center">
+                    <img class="volunteer-profile-img" src="@currCard.UserProfile" alt="volunteer1" style="width:100px;"/>
+                    <p>@currCard.FirstName @currCard.LastName</p>
+                </div>   
+                 
+                <div class="border text-muted storyViews justify-content-center align-items-center mb-3">
+                    <img src="~/images/eye.png" alt="eye" /><span class="ps-2 pb-1">12000 Views</span>
+                </div>
+            </div>
+            <div>
+                @Html.Raw(@currCard.WhyIVol)
+            </div>
+            
+            <div class="row justify-content-between pb-4 px-2" style="">
+                <div class="col-sm-6 pt-3">
+                    <button class="rec-btns d-flex justify-content-center align-items-center" data-toggle="modal" data-target="#exampleModal" >
+                        <span class="ps-2">Recommend to a Co-Worker</span>
+                    </button>                
+                </div>
+                <div class="col-sm-6 pt-3 d-flex  justify-content-sm-end" >
+                    @*<div class=" ">*@
+                        <button type="button" class="w-100 Apply-mission-btn justify-content-between">Open Mission <img class="ps-3" src="~/images/right-arrow.png" /></button>
+                    @*</div>*@
+                </div>
+            </div>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Send Invitation</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3 user-invite-table">
+                                <table class="table table-bordered text-center user-invite-table table-striped " >
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Send Invite</th>  
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach(var user in currCard.UsersList){
+                                            if(@Context.Session.GetString("UserId") != user[0])
+                                            {
+                                                <tr class="">
+                                                <th>@user[1] @user[2]</th>
+                                                <th>
+                                                    <div class="py-1">                               
+                                                        <button  class="Apply-mission-btn px-3" data-dismiss="modal" onclick="sendStoryInvite(@user[0])" value="@user[0]">Send<img src="~/images/right-arrow.png" /></button>
+                                                    </div>
+                                                </th>
+                                            </tr> 
+                                            }
+                                                    
+                                        }
+                                    </tbody>
+                                </table>
+                            
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="px-4 mb-5">
+        <ul class="nav nav-tabs pt-3" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-1" type="button" role="tab" aria-controls="home" aria-selected="true">
+                    @currCard.Title
+                </button>
+            </li>
+            
+        </ul>
+        <div class="mt-3 ">
+            @Html.Raw(@currCard.Description)
+        </div>
+    </div>
+</div>
+
+<script>
+    var storyId = $("#getStoryId").text();
+
+    function sendStoryInvite(sendTo){
+        console.log(sendTo);
+        console.log(storyId)
+        $.ajax({
+            url: '/Home/SendStoryInvite',
+            type: 'POST',
+            data: {SendTo: sendTo,
+            StoryId: storyId},
+            
+            success:function () {
+                console.log("email Sent");
+                $("#success-alert").alert().show();
+                    window.setTimeout(function () { 
+                    $("#success-alert").alert().hide(); 
+                }, 1500);
+                
+            }
+        });
+        
+    }
+</script>

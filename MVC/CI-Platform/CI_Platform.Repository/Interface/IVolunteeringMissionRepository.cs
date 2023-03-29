@@ -11,7 +11,9 @@ namespace CI_Platform.Repository.Interface
     {
         public MissionListingViewModel GetAllMissionData(long missionId,long UserId);
 
-        public void SendInvitation(long EmailTo, long Emailfrom,long MissionId,string NameOfSender,string Url);
+        public void SendInvitation(long EmailTo, long Emailfrom,long MissionId,string body);
+
+        public void addInvitation(long from_id, long to_id, long missionId);
 
         public void RateMission(int Rating, long MissionId,long UserId);
 

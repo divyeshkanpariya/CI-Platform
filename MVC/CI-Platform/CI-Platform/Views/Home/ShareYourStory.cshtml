@@ -189,12 +189,19 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
                                 xhr.responseType = 'blob';
                                 xhr.send();
                             }
-
+                            function rtType(filename){
+                                var x= filename.split(".");
+                                return x[0]
+                            }
                             const dT = new DataTransfer(); 
 
                             let image;
-                            
+                            let ext;
                             for(var j=0;j<data[4].length;j++){
+                                //ext = rtType(data[4][j]);
+                                    //console.log(ext);
+                                    //console.log(data[4][j].split("."));
+                                
                                 
                                 toDataUrl(data[4][j],function(x){   
                                     image = x;

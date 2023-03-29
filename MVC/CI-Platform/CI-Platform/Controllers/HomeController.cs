@@ -20,7 +20,9 @@ namespace CI_Platform.Controllers
         private readonly IStoryCardRepository _StoryCard;
         private readonly IShareStoryRepository _ShareStory;
         private readonly IWebHostEnvironment _WebHostEnvironment;
+        private readonly IStoryDetailsRepository _StoryDetails;
         private readonly IRepository<Story> _StoryList;
+        private readonly IRepository<Mission> _Missions;
         public HomeController(
             IMissionListingRepository missionListingDb,
             IMissionCardRepository MissionCard,
@@ -31,7 +33,9 @@ namespace CI_Platform.Controllers
             IStoryCardRepository StoryCards,
             IShareStoryRepository ShareStory,
             IWebHostEnvironment webHostEnvironment,
-            IRepository<Story> StoryList)
+            IStoryDetailsRepository StoryDetails,
+            IRepository<Story> StoryList,
+            IRepository<Mission> Missions)
         {
             
             _missionListingDb = missionListingDb;
@@ -43,7 +47,9 @@ namespace CI_Platform.Controllers
             _StoryCard = StoryCards;
             _ShareStory = ShareStory;
             _WebHostEnvironment = webHostEnvironment;
+            _StoryDetails = StoryDetails;
             _StoryList = StoryList;
+            _Missions = Missions;
         }
         public IActionResult MissionListing()
         {
@@ -141,10 +147,12 @@ namespace CI_Platform.Controllers
             long senderId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
             string senderName = HttpContext.Session.GetString("UserName");
             string url = Url.ActionLink("VolunteeringMission", "Home", new { mid = MissionId });
+            var MissionTitle = _Missions.GetFirstOrDefault(u => u.MissionId == MissionId).Title;
+            string body = "Greetings of the Day !! <br><br>        " + senderName + " Invited you to join '" + MissionTitle + "' Mission. <br><br>" + url;
 
-            _VolunteeringMission.SendInvitation(EmailTo, senderId, MissionId, senderName, url);
+            _VolunteeringMission.SendInvitation(EmailTo, senderId, MissionId, body);
 
-
+            _VolunteeringMission.addInvitation(senderId, EmailTo, MissionId);
         }
 
         public void RateMission(int Rating,string MissionId)
@@ -247,59 +255,47 @@ namespace CI_Platform.Controllers
                 Photos = formData.Files,
             };
 
-            //if (ModelState.IsValid)
-            //{
-                
-            //    long StoryId = _ShareStory.UploadStory(viewModel, UserId, "PENDING");
-            //    if (_StoryList.ExistUser(u => u.MissionId == Convert.ToInt64(formData["Mission"]) && u.UserId == UserId))
-            //    {
-            //        _ShareStory.DeleteMedia(StoryId);
-            //    }
-            //    foreach (var file in viewModel.Photos)
-            //    {
-            //        string folder = "Uploads/Story/";
-            //        folder += Convert.ToString(StoryId) + "-" + Guid.NewGuid().ToString() + file.FileName;
-            //        string serverFolder = Path.Combine(_WebHostEnvironment.WebRootPath, folder);
-            //        file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
-            //        string path = "/" + folder;
-            //        string FileType = Convert.ToString(file.ContentType);
-            //        _ShareStory.UploadMedia(StoryId, FileType, path);
-            //    }
+            if (ModelState.IsValid)
+            {
 
-            //    string[] Urls = viewModel.StoryVideoUrl.Split('\r');
-            //    int x = 0;
-            //    foreach (string Url in Urls)
-            //    {
-            //        string finUrl;
-            //        if (x++ != 0)
-            //        {
-            //            finUrl = Url.Remove(0, 1);
-            //        }
-            //        else
-            //        {
-            //            finUrl = Url;
-            //        }
+                UpdateMedia(viewModel, "PENDING");
+                return RedirectToAction("StoryListing");
 
-            //        _ShareStory.UploadMedia(StoryId, "URL", finUrl);
-            //    }
-            //    return RedirectToAction("StoryListing");
-
-            //}
-            //else
-            //{
-            //    return View();
-            //}
+            }
+            else
+            {
+                return View();
+            }
             return View();
         }
         
         [HttpPost]
-        public IActionResult SaveStoryDraft(ShareYourStoryViewModel viewModel)
+        public IActionResult SaveStoryDraft(IFormCollection formData)
         {
+            long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+
+            ShareYourStoryViewModel viewModel = new ShareYourStoryViewModel()
+            {
+                Mission = formData["Mission"],
+                Date = Convert.ToDateTime(formData["Date"]),
+                StoryTitle = formData["StoryTitle"],
+                StoryDescription = formData["StoryDescription"],
+                StoryVideoUrl = formData["StoryVideoUrl"],
+                Photos = formData.Files,
+            };
+
             if (ModelState.IsValid)
             {
+                UpdateMedia(viewModel,"DRAFT");
+
                 return RedirectToAction("StoryListing");
+
             }
-            return RedirectToAction("StoryListing");
+            else
+            {
+                return View();
+            }
+            return View();
         }
         [HttpPost]
         public IActionResult GetStoryDetails(string MissionId)
@@ -309,17 +305,80 @@ namespace CI_Platform.Controllers
             List<List<string>> list = _ShareStory.GetStoryDetails(Convert.ToInt64(MissionId), UserId);
             return Json(list);
         }
-        //[HttpPost]
+        public void UpdateMedia(ShareYourStoryViewModel viewModel, string status)
+        {
+            long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+            long StoryId = _ShareStory.UploadStory(viewModel, UserId, status);
+            if (_StoryList.ExistUser(u => u.MissionId == Convert.ToInt64(viewModel.Mission) && u.UserId == UserId))
+            {
+                _ShareStory.DeleteMedia(StoryId);
+            }
+            foreach (var file in viewModel.Photos)
+            {
+                string folder = "Uploads/Story/";
+                string ext = file.ContentType.ToLower().Substring(file.ContentType.LastIndexOf("/") + 1);
+                folder += Convert.ToString(StoryId) + "-" + Convert.ToString(UserId) + "-" + Guid.NewGuid().ToString() + "." + ext;
+                string serverFolder = Path.Combine(_WebHostEnvironment.WebRootPath, folder);
+                file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+                string path = "/" + folder;
+                string FileType = Convert.ToString(file.ContentType);
+                _ShareStory.UploadMedia(StoryId, FileType, path);
+            }
 
-        //public IActionResult SaveStoryDetails(string MissionId, string StoryTitle, string Date, string StoryDesc, string VideoURL,string[] Images,string Status)
-        //{
+            string[] Urls = viewModel.StoryVideoUrl.Split('\r');
+            int x = 0;
+            foreach (string Url in Urls)
+            {
+                string finUrl;
+                if (x++ != 0)
+                {
+                    finUrl = Url.Remove(0, 1);
+                }
+                else
+                {
+                    finUrl = Url;
+                }
+                if(finUrl != "")
+                {
+                    _ShareStory.UploadMedia(StoryId, "URL", finUrl);
 
+                }
+            }
+        }
 
-        //    return Json(MissionId);
+        public IActionResult StoryDetails(string sid)
+        {
+            if (HttpContext.Session.GetString("UserId") != null)
+            {
+                long StoryId = Convert.ToInt64(sid);
+                IEnumerable<StoryCardViewModel> storyCard = _StoryDetails.GetAllData(StoryId);
+                return View(storyCard);
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Login is Required";
 
-
-        //}
-
+                return RedirectToAction("Login", "Auth");
+            }
+            
+        }
+        [HttpPost]
+        public IActionResult SendStoryInvite(string SendTo, string StoryId)
+        {
+            long EmailTo = Convert.ToInt64(SendTo);
+            long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+            long Sid = Convert.ToInt64(StoryId);
+            string UserName = HttpContext.Session.GetString("UserName");
+            long Mid = _StoryList.GetFirstOrDefault(u => u.StoryId == Sid).MissionId;
+            string MissionTitle = _Missions.GetFirstOrDefault(u => u.MissionId == Mid).Title;
+            
+            string url = Url.ActionLink("StoryDetails", "Home", new { sid = Sid });
+            
+            string body = "Greetings of the Day !! <br><br>        " + UserName + " Invited you to join '" + MissionTitle + "' Mission if you have not joined yet and watch this Story. <br><br>" + url;
+            //_VolunteeringMission.SendInvitation(EmailTo, UserId, Sid, body);
+            _StoryDetails.AddStoryInvite(UserId, EmailTo, Sid);
+            return Json(SendTo);
+        }
 
     }
 

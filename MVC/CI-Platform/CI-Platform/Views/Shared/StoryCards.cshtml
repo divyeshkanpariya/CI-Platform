@@ -1,29 +1,33 @@
-﻿<div class="row">
+﻿
+
+<div class="row">
         @foreach(var story in @Model.StoryCards)
         {
-            <div class="col-12 col-md-6 col-lg-4">
+        string  text = @story.Description;
+        
+        <div class="col-12 col-md-6 col-lg-4 mb-3">
             <div class="card">
 
                 <div class="story-img-div ">
                     <img class="card-img-top" src="@story.StoryMediaPath" alt="Card image cap">
                     <div class="d-flex justify-content-center align-items-center">
-                        <p class="card-theme px-3 pt-1">@story.Title</p>
+                        <p class="card-theme px-3 pt-1">@story.MissionTheme</p>
                     </div>
 
                     <div class="card-img-bg"></div>
 
                     <div class="position-absolute text-center viewStoryDetails w-100">
-                            <button type="button" class="transperentBtn text-center px-3" id="">View Details <img src="~/images/right-arrow.png" /></button>
+                            <a type="button" class="transperentBtn text-center px-3 text-decoration-none py-2" id="" asp-controller="Home" asp-action="StoryDetails" asp-route-sid = "@story.StoryId">View Details <img src="~/images/right-arrow.png" /></a>
                     </div>
 
                 </div>
 
 
-
+                
 
                 <div class="card-body mt-4 px-3">
-                    <h5 class="card-title">@story.MissionTitle</h5>
-                    <p class="card-text text-muted">@story.Description</p>
+                    <h5 class="card-title">@story.Title</h5>
+                    <div class="card-text storyCardText text-muted">@Html.Raw(text)</div>
                     <div class="d-flex  align-items-center  pb-3">
                         <img src="@story.UserProfile" class="profile-image me-2" alt="">
                         <span class="text-muted">@story.FirstName @story.LastName</span>

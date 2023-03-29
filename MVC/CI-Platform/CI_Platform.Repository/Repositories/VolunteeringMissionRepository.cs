@@ -319,22 +319,7 @@ namespace CI_Platform.Repository.Repositories
                 IEnumerable<Mission> relatedTheme = _Missions.GetAll().Where(u => u.CityId != cityId && u.CountryId != countryId && u.ThemeId == themeId);
                 Relatedmissions.AddRange(relatedTheme);
             }
-            //if (selectedMissions.Count() < 3)
-            //{
-            //    IEnumerable<Mission> newms = _Missions.GetAll().Where(u => u.CityId != cityId && u.CountryId == countryId);
-            //    //selectedMissions.ToList().AddRange(newms);
-            //    foreach(Mission m in newms)
-            //    {
-            //        selectedMissions.ToList().Add(m);
-            //    }
-
-            //}
-            //if (selectedMissions.Count() <3)
-            //{
-            //    selectedMissions = _Missions.GetAll().Where(u => u.CityId == cityId || u.CountryId == countryId || u.ThemeId == themeId);
-
-            //}
-
+            
             IEnumerable<Mission> AllMissions = Relatedmissions.Take(3);
 
 
@@ -498,18 +483,18 @@ namespace CI_Platform.Repository.Repositories
             _MissionRatingList.Save();
         }
 
-        public void SendInvitation(long EmailTo, long Emailfrom,long MissionId,string NameOfSender,string Url)
+        public void SendInvitation(long EmailTo, long Emailfrom,long MissionId,string bodyText)
         {
            
             var email = _Users.GetFirstOrDefault(u=>u.UserId == EmailTo).Email;
-            var MissionTitle = _Missions.GetFirstOrDefault(u=>u.MissionId == MissionId).Title;
+            
           
             var fromMail = new MailAddress("divpatel5706@gmail.com");
             var frompwd = "nomqsmrwgidwesns";
             var toEmail = new MailAddress(email);
 
             string subject = "Invitation !!!!";
-            string body = "Greetings of the Day !! <br><br>        " + NameOfSender + " Invited you to join '"+ MissionTitle +"' Mission. <br><br>"+Url;
+            string body = bodyText;
 
 
 
@@ -530,7 +515,7 @@ namespace CI_Platform.Repository.Repositories
             message.IsBodyHtml = true;
             smtp.Send(message);
 
-            addInvitation(Emailfrom, EmailTo, MissionId);
+            
         }
         public void addInvitation(long from_id,long to_id, long missionId)
         {

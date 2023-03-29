@@ -105,10 +105,16 @@ namespace CI_Platform.Repository.Repositories
             var MediaList = _StoryMediaList.GetAll().Where(u=>u.StoryId == StoryId && u.Type != "URL");
             foreach (var Media in MediaList)
             {
-                var MediaPath = Media.Path;
-                _StoryMediaList.DeleteField(Media);
+                var MediaPath = "/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/wwwroot" + Media.Path;
+                
                 _StoryMediaList.Save();
-                File.Delete(MediaPath);
+                
+                _StoryMediaList.DeleteField(Media);
+
+                if (File.Exists(MediaPath))
+                {
+                    File.Delete(MediaPath);
+                }
             }
             var UrlList = _StoryMediaList.GetAll().Where(u => u.StoryId == StoryId && u.Type == "URL");
             if(UrlList != null)

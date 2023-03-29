@@ -27,6 +27,7 @@ builder.Services.AddScoped<IRepository<MissionApplication>, Repository<MissionAp
 builder.Services.AddScoped<IRepository<MissionDocument>, Repository<MissionDocument>>();
 builder.Services.AddScoped<IRepository<Story>, Repository<Story>>();
 builder.Services.AddScoped<IRepository<StoryMedium>, Repository<StoryMedium>>();
+builder.Services.AddScoped<IRepository<StoryInvite>, Repository<StoryInvite>>();
 
 
 builder.Services.AddScoped<ILostPasswordRepository, LostPasswordRepository>();
@@ -38,6 +39,7 @@ builder.Services.AddScoped<IFavouriteMission, FavouriteMissionRepository>();
 builder.Services.AddScoped<IStoryListingRepository, StoryListingRepository>();
 builder.Services.AddScoped<IStoryCardRepository, StoryCardRepository>();
 builder.Services.AddScoped<IShareStoryRepository, ShareStoryRepository>();
+builder.Services.AddScoped<IStoryDetailsRepository, StoryDetailsRepository>();
 
 builder.Services.AddScoped<IMissionListingRepository, MissionListingRepository>();
 builder.Services.AddScoped<IMissionCardRepository,MissionCardRepository>();

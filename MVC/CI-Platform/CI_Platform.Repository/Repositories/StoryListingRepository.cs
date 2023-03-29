@@ -74,8 +74,10 @@ namespace CI_Platform.Repository.Repositories
                 story.LastName = _UsersList.GetFirstOrDefault(u => u.UserId == story.UserId).LastName;
 
                 story.UserProfile = _UsersList.GetFirstOrDefault(u => u.UserId == story.UserId).Avatar;
-                
-                story.MissionTitle = _MissionList.GetFirstOrDefault(u => u.MissionId == story.MissionId).Title;
+
+                var Currmission = _MissionList.GetFirstOrDefault(u => u.MissionId == story.MissionId).ThemeId;
+
+                story.MissionTheme = _ThemeList.GetFirstOrDefault(u => u.MissionThemeId == Currmission).Title;
 
                 if(_StoryMediaList.ExistUser(u => u.StoryId == story.StoryId))
                 {
