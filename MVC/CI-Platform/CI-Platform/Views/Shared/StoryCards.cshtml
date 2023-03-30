@@ -1,5 +1,5 @@
 ﻿
-
+<p id="getStoryCount" class="d-none">@Model.StoryCount</p>
 <div class="row">
         @foreach(var story in @Model.StoryCards)
         {
@@ -28,7 +28,7 @@
                 <div class="card-body mt-4 px-3">
                     <h5 class="card-title">@story.Title</h5>
                     <div class="card-text storyCardText text-muted">@Html.Raw(text)</div>
-                    <div class="d-flex  align-items-center  pb-3">
+                    <div class="d-flex  align-items-center mt-3 pb-3">
                         <img src="@story.UserProfile" class="profile-image me-2" alt="">
                         <span class="text-muted">@story.FirstName @story.LastName</span>
                     </div>

@@ -18,5 +18,7 @@ namespace CI_Platform.Models.ViewModels
         public IEnumerable<Skill> Skills { get; set; }
 
         public IEnumerable<StoryCardViewModel> StoryCards { get; set; }
+
+        public int StoryCount { get; set; }
     }
 }

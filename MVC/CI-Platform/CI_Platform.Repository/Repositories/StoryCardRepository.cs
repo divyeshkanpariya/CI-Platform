@@ -29,6 +29,7 @@ namespace CI_Platform.Repository.Repositories
                 view.CreatedAt = story.CreatedAt;
                 view.UpdatedAt = story.UpdatedAt;
                 view.DeletedAt = story.DeletedAt;
+                view.Views = story.Views;
 
                 StoryCard.Add(view);
             }

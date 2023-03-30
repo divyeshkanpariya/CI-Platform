@@ -350,7 +350,9 @@ namespace CI_Platform.Controllers
         {
             if (HttpContext.Session.GetString("UserId") != null)
             {
+                long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
                 long StoryId = Convert.ToInt64(sid);
+                _StoryDetails.addStoryView(UserId, StoryId);
                 IEnumerable<StoryCardViewModel> storyCard = _StoryDetails.GetAllData(StoryId);
                 return View(storyCard);
             }

@@ -61,19 +61,28 @@ namespace CI_Platform.Repository.Repositories
             IEnumerable<Story> AllStories = _StoryList.GetAll();
             if(CountryIDs != null && CountryIDs != "")
             {
-                AllStories = getStoriesByFilters(CountryIDs, CityIDs, ThemeIDs, SkillIDs, SearchText, UserId, PageIndex);
+                AllStories = getStoriesByFilters(CountryIDs, CityIDs, ThemeIDs, SkillIDs, SearchText, UserId);
 
             }
 
             viewModel.StoryCards = _CardList.FillData(AllStories);
+            viewModel.StoryCount = AllStories.Count();
 
             foreach (var story in viewModel.StoryCards)
             {
-                story.FirstName = _UsersList.GetFirstOrDefault(u => u.UserId == story.UserId).FirstName;
+                var user = _UsersList.GetFirstOrDefault(u => u.UserId == story.UserId);
+                story.FirstName = user.FirstName;
 
-                story.LastName = _UsersList.GetFirstOrDefault(u => u.UserId == story.UserId).LastName;
-
-                story.UserProfile = _UsersList.GetFirstOrDefault(u => u.UserId == story.UserId).Avatar;
+                story.LastName = user.LastName;
+                if(user.Avatar != null)
+                {
+                    story.UserProfile = user.Avatar;
+                }
+                else
+                {
+                    story.UserProfile = "/images/default-user-icon.jpg";
+                }
+                
 
                 var Currmission = _MissionList.GetFirstOrDefault(u => u.MissionId == story.MissionId).ThemeId;
 
@@ -85,14 +94,23 @@ namespace CI_Platform.Repository.Repositories
                 }
                 else
                 {
-                    story.StoryMediaPath = "/images/Grow-Trees-On-the-path-to-environment-sustainability.png";
+                    story.StoryMediaPath = "/images/Default.jpg";
                 }
                 
 
             }
+            var pagesize = 3;
+            if (PageIndex != null)
+            {
+                if (PageIndex == "")
+                {
+                    PageIndex = "1";
+                }
+                viewModel.StoryCards = viewModel.StoryCards.Skip((Convert.ToInt16(PageIndex) - 1) * pagesize).Take(pagesize).ToList();
+            }
             return viewModel;
         }
-        public IEnumerable<Story> getStoriesByFilters(string CountryIDs, string CityIDs, string ThemeIDs, string SkillIDs, string SearchText, string UserId, string PageIndex)
+        public IEnumerable<Story> getStoriesByFilters(string CountryIDs, string CityIDs, string ThemeIDs, string SkillIDs, string SearchText, string UserId)
         {
             SqlConnection connection = new SqlConnection("Data Source=PCI117\\SQL2017;DataBase=CI-Platform;User ID=sa;Password=Tatva@123;Encrypt=False;MultipleActiveResultSets=True;TrustServerCertificate=True;");
 

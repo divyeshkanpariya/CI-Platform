@@ -39,28 +39,28 @@
 
 @*cards*@
 
-@*@foreach(var item in Model.MissionCards)
-{
-    <li>@item.CountryId</li>
-}*@
+
 <div id="cardContainer">
 
 </div>
-@*<div class="container-fluid grid-container" id="missionContainer">
-    <div class="row" id="cardContainer">
-@*        
-        @Html.Partial("Cards");
-        *@
-@*
-    </div>
 
-</div>*@
+@{
+    int pageCount;
+    if(Model.MissionCount % 6 == 0)
+    {
+        pageCount = Model.MissionCount / 6;
+    }
+    else
+    {
+        pageCount = Model.MissionCount / 3 +1;
 
+    }
+}
 <div id="paginationContainer">
-    <div class="pagination d-flex justify-content-center mt-5 mb-5">
+    <div class="pagination d-flex justify-content-center mt-5 mb-5" id="pagination">
         <a id="fr"><img src="~/images/previous.png" alt="Previous" /></a>
         <a id="pre"><img src="~/images/left.png" alt="Previous" /></a>
-        @for(var i= 1; i <= @Model.MissionCount/3+1; i++){
+        @for(var i= 1; i <= @pageCount; i++){
             @if (i == 1)
             {
                 <a  class="active pt-1" id="first">@i</a>
@@ -391,8 +391,26 @@
     function changeCount() {
         setTimeout(function(){
             document.getElementById("missionCount").innerHTML = $('#missionCo').text() + " Missions";
+            var misssionCountText = $("#missionCo").text();
+            var missionCount =  parseInt(misssionCountText);
+            console.log(missionCount);
+            //$("#pagination").empty();
+            //var str = `<a id="fr"><img src="/images/previous.png" alt="Previous" /></a>
+            //    <a id="pre"><img src="/images/left.png" alt="Previous" /></a>`;
+            //for(var i= 1; i <= (missionCount/9)+1; i++){
+            //    if (i == 1)
+            //    {
+            //        str += `<a  class="active pt-1" id="first">`+ i +`</a>`;
+            //    }else{
+            //        str += `<a class="pt-1">` + i + `</a>`;
+            //    }
+            //}
+            //str+=`<a id="next"><img src="/images/right-arrow1.png" alt="Previous" /></a>
+            //    <a id="last"><img src=" /images/next.png" alt="Previous" /></a>`;
+            //    console.log(str);
+            //$("#pagination").html(str);
 
-        },500);
+        },1000);
 
     }
     function moveToFirstPage(){

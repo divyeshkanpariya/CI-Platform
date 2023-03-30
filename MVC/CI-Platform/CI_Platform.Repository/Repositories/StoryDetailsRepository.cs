@@ -38,26 +38,52 @@ namespace CI_Platform.Repository.Repositories
             _StoryInviteList.Save();
         }
 
+        public void addStoryView(long UserId,long StoryId)
+        {
+            var story = _StoryList.GetFirstOrDefault(u => u.StoryId == StoryId);
+            if(story.UserId != UserId)
+            {
+                story.Views += 1;
+            }
+            _StoryList.Update(story);   
+            _StoryList.Save();
+        }
+
         public IEnumerable<StoryCardViewModel> GetAllData(long StoryId)
         {
             //StoryCardViewModel storyCard = new StoryCardViewModel();
             IEnumerable<Story> story = _StoryList.GetAll().Where(u => u.StoryId == StoryId);
             IEnumerable<StoryCardViewModel> currCard = _StoryCardRepository.FillData(story);
             IEnumerable<StoryMedium> MediaList = _StoryMediaList.GetAll().Where(u => u.StoryId == StoryId && u.Type != "URL");
-            List<string> mediaList = new List<string>();
+            List<string> mediaL = new List<string>();
+            if(MediaList.Count() > 0)
             foreach (var item in MediaList)
             {
-                mediaList.Add(item.Path);
+                mediaL.Add(item.Path);
             }
-            currCard.FirstOrDefault().StoryMediaList = mediaList;
+            else
+            {
+                mediaL.Add("/images/Default.jpg");
+            }
+            currCard.FirstOrDefault().StoryMediaList = mediaL;
 
             var StoryWriter = _Users.GetFirstOrDefault(u => u.UserId == story.FirstOrDefault().UserId);
-            currCard.FirstOrDefault().UserProfile = StoryWriter.Avatar;
+            if(StoryWriter.Avatar != null)
+            {
+                currCard.FirstOrDefault().UserProfile = StoryWriter.Avatar;
+            }
+            else
+            {
+                currCard.FirstOrDefault().UserProfile = "/images/default-user-icon.jpg";
+            }
+            
+            
 
             currCard.FirstOrDefault().FirstName = StoryWriter.FirstName;
 
             currCard.FirstOrDefault().LastName = StoryWriter.LastName;
 
+            
             currCard.FirstOrDefault().WhyIVol = StoryWriter.WhyIVolunteer;
 
             List<List<string>> UserList = new List<List<string>>();

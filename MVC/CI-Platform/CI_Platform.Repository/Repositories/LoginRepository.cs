@@ -19,12 +19,13 @@ namespace CI_Platform.Repository.Repositories
 
         public string getUserAvatar(string email)
         {
-            string avatar = "/images/volunteer1.png";
+            string avatar = "/images/default-user-icon.jpg";
             if(_userRepository.GetFirstOrDefault(u => u.Email == email).Avatar != null)
             {
                 avatar = _userRepository.GetFirstOrDefault(u => u.Email == email).Avatar;
             }
-            return _userRepository.GetFirstOrDefault(u => u.Email == email).Avatar;
+            
+            return avatar;
         }
 
         public long getUserId(string email)

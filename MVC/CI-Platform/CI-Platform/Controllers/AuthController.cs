@@ -48,6 +48,7 @@ namespace CI_Platform.Controllers
                 {
                     string username = _LoginDb.getUserName(data.Email);
                     long userid = _LoginDb.getUserId(data.Email);
+                    
                     string Avatar = _LoginDb.getUserAvatar(data.Email);
                     HttpContext.Session.SetString("UserName", username);
                     HttpContext.Session.SetString("UserId", Convert.ToString(userid));

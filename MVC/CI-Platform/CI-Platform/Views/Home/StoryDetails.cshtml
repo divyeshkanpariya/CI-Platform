@@ -119,7 +119,7 @@
         </div>
         @* --------- Profile Details --------- *@
         <div class="col-lg-6 mt-4">
-            <div class="d-flex justify-content-between align-items-end">
+            <div class="d-flex justify-content-around align-items-end">
                
                 <div class=" text-center">
                     <img class="volunteer-profile-img" src="@currCard.UserProfile" alt="volunteer1" style="width:100px;"/>
@@ -127,7 +127,7 @@
                 </div>   
                  
                 <div class="border text-muted storyViews justify-content-center align-items-center mb-3">
-                    <img src="~/images/eye.png" alt="eye" /><span class="ps-2 pb-1">12000 Views</span>
+                    <img src="~/images/eye.png" alt="eye" /><span class="ps-2 pb-1">@currCard.Views Views</span>
                 </div>
             </div>
             <div>
@@ -142,7 +142,7 @@
                 </div>
                 <div class="col-sm-6 pt-3 d-flex  justify-content-sm-end" >
                     @*<div class=" ">*@
-                        <button type="button" class="w-100 Apply-mission-btn justify-content-between">Open Mission <img class="ps-3" src="~/images/right-arrow.png" /></button>
+                        <a type="button" class="w-100 Apply-mission-btn py-2  text-decoration-none text-center" asp-controller="Home" asp-action="VolunteeringMission" asp-route-mid="@currCard.MissionId">Open Mission<img class="ps-3" src="~/images/right-arrow.png" /></a>
                     @*</div>*@
                 </div>
             </div>

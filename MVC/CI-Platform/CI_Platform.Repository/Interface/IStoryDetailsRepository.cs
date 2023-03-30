@@ -13,6 +13,8 @@ namespace CI_Platform.Repository.Interface
         public IEnumerable<StoryCardViewModel> GetAllData(long StoryId);
 
         public void AddStoryInvite(long fromUid, long toUid,long StoryId);
+
+        public void addStoryView(long UserId,long StoryId);
         
     }
 }

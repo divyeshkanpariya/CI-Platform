@@ -165,7 +165,7 @@ namespace CI_Platform.Repository.Repositories
                 }
                 else
                 {
-                    mission.Path = "/images/Grow-Trees-On-the-path-to-environment-sustainability.png";
+                    mission.Path = "/images/Default.jpg";
                 }
 
                 /* Rating */
@@ -263,7 +263,7 @@ namespace CI_Platform.Repository.Repositories
 
             }
            
-            var pagesize = 9;
+            var pagesize = 6;
             if(PageIndex != null)
             {
                 if(PageIndex == "")
