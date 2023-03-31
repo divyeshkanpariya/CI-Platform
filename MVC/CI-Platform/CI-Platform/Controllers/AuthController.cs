@@ -35,7 +35,9 @@ namespace CI_Platform.Controllers
         }
         public IActionResult Login()
         {
-            return View();
+            LoginViewModel vm = new LoginViewModel();
+            HttpContext.Session.Clear();
+            return View(vm);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -57,7 +59,7 @@ namespace CI_Platform.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Invalid Email or Password");
+                    ModelState.AddModelError("Password", "Invalid Email or Password");
                 }
 
             }
@@ -112,6 +114,10 @@ namespace CI_Platform.Controllers
                     _LostPwdDb.Save();
                     TempData["SuccessMessage"] = "Email sent for Password Reset !!!";
                     return RedirectToAction("Login");
+                }
+                else
+                {
+                    ModelState.AddModelError("Email", "Email Id does'nt matched with any User");
                 }
             }
             return View();
@@ -192,14 +198,22 @@ namespace CI_Platform.Controllers
             }
             else
             {
+                //HttpContext.Abort();
+                
+                
                 return RedirectToAction("Login");
 
             }
-
-
-
         }
 
+        //public IActionResult Logout()
+        //{
+            
+        //    HttpContext.Session.Clear();
+        //    //HttpContext.Session.Remove("");
+        //    //HttpContext.Abort();
+        //    return RedirectToAction("Login", "Auth");
+        //}
 
     }
 }

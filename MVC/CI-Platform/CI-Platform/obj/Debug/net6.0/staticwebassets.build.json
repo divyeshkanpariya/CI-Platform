@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "KMQSELC1d689q3pGmmd7flGTp0kPboB9HSzPDAynHso=",
+  "Hash": "XLueEschui1wbG42WugO8pk3hh45/mGz1c7tzRr7sXE=",
   "Source": "CI-Platform",
   "BasePath": "_content/CI-Platform",
   "Mode": "Default",
@@ -2992,12 +2992,12 @@
       "OriginalItemSpec": "wwwroot\\Uploads\\Story\\11-9525f96f-5215-4d5b-a3b6-f0134b0eb204CSR-initiative-stands-for-Coffee--and-Farmer-Equity-5.png"
     },
     {
-      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Story\\12-10-660f4d77-8f5f-4e38-934c-c3b1675bc0a2.png",
+      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Story\\12-10-5b7de6be-9d21-4cef-8bb4-09c29d0e6e2d.png",
       "SourceId": "CI-Platform",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\",
       "BasePath": "_content/CI-Platform",
-      "RelativePath": "Uploads/Story/12-10-660f4d77-8f5f-4e38-934c-c3b1675bc0a2.png",
+      "RelativePath": "Uploads/Story/12-10-5b7de6be-9d21-4cef-8bb4-09c29d0e6e2d.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -3006,7 +3006,24 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Uploads\\Story\\12-10-660f4d77-8f5f-4e38-934c-c3b1675bc0a2.png"
+      "OriginalItemSpec": "wwwroot\\Uploads\\Story\\12-10-5b7de6be-9d21-4cef-8bb4-09c29d0e6e2d.png"
+    },
+    {
+      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Story\\12-10-a48b3f8a-accc-4da0-a152-4b323e2050a7.png",
+      "SourceId": "CI-Platform",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\",
+      "BasePath": "_content/CI-Platform",
+      "RelativePath": "Uploads/Story/12-10-a48b3f8a-accc-4da0-a152-4b323e2050a7.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\Story\\12-10-a48b3f8a-accc-4da0-a152-4b323e2050a7.png"
     },
     {
       "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Story\\14-10-6b076ee6-8394-46d1-b3bd-93abd06436a9.png",

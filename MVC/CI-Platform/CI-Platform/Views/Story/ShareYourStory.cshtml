@@ -26,7 +26,7 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
                     
                     
                 </select>
-                 <span asp-validation-for="Mission" class="text-danger"></span>
+                 <span asp-validation-for="Mission" class="text-danger small-text"></span>
                 @*<p class="d-none text-danger" id="validateSelectMission"> Please Select Mission </p>*@
                 
             </div>
@@ -34,13 +34,13 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
             <div class="col mb-3">
                 <label asp-for="StoryTitle" class="form-label" for="storyTitle">My Story Title</label>
                 <input  asp-for="StoryTitle" asp-validation-for="StoryTitle" name="StoryTitle" class="form-control" id="storyTitle" placeholder="Enter Story Title" autofocus>
-                <span asp-validation-for="StoryTitle" class="text-danger"></span>
+                <span asp-validation-for="StoryTitle" class="text-danger small-text"></span>
                 @*<p class="d-none text-danger" id="validateStoryTitle"> Please Enter Story Title </p>*@
             </div>
             <div class="col mb-3">
                 <label asp-for="Date" class="form-label" for="date">Date</label>
                 <input asp-for="Date" name="Date" class="form-control" value="" min="1977-01-01" id="storydate" type="date" id="storyPubDate" placeholder="Select Date">
-                <span asp-validation-for="Date" class="text-danger"></span>
+                <span asp-validation-for="Date" class="text-danger small-text"></span>
                @* <p class="d-none text-danger" id="validateDate"> Please Select Date </p>*@
             </div>
                 
@@ -48,14 +48,14 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
         <label asp-for="StoryDescription" class="form-label">My Story</label>
         <div class="form-group">
             <textarea asp-for="StoryDescription" name="StoryDescription" id="editor"></textarea>
-            <span asp-validation-for="StoryDescription" class="text-danger"></span>
+            <span asp-validation-for="StoryDescription" class="text-danger small-text"></span>
             @*<p class="d-none text-danger" id="validateStoryDesc"> Please Enter Some Text </p>*@
 
         </div>
         <div >
             <label asp-for="StoryVideoUrl" class="form-label" for="videoURL">Enter Video URL</label>
             <textarea asp-for="StoryVideoUrl" class="form-control" id="videoURL" placeholder="Enter your URL"></textarea>
-            <span asp-validation-for="StoryVideoUrl" class="text-danger"></span>
+            <span asp-validation-for="StoryVideoUrl" class="text-danger small-text"></span>
 
         </div>
         <div class="row mt-2">
@@ -72,20 +72,25 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
                 </div>
                 @*<span asp-validation-for="Photos" class="text-danger"></span>*@
             </div>
-
+            <span asp-validation-for="Photos" class="text-danger small-text"></span>
+            
             <output class="mt-3" id="preview"></output>
         </div>
         <div class="row">
             <div class="py-3 col-6">              
-                <button type="button" class="Apply-mission-btn py-2 text-decoration-none border border-2 text-muted">Cancel</button>
+                @*<button type="button" class="Apply-mission-btn py-2 text-decoration-none border border-2 text-muted">Cancel</button>*@
+                <a class="rec-btns px-4 d-flex  align-items-center text-decoration-none text-muted" type="button" style="width:fit-content" asp-action="StoryListing" asp-controller="Story">
+                    <span class="ps-2">Cancel</span>
+                </a> 
             </div>
+              
             <div class="col-6 justify-content-end">
                 <div class="d-flex justify-content-end">
                     <div class="py-3 mx-3">              
-                        <button type="submit" id="saveStory" formaction="@Url.Action("SaveStoryDraft","Home")" class="Apply-mission-btn px-3 py-2 text-decoration-none">Save</button>
+                        <button type="submit" id="saveStory" formaction="@Url.Action("SaveStoryDraft","Story")" class="Apply-mission-btn px-3 py-2 text-decoration-none">Save</button>
                     </div>
                     <div class="py-3 mx-3">           
-                        <button type="submit" id="submitStory" formaction="@Url.Action("ShareYourStory","Home")" class="Apply-mission-btn px-3 py-2 text-decoration-none">Submit</button>
+                        <button type="submit" id="submitStory" formaction="@Url.Action("ShareYourStory","Story")" class="Apply-mission-btn px-3 py-2 text-decoration-none">Submit</button>
                     </div>
                 </div>  
             </div>
@@ -115,7 +120,7 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
     $(document).ready(function(){
         console.log("s");
         $.ajax({
-            url: '/Home/GetMissionsOfUser',
+            url: '/Story/GetMissionsOfUser',
             type: 'GET',
             data: {},
             dataType: 'json',
@@ -138,7 +143,7 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
             if(missionId != "Select Your Mission"){
                 console.log(missionId);
                 $.ajax({
-                    url: '/Home/GetStoryDetails',
+                    url: '/Story/GetStoryDetails',
                     type: 'POST',
                     data: { MissionId: missionId},
                     dataType: 'json',
@@ -178,7 +183,7 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
                             });
                             document.querySelector("#preview").innerHTML = images;
                             function toDataUrl(url, callback) {
-                                var newUrl = "https://localhost:7172/" + url;
+                                var newUrl = url;
                                 var xhr = new XMLHttpRequest();
                                 xhr.onload = function() {
                                     callback(xhr.response);
@@ -198,11 +203,7 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
                             let image;
                             let ext;
                             for(var j=0;j<data[4].length;j++){
-                                //ext = rtType(data[4][j]);
-                                    //console.log(ext);
-                                    //console.log(data[4][j].split("."));
-                                
-                                
+
                                 toDataUrl(data[4][j],function(x){   
                                     image = x;
                                     
@@ -218,21 +219,16 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
                                 document.querySelector('#imageupload').files = dT.files;
                                 });
                             }
-                            //displayImages();
-                            //toDataUrl(data[4][0],function(x){   
-                            //    image = x;
-                            //    dT.items.add(new File([image], 'myFile.png', {
-                            //        type: "image/png"
-                            //    }));
-                                
-                                console.log("image: ", dT);
-                                
-                            //document.querySelector('#imageupload').files = dT.files;
-                            //});
                             
                             
-                                console.log("image: ", imagesArray);
-                            
+                        }else{
+                            document.getElementById("storyTitle").value = "";
+                            document.getElementById("storydate").value = "";
+                            tinymce.get("editor").setContent("");
+                            document.getElementById("videoURL").value = "";
+                            imagesArray = [];
+                            fillInp();
+                            displayImages();
                         }
                     }
                 });

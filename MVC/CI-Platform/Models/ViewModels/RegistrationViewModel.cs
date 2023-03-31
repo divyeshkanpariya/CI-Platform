@@ -20,7 +20,7 @@ namespace CI_Platform.Models.ViewModels
         [Required]
         public string Password { get; set; } = null!;
         [Required]
-        [Compare("Password", ErrorMessage ="Password and Confirm Password Are not Same")]
+        [Compare("Password", ErrorMessage ="Password and Confirm Password are not Same")]
         public string ConfirmPassword { get; set; } = null!;
 
     }

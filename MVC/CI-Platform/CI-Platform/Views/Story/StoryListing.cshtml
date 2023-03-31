@@ -111,7 +111,7 @@
     <div class="story-img-text text-center">
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
         <div class="">
-            <a type="button" asp-action="ShareYourStory" asp-controller="Home" class="transperentBtn py-2 text-decoration-none px-4" id="">Share Your Story <img src="~/images/right-arrow.png" /></a>
+            <a type="button" asp-action="ShareYourStory" asp-controller="Story" class="transperentBtn py-2 text-decoration-none px-4" id="">Share Your Story <i class="bi bi-arrow-right"></i></a>
         </div>
     </div>
 </div>
@@ -197,7 +197,7 @@
 
 
         $.ajax({
-            url: '/Home/GetStoryCards',
+            url: '/Story/GetStoryCards',
             type: 'POST',
             data: {CountryIDs: selectedCountryID,
             CityIDs: selectedCityID,
@@ -311,7 +311,7 @@
         });
         $(document).ready(function(){
             $.ajax({
-                url: '/Home/GetStoryCards',
+                url: '/Story/GetStoryCards',
                 type: 'POST',
                 data: {CountryIDs: "", CityIDs: "",ThemeIDs: "",SkillIds: "",SearchText:"",PageIndex:"1"},
                 dataType: 'html',

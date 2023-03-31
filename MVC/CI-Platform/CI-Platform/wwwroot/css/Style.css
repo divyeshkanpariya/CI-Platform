@@ -801,10 +801,13 @@ background-color: #DDDDDD;
     width: fit-content;
     background-color: transparent;
     color: white;
+    font-weight:500;
 }
-.transperentBtn:hover {
-color:white;
-}
+    .transperentBtn:hover {
+        background-color: white;
+        color: black;
+        font-weight: 500;
+    }
 /* -------------------- Story Listing ------------------- */
 .story-img-div {
     position: relative;
@@ -932,3 +935,4 @@ output .span--hidden {
     max-height:500px;
     overflow-y:auto;
 }
+

@@ -100,6 +100,7 @@ namespace CI_Platform.Repository.Repositories
             _StoryMediaList.AddNew(newMedia);
             _StoryMediaList.Save();
         }
+        
         public void DeleteMedia(long StoryId)
         {
             var MediaList = _StoryMediaList.GetAll().Where(u=>u.StoryId == StoryId && u.Type != "URL");
@@ -129,7 +130,7 @@ namespace CI_Platform.Repository.Repositories
 
         public List<List<string>> GetStoryDetails(long MissionId,long UserId)
         {
-            var story = _Storys.GetFirstOrDefault(u=> u.MissionId==MissionId && u.UserId == UserId);
+            var story = _Storys.GetFirstOrDefault(u=> u.MissionId==MissionId && u.UserId == UserId && u.Status == "DRAFT");
             if(story == null)
             {
                 return new List<List<string>>();
@@ -149,6 +150,7 @@ namespace CI_Platform.Repository.Repositories
                 }
                 else
                 {
+
                     Photos.Add(item.Path);
                 }
             }

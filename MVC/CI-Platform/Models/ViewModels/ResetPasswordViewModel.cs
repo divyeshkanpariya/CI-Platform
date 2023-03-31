@@ -16,6 +16,7 @@ namespace CI_Platform.Models.ViewModels
         [Required]
         public string Password { get; set; } = null!;
         [Required]
+        [Compare("Password", ErrorMessage = "Password and Confirm-Password are mot same !!")]
         public string ConfirmPassword { get; set; } = null!;
     }
 }

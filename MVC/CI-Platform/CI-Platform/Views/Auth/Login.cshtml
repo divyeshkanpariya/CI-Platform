@@ -25,15 +25,20 @@
                 </div>
              }
              <form method="post">
-                <div asp-validation-summary="All" class="text-danger text-center list-unstyled"></div>
+                
                 <div class="mb-3">
                     <label asp-for="Email" class="form-label">Email address</label>
                     <input asp-for="Email" class="form-control" id="emailId" placeholder="name@example.com" autofocus required>
+                    <span asp-validation-for="Email" class="text-danger small-text"></span>
                 </div>
+                
                 <div class="mb-3">
                     <label asp-for="Password" for="password" class="form-label">Password</label>
                     <input asp-for="Password" type="password" class="form-control" id="password" placeholder="********" required>
+                    <span asp-validation-for="Password" class="text-danger small-text"></span>
                 </div>
+                
+
                 <button type="submit" class="login-btn my-3">Login</button>
             </form>
             <div class="text-center small my-3">
@@ -54,3 +59,13 @@
 </body>
 
 </html>
+
+<script type = "text/javascript" >  
+    $(document).ready(function(){
+        console.log("sss");
+        //noBack();
+    });
+    function noBack() {
+        window.history.forward();
+    }
+</script> 

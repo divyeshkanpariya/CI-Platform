@@ -28,7 +28,7 @@
                     @*<ul class="navbar-nav flex-grow-1">*@
                     <div class="d-sm-flex">
                         <li class="nav-item" style="list-style: none;">
-                            <a class="nav-link text-dark" asp-action="StoryListing" asp-controller="Home"><span class=" header-text">Stories</span></a>
+                            <a class="nav-link text-dark" asp-action="StoryListing" asp-controller="Story"><span class=" header-text">Stories</span></a>
                         </li>
                         <li class="nav-item dropdown d-flex align-items-center">
                             <a class="nav-link dropdown-toggle text-dark header-text" data-bs-toggle="dropdown" aria-expanded="false">
@@ -38,7 +38,7 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#">Action</a></li>
                                 <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                
                             </ul>
                         </li>
                     </div>
@@ -59,7 +59,7 @@
                     <ul class="dropdown-menu dropdown-menu-lg-right">
                         <li><a class="dropdown-item" href="#">Action</a></li>
                         <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" asp-action="Login" asp-controller="Auth">Logout</a></li>
                     </ul>
 
                 </div>

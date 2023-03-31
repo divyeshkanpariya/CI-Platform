@@ -18,31 +18,42 @@
 <body>
     <form method="post">
     <div class="registration-form">
-        <div asp-validation-summary="All"></div>
+        @*<div asp-validation-summary="All"></div>*@
         <div class="mb-3">
             <label asp-for="FirstName" for="firstName "  class="form-label">First Name</label>
-                <input asp-for="FirstName" type="text" name="FirstName" class="form-control" id="firstName" placeholder="john" required autofocus>
+            <input asp-for="FirstName" type="text" name="FirstName" class="form-control" id="firstName" placeholder="john" required autofocus>
+            <span asp-validation-for="FirstName" class="text-danger small-text"></span>
         </div>
+
         <div class=" mb-3">
             <label asp-for="LastName" for="LastName" class="form-label">Last Name</label>
-                <input asp-for="LastName" name="LastName" type="text" class="form-control" id="lastName" placeholder="doe" required>
+            <input asp-for="LastName" name="LastName" type="text" class="form-control" id="lastName" placeholder="doe" required>
+            <span asp-validation-for="LastName" class="text-danger small-text"></span>
         </div>
+
         <div class=" mb-3">
             <label asp-for="PhoneNumber" for="phoneNumber" class="form-label">Phone Number</label>
-                <input asp-for="PhoneNumber" name="PhoneNumber" type="number" class="form-control" id="phoneNumber" placeholder="123456890" required>
+            <input asp-for="PhoneNumber" name="PhoneNumber" type="number" class="form-control" id="phoneNumber" placeholder="123456890" required>
+            <span asp-validation-for="PhoneNumber" class="text-danger small-text"></span>
         </div>
+
         <div class=" mb-3">
             <label asp-for="Email" for="emailId" class="form-label">Email Address</label>
             <input asp-for="Email" name="Email" type="email" class="form-control" id="emailId" placeholder="name@example.com" required>
+            <span asp-validation-for="Email" class="text-danger small-text"></span>
         </div>
+
         <div class=" mb-3">
             <label asp-for="Password" for="password" class="form-label">Password</label>
             <input asp-for="Password" name="Password" type="password" class="form-control" id="password" placeholder="********" required>
+            <span asp-validation-for="Password" class="text-danger small-text"></span>
         </div>
         
         <div class=" mb-3">
             <label asp-for="ConfirmPassword" for="confirmPassword" class="form-label">Confirm Password</label>
             <input asp-for="ConfirmPassword" type="password" class="form-control" id="confirmPassword" placeholder="********" required>
+            <span asp-validation-for="ConfirmPassword" class="text-danger small-text"></span>
+
         </div>
         <button type="submit" class="login-btn my-3">Register</button>
 
