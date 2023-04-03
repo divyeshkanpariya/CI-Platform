@@ -16,12 +16,6 @@ namespace CI_Platform.Controllers
         private readonly IVolunteeringMissionRepository _VolunteeringMission;
         private readonly IFavouriteMission _FavouriteMissions;
         private readonly IRepository<City> _Cities;
-        private readonly IStoryListingRepository _StoriyListingDb;
-        private readonly IStoryCardRepository _StoryCard;
-        private readonly IShareStoryRepository _ShareStory;
-        private readonly IWebHostEnvironment _WebHostEnvironment;
-        private readonly IStoryDetailsRepository _StoryDetails;
-        private readonly IRepository<Story> _StoryList;
         private readonly IRepository<Mission> _Missions;
         public HomeController(
             IMissionListingRepository missionListingDb,
@@ -29,12 +23,6 @@ namespace CI_Platform.Controllers
             IRepository<City> Cities,
             IVolunteeringMissionRepository volunteeringMission,
             IFavouriteMission FavouriteMissions,
-            IStoryListingRepository StoryListingDb,
-            IStoryCardRepository StoryCards,
-            IShareStoryRepository ShareStory,
-            IWebHostEnvironment webHostEnvironment,
-            IStoryDetailsRepository StoryDetails,
-            IRepository<Story> StoryList,
             IRepository<Mission> Missions)
         {
 
@@ -43,12 +31,6 @@ namespace CI_Platform.Controllers
             _Cities = Cities;
             _VolunteeringMission = volunteeringMission;
             _FavouriteMissions = FavouriteMissions;
-            _StoriyListingDb = StoryListingDb;
-            _StoryCard = StoryCards;
-            _ShareStory = ShareStory;
-            _WebHostEnvironment = webHostEnvironment;
-            _StoryDetails = StoryDetails;
-            _StoryList = StoryList;
             _Missions = Missions;
         }
 

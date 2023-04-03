@@ -24,5 +24,8 @@ namespace CI_Platform.Models.ViewModels
         public List<String> StoryMediaList { get; set; } 
 
         public string StoryMediaPath { get; set; }
+
+        public List<string> StoryVideoPaths { get; set; }
+       
     }
 }

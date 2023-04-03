@@ -1,0 +1,228 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "Home_Layout";
+}
+@model CI_Platform.Models.ViewModels.UserProfileViewModel
+<form method="post">
+<div class="row my-4 mx-3">
+    
+    <div class="col-xl-2 col-md-3 col-sm-4 d-flex justify-content-center">
+        <div class="border px-3 w-100" style="height:fit-content;">
+            <div class=" text-center my-4">
+                <img class="volunteer-profile-img pb-2" src="~/images/volunteer1.png" alt="volunteer1" style="width:80%;"/>
+                <p style="font-size:large; font-weight:500">Divyesh Kanpariya</p>
+                <a> Change Password</a>
+            </div> 
+        </div>
+    </div>
+    <div class="col-xl-10 col-md-9 col-sm-8 my-4">
+        @* ----------- Basic Information --------- *@
+        <div>
+            <ul class="nav nav-tabs"  role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" type="button" >
+                        Basic Information
+                    </button>
+                </li>
+            
+            </ul>
+            <div class="row ">
+                <div class="col-md-6 mt-3">
+                    <label class="form-label" asp-for="Name">Name*</label>
+                    <input asp-for="Name" name="Name" class="form-control" id="name" placeholder="Enter Your Name" autofocus required>
+                    <span asp-validation-for="Name" class="text-danger small-text"></span>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <label class="form-label" asp-for="Surname">Surname*</label>
+                    <input asp-for="Surname" name="StoryTitle" class="form-control" id="surname" placeholder="Enter Your Surname" required>
+                    <span asp-validation-for="Surname" class="text-danger small-text"></span>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <label class="form-label" asp-for="EmployeeId">Employee ID</label>
+                    <input asp-for="EmployeeId" name="StoryTitle" class="form-control" id="employeeId" placeholder="Enter Your Employee ID" >
+                    <span asp-validation-for="EmployeeId" class="text-danger small-text"></span>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <label class="form-label" asp-for="Manager">Manager</label>
+                    <input asp-validation-for="Manager" name="StoryTitle" class="form-control" id="manager" placeholder="Enter Your Manager Details">
+                    <span asp-validation-for="Manager" class="text-danger small-text"></span>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <label class="form-label" asp-for="Title">Title</label>
+                    <input asp-for="Title" name="StoryTitle" class="form-control" id="Title" placeholder="Enter Your Title">
+                    <span asp-validation-for="Title" class="text-danger small-text"></span>
+                </div>
+                <div class="mt-3 col-md-6">
+                    <label class="form-label" asp-for="Department">Department</label>
+                    <input asp-for="Department" name="StoryTitle" class="form-control" id="department" placeholder="Enter Your Department Details">
+                    <span asp-validation-for="Department" class="text-danger small-text"></span>
+                </div>
+                <div class="mt-3">
+                    <label class="form-label" asp-for="MyProfileText">My Profile</label>
+                    <textarea asp-for="MyProfileText" class="form-control" rows=4 id="myProfileText" placeholder="Enter your Comments" required></textarea>
+                    <span asp-validation-for="MyProfileText" class="text-danger small-text"></span>
+                </div>
+                <div class="mt-3">
+                    <label class="form-label" asp-for="WhyIVol">Why I Volunteer?</label>
+                    <textarea asp-for="WhyIVol" class="form-control" rows=4 id="whyIVol" placeholder="Enter your Comments"></textarea>
+                    <span asp-validation-for="WhyIVol" class="text-danger small-text"></span>
+                </div>
+
+            </div>
+        </div>
+
+        @* -------- Address Information ---------- *@
+
+        <div class="my-4">
+            <ul class="nav nav-tabs"  role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" type="button" >
+                        Address Information
+                    </button>
+                </li>
+            </ul>
+            <div class="row ">
+                <div class="col-md-6 mt-3">
+                    <label asp-for="City" class="form-label" id="mission">City</label>
+                    <select asp-for="City" name="City" id="selectedCity" class="form-select" aria-label=".form-select-lg example">
+                        <option value="0" selected>Select Your City</option>
+                        
+                    
+                    </select>
+                     <span asp-validation-for="City" class="text-danger small-text"></span>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <label asp-for="Country" class="form-label" id="mission">Country*</label>
+                    <select asp-for="Country" name="Country" id="selectedCountry" class="form-select" aria-label=".form-select-lg example">
+                        <option value="0" selected>Select Your Country</option>
+                        
+                    
+                    </select>
+                     <span asp-validation-for="Country" class="text-danger small-text"></span>
+                </div>
+                
+            </div>
+        </div>
+
+        @* -------- Professional Information ------- *@
+        <div class="my-4">
+            <ul class="nav nav-tabs"  role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" type="button" >
+                        Professional Information
+                    </button>
+                </li>
+            </ul>
+            <div class="row ">
+                <div class="col-md-6 mt-3">
+                    <label class="form-label" id="mission">Availability </label>
+                    <select asp-validation-for="Mission" name="Mission" id="selectedMission"class="form-select" aria-label=".form-select-lg example">
+                        <option selected>Select Your Availability</option>
+                        <option value="DAILY">DAILY</option>
+                        <option value="WEEKLY">WEEKLY</option>
+                        <option value="WEEK-END">WEEK-END</option>
+                        <option value="MONTHLY">MONTHLY</option>
+                        
+                    
+                    </select>
+                     <span class="text-danger small-text"></span>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <label class="form-label" id="mission">Linkedin</label>
+                    <input asp-validation-for="StoryTitle" name="StoryTitle" class="form-control" id="storyTitle" placeholder="Enter Linkein URL">
+                 
+                     <span class="text-danger small-text"></span>
+                </div>
+            </div>
+        </div>
+
+        @* ------ My Skills ------ *@
+        <div class="my-4">
+            <ul class="nav nav-tabs"  role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" type="button" >
+                        My Skills
+                    </button>
+                </li>
+            </ul>
+            <div class="row mt-4 mx-1">
+                <div class="border pt-2 text-muted">
+                    <p>Anthropology</p>
+                    <p>Archeology</p>
+                    <p>Computer</p>
+                </div>
+            </div>
+            <button class="rec-btns px-4 mt-3 text-muted" type="button" style="width:fit-content" asp-action="" asp-controller="">
+                <span class="ps-2">Add Skills</span>
+            </button> 
+        </div>
+        <div class="d-flex justify-content-end my-3">
+            <button type="submit" id="saveProfile" formaction="" class="Apply-mission-btn px-4 ">Save</button>
+        </div>
+
+    </div>
+    
+</div>
+</form>
+<script>
+    $(document).ready(() => {
+        $.ajax({
+            url: '/UserProfile/GetCountries',
+            type: 'GET',
+            data: {},
+            dataType: 'json',
+            success:function (data) {
+                
+                var cities = $("#selectedCountry");
+                for(var index in data){
+                    var option = document.createElement("option");
+                    option.value = data[index].CountryId;
+                    option.innerHTML = data[index].Name;
+                    cities.append(option);
+                } 
+            }
+        });
+        $.ajax({
+            url: '/UserProfile/GetCities',
+            type: 'POST',
+            data: {CountryId: "0"},
+            dataType: 'json',
+            success:function (data) {
+                var cities = $("#selectedCity");
+                for(var index in data){
+                    var option = document.createElement("option");
+                    option.value = data[index].CityId;
+                    option.innerHTML = data[index].Name;
+                    cities.append(option);
+                } 
+            }
+        });
+        $("#selectedCountry").change( () => {
+            var countryId = $("#selectedCountry").val();
+            $.ajax({
+                url: '/UserProfile/GetCities',
+                type: 'POST',
+                data: {CountryId: countryId},
+                dataType: 'json',
+                success:function (data) {
+                    var cities = $("#selectedCity");
+                    cities.empty();
+                    var option1 = document.createElement("option");
+                    option1.value = 1;
+                    option1.innerHTML = "Select Your City";
+                    cities.append(option1);
+
+                    for(var index in data){
+                        var option = document.createElement("option");
+                        option.value = data[index].CityId;
+                        option.innerHTML = data[index].Name;
+                        cities.append(option);
+                    } 
+                }
+            });
+
+        });
+    });
+</script>

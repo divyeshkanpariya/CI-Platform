@@ -50,7 +50,7 @@
     {
         pageCount = Model.MissionCount / 6;
     }
-    else
+    else    
     {
         pageCount = Model.MissionCount / 6 +1;
 
@@ -476,6 +476,8 @@
 
             
         });
+        moveToFirstPage();
+
         $.ajax({
             url: '/Home/GetCards',
             type: 'POST',
@@ -484,10 +486,10 @@
             success:function (viewModel) {
                 console.log("All");
                 $('#cardContainer').html(viewModel);
+                console.log(viewModel);
+
             }
         });
-        moveToFirstPage();
-        //applyFilter();
     }
     function applyFilter(pageIndex){
         var selectedCountryID = $('#countries li a input[type=checkbox]:checked').map(function () {return this.value;}).get().join();
@@ -528,12 +530,6 @@
                 return this.value;
             }).get().join();
         }
-        //console.log(selectedCountryID);
-        //console.log(selectedCityID);
-        //console.log(selectedThemeID);
-        //console.log(selectedSkillID);
-        //console.log(selectedSort);
-
 
         $.ajax({
             url: '/Home/GetCards',
@@ -553,9 +549,6 @@
                 
                 
             }
-            
-            //console.log($('#missionCount'));
-            //console.log($('#missionCo').text());
             
         });
         

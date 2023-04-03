@@ -5,7 +5,10 @@
 @model IEnumerable<CI_Platform.Models.ViewModels.StoryCardViewModel>
 @{
     var currCard = @Model.FirstOrDefault();
+    var totalMediaCount = currCard.StoryMediaList.Count + currCard.StoryVideoPaths.Count;
 }
+@*@totalMediaCount;
+@currCard.StoryVideoPaths[0]*@
 <div class="alert alert-success" style="display:none;" id="success-alert">
    <strong>Success!</strong>
    Email Sent Successfully
@@ -23,22 +26,39 @@
 
                     <div id="myCarousel" class="carousel px-0 slide" data-ride="carousel">
                         <div class="carousel-inner" id= "carouselInnerDiv">
-                                @if (@currCard.StoryMediaList.Count != 0)
+                                @if (@totalMediaCount != 0)
                                 {
-                                    @for (var i=0;i<@currCard.StoryMediaList.Count;i++)
+                                    var x = 0;
+                                    @for (x=0;x<@currCard.StoryMediaList.Count;x++)
                                     {
-                                        @if (i == 0)
+                                        @if (x == 0)
                                         {
-                                            <div class="carousel-item carousel-img-div active" data-slide-number="@i" style="max-height:625px ;">
-                                                <img src="@currCard.StoryMediaList[i]" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/Pn6iimgM-wo/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
+                                            <div class="carousel-item carousel-img-div active" data-slide-number="@x" style="max-height:625px ;">
+                                                <img src="@currCard.StoryMediaList[x]" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/Pn6iimgM-wo/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
                                             </div>
                                         }else{
-                                            <div class="carousel-item carousel-img-div" data-slide-number="@i" style="max-height:625px ;">
-                                                <img src="@currCard.StoryMediaList[i]" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/Pn6iimgM-wo/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
+                                            <div class="carousel-item carousel-img-div" data-slide-number="@x" style="max-height:625px ;">
+                                                <img src="@currCard.StoryMediaList[x]" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/Pn6iimgM-wo/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
                                             </div>
                                         }
 
                                     }
+                                    @*@for (x = @currCard.StoryMediaList.Count; x < totalMediaCount; x++)
+                                    {
+                                        
+                                        @if (x == 0)
+                                        {
+                                            <div class="carousel-item carousel-img-div active" data-slide-number="@x" style="max-height:625px ">
+
+                                                <img src="~/images/Animal-welfare-&-save-birds-campaign-1.png" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/Pn6iimgM-wo/" data-type="video" data-toggle="lightbox" data-gallery="example-gallery">
+                                            </div>
+                                        }
+                                        else{
+                                            <div class="carousel-item carousel-img-div" data-slide-number="@x" style="max-height:625px ;">
+                                                <iframe class="d-block scroll-img w-100" autoplay="1" src="@currCard.StoryVideoPaths[@x-@currCard.StoryMediaList.Count]" allowfullscreen></iframe>
+                                            </div>
+                                        }
+                                    }*@
                                 }
 
 
@@ -49,59 +69,76 @@
                         <!-- Carousel Navigation -->
                     <div id="carousel-thumbs" class="carousel slide">
                             <div class="carousel-inner h-100 w-100" id="carouselInnerDiv">
-                                
-                                   
-                                        @for(var j = 0; j < (@currCard.StoryMediaList.Count / 4)+1; j++)
+                                @if (@totalMediaCount != 0)
+                                {
+                                    var x = 0;
+                                    @for (var j = 0; j < (@totalMediaCount / 4) + 1; j++)
+                                    {
+                                        var count = @totalMediaCount;
+                                        x = j * 4;
+                                        if (x == 0)
                                         {
-                                            var count = @currCard.StoryMediaList.Count;
-                                            var x = j*4;
-                                            if(x == 0){
-                                                <div class="carousel-item h-100 active">
-                                                    <div class="row mx-0 h-100">
-                                                        @for (var i = 0; i < 4; i++)
+                                            <div class="carousel-item h-100 active">
+                                                <div class="row mx-0 h-100">
+                                                    @for (var i = 0; i < 4; i++)
+                                                    {
+                                                        @if (count <= x)
                                                         {
-                                                            @if(count <= x)
-                                                            {
-                                                                break;
-                                                            }
-                                                            @if(x == 0)
-                                                            {
-                                                                <div id="carousel-selector-@x" class="thumb col-3 h-100 px-1 pt-1 selected" data-target="#myCarousel" data-slide-to="@x">
-                                                                    <img  src="@currCard.StoryMediaList[x]" class="img-fluid w-100" alt="...">
-                                                                </div>
-
-                                                            }else{
-                                                                <div id="carousel-selector-@x" class="thumb col-3 h-100 px-1 pt-1" data-target="#myCarousel" data-slide-to="@x">
-                                                                    <img src="@currCard.StoryMediaList[x]" class="img-fluid w-100" alt="...">
-                                                                </div>
-                                                            }                                                           
-                                                            x++;
+                                                            break;
                                                         }
-                                                    </div>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <div class="carousel-item h-100">
-                                                    <div class="row mx-0 h-100">
-                                                        @for (var i = 0; i < 4; i++)
+                                                        @if (x == 0)
                                                         {
-                                                            @if(count <= x)
-                                                            {
-                                                                break;
-                                                            }
+                                                            <div id="carousel-selector-@x" class="thumb col-3 h-100 px-1 pt-1 selected" data-target="#myCarousel" data-slide-to="@x">
+                                                                <img  src="@currCard.StoryMediaList[x]" class="img-fluid w-100" alt="...">
+                                                            </div>
+
+                                                        }
+                                                        else if(x<@currCard.StoryMediaList.Count)
+                                                        {
                                                             <div id="carousel-selector-@x" class="thumb col-3 h-100 px-1 pt-1" data-target="#myCarousel" data-slide-to="@x">
                                                                 <img src="@currCard.StoryMediaList[x]" class="img-fluid w-100" alt="...">
                                                             </div>
-                                                            x++;
-
                                                         }
-                                                    </div>
+                                                        @*else{
+                                                            <div id="carousel-selector-@x" class="thumb col-3 h-100 px-1 pt-1" data-target="#myCarousel" data-slide-to="@x">
+                                                                <iframe class="img-fluid w-100" controls="0" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+                                                            </div>
+                                                        }*@
+                                                        x++;
+                                                    }
                                                 </div>
-
-                                            }
-
+                                            </div>
                                         }
+                                        else
+                                        {
+                                            <div class="carousel-item h-100">
+                                                <div class="row mx-0 h-100">
+                                                    @for (var i = 0; i < 4; i++)
+                                                    {
+                                                        @if (count <= x)
+                                                        {
+                                                            break;
+                                                        }
+                                                        if(x<@currCard.StoryMediaList.Count)
+                                                        {
+                                                            <div id="carousel-selector-@x" class="thumb col-3 h-100 px-1 pt-1" data-target="#myCarousel" data-slide-to="@x">
+                                                                <img src="@currCard.StoryMediaList[x]" class="img-fluid w-100" alt="...">
+                                                            </div>
+                                                        }
+                                                        @*else{
+                                                            <div id="carousel-selector-@x" class="thumb col-3 h-100 px-1 pt-1" data-target="#myCarousel" data-slide-to="@x">
+                                                                <iframe class="img-fluid w-100" controls="0" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+                                                            </div>
+                                                        }*@
+                                                        
+                                                        x++;
+
+                                                    }
+                                                </div>
+                                            </div>
+                                        } 
+                                    }
+                                }
 
                         </div>
                         <a class="carousel-control-prev bg-black" href="#carousel-thumbs" role="button" data-slide="prev" style="width:25px;">

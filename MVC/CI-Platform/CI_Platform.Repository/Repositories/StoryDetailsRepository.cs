@@ -57,15 +57,33 @@ namespace CI_Platform.Repository.Repositories
             IEnumerable<StoryMedium> MediaList = _StoryMediaList.GetAll().Where(u => u.StoryId == StoryId && u.Type != "URL");
             List<string> mediaL = new List<string>();
             if(MediaList.Count() > 0)
-            foreach (var item in MediaList)
             {
-                mediaL.Add(item.Path);
+                foreach (var item in MediaList)
+                {
+                    mediaL.Add(item.Path);
+                }
             }
             else
             {
                 mediaL.Add("/images/Default.jpg");
             }
+
             currCard.FirstOrDefault().StoryMediaList = mediaL;
+
+            IEnumerable<StoryMedium> VideoList = _StoryMediaList.GetAll().Where(u => u.StoryId == StoryId && u.Type == "URL");
+            List<string> videoUrlList = new List<string>();
+            if(VideoList.Count() > 0)
+            {
+                foreach(var item in VideoList)
+                {
+                    videoUrlList.Add(item.Path);
+                }
+            }
+            
+            
+
+            currCard.FirstOrDefault().StoryVideoPaths = videoUrlList;
+
 
             var StoryWriter = _Users.GetFirstOrDefault(u => u.UserId == story.FirstOrDefault().UserId);
             if(StoryWriter.Avatar != null)
@@ -76,7 +94,6 @@ namespace CI_Platform.Repository.Repositories
             {
                 currCard.FirstOrDefault().UserProfile = "/images/default-user-icon.jpg";
             }
-            
             
 
             currCard.FirstOrDefault().FirstName = StoryWriter.FirstName;

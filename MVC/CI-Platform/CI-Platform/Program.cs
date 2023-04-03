@@ -40,6 +40,7 @@ builder.Services.AddScoped<IStoryListingRepository, StoryListingRepository>();
 builder.Services.AddScoped<IStoryCardRepository, StoryCardRepository>();
 builder.Services.AddScoped<IShareStoryRepository, ShareStoryRepository>();
 builder.Services.AddScoped<IStoryDetailsRepository, StoryDetailsRepository>();
+builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 
 builder.Services.AddScoped<IMissionListingRepository, MissionListingRepository>();
 builder.Services.AddScoped<IMissionCardRepository,MissionCardRepository>();
