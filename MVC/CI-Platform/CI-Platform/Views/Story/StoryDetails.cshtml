@@ -6,7 +6,30 @@
 @{
     var currCard = @Model.FirstOrDefault();
     var totalMediaCount = currCard.StoryMediaList.Count + currCard.StoryVideoPaths.Count;
+    var totalScreens = (totalMediaCount/4) + 1;
+    if(totalMediaCount % 4 == 0)
+    {
+        totalScreens -= 1;
+    }
+    string GetVideoUrl(string path)
+    {
+        string src = "";
+        src += "https://www.youtube.com/embed/";
+        src += path.Substring(path.IndexOf("=") + 1);
+        src += "?autoplay=1";
+        return src;
+    }
+    string GetThumbnail(string path)
+    {
+        string src = "";
+        src += "https://img.youtube.com/vi/";
+        src += path.Substring(path.IndexOf("=") + 1);
+        src += "/0.jpg";
+        return src;
+
+    }
 }
+@*@GetVideoUrl(@currCard.StoryVideoPaths[0])*@
 @*@totalMediaCount;
 @currCard.StoryVideoPaths[0]*@
 <div class="alert alert-success" style="display:none;" id="success-alert">
@@ -43,36 +66,36 @@
                                         }
 
                                     }
-                                    @*@for (x = @currCard.StoryMediaList.Count; x < totalMediaCount; x++)
+                                    @for (x = @currCard.StoryMediaList.Count; x < totalMediaCount; x++)
                                     {
                                         
                                         @if (x == 0)
                                         {
                                             <div class="carousel-item carousel-img-div active" data-slide-number="@x" style="max-height:625px ">
 
-                                                <img src="~/images/Animal-welfare-&-save-birds-campaign-1.png" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/Pn6iimgM-wo/" data-type="video" data-toggle="lightbox" data-gallery="example-gallery">
+                                                <img src="@GetVideoUrl(@currCard.StoryVideoPaths[0])" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/Pn6iimgM-wo/" data-type="video" data-toggle="lightbox" data-gallery="example-gallery">
                                             </div>
                                         }
                                         else{
                                             <div class="carousel-item carousel-img-div" data-slide-number="@x" style="max-height:625px ;">
-                                                <iframe class="d-block scroll-img w-100" autoplay="1" src="@currCard.StoryVideoPaths[@x-@currCard.StoryMediaList.Count]" allowfullscreen></iframe>
+                                                <iframe class="d-block scroll-img w-100" src="@GetVideoUrl(@currCard.StoryVideoPaths[0])" allowfullscreen></iframe>
                                             </div>
                                         }
-                                    }*@
+                                    }
                                 }
 
 
                             </div>
 
                         </div>
-
+                        
                         <!-- Carousel Navigation -->
                     <div id="carousel-thumbs" class="carousel slide">
                             <div class="carousel-inner h-100 w-100" id="carouselInnerDiv">
                                 @if (@totalMediaCount != 0)
                                 {
                                     var x = 0;
-                                    @for (var j = 0; j < (@totalMediaCount / 4) + 1; j++)
+                                    @for (var j = 0; j < (totalScreens); j++)
                                     {
                                         var count = @totalMediaCount;
                                         x = j * 4;
@@ -99,11 +122,11 @@
                                                                 <img src="@currCard.StoryMediaList[x]" class="img-fluid w-100" alt="...">
                                                             </div>
                                                         }
-                                                        @*else{
+                                                        else{
                                                             <div id="carousel-selector-@x" class="thumb col-3 h-100 px-1 pt-1" data-target="#myCarousel" data-slide-to="@x">
-                                                                <iframe class="img-fluid w-100" controls="0" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+                                                                <img class="img-fluid w-100 h-100" src="@GetThumbnail(@currCard.StoryVideoPaths[@x - @currCard.StoryMediaList.Count])"></img>
                                                             </div>
-                                                        }*@
+                                                        }
                                                         x++;
                                                     }
                                                 </div>
@@ -125,11 +148,11 @@
                                                                 <img src="@currCard.StoryMediaList[x]" class="img-fluid w-100" alt="...">
                                                             </div>
                                                         }
-                                                        @*else{
+                                                        else{
                                                             <div id="carousel-selector-@x" class="thumb col-3 h-100 px-1 pt-1" data-target="#myCarousel" data-slide-to="@x">
-                                                                <iframe class="img-fluid w-100" controls="0" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+                                                                <img class="img-fluid w-100 h-100" src="@GetThumbnail(@currCard.StoryVideoPaths[@x - @currCard.StoryMediaList.Count])"></img>
                                                             </div>
-                                                        }*@
+                                                        }
                                                         
                                                         x++;
 

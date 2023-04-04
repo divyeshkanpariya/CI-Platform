@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace CI_Platform.Models.ViewModels
 {
     public class UserProfileViewModel
     {
+        public IFormFile ProfileImage { get; set; }
+
         [Required]
         public string Name { get; set; }
         [Required]

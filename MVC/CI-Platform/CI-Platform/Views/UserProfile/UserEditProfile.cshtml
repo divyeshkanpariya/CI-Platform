@@ -5,14 +5,29 @@
     Layout = "Home_Layout";
 }
 @model CI_Platform.Models.ViewModels.UserProfileViewModel
-<form method="post">
+<form method="post" enctype="multipart/form-data">
 <div class="row my-4 mx-3">
     
     <div class="col-xl-2 col-md-3 col-sm-4 d-flex justify-content-center">
         <div class="border px-3 w-100" style="height:fit-content;">
             <div class=" text-center my-4">
-                <img class="volunteer-profile-img pb-2" src="~/images/volunteer1.png" alt="volunteer1" style="width:80%;"/>
-                <p style="font-size:large; font-weight:500">Divyesh Kanpariya</p>
+                
+                <div class="profile-pic">
+                    <label asp-for="ProfileImage" class="-label" for="file">
+                        <span class="glyphicon glyphicon-camera"></span>
+                        <span>Change Image</span>
+                    </label>
+                    <input asp-for="ProfileImage" id="file" type="file"  onchange="loadFile(event)"/>
+                    @if(@Context.Session.GetString("UserAvatar") !=null)
+                    {
+                        <img class="" src="@Context.Session.GetString("UserAvatar")" alt="volunteer1" id="profileImg"/>
+                    }else{
+                        <img class="" src="~/images/default-user-icon.jpg" alt="volunteer1" id="profileImg"/>
+                    }
+                        
+                    
+                </div>
+                <p style="font-size:large; font-weight:500" class="mt-2">Divyesh Kanpariya</p>
                 <a> Change Password</a>
             </div> 
         </div>
@@ -34,33 +49,37 @@
                     <input asp-for="Name" name="Name" class="form-control" id="name" placeholder="Enter Your Name" autofocus required>
                     <span asp-validation-for="Name" class="text-danger small-text"></span>
                 </div>
+
                 <div class="col-md-6 mt-3">
                     <label class="form-label" asp-for="Surname">Surname*</label>
-                    <input asp-for="Surname" name="StoryTitle" class="form-control" id="surname" placeholder="Enter Your Surname" required>
+                    <input asp-for="Surname" name="Surname" class="form-control" id="surname" placeholder="Enter Your Surname" required>
                     <span asp-validation-for="Surname" class="text-danger small-text"></span>
                 </div>
+
                 <div class="col-md-6 mt-3">
                     <label class="form-label" asp-for="EmployeeId">Employee ID</label>
-                    <input asp-for="EmployeeId" name="StoryTitle" class="form-control" id="employeeId" placeholder="Enter Your Employee ID" >
+                    <input asp-for="EmployeeId" name="EmployeeId" class="form-control" id="employeeId" placeholder="Enter Your Employee ID" >
                     <span asp-validation-for="EmployeeId" class="text-danger small-text"></span>
                 </div>
+
                 <div class="col-md-6 mt-3">
                     <label class="form-label" asp-for="Manager">Manager</label>
-                    <input asp-validation-for="Manager" name="StoryTitle" class="form-control" id="manager" placeholder="Enter Your Manager Details">
+                    <input asp-validation-for="Manager" name="Manager" class="form-control" id="manager" placeholder="Enter Your Manager Details">
                     <span asp-validation-for="Manager" class="text-danger small-text"></span>
                 </div>
+
                 <div class="col-md-6 mt-3">
                     <label class="form-label" asp-for="Title">Title</label>
-                    <input asp-for="Title" name="StoryTitle" class="form-control" id="Title" placeholder="Enter Your Title">
+                    <input asp-for="Title" name="Title" class="form-control" id="Title" type="text" placeholder="Enter Your Title">
                     <span asp-validation-for="Title" class="text-danger small-text"></span>
                 </div>
                 <div class="mt-3 col-md-6">
                     <label class="form-label" asp-for="Department">Department</label>
-                    <input asp-for="Department" name="StoryTitle" class="form-control" id="department" placeholder="Enter Your Department Details">
+                    <input asp-for="Department" name="Department" class="form-control" id="department" placeholder="Enter Your Department Details">
                     <span asp-validation-for="Department" class="text-danger small-text"></span>
                 </div>
                 <div class="mt-3">
-                    <label class="form-label" asp-for="MyProfileText">My Profile</label>
+                    <label class="form-label" asp-for="MyProfileText">My Profile*</label>
                     <textarea asp-for="MyProfileText" class="form-control" rows=4 id="myProfileText" placeholder="Enter your Comments" required></textarea>
                     <span asp-validation-for="MyProfileText" class="text-danger small-text"></span>
                 </div>
@@ -117,8 +136,8 @@
             </ul>
             <div class="row ">
                 <div class="col-md-6 mt-3">
-                    <label class="form-label" id="mission">Availability </label>
-                    <select asp-validation-for="Mission" name="Mission" id="selectedMission"class="form-select" aria-label=".form-select-lg example">
+                    <label asp-for="Availability" class="form-label" id="mission">Availability </label>
+                    <select asp-for="Availability" name="Availability" id="selectedMission"class="form-select" aria-label=".form-select-lg example">
                         <option selected>Select Your Availability</option>
                         <option value="DAILY">DAILY</option>
                         <option value="WEEKLY">WEEKLY</option>
@@ -127,13 +146,13 @@
                         
                     
                     </select>
-                     <span class="text-danger small-text"></span>
+                     <span asp-validation-for="Availability" class="text-danger small-text"></span>
                 </div>
                 <div class="col-md-6 mt-3">
-                    <label class="form-label" id="mission">Linkedin</label>
-                    <input asp-validation-for="StoryTitle" name="StoryTitle" class="form-control" id="storyTitle" placeholder="Enter Linkein URL">
+                    <label asp-for="LinkedinURL" class="form-label" id="mission">Linkedin</label>
+                    <input asp-for="LinkedinURL" name="LinkedinURL" class="form-control" id="storyTitle" placeholder="Enter Linkein URL">
                  
-                     <span class="text-danger small-text"></span>
+                     <span asp-validation-for="LinkedinURL" class="text-danger small-text"></span>
                 </div>
             </div>
         </div>
@@ -167,6 +186,25 @@
 </div>
 </form>
 <script>
+
+    var loadFile = function (event) {
+        console.log(event.target.files[0].name);
+        var ext = event.target.files[0].name.match(/\.([^\.]+)$/)[1];
+        switch (ext) {
+        case 'jpg':
+        case 'bmp':
+        case 'png':
+        case 'jpeg':
+            var image = document.getElementById("profileImg");
+            image.src = URL.createObjectURL(event.target.files[0]);
+            break;
+        default:
+            alert('File Type Not allowed');
+            $("#profileImg").value = '';
+        }
+        
+    };
+
     $(document).ready(() => {
         $.ajax({
             url: '/UserProfile/GetCountries',
@@ -210,7 +248,7 @@
                     var cities = $("#selectedCity");
                     cities.empty();
                     var option1 = document.createElement("option");
-                    option1.value = 1;
+                    option1.value = 0;
                     option1.innerHTML = "Select Your City";
                     cities.append(option1);
 
@@ -219,8 +257,11 @@
                         option.value = data[index].CityId;
                         option.innerHTML = data[index].Name;
                         cities.append(option);
+                        console.log(option);
                     } 
+                    
                 }
+
             });
 
         });

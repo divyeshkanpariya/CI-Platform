@@ -938,3 +938,67 @@ output .span--hidden {
     overflow-y:auto;
 }
 
+/* -------------- User Edit Profile -------------- */
+.profile-pic {
+    color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.profile-pic input {
+    display: none;
+}
+
+.profile-pic img {
+    position: absolute;
+    object-fit: cover;
+    width: 80%;
+    top: 0px;
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.35);
+    border-radius: 50%;
+    z-index: 0;
+    aspect-ratio: 1/1;
+    padding-bottom:0px;
+}
+
+.profile-pic .-label {
+    cursor: pointer;
+    margin-top: 0px;
+    width: 80%;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+}
+
+.profile-pic:hover .-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+    color: #fafafa;
+    transition: background-color 0.2s ease-in-out;
+    border-radius: 50%;
+    margin-top:0px;
+    aspect-ratio: 1/1;
+}
+
+.profile-pic span {
+    display: inline-flex;
+    padding: 0.2em;
+    height: 2em;
+}
+/*
+body {
+    height: 100vh;
+    background-color: #191815;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    body a:hover {
+        text-decoration: none;
+    }*/
