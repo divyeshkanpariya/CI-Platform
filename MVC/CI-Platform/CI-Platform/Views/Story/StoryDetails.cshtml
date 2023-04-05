@@ -16,7 +16,7 @@
         string src = "";
         src += "https://www.youtube.com/embed/";
         src += path.Substring(path.IndexOf("=") + 1);
-        src += "?autoplay=1";
+        src += "?autoplay=1&mute=1";
         return src;
     }
     string GetThumbnail(string path)
@@ -206,7 +206,7 @@
                     @*</div>*@
                 </div>
             </div>
-
+            @* ------ Modal Recommand to coworker -------- *@
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -215,28 +215,38 @@
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
                             </button>
+
+                        </div>
+                        <div class="navbar-brand search-form border-bottom me-0 px-3 py-2">
+
+                            <input class="form-control search-input mr-2" type="search" id="searchUser" placeholder="Search User..." aria-label="Search" />
+
                         </div>
                         <div class="modal-body">
                             <div class="mb-3 user-invite-table">
-                                <table class="table table-bordered text-center user-invite-table table-striped " >
+                                <table class="table table-bordered text-center user-invite-table table-striped " id="myUserTable">
                                     <thead>
                                         <tr>
                                             <th scope="col">Email</th>
                                             <th scope="col">Send Invite</th>  
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="tableBody">
                                         @foreach(var user in currCard.UsersList){
                                             if(@Context.Session.GetString("UserId") != user[0])
                                             {
                                                 <tr class="">
-                                                <th>@user[1] @user[2]</th>
-                                                <th>
-                                                    <div class="py-1">                               
-                                                        <button  class="Apply-mission-btn px-3" data-dismiss="modal" onclick="sendStoryInvite(@user[0])" value="@user[0]">Send<img src="~/images/right-arrow.png" /></button>
-                                                    </div>
-                                                </th>
-                                            </tr> 
+                                                    <td>@user[1] @user[2]</td>
+                                                    <td class="d-none">
+                                                        @user[3]
+                                                    </td>
+                                                    <td>
+                                                        <div class="py-1">                               
+                                                            <button  class="Apply-mission-btn px-3" data-dismiss="modal" onclick="sendStoryInvite(@user[0])" value="@user[0]">Send<img src="~/images/right-arrow.png" /></button>
+                                                        </div>
+                                                    </td>
+                                                    
+                                                </tr> 
                                             }
                                                     
                                         }
@@ -289,7 +299,25 @@
                 }, 1500);
                 
             }
-        });
-        
+        });  
     }
+
+    $(document).ready(function(){
+        $("#searchUser").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            var tableRow = document.getElementById('tableBody').getElementsByTagName("tr");
+            var columns;
+            for(var i=0;i<tableRow.length;i++){
+                columns = tableRow[i].getElementsByTagName("td");
+                var name = columns[0].innerHTML.toLowerCase();
+                var email = columns[1].innerHTML.toLowerCase();
+                console.log(name);
+                if(name.indexOf(value) > -1 || email.indexOf(value) > -1){
+                    tableRow[i].style.display = "";
+                }else{
+                    tableRow[i].style.display = "none";
+                }
+            }
+        });
+    });
 </script>

@@ -1,6 +1,7 @@
 ﻿using CI_Platform.Models.Models;
 using CI_Platform.Models.ViewModels;
 using CI_Platform.Repository.Interface;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +58,19 @@ namespace CI_Platform.Repository.Repositories
             
         }
 
+        public string ChangePassword(long UserId, string OldPwd, string NewPwd)
+        {
+            var user = _Users.GetFirstOrDefault(u => u.UserId == UserId);
+            if(user.Password != OldPwd)
+            {
+                return "Password Not Matched";
+            }
+            user.Password = NewPwd;
+            _Users.Update(user);
+            _Users.Save();
+            return "";
+        }
+
         public IEnumerable<City> GetAllCities( long CountryId)
         {
             var cities = _CityList.GetAll();
@@ -76,6 +90,31 @@ namespace CI_Platform.Repository.Repositories
         {
             var countries = _CountryList.GetAll();
             return countries;
+        }
+
+        public IEnumerable<UserProfileViewModel> GetUserData(long UserId)
+        {
+            List<UserProfileViewModel> model = new List<UserProfileViewModel>();
+            var user = _Users.GetFirstOrDefault(u => u.UserId == UserId);
+
+            UserProfileViewModel userData = new UserProfileViewModel()
+            { 
+                Name = user.FirstName,
+                Surname = user.LastName,
+                EmployeeId = user.EmployeeId,
+                Title = user.Title,
+                Department = user.Department,
+                MyProfileText = user.ProfileText,
+                WhyIVol = user.WhyIVolunteer,
+                City = Convert.ToString(user.CityId),
+                Country = Convert.ToString(user.CountryId),
+                LinkedinURL = user.LinkedInUrl
+
+            };
+
+            model.Add(userData);
+
+            return model;
         }
     }
 }

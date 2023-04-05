@@ -97,5 +97,24 @@ namespace CI_Platform.Controllers
             }
             
         }
+
+        public string GetUserData()
+        {
+            long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+            
+            IEnumerable<UserProfileViewModel> data = _userProfileRepo.GetUserData(UserId);
+
+            return JsonSerializer.Serialize(data);
+        }
+
+        [HttpPost]
+        public IActionResult ChangePassword(string OldPwd,string NewPwd, string ConfirmPwd)
+        {
+            
+            long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+            string result = _userProfileRepo.ChangePassword(UserId, OldPwd, NewPwd);
+            List<string> arr = new List<string> { result };
+            return Json(arr);
+        }
     }
 }

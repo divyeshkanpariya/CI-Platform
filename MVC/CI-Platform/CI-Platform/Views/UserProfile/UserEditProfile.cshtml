@@ -28,10 +28,13 @@
                     
                 </div>
                 <p style="font-size:large; font-weight:500" class="mt-2">Divyesh Kanpariya</p>
-                <a> Change Password</a>
+                <a data-toggle="modal" data-target="#exampleModal"> Change Password</a>
             </div> 
         </div>
     </div>
+
+
+
     <div class="col-xl-10 col-md-9 col-sm-8 my-4">
         @* ----------- Basic Information --------- *@
         <div>
@@ -70,7 +73,7 @@
 
                 <div class="col-md-6 mt-3">
                     <label class="form-label" asp-for="Title">Title</label>
-                    <input asp-for="Title" name="Title" class="form-control" id="Title" type="text" placeholder="Enter Your Title">
+                    <input asp-for="Title" name="Title" class="form-control" id="title" type="text" placeholder="Enter Your Title">
                     <span asp-validation-for="Title" class="text-danger small-text"></span>
                 </div>
                 <div class="mt-3 col-md-6">
@@ -113,7 +116,7 @@
                      <span asp-validation-for="City" class="text-danger small-text"></span>
                 </div>
                 <div class="col-md-6 mt-3">
-                    <label asp-for="Country" class="form-label" id="mission">Country*</label>
+                    <label asp-for="Country" class="form-label">Country*</label>
                     <select asp-for="Country" name="Country" id="selectedCountry" class="form-select" aria-label=".form-select-lg example">
                         <option value="0" selected>Select Your Country</option>
                         
@@ -137,7 +140,7 @@
             <div class="row ">
                 <div class="col-md-6 mt-3">
                     <label asp-for="Availability" class="form-label" id="mission">Availability </label>
-                    <select asp-for="Availability" name="Availability" id="selectedMission"class="form-select" aria-label=".form-select-lg example">
+                    <select asp-for="Availability" name="Availability" id="selectAvailability"class="form-select" aria-label=".form-select-lg example">
                         <option selected>Select Your Availability</option>
                         <option value="DAILY">DAILY</option>
                         <option value="WEEKLY">WEEKLY</option>
@@ -149,8 +152,8 @@
                      <span asp-validation-for="Availability" class="text-danger small-text"></span>
                 </div>
                 <div class="col-md-6 mt-3">
-                    <label asp-for="LinkedinURL" class="form-label" id="mission">Linkedin</label>
-                    <input asp-for="LinkedinURL" name="LinkedinURL" class="form-control" id="storyTitle" placeholder="Enter Linkein URL">
+                    <label asp-for="LinkedinURL" class="form-label">Linkedin</label>
+                    <input asp-for="LinkedinURL" name="LinkedinURL" class="form-control" id="linkedinURL" placeholder="Enter Linkein URL">
                  
                      <span asp-validation-for="LinkedinURL" class="text-danger small-text"></span>
                 </div>
@@ -182,11 +185,111 @@
         </div>
 
     </div>
-    
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+                    <button type="button" class="close border-0 bg-white" onclick="clearInpFields()" data-dismiss="modal" aria-label="Close">
+                        <i class="btn-close"></i>
+                    </button>
+
+                </div>
+                <div class="modal-body">
+                    <input type="password" name="OldPwd" class="form-control" id="oldPwd" placeholder="Enter Old Password" required>
+                    <p id="validateOldPwd" class="text-danger small-text"></p>
+
+                    <input type="password" name="OldPwd" class="form-control" id="newPwd" placeholder="Enter New Password" required>
+                    <p id="validateNewPwd" class="text-danger small-text"></p>
+
+                    <input type="password" name="OldPwd" class="form-control" id="confirmPwd" placeholder="Enter Confirm Password"  required>
+                    <p id="validateCnfPwd" class="text-danger small-text"></p>
+                </div>
+                <div class="modal-footer">
+                   <button class="rec-btns px-4 text-muted" type="button" style="width:fit-content" onclick="cancelChange()">
+                        <span class="ps-2">Cancel</span>
+                    </button> 
+                        <button type="button" formaction="" class="Apply-mission-btn px-4" onclick = "ChangePassword()">Change Password</button>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </form>
 <script>
+    function clearInpFields(){
+        document.getElementById("oldPwd").value = "";
+        document.getElementById("newPwd").value = "";
+        document.getElementById("confirmPwd").value = "";
+        document.getElementById("validateOldPwd").innerHTML = "";
+        document.getElementById("validateNewPwd").innerHTML = "";
+        document.getElementById("validateCnfPwd").innerHTML = "";
+    }
+    function cancelChange(){
+        
+        $(".close").click();
+    }
+    function ChangePassword() {
+        var oldPwd = document.getElementById("oldPwd").value;
+        var newPwd = document.getElementById("newPwd").value;
+        var confirmPwd = document.getElementById("confirmPwd").value;
 
+        if(oldPwd ==""){
+            document.getElementById("validateOldPwd").innerHTML = "Please Enter Old Password";
+            return;
+        }else{
+            document.getElementById("validateOldPwd").innerHTML = "";
+        }
+        if(newPwd ==""){
+            document.getElementById("validateNewPwd").innerHTML = "Please Enter New Password";
+            return;
+        }else{
+            document.getElementById("validateNewPwd").innerHTML = "";
+
+        }
+        if(confirmPwd ==""){
+            document.getElementById("newPwd").value = "";
+            document.getElementById("validateCnfPwd").innerHTML = "Please Enter Confirm Password";
+            return;
+        }else{
+            document.getElementById("validateCnfPwd").innerHTML = "";
+
+        }
+        if(confirmPwd != newPwd){
+            document.getElementById("newPwd").value = "";
+            document.getElementById("confirmPwd").value = "";
+            document.getElementById("validateCnfPwd").innerHTML = "Old Password and New Password are not Same";
+            return;
+        }else{
+            document.getElementById("validateCnfPwd").innerHTML = "";
+        }
+        $.ajax({
+            url: '/UserProfile/ChangePassword',
+            type: 'POST',
+            data: {OldPwd: oldPwd,
+            NewPwd: newPwd,
+            ConfirmPwd: confirmPwd},
+            dataType: 'json',
+            success:function (data) {
+                console.log("success");
+                console.log(data);
+                if(data[0] == "Password Not Matched"){
+                    document.getElementById("oldPwd").value = "";
+                    document.getElementById("newPwd").value = "";
+                    document.getElementById("confirmPwd").value = "";
+                    console.log("data");
+                    document.getElementById("validateOldPwd").innerHTML = "Please Enter Correct Old Password";
+                }else{
+                    $(".close").click();
+                }
+
+            },
+            error:function(err){
+                console.log("errr");
+            }
+        });
+    }
     var loadFile = function (event) {
         console.log(event.target.files[0].name);
         var ext = event.target.files[0].name.match(/\.([^\.]+)$/)[1];
@@ -204,8 +307,10 @@
         }
         
     };
-
+    
     $(document).ready(() => {
+        // ---------------- Get Countries
+
         $.ajax({
             url: '/UserProfile/GetCountries',
             type: 'GET',
@@ -213,15 +318,20 @@
             dataType: 'json',
             success:function (data) {
                 
-                var cities = $("#selectedCountry");
+                var countries = $("#selectedCountry");
                 for(var index in data){
                     var option = document.createElement("option");
                     option.value = data[index].CountryId;
                     option.innerHTML = data[index].Name;
-                    cities.append(option);
+                    countries.append(option);
+                    
+                    
                 } 
             }
         });
+
+        // ------------------ Get Cities -------
+
         $.ajax({
             url: '/UserProfile/GetCities',
             type: 'POST',
@@ -237,8 +347,68 @@
                 } 
             }
         });
+
+        // ------------------ Get User Data
+
+        $.ajax({
+            url: '/UserProfile/GetUserData',
+            type: 'GET',
+            data: {},
+            dataType: 'json',
+            success:function (data) {
+                console.log(data);
+                document.getElementById("name").value = data[0].Name;
+
+                document.getElementById("surname").value = data[0].Surname;
+
+                if(data[0].EmployeeId != null) document.getElementById("employeeId").value = data[0].EmployeeId;
+
+                if(data[0].Title != null) document.getElementById("text").value = data[0].Title;
+
+                if(data[0].MyProfileText != null) document.getElementById("myProfileText").value = data[0].MyProfileText;
+
+                if(data[0].WhyIVol != null) document.getElementById("whyIVol").value = data[0].WhyIVol;
+
+                document.getElementById("selectedCountry").value = data[0].Country;
+
+                let cityId = data[0].City;
+                let CountryId = data[0].Country;
+                $.ajax({
+                    url: '/UserProfile/GetCities',
+                    type: 'POST',
+                    data: {CountryId: CountryId},
+                    dataType: 'json',
+                    success:function (data) {
+                        var cities = $("#selectedCity");
+                        cities.empty();
+                        var option1 = document.createElement("option");
+                        option1.value = 0;
+                        option1.innerHTML = "Select Your City";
+                        cities.append(option1);
+
+                        for(var index in data){
+                            var option = document.createElement("option");
+                            option.value = data[index].CityId;
+                            option.innerHTML = data[index].Name;
+                            if(data[index].CityId.toString() == cityId){
+                                option.selected = "selected";
+                            }
+                            cities.append(option);
+                        } 
+                        console.log("y");
+                    
+                    }
+                });
+               if(data[0].LinkedinURL != null) document.getElementById("linkedinURL").value = data[0].LinkedinURL;
+                
+            }
+        });
+
+        // ------------------- Update Cities
+
         $("#selectedCountry").change( () => {
             var countryId = $("#selectedCountry").val();
+            
             $.ajax({
                 url: '/UserProfile/GetCities',
                 type: 'POST',
@@ -257,7 +427,7 @@
                         option.value = data[index].CityId;
                         option.innerHTML = data[index].Name;
                         cities.append(option);
-                        console.log(option);
+                      
                     } 
                     
                 }

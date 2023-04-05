@@ -15,5 +15,9 @@ namespace CI_Platform.Repository.Interface
         public IEnumerable<Country> GetAllCountries();
 
         public void AddUserData(UserProfileViewModel viewModel, long UserId, string ProfilePath);
+
+        public IEnumerable<UserProfileViewModel> GetUserData(long UserId);
+
+        public string ChangePassword(long UserId, string OldPwd, string NewPwd);
     }
 }
