@@ -19,5 +19,7 @@ namespace CI_Platform.Repository.Interface
         public IEnumerable<UserProfileViewModel> GetUserData(long UserId);
 
         public string ChangePassword(long UserId, string OldPwd, string NewPwd);
+
+        public IEnumerable<Skill> GetAllSkills();
     }
 }

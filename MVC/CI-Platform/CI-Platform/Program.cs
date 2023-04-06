@@ -28,6 +28,7 @@ builder.Services.AddScoped<IRepository<MissionDocument>, Repository<MissionDocum
 builder.Services.AddScoped<IRepository<Story>, Repository<Story>>();
 builder.Services.AddScoped<IRepository<StoryMedium>, Repository<StoryMedium>>();
 builder.Services.AddScoped<IRepository<StoryInvite>, Repository<StoryInvite>>();
+builder.Services.AddScoped<IRepository<UserSkill>, Repository<UserSkill>>();
 
 
 builder.Services.AddScoped<ILostPasswordRepository, LostPasswordRepository>();

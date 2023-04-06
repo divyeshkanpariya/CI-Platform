@@ -15,12 +15,20 @@ namespace CI_Platform.Repository.Repositories
         private IRepository<City> _CityList;
         private IRepository<Country> _CountryList;
         private IRepository<User> _Users;
+        private IRepository<Skill> _Skills;
+        private IRepository<UserSkill> _UserSkills;
 
-        public UserProfileRepository(IRepository<City> CityList, IRepository<Country> countryList, IRepository<User> Users)
+        public UserProfileRepository(IRepository<City> CityList, 
+            IRepository<Country> countryList, 
+            IRepository<User> Users, 
+            IRepository<Skill> skills, 
+            IRepository<UserSkill> userSkills)
         {
             _CityList = CityList;
             _CountryList = countryList;
             _Users = Users;
+            _Skills = skills;
+            _UserSkills = userSkills;
         }
 
         public void AddUserData(UserProfileViewModel viewModel, long UserId,string ProfilePath)
@@ -45,15 +53,39 @@ namespace CI_Platform.Repository.Repositories
             CurrUser.Title = viewModel.Title;
             CurrUser.Department = viewModel.Department;
             CurrUser.LinkedInUrl = viewModel.LinkedinURL;
+            CurrUser.UpdatedAt = DateTime.Now;
 
-            //if (viewModel.City != null) CurrUser.CityId = Convert.ToInt64(viewModel.City);
-            //if (viewModel.EmployeeId != null) CurrUser.EmployeeId = viewModel.EmployeeId;
-            //if (viewModel.Title != null) CurrUser.Title = viewModel.Title;
-            
-            //if (viewModel.Department != null) CurrUser.Department = viewModel.Department;
-            //if (viewModel.LinkedinURL != null) CurrUser.LinkedInUrl = viewModel.LinkedinURL;
+            string[] skills = viewModel.MySkills.Split(",");
+            List<int> UserSkills = new List<int> { };
+            for (int i = 0; i < skills.Length; i++)
+            {
+                UserSkills.Add(Convert.ToInt32(skills[i]));
+            }
+            var oldUserSkills = _UserSkills.GetAll().Where(u => u.UserId == UserId);
+            foreach (var skill in oldUserSkills)
+            {
+                if (UserSkills.Contains(skill.SkillId))
+                {
+                    UserSkills.Remove(skill.SkillId);
+                }
+                else
+                {
+                    _UserSkills.DeleteField(skill);
+                }
+            }
+            foreach(var skill in UserSkills)
+            {
+                UserSkill newSkill = new UserSkill()
+                {
+                    UserId = UserId,
+                    SkillId = skill,
+                };
+                _UserSkills.AddNew(newSkill);
+            }
             
             _Users.Update(CurrUser);
+
+            _UserSkills.Save();
             _Users.Save();
             
         }
@@ -92,11 +124,22 @@ namespace CI_Platform.Repository.Repositories
             return countries;
         }
 
+        public IEnumerable<Skill> GetAllSkills()
+        {
+            return _Skills.GetAll();
+        }
+
         public IEnumerable<UserProfileViewModel> GetUserData(long UserId)
         {
             List<UserProfileViewModel> model = new List<UserProfileViewModel>();
             var user = _Users.GetFirstOrDefault(u => u.UserId == UserId);
 
+            var userSkills = _UserSkills.GetAll().Where(u => u.UserId == UserId);
+            List<string> usersk = new List<string>();
+            foreach(var u in userSkills)
+            {
+                usersk.Add(Convert.ToString(u.SkillId));
+            }
             UserProfileViewModel userData = new UserProfileViewModel()
             { 
                 Name = user.FirstName,
@@ -108,8 +151,8 @@ namespace CI_Platform.Repository.Repositories
                 WhyIVol = user.WhyIVolunteer,
                 City = Convert.ToString(user.CityId),
                 Country = Convert.ToString(user.CountryId),
-                LinkedinURL = user.LinkedInUrl
-
+                LinkedinURL = user.LinkedInUrl,
+                UserSkills = usersk
             };
 
             model.Add(userData);

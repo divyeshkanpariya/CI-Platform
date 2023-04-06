@@ -33,7 +33,36 @@
         </div>
     </div>
 
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+                    <button type="button" class="close border-0 bg-white" onclick="clearInpFields()" data-dismiss="modal" aria-label="Close">
+                        <i class="btn-close"></i>
+                    </button>
 
+                </div>
+                <div class="modal-body">
+                    <input type="password" class="form-control" id="oldPwd" placeholder="Enter Old Password">
+                    <p id="validateOldPwd" class="text-danger small-text"></p>
+
+                    <input type="password" class="form-control" id="newPwd" placeholder="Enter New Password">
+                    <p id="validateNewPwd" class="text-danger small-text"></p>
+
+                    <input type="password" class="form-control" id="confirmPwd" placeholder="Enter Confirm Password">
+                    <p id="validateCnfPwd" class="text-danger small-text"></p>
+                </div>
+                <div class="modal-footer">
+                   <button class="rec-btns px-4 text-muted" type="button" style="width:fit-content" onclick="cancelChange()">
+                        <span class="ps-2">Cancel</span>
+                    </button> 
+                        <button type="button" formaction="" class="Apply-mission-btn px-4" onclick = "ChangePassword()">Change Password</button>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="col-xl-10 col-md-9 col-sm-8 my-4">
         @* ----------- Basic Information --------- *@
@@ -169,55 +198,70 @@
                     </button>
                 </li>
             </ul>
-            <div class="row mt-4 mx-1">
-                <div class="border pt-2 text-muted">
-                    <p>Anthropology</p>
-                    <p>Archeology</p>
-                    <p>Computer</p>
+            <div class="row mt-4 mx-1" >
+                <div class="border pt-2 text-muted" id="displaySkills">
+                    
                 </div>
             </div>
-            <button class="rec-btns px-4 mt-3 text-muted" type="button" style="width:fit-content" asp-action="" asp-controller="">
+            <button class="rec-btns px-4 mt-3 text-muted" type="button" style="width:fit-content" data-toggle="modal" data-target="#exampleModal1">
                 <span class="ps-2">Add Skills</span>
             </button> 
         </div>
+        <input id="mySkills" type="hidden" value = "" asp-for="MySkills"/>
+        <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Your Skills</h5>
+                        <button type="button" class="close border-0 bg-white" onclick="clearInpFields()" data-dismiss="modal" aria-label="Close">
+                            <i class="btn-close"></i>
+                        </button>
+
+                    </div>
+                    <div class="modal-body ">
+                        <div class="addSkillsGrid" >
+                            <div class="">
+                                <div class="border SkillList px-0 py-2 h-100" id="AllSkillList">
+
+                                </div>
+                            </div>
+                            <div class="left-right-btns">
+                                <div class="text-center" id="removeSkills"><img src="~/images/left.png" alt="Previous" /></div>
+                                <div class="text-center" id="addSkills"><img src="~/images/right-arrow1.png" alt="Previous" /></div>
+                            </div>
+                            <div class="">
+                               <div class="border SkillList px-0 py-2 h-100" id="SelectedSkillList">
+
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                       <button class="rec-btns px-4 text-muted" type="button" style="width:fit-content" onclick="cancelChange()" id="cancelSkillModal">
+                            <span class="ps-2">Cancel</span>
+                        </button> 
+                            <button type="button" formaction="" class="Apply-mission-btn px-4" id = "saveSkillls">Save</button>
+                  
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="d-flex justify-content-end my-3">
             <button type="submit" id="saveProfile" formaction="" class="Apply-mission-btn px-4 ">Save</button>
         </div>
 
     </div>
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
-                    <button type="button" class="close border-0 bg-white" onclick="clearInpFields()" data-dismiss="modal" aria-label="Close">
-                        <i class="btn-close"></i>
-                    </button>
-
-                </div>
-                <div class="modal-body">
-                    <input type="password" name="OldPwd" class="form-control" id="oldPwd" placeholder="Enter Old Password" required>
-                    <p id="validateOldPwd" class="text-danger small-text"></p>
-
-                    <input type="password" name="OldPwd" class="form-control" id="newPwd" placeholder="Enter New Password" required>
-                    <p id="validateNewPwd" class="text-danger small-text"></p>
-
-                    <input type="password" name="OldPwd" class="form-control" id="confirmPwd" placeholder="Enter Confirm Password"  required>
-                    <p id="validateCnfPwd" class="text-danger small-text"></p>
-                </div>
-                <div class="modal-footer">
-                   <button class="rec-btns px-4 text-muted" type="button" style="width:fit-content" onclick="cancelChange()">
-                        <span class="ps-2">Cancel</span>
-                    </button> 
-                        <button type="button" formaction="" class="Apply-mission-btn px-4" onclick = "ChangePassword()">Change Password</button>
-                  
-                </div>
-            </div>
-        </div>
-    </div>
+    
 </div>
 </form>
 <script>
+    // ------------- SKillList
+
+    
+    var skillArray = [];
+    var myskills = [];
+
     function clearInpFields(){
         document.getElementById("oldPwd").value = "";
         document.getElementById("newPwd").value = "";
@@ -226,10 +270,12 @@
         document.getElementById("validateNewPwd").innerHTML = "";
         document.getElementById("validateCnfPwd").innerHTML = "";
     }
+
     function cancelChange(){
         
         $(".close").click();
     }
+
     function ChangePassword() {
         var oldPwd = document.getElementById("oldPwd").value;
         var newPwd = document.getElementById("newPwd").value;
@@ -290,6 +336,7 @@
             }
         });
     }
+
     var loadFile = function (event) {
         console.log(event.target.files[0].name);
         var ext = event.target.files[0].name.match(/\.([^\.]+)$/)[1];
@@ -305,8 +352,26 @@
             alert('File Type Not allowed');
             $("#profileImg").value = '';
         }
-        
     };
+
+    $("#saveSkillls").click(function(){
+        var selectedList = document.getElementById("SelectedSkillList").getElementsByTagName("p");
+        var ele;
+        var id = [];
+        $("#displaySkills").empty();
+        for(var i=0;i<selectedList.length;i++){
+            ele = selectedList[i];
+            var p = document.createElement("p");
+            p.id = ele.id;
+            p.innerHTML = ele.innerHTML;
+            document.getElementById("displaySkills").append(p);
+            id[i] = ele.id;
+        }
+        myskills = id;
+        document.getElementById("mySkills").value = myskills;
+        console.log(myskills);
+        $("#cancelSkillModal").click();
+    });
     
     $(document).ready(() => {
         // ---------------- Get Countries
@@ -347,8 +412,18 @@
                 } 
             }
         });
+        // ------------------ Get All Skills
 
-        // ------------------ Get User Data
+        $.ajax({
+            url: '/UserProfile/GetSkills',
+            type: 'get',
+            data: {},
+            dataType: 'json',
+            success:function (data) {
+                skillArray = data;
+            }
+        });
+        // ------------------ Get and Set User Data
 
         $.ajax({
             url: '/UserProfile/GetUserData',
@@ -373,6 +448,7 @@
 
                 let cityId = data[0].City;
                 let CountryId = data[0].Country;
+
                 $.ajax({
                     url: '/UserProfile/GetCities',
                     type: 'POST',
@@ -395,11 +471,75 @@
                             }
                             cities.append(option);
                         } 
-                        console.log("y");
+                        
                     
                     }
                 });
                if(data[0].LinkedinURL != null) document.getElementById("linkedinURL").value = data[0].LinkedinURL;
+
+               var selectedSkillList = document.getElementById("SelectedSkillList");
+               var allSkillList = document.getElementById("AllSkillList");
+
+               myskills = data[0].UserSkills;
+               document.getElementById("mySkills").value = myskills;
+               //console.log(document.getElementById("mySkills").value);
+
+               if(skillArray.length != 0){
+                   for(var i=0;i<skillArray.length;i++){
+                       if(data[0].UserSkills.includes(skillArray[i].SkillId.toString())){
+                           var p = document.createElement("p");
+                           p.id= skillArray[i].SkillId.toString();
+                           p.innerHTML = skillArray[i].SkillName;
+                           selectedSkillList.appendChild(p);
+
+                           var q = document.createElement("p");
+                           q.id= skillArray[i].SkillId.toString();
+                           q.innerHTML = skillArray[i].SkillName;
+                           document.getElementById("displaySkills").appendChild(q);
+                       }else{
+                           var p = document.createElement("p");
+                           p.id= skillArray[i].SkillId.toString();
+                           p.innerHTML = skillArray[i].SkillName;
+                           allSkillList.appendChild(p);
+                       }
+                       
+                   }
+               }
+               $(".SkillList p").click(function(){
+                    $(this).toggleClass("selectedSkill");
+                });
+
+                $("#removeSkills").click(function(){
+                    var x = document.getElementById("SelectedSkillList").getElementsByTagName("p");
+                    var i=0;
+                    while(i<x.length){
+                        console.log(x[i]);
+                        if(x[i].classList.contains("selectedSkill")){
+                            console.log(x[i]);
+                            x[i].classList.remove("selectedSkill");
+                            
+                            document.getElementById("AllSkillList").appendChild(x[i]);
+                
+                        }else{
+                            i++;
+                        }
+                    }
+                });
+                $("#addSkills").click(function(){
+                    var x = document.getElementById("AllSkillList").getElementsByTagName("p");
+                    var i=0;
+                    while(i<x.length){
+                            console.log(x[i]);
+                        if(x[i].classList.contains("selectedSkill")){
+                            console.log(x[i]);
+                            x[i].classList.remove("selectedSkill");
+                            document.getElementById("SelectedSkillList").appendChild(x[i]);
+                
+                        }else{
+                            i++;
+                        }
+                    }
+                });
                 
             }
         });

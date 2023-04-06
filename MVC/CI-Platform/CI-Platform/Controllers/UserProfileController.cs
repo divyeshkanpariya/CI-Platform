@@ -35,6 +35,11 @@ namespace CI_Platform.Controllers
             var countries = _userProfileRepo.GetAllCountries();
             return JsonSerializer.Serialize(countries);
         }
+        public string GetSkills()
+        {
+            var skillls = _userProfileRepo.GetAllSkills();
+            return JsonSerializer.Serialize(skillls);
+        }
         [HttpPost]
         public IActionResult UserEditProfile(IFormCollection formData)
         {
@@ -67,7 +72,7 @@ namespace CI_Platform.Controllers
                     string folder = "Uploads/ProfilePhotos/";
                     string ext = file.ContentType.ToLower().Substring(file.ContentType.LastIndexOf("/") + 1);
                     folder += Convert.ToString(UserId) + "-" + Guid.NewGuid().ToString() + "." + ext;
-                    HttpContext.Session.SetString("UserAvatar","/"+ folder);
+                    HttpContext.Session.SetString("UserAvatar", "/" + folder);
                     string serverFolder = Path.Combine(_WebHostEnvironment.WebRootPath, folder);
                     file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
                     path += "/" + folder;
@@ -85,8 +90,9 @@ namespace CI_Platform.Controllers
                 if (formData["LinkedinURL"] != "") userProfileViewModel.LinkedinURL = formData["LinkedinURL"];
                 if (formData["City"] != "0") userProfileViewModel.City = formData["City"];
                 if (formData["Availability"] != "Select Your Availability") userProfileViewModel.Availability = formData["Availability"];
+                if (formData["MySkills"] != "") userProfileViewModel.MySkills = formData["MySkills"];
 
-                _userProfileRepo.AddUserData(userProfileViewModel,UserId,path);
+                _userProfileRepo.AddUserData(userProfileViewModel, UserId, path);
                 return View();
             }
             else
@@ -95,7 +101,7 @@ namespace CI_Platform.Controllers
 
                 return RedirectToAction("Login", "Auth");
             }
-            
+            return View();
         }
 
         public string GetUserData()

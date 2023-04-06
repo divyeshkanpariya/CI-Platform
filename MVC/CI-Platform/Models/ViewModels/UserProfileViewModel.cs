@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CI_Platform.Models.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -37,6 +38,8 @@ namespace CI_Platform.Models.ViewModels
 
         public string LinkedinURL { get; set; }
 
-  
+        public List<string> UserSkills { get; set; }
+        
+        public string MySkills { get; set; }
     }
 }

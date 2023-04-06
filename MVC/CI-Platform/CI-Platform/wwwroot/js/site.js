@@ -72,12 +72,6 @@ $('#myCarousel').swipe({
     preventDefaultEvents: false,
     threshold: 75
 });
-/*
-$(document).on('click', '[data-toggle="lightbox"]', function(event) {
-  event.preventDefault();
-  $(this).ekkoLightbox();
-});
-*/
 
 $('#myCarousel .carousel-item img').on('click', function (e) {
     var src = $(e.target).attr('data-remote');
