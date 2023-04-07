@@ -1,6 +1,7 @@
 ﻿using CI_Platform.Models.Models;
 using CI_Platform.Models.ViewModels;
 using CI_Platform.Repository.Interface;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
@@ -36,6 +37,7 @@ namespace CI_Platform.Controllers
         public IActionResult Login()
         {
             LoginViewModel vm = new LoginViewModel();
+            this.Response.Cookies.Delete(CookieRequestCultureProvider.DefaultCookieName);
             HttpContext.Session.Clear();
             return View(vm);
         }

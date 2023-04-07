@@ -135,10 +135,12 @@ namespace CI_Platform.Repository.Repositories
             var user = _Users.GetFirstOrDefault(u => u.UserId == UserId);
 
             var userSkills = _UserSkills.GetAll().Where(u => u.UserId == UserId);
+            List<string> skillIdList = new List<string>();
             List<string> usersk = new List<string>();
             foreach(var u in userSkills)
             {
-                usersk.Add(Convert.ToString(u.SkillId));
+                skillIdList.Add(Convert.ToString(u.SkillId));
+                usersk.Add(_Skills.GetFirstOrDefault(u=> u.SkillId == u.SkillId).SkillName);
             }
             UserProfileViewModel userData = new UserProfileViewModel()
             { 

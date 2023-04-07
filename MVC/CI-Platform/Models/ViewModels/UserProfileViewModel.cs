@@ -38,6 +38,8 @@ namespace CI_Platform.Models.ViewModels
 
         public string LinkedinURL { get; set; }
 
+        public List<string> UserSkillIdList { get; set; }
+
         public List<string> UserSkills { get; set; }
         
         public string MySkills { get; set; }

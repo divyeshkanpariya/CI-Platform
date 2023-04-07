@@ -13,8 +13,6 @@ namespace CI_Platform.Repository.Repositories
 {
     public class StoryListingRepository : IStoryListingRepository
     {
-
-        private readonly CiPlatformContext _db;
         private readonly IRepository<City> _CityList;
         private readonly IRepository<Country> _CountryList;
         private readonly IRepository<MissionTheme> _ThemeList;
@@ -27,7 +25,7 @@ namespace CI_Platform.Repository.Repositories
 
         private readonly IStoryCardRepository _CardList;
 
-        public StoryListingRepository(CiPlatformContext db,
+        public StoryListingRepository(
             IRepository<City> cityList,
             IRepository<Country> countryList,
             IRepository<MissionTheme> ThemeList,
@@ -39,7 +37,6 @@ namespace CI_Platform.Repository.Repositories
             IStoryCardRepository StoryCardList
             )
         {
-            _db = db;
             _CityList = cityList;
             _CountryList = countryList;
             _ThemeList = ThemeList;
@@ -58,7 +55,7 @@ namespace CI_Platform.Repository.Repositories
             viewModel.Countries = _CountryList.GetAll();
             viewModel.MissionThemes = _ThemeList.GetAll();
             viewModel.Skills = _SkillList.GetAll();
-            IEnumerable<Story> AllStories = _StoryList.GetAll();
+            IEnumerable<Story> AllStories = _StoryList.GetAll().Where(u=> u.Status == "PUBLISHED");
             if(CountryIDs != null && CountryIDs != "")
             {
                 AllStories = getStoriesByFilters(CountryIDs, CityIDs, ThemeIDs, SkillIDs, SearchText, UserId);

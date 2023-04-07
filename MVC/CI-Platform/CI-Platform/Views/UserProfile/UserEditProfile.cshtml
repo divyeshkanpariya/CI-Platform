@@ -258,7 +258,9 @@
 <script>
     // ------------- SKillList
 
-    
+    $(".SkillList p").click(function(){
+                    $(this).toggleClass("selectedSkill");
+                });
     var skillArray = [];
     var myskills = [];
 
@@ -421,6 +423,12 @@
             dataType: 'json',
             success:function (data) {
                 skillArray = data;
+                for(var i=0;i<skillArray.length;i++){
+                    var p = document.createElement("p");
+                    p.id= skillArray[i].SkillId.toString();
+                    p.innerHTML = skillArray[i].SkillName;
+                    document.getElementById("AllSkillList").appendChild(p);
+                }
             }
         });
         // ------------------ Get and Set User Data
@@ -483,62 +491,83 @@
                myskills = data[0].UserSkills;
                document.getElementById("mySkills").value = myskills;
                //console.log(document.getElementById("mySkills").value);
-
+               //if(data[0].UserSkills.length != 0){
+               //    for(var i=0;i<data[0].UserSkills.length;i++){
+               //         var p = document.createElement("p");
+               //         p.id= skillArray[i].SkillId.toString();
+               //         p.innerHTML = skillArray[i].SkillName;
+               //         selectedSkillList.appendChild(p);
+               //     }
+               //}
+               
                if(skillArray.length != 0){
                    for(var i=0;i<skillArray.length;i++){
-                       if(data[0].UserSkills.includes(skillArray[i].SkillId.toString())){
+                       if(data[0].UserSkillIdList.includes(skillArray[i].SkillId.toString())){
                            var p = document.createElement("p");
                            p.id= skillArray[i].SkillId.toString();
                            p.innerHTML = skillArray[i].SkillName;
                            selectedSkillList.appendChild(p);
 
+                           var x = document.getElementById("AllSkillList").getElementsByTagName("p")[i]
+                           x.classList.add("selectedSkill");
+
                            var q = document.createElement("p");
                            q.id= skillArray[i].SkillId.toString();
                            q.innerHTML = skillArray[i].SkillName;
                            document.getElementById("displaySkills").appendChild(q);
-                       }else{
-                           var p = document.createElement("p");
-                           p.id= skillArray[i].SkillId.toString();
-                           p.innerHTML = skillArray[i].SkillName;
-                           allSkillList.appendChild(p);
                        }
                        
                    }
                }
+
                $(".SkillList p").click(function(){
+                    $(this).toggleClass("selectedSkill");
+                });
+                $("#AllSkillList p").click(function(){
                     $(this).toggleClass("selectedSkill");
                 });
 
                 $("#removeSkills").click(function(){
                     var x = document.getElementById("SelectedSkillList").getElementsByTagName("p");
+                    var allSkills = document.getElementById("AllSkillList").getElementsByTagName("p");
                     var i=0;
                     while(i<x.length){
-                        console.log(x[i]);
                         if(x[i].classList.contains("selectedSkill")){
-                            console.log(x[i]);
-                            x[i].classList.remove("selectedSkill");
+                            console.log(x[i].id);
                             
-                            document.getElementById("AllSkillList").appendChild(x[i]);
-                
+                            for(var j=0;j<allSkills.length;j++){
+                                if(x[i].id == allSkills[j].id){
+                                    allSkills[j].classList.remove("selectedSkill");
+                                    
+                                }
+                            }
+                            x[i].remove();
                         }else{
                             i++;
-                        }
+                        }  
+                
                     }
                 });
                 $("#addSkills").click(function(){
                     var x = document.getElementById("AllSkillList").getElementsByTagName("p");
-                    var i=0;
+                    $("#SelectedSkillList").empty();
+                    //var updatedSkills = [];
+                    var i = 0;
                     while(i<x.length){
-                            console.log(x[i]);
                         if(x[i].classList.contains("selectedSkill")){
-                            console.log(x[i]);
-                            x[i].classList.remove("selectedSkill");
-                            document.getElementById("SelectedSkillList").appendChild(x[i]);
-                
-                        }else{
-                            i++;
-                        }
+                            var ne = x[i].cloneNode(true);
+                            ne.classList.remove("selectedSkill");
+                            document.getElementById("SelectedSkillList").appendChild(ne);
+                        }   
+                        i++;
                     }
+                    $(".SkillList p").click(function(){
+                        $(this).toggleClass("selectedSkill");
+                    });
+                    $("#AllSkillList p").click(function(){
+                        $(this).toggleClass("selectedSkill");
+                    });
+                    
                 });
                 
             }

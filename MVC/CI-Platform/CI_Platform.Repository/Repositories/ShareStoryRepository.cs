@@ -59,7 +59,7 @@ namespace CI_Platform.Repository.Repositories
         public long UploadStory(ShareYourStoryViewModel ShareStoryModel,long UserId,string status)
         {
             long MissionId = Convert.ToInt64(ShareStoryModel.Mission);
-            if (_Storys.GetAll().Any(u=> u.MissionId ==Convert.ToInt64(ShareStoryModel.Mission) && u.UserId == UserId) == true)
+            if (_Storys.GetAll().Any(u=> u.MissionId ==Convert.ToInt64(ShareStoryModel.Mission) && u.UserId == UserId && u.Status == "DRAFT") == true)
             {
                 var story = _Storys.GetAll().FirstOrDefault(u => u.MissionId == MissionId && u.UserId == UserId);
                 story.Title = ShareStoryModel.StoryTitle;
