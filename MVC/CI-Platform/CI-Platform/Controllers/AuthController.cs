@@ -22,17 +22,26 @@ namespace CI_Platform.Controllers
         private readonly ILostPasswordRepository _LostPwdDb;
         private readonly IResetPasswordRepository _ResetPwdDb;
         private readonly ILoginRepository _LoginDb;
-
+        public readonly IPrivacyPolicyRepository _privacyPolicyRepo;
+        public readonly IContactUsRepository _contactUsRepo;
 
         private readonly IRepository<User> _UserDb;
 
-        public AuthController(IRegistrationRepository registrationDb, IRepository<User> UserDb, ILostPasswordRepository lostPwdDb, IResetPasswordRepository resetPwdDb, ILoginRepository loginDb)
+        public AuthController(IRegistrationRepository registrationDb, 
+            IRepository<User> UserDb, 
+            ILostPasswordRepository lostPwdDb, 
+            IResetPasswordRepository resetPwdDb, 
+            ILoginRepository loginDb, 
+            IPrivacyPolicyRepository privacyPolicyRepo,
+            IContactUsRepository contactUsRepo)
         {
             _registrationDb = registrationDb;
             _UserDb = UserDb;
             _LostPwdDb = lostPwdDb;
             _ResetPwdDb = resetPwdDb;
             _LoginDb = loginDb;
+            _privacyPolicyRepo = privacyPolicyRepo;
+            _contactUsRepo = contactUsRepo;
         }
         public IActionResult Login()
         {
@@ -41,6 +50,7 @@ namespace CI_Platform.Controllers
             HttpContext.Session.Clear();
             return View(vm);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Login(LoginViewModel data)
@@ -57,6 +67,7 @@ namespace CI_Platform.Controllers
                     HttpContext.Session.SetString("UserName", username);
                     HttpContext.Session.SetString("UserId", Convert.ToString(userid));
                     HttpContext.Session.SetString("UserAvatar", Avatar);
+                    HttpContext.Session.SetString("UserEmail", data.Email);
                     return RedirectToAction("MissionListing", "Home");
                 }
                 else
@@ -67,10 +78,12 @@ namespace CI_Platform.Controllers
             }
             return View(data);
         }
+
         public IActionResult Registration()
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Registration(RegistrationViewModel data)
@@ -93,11 +106,13 @@ namespace CI_Platform.Controllers
             return View(data);
 
         }
+
         public IActionResult Lost_Password()
         {
 
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Lost_Password(Lost_passwordViewModel data)
@@ -154,10 +169,12 @@ namespace CI_Platform.Controllers
             message.IsBodyHtml = true;
             smtp.Send(message);
         }
+
         public IActionResult Reset_Password()
         {
             return View();
         }
+
         [HttpGet]
         public IActionResult Reset_Password(string Email, string Token)
         {
@@ -169,6 +186,7 @@ namespace CI_Platform.Controllers
             return View();
 
         }
+
         [HttpPost]
         public IActionResult Reset_Password(ResetPasswordViewModel data)
         {
@@ -208,14 +226,18 @@ namespace CI_Platform.Controllers
             }
         }
 
-        //public IActionResult Logout()
-        //{
-            
-        //    HttpContext.Session.Clear();
-        //    //HttpContext.Session.Remove("");
-        //    //HttpContext.Abort();
-        //    return RedirectToAction("Login", "Auth");
-        //}
+        public IActionResult PrivacyPolicy()
+        {
+            var model = _privacyPolicyRepo.GetPolicies();
+            return View(model);
+        }
 
+        [HttpPost]
+        public void ContactUs(string Subject,string Message)
+        {
+            var UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+            
+            _contactUsRepo.SubmitContact(UserId,Subject,Message);
+        }
     }
 }

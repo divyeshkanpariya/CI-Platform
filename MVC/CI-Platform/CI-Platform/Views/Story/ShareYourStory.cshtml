@@ -79,8 +79,12 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
         <div class="row">
             <div class="py-3 col-6">              
                 @*<button type="button" class="Apply-mission-btn py-2 text-decoration-none border border-2 text-muted">Cancel</button>*@
-                <a class="rec-btns px-4 d-flex  align-items-center text-decoration-none text-muted" type="button" style="width:fit-content" asp-action="StoryListing" asp-controller="Story">
+                <a class="rec-btns px-4 d-flex  align-items-center text-decoration-none text-muted" type="button"  style="width:fit-content" asp-action="StoryListing" asp-controller="Story">
                     <span class="ps-2">Cancel</span>
+                </a>
+                
+                <a class="rec-btns px-4 d-flex d-none align-items-center text-decoration-none text-muted" id="previewStory" type="button" style="width:fit-content" asp-action="VolunteeringMission" asp-controller="Home">
+                    <span class="ps-2">Preview</span>
                 </a> 
             </div>
               
@@ -107,7 +111,7 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
         //statusbar: false,
         skin: 'bootstrap',
         plugins: 'lists, link, image, media',
-        toolbar: ' bold italic strikethrough | superscript subscript removeformat ',
+        toolbar: ' bold italic strikethrough | superscript subscript removeformat | bullist numlist | h1 h2 h3 h4 h5 h6',
         menubar: false,
     });
 
@@ -125,7 +129,6 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
             data: {},
             dataType: 'json',
             success:function (data) {
-                console.log(data[0][0]);
                 for(var i=0;i<data.length;i++){
                     var option = document.createElement("option");
                     option.value = data[i][0];
@@ -152,6 +155,8 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
                         console.log(data);
                         
                         if(data.length != 0){
+                            document.getElementById("previewStory").classList.remove("d-none");
+                            document.getElementById("previewStory").setAttribute("asp-route-sid", data[5][0]);
                             document.getElementById("storyTitle").value = data[0][0];
                             let date = String(data[1][0]).split("-");
                             const ddd = new Date(date);

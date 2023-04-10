@@ -9,12 +9,13 @@ namespace CI_Platform.Controllers
     {
         private readonly IUserProfileRepository _userProfileRepo;
         private readonly IWebHostEnvironment _WebHostEnvironment;
+        public readonly IPrivacyPolicyRepository _privacyPolicyRepo;
 
-        public UserProfileController(IUserProfileRepository userProfileRepository,IWebHostEnvironment webHostEnvironment)
+        public UserProfileController(IUserProfileRepository userProfileRepository,IWebHostEnvironment webHostEnvironment,IPrivacyPolicyRepository privacyPolicyRepository)
         {
             _userProfileRepo = userProfileRepository;
             _WebHostEnvironment = webHostEnvironment;
-
+            _privacyPolicyRepo = privacyPolicyRepository;
         }
 
         public IActionResult UserEditProfile()
@@ -30,16 +31,19 @@ namespace CI_Platform.Controllers
             var cities =  _userProfileRepo.GetAllCities(CId);
             return JsonSerializer.Serialize(cities);
         }
+
         public string GetCountries()
         {
             var countries = _userProfileRepo.GetAllCountries();
             return JsonSerializer.Serialize(countries);
         }
+
         public string GetSkills()
         {
             var skillls = _userProfileRepo.GetAllSkills();
             return JsonSerializer.Serialize(skillls);
         }
+
         [HttpPost]
         public IActionResult UserEditProfile(IFormCollection formData)
         {
@@ -122,5 +126,7 @@ namespace CI_Platform.Controllers
             List<string> arr = new List<string> { result };
             return Json(arr);
         }
+
+        
     }
 }

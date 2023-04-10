@@ -140,7 +140,7 @@ namespace CI_Platform.Repository.Repositories
             foreach(var u in userSkills)
             {
                 skillIdList.Add(Convert.ToString(u.SkillId));
-                usersk.Add(_Skills.GetFirstOrDefault(u=> u.SkillId == u.SkillId).SkillName);
+                usersk.Add(_Skills.GetFirstOrDefault(r=> r.SkillId == u.SkillId).SkillName);
             }
             UserProfileViewModel userData = new UserProfileViewModel()
             { 
@@ -154,6 +154,7 @@ namespace CI_Platform.Repository.Repositories
                 City = Convert.ToString(user.CityId),
                 Country = Convert.ToString(user.CountryId),
                 LinkedinURL = user.LinkedInUrl,
+                UserSkillIdList = skillIdList,
                 UserSkills = usersk
             };
 

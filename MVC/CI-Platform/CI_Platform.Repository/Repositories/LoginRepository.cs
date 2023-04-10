@@ -48,5 +48,10 @@ namespace CI_Platform.Repository.Repositories
 
 
         }
+
+        public string getUserEmail(long UserId)
+        {
+            return _userRepository.GetFirstOrDefault(u => u.UserId == UserId).Email;
+        }
     }
 }

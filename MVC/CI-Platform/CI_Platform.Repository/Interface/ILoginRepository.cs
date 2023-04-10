@@ -14,5 +14,7 @@ namespace CI_Platform.Repository.Interface
         public string getUserName(string email);
 
         public string getUserAvatar(string email);
+
+        public string getUserEmail(long userId);
     }
 }

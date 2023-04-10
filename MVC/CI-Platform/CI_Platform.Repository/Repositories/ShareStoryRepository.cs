@@ -137,6 +137,7 @@ namespace CI_Platform.Repository.Repositories
             }
             var storyMedia = _StoryMediaList.GetAll().Where(u=>u.StoryId == story.StoryId);
             List<List<string>> storyDetails = new List<List<string>>();
+            List<string> storyId = new List<string> { Convert.ToString(story.StoryId) };
             List<string> title = new List<string>() { story.Title };
             List<string> Date = new List<string>() { Convert.ToString(story.PublishedAt).Split(" ")[0] };
             List<string> Description = new List<string>() {story.Description };
@@ -154,11 +155,13 @@ namespace CI_Platform.Repository.Repositories
                     Photos.Add(item.Path);
                 }
             }
+            
             storyDetails.Add(title);
             storyDetails.Add(Date);
             storyDetails.Add(Description);
             storyDetails.Add(VideoUrls);
             storyDetails.Add(Photos);
+            storyDetails.Add(storyId);
             return storyDetails;
 
         }

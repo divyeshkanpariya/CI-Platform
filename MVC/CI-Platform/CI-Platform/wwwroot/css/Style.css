@@ -512,9 +512,10 @@ input#search {
     }
 
     .list-view .card-img-div {
-        max-height: 300px;
+        max-height: 350px;
         width: 50%;
     }
+    
 }
 
 /* Pagination */
@@ -1014,4 +1015,39 @@ output .span--hidden {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+/* ------------------- Privacy Policy --------------- */
+.scrollspy-example {
+    position: relative;
+    /*height: 200px;*/
+    overflow: auto;
+}
+
+.nav-item .nav-link:hover {
+    color: #333333;
+
+}
+.privacy-policy-page {
+    position: fixed;
+    margin-bottom: 74px;
+}
+.policy-content {
+    overflow-y: scroll;
+    
+    
+}
+@media screen and (min-width:1400px){
+    .policy-content {
+        max-height: 75vh;
+    }
+}
+@media screen and (min-width:576px){
+    .policy-content {
+        max-height: 70vh;
+    }
+}
+@media screen and (max-width:576px){
+    .policy-content {
+        max-height: 52vh;
+    }
 }

@@ -6,7 +6,7 @@
 }
 @model CI_Platform.Models.ViewModels.UserProfileViewModel
 <form method="post" enctype="multipart/form-data">
-<div class="row my-4 mx-3">
+<div class="row my-4 mx-3 mx-lg-5 px-lg-5">
     
     <div class="col-xl-2 col-md-3 col-sm-4 d-flex justify-content-center">
         <div class="border px-3 w-100" style="height:fit-content;">
@@ -491,36 +491,28 @@
                myskills = data[0].UserSkills;
                document.getElementById("mySkills").value = myskills;
                //console.log(document.getElementById("mySkills").value);
-               //if(data[0].UserSkills.length != 0){
-               //    for(var i=0;i<data[0].UserSkills.length;i++){
-               //         var p = document.createElement("p");
-               //         p.id= skillArray[i].SkillId.toString();
-               //         p.innerHTML = skillArray[i].SkillName;
-               //         selectedSkillList.appendChild(p);
-               //     }
-               //}
-               
-               if(skillArray.length != 0){
-                   for(var i=0;i<skillArray.length;i++){
-                       if(data[0].UserSkillIdList.includes(skillArray[i].SkillId.toString())){
-                           var p = document.createElement("p");
-                           p.id= skillArray[i].SkillId.toString();
-                           p.innerHTML = skillArray[i].SkillName;
-                           selectedSkillList.appendChild(p);
+               if(data[0].UserSkills.length != 0){
+                   for(var i=0;i<data[0].UserSkills.length;i++){
+                        var p = document.createElement("p");
+                        p.id= data[0].UserSkillIdList[i];
+                        p.innerHTML = data[0].UserSkills[i];
+                        selectedSkillList.appendChild(p);
 
-                           var x = document.getElementById("AllSkillList").getElementsByTagName("p")[i]
-                           x.classList.add("selectedSkill");
-
-                           var q = document.createElement("p");
-                           q.id= skillArray[i].SkillId.toString();
-                           q.innerHTML = skillArray[i].SkillName;
-                           document.getElementById("displaySkills").appendChild(q);
-                       }
-                       
+                        var q = document.createElement("p");
+                        q.id= data[0].UserSkillIdList[i];
+                        q.innerHTML = data[0].UserSkills[i];
+                        document.getElementById("displaySkills").appendChild(q);
+                    }
+               }
+               var allSkills = document.getElementById("AllSkillList").getElementsByTagName("p");
+               for(var i=0;i<allSkills.length;i++){
+                   if(data[0].UserSkillIdList.includes(allSkills[i].id)){
+                       console.log("dc");
+                       allSkills[i].classList.add("selectedSkill");
                    }
                }
 
-               $(".SkillList p").click(function(){
+                $("#SelectedSkillList p").click(function(){
                     $(this).toggleClass("selectedSkill");
                 });
                 $("#AllSkillList p").click(function(){
