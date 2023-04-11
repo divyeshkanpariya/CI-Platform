@@ -1,0 +1,347 @@
+﻿
+@{
+    Layout = "Home_Layout";
+}
+<style>
+    body{
+        min-height:100vh;
+        display: flex;
+        flex-direction:column;
+        justify-content:space-between;
+    }
+    
+</style>
+
+<div class="row my-5 mx-sm-5 mx-2 g-sm-5 gy-3">
+    <div class="col-lg-6 col-12">
+        <div class="border timesheet-box px-2">
+            <div class="d-flex justify-content-between py-4 px-2">
+                    <h4>Volunteering Hours</h4>
+                    <button type="button" id="" class="Apply-mission-btn d-flex px-3 py-2 text-decoration-none" data-toggle="modal" data-target="#addVolHoursModal"><i class="bi bi-plus-lg"></i> Add</button>
+            </div>
+            <div class="" id="hourTimetable">
+                <table class="table text-muted table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">Mission</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Hours</th>
+                            <th scope="col">Minutes</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Environment Conversation</td>
+                            <td>11/04/2002</td>
+                            <td>1h</td>
+                            <td>30 min</td>
+                            <td>
+                                <i class="bi bi-pencil-square" style="color: #F88634;"></i>
+                                <i class="bi bi-trash"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-12">
+        <div class="border timesheet-box px-2">
+            <div class="d-flex justify-content-between py-4 px-2">
+                <h4>Volunteering Goals</h4>
+                <button type="button" id="addVolGoals" class="Apply-mission-btn d-flex px-3 py-2 text-decoration-none" data-toggle="modal" data-target="#addVolGoalsModal"><i class="bi bi-plus-lg"></i><span>Add</span></button>
+            </div>
+            <div class="" id="goalTimeTable">
+                <table class="table text-muted table-borderless" >
+                    <thead>
+                        <tr>
+                            <th scope="col">Mission</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Action</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Environment Conversation</td>
+                            <td>11/04/2002</td>
+                            <td>1</td>
+                            <td>
+                                <i class="bi bi-pencil-square" style="color: #F88634;"></i>
+                                <i class="bi bi-trash"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<div class="modal fade" id="addVolHoursModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title" id="exampleModalLabel">Please input below Volunteering Hours</h5>
+                <button type="button" class="close border-0 bg-white" data-dismiss="modal" aria-label="Close">
+                    <i class="btn-close"></i>
+                </button>
+
+            </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="Mission" class="form-label" id="timeMission">Select Mission</label>
+                            <select  name="Mission" id="selectedMissionTime"class="form-select" aria-label=".form-select-lg example">
+                                <option selected>Select Your Mission</option>
+                    
+                            </select>
+                            <p id="valTimeMission" class="text-danger small-text"></p>
+                        </div>
+                        <div class="col-12">
+                            <label for="Date" class="form-label" for="date">Date</label>
+                            <input for="Date" name="Date" class="form-control" value="" id="timeDate"  type="date"  placeholder="Select Date">
+                            <p id="valTimeDate" class="text-danger small-text"></p>
+                        </div>
+
+                        <div class="col-sm-6 col-12">
+                            <label class="form-label" for="Hours">Hours</label>
+                            <input type="number" class="form-control" id="hours" name="Hours" max="23" placeholder="Enter Spent Hours" required>
+                            <p id="valTimeHours" class="text-danger small-text"></p>
+                        </div>
+                        
+
+                        <div class="col-sm-6 col-12">
+                            <label class="form-label" for="Minutes">Minutes</label>
+                            <input type="number" class="form-control" id="minutes" name="Minutes" max="59" placeholder="Enter Spent Minutes" required>
+                            <p id="valTimeMinutes" class="text-danger small-text"></p>
+                        </div>
+                        
+
+                        <div class="col-12">
+                            <label class="form-label" for="Message">Message*</label>
+                            <textarea class="form-control" id="timeMessage" rows="3" name="Message" placeholder="Enter Your Message" required></textarea>
+                            <p id="valTimeMessage" class="text-danger small-text"></p>
+                        </div>
+                        
+
+
+                    </div>
+                        
+                </div>     
+                        
+                <div class="modal-footer">
+                    <button class="rec-btns px-4 text-muted" type="button" style="width:fit-content" data-dismiss="modal">
+                        <span class="ps-2">Cancel</span>
+                    </button> 
+                    <button type="button"  class="Apply-mission-btn px-4" onclick="SaveVolTime()">Submit</button>
+                </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addVolGoalsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title" id="exampleModalLabel">Please input below Volunteering Goal</h5>
+                <button type="button" class="close border-0 bg-white" data-dismiss="modal" aria-label="Close">
+                    <i class="btn-close"></i>
+                </button>
+
+            </div>
+            
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="Mission" class="form-label" id="goalmission">Select Mission</label>
+                        <select  name="Mission" id="selectedMissionGoal"class="form-select" aria-label=".form-select-lg example">
+                            <option selected>Select Your Mission</option>
+                    
+                        </select>
+                        <p id="valGoalMission" class="text-danger small-text"></p>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" for="Actions">Actions</label>
+                        <input type="number" class="form-control" id="actions" name="Actions" placeholder="Enter Spent Minutes" required>
+                        <p id="valGoalAction" class="text-danger small-text"></p>
+                    </div>
+                    <div class="col-12">
+                        <label for="Date" class="form-label" for="GoalDate">Date</label>
+                        <input for="Date" name="GoalDate" class="form-control" type="date" id="goalDate" placeholder="Select Date">
+                        <p id="valGoalDate" class="text-danger small-text"></p>
+                    </div>
+
+                        
+                    <div class="col-12">
+                        <label class="form-label" for="Message">Message*</label>
+                        <textarea class="form-control" id="goalMessage" rows="3" name="Message" placeholder="Enter Your Message" required></textarea>
+                        <p id="valGoalMessage" class="text-danger small-text"></p>
+                    </div>
+
+                </div>
+                      
+            </div>     
+                        
+            <div class="modal-footer">
+                <button class="rec-btns px-4 text-muted" type="button" style="width:fit-content" data-dismiss="modal">
+                    <span class="ps-2">Cancel</span>
+                </button> 
+                <button type="button"  class="Apply-mission-btn px-4" onclick="SaveVolunteerGoal()">Submit</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<script>
+    var arr;
+    $(document).ready( () => {
+        $.ajax({
+            url: '/UserProfile/GetMissions',
+            type: 'get',
+            data: {},
+            dataType: 'json',
+            success:function (data) {
+                console.log(data);
+                arr = data;
+                for (var i=0;i<data.length;i++){
+                    if(data[i][2] == "Time"){
+                        var ms = document.createElement("option");
+                        ms.value = data[i][0];
+                        ms.innerHTML = data[i][1];
+                        $("#selectedMissionTime").append(ms);
+                    }else if(data[i][2] == "Go"){
+                        var ms = document.createElement("option");
+                        ms.value = data[i][0];
+                        ms.innerHTML = data[i][1];
+                        $("#selectedMissionGoal").append(ms);
+                    }
+                }
+            }
+        });
+        document.getElementById("timeDate").max = new Date().toISOString().split("T")[0];
+        document.getElementById("goalDate").max = new Date().toISOString().split("T")[0];
+    });
+
+    function SaveVolTime(){
+        var mission = document.getElementById("selectedMissionTime").value;
+        var date = document.getElementById("timeDate").value;
+        var hours = document.getElementById("hours").value;
+        var minutes = document.getElementById("minutes").value;
+        var message = document.getElementById("timeMessage").value;
+
+        if(mission == "Select Your Mission"){
+            document.getElementById("valTimeMission").innerHTML = "Please Select Mission";
+            document.getElementById("valTimeDate").innerHTML = document.getElementById("valTimeHours").innerHTML = 
+            document.getElementById("valTimeMinutes").innerHTML = document.getElementById("valTimeMessage").innerHTML = "";
+            return;
+        }
+        if(date == ""){
+            document.getElementById("valTimeDate").innerHTML = "Please Select Date";
+            document.getElementById("valTimeMission").innerHTML = document.getElementById("valTimeHours").innerHTML = 
+            document.getElementById("valTimeMinutes").innerHTML = document.getElementById("valTimeMessage").innerHTML = "";
+            return;
+        }
+        if(hours == ""){
+            document.getElementById("valTimeHours").innerHTML = "Please Add Hours";
+            document.getElementById("valTimeDate").innerHTML = document.getElementById("valTimeMission").innerHTML = 
+            document.getElementById("valTimeMinutes").innerHTML = document.getElementById("valTimeMessage").innerHTML = "";
+            return;
+        }else if(Number(hours) >23){
+            document.getElementById("hours").value = "";
+            document.getElementById("valTimeHours").innerHTML = "Hours can not be greater than 23";
+            document.getElementById("valTimeDate").innerHTML = document.getElementById("valTimeMission").innerHTML = 
+            document.getElementById("valTimeMinutes").innerHTML = document.getElementById("valTimeMessage").innerHTML = "";
+            return;
+        }
+        if(minutes == ""){
+            document.getElementById("valTimeMinutes").innerHTML = "Please Add Minutes";
+            document.getElementById("valTimeDate").innerHTML = document.getElementById("valTimeHours").innerHTML = 
+            document.getElementById("valTimeMission").innerHTML = document.getElementById("valTimeMessage").innerHTML = "";
+            return;
+        }else if(Number(minutes) >59){
+            document.getElementById("minutes").value = "";
+            document.getElementById("valTimeMinutes").innerHTML = "Minutes can not be greater than 59";
+            document.getElementById("valTimeDate").innerHTML = document.getElementById("valTimeHours").innerHTML = 
+            document.getElementById("valTimeMission").innerHTML = document.getElementById("valTimeMessage").innerHTML = "";
+            return;
+        }
+        if(message == ""){
+            document.getElementById("valTimeMessage").innerHTML = "Please Add Message";
+            document.getElementById("valTimeDate").innerHTML = document.getElementById("valTimeHours").innerHTML = 
+            document.getElementById("valTimeMinutes").innerHTML = document.getElementById("valTimeMission").innerHTML = "";
+            return;
+        }
+        SaveVolunteeringDetails("Time", mission, date, hours, minutes, "", message)
+    }
+
+    function SaveVolunteerGoal(){
+        var mission = document.getElementById("selectedMissionGoal").value;
+        var date = document.getElementById("goalDate").value;
+        var action = document.getElementById("actions").value;
+        var message = document.getElementById("goalMessage").value;
+        if(mission == "Select Your Mission"){
+            document.getElementById("valGoalMission").innerHTML = "Please Select Mission";
+            document.getElementById("valGoalDate").innerHTML = document.getElementById("valGoalAction").innerHTML = document.getElementById("valGoalMessage").innerHTML = "";
+            return;
+        }
+        if(action == ""){
+            document.getElementById("valGoalAction").innerHTML = "Please Add Actions";
+            document.getElementById("valGoalDate").innerHTML = document.getElementById("valGoalMission").innerHTML = document.getElementById("valGoalMessage").innerHTML = "";
+            return;
+        }
+        if(date == ""){
+            document.getElementById("valGoalDate").innerHTML = "Please Select Date";
+            document.getElementById("valGoalAction").innerHTML = document.getElementById("valGoalMission").innerHTML = document.getElementById("valGoalMessage").innerHTML = "";
+            return;
+        }
+        if(message == ""){
+            document.getElementById("valGoalMessage").innerHTML = "Please Add Message";
+            document.getElementById("valGoalAction").innerHTML = document.getElementById("valGoalMission").innerHTML = document.getElementById("valGoalDate").innerHTML = "";
+            return;
+        }
+        SaveVolunteeringDetails("Go", mission, date, "", "", action, message);
+    }
+
+    function SaveVolunteeringDetails(type, mission, date, hours, minutes, action, message){
+        //$.ajax({
+        //    url: '/UserProfile/SaveVolunteeringDetails',
+        //    type: 'POST',
+        //    data: {Type: type,
+        //    MissionId: mission,
+        //    Date: date,
+        //    Hours: hours,
+        //    Minutes: minutes,
+        //    Action: action,
+        //    Message: message},
+        //    success:function () {
+                
+        //    },
+        //    error: function(req,err) {
+        //        console.log(err);
+        //    }
+        //});
+        clearAllData();
+        $(".close").click();
+    }
+
+    function clearAllData(){
+        document.getElementById("selectedMissionTime").value = "Select Your Mission";
+        document.getElementById("timeDate").value = document.getElementById("hours").value =
+        document.getElementById("minutes").value = document.getElementById("timeMessage").value = "";
+
+        document.getElementById("selectedMissionGoal").value = "Select Your Mission";
+        document.getElementById("goalDate").value = document.getElementById("actions").value = document.getElementById("goalMessage").value = "";
+       
+        document.getElementById("valTimeDate").innerHTML = document.getElementById("valTimeHours").innerHTML =  document.getElementById("valTimeMission").innerHTML = 
+        document.getElementById("valTimeMinutes").innerHTML =  document.getElementById("valTimeMessage").innerHTML = "";
+
+        document.getElementById("valGoalDate").innerHTML = document.getElementById("valGoalMission").innerHTML = 
+        document.getElementById("valGoalAction").innerHTML = document.getElementById("valGoalMessage").innerHTML = "";
+    }
+
+    
+</script>

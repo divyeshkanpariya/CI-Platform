@@ -77,13 +77,13 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
             <output class="mt-3" id="preview"></output>
         </div>
         <div class="row">
-            <div class="py-3 col-6">              
+            <div class="py-3 col-6 d-flex">              
                 @*<button type="button" class="Apply-mission-btn py-2 text-decoration-none border border-2 text-muted">Cancel</button>*@
                 <a class="rec-btns px-4 d-flex  align-items-center text-decoration-none text-muted" type="button"  style="width:fit-content" asp-action="StoryListing" asp-controller="Story">
                     <span class="ps-2">Cancel</span>
                 </a>
                 
-                <a class="rec-btns px-4 d-flex d-none align-items-center text-decoration-none text-muted" id="previewStory" type="button" style="width:fit-content" asp-action="VolunteeringMission" asp-controller="Home">
+                <a class="rec-btns mx-4 px-4 d-flex d-none align-items-center text-decoration-none text-muted" id="previewStory" style="width:fit-content">
                     <span class="ps-2">Preview</span>
                 </a> 
             </div>
@@ -156,7 +156,10 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
                         
                         if(data.length != 0){
                             document.getElementById("previewStory").classList.remove("d-none");
-                            document.getElementById("previewStory").setAttribute("asp-route-sid", data[5][0]);
+                            $("#previewStory").click(function(){
+                                window.open("StoryDetails?sid="+data[5][0],"_self");
+                            });
+
                             document.getElementById("storyTitle").value = data[0][0];
                             let date = String(data[1][0]).split("-");
                             const ddd = new Date(date);
@@ -227,6 +230,9 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
                             
                             
                         }else{
+                            if(!document.getElementById("previewStory").classList.contains("d-none")){
+                                document.getElementById("previewStory").classList.add("d-none");
+                            }
                             document.getElementById("storyTitle").value = "";
                             document.getElementById("storydate").value = "";
                             tinymce.get("editor").setContent("");

@@ -10,12 +10,17 @@ namespace CI_Platform.Controllers
         private readonly IUserProfileRepository _userProfileRepo;
         private readonly IWebHostEnvironment _WebHostEnvironment;
         public readonly IPrivacyPolicyRepository _privacyPolicyRepo;
+        public readonly IVolunteeringTimesheet _volunteeringTimesheetRepo;
 
-        public UserProfileController(IUserProfileRepository userProfileRepository,IWebHostEnvironment webHostEnvironment,IPrivacyPolicyRepository privacyPolicyRepository)
+        public UserProfileController(IUserProfileRepository userProfileRepository,
+            IWebHostEnvironment webHostEnvironment,
+            IPrivacyPolicyRepository privacyPolicyRepository,
+            IVolunteeringTimesheet volunteeringTimesheet)
         {
             _userProfileRepo = userProfileRepository;
             _WebHostEnvironment = webHostEnvironment;
             _privacyPolicyRepo = privacyPolicyRepository;
+            _volunteeringTimesheetRepo = volunteeringTimesheet;
         }
 
         public IActionResult UserEditProfile()
@@ -127,6 +132,35 @@ namespace CI_Platform.Controllers
             return Json(arr);
         }
 
-        
+        public IActionResult VolunteeringTimesheet()
+        {
+            long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+            if(UserId != null)
+            {
+                return View();
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Login is Required";
+
+                return RedirectToAction("Login", "Auth");
+            }
+            
+        }
+        public IActionResult GetMissions()
+        {
+            long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+
+            List<List<string>> list = _volunteeringTimesheetRepo.Missions(UserId);
+            return Json(list);
+        }
+
+        [HttpPost]
+        public void SaveVolunteeringDetails(string Type,string MissionId,string Date, string Hours, string Minutes, string Action, string Message)
+        {
+            long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+            _volunteeringTimesheetRepo.SaveVolDetails(Type,UserId, Convert.ToInt64(MissionId), Convert.ToDateTime(Date), Convert.ToInt32(Hours), Convert.ToInt32(Minutes), Convert.ToInt32(Action), Message);
+        }
     }
+
 }

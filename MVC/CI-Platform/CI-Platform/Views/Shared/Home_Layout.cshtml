@@ -60,7 +60,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-lg-right">
                         <li><a class="dropdown-item" asp-action="UserEditProfile" asp-controller="UserProfile">My Profile</a></li>
-                        <li><a class="dropdown-item" href="#">Volunteering Timesheet</a></li>
+                        <li><a class="dropdown-item" asp-action="VolunteeringTimesheet" asp-controller="UserProfile">Volunteering Timesheet</a></li>
                         <li><a class="dropdown-item" asp-action="Login" asp-controller="Auth">Logout</a></li>
                     </ul>
 
@@ -82,43 +82,43 @@
         
     </footer>
     <div class="modal fade" id="contactUs" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
-                        <button type="button" class="close border-0 bg-white" data-dismiss="modal" aria-label="Close">
-                            <i class="btn-close"></i>
-                        </button>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+                    <button type="button" class="close border-0 bg-white" data-dismiss="modal" aria-label="Close">
+                        <i class="btn-close"></i>
+                    </button>
 
-                    </div>
-                    @*<form method="post">*@
-                        <div class="modal-body">
-                            <label class="form-label" for="Name">Name*</label>
-                            <input type="text" name="Name" id="userName" class="form-control"  value = "@Context.Session.GetString("UserName")" readonly>
-                            <p id="validateUserName" class="text-danger small-text"></p>
-
-                            <label class="form-label" for="Email">Email Address*</label>
-                            <input  class="form-control" id=email name="Email" value = "@Context.Session.GetString("UserEmail")" readonly>
-                            <p id="validateUserEmail" class="text-danger small-text"></p>
-
-                            <label class="form-label" for="Subject">Subject*</label>
-                            <input  class="form-control" id="subject" name="Subject" placeholder="Enter Your Subject" required>
-                            <p id="validateSubject" class="text-danger small-text"></p>
-                        
-                            <label class="form-label" for="Message">Subject*</label>
-                            <textarea class="form-control" id="message" name="Message" placeholder="Enter Your Message" required></textarea>
-                            <p id="validateMessage" class="text-danger small-text"></p>
-                        </div>
-                        <div class="modal-footer">
-                           <button class="rec-btns px-4 text-muted" type="button" style="width:fit-content" data-dismiss="modal">
-                                <span class="ps-2">Cancel</span>
-                            </button> 
-                            <button type="button"  class="Apply-mission-btn px-4" onclick="SaveContactUs()">Save</button>
-                        </div>
-                    @*</form>*@
                 </div>
+                @*<form method="post">*@
+                    <div class="modal-body">
+                        <label class="form-label" for="Name">Name*</label>
+                        <input type="text" name="Name" id="userName" class="form-control"  value = "@Context.Session.GetString("UserName")" readonly>
+                        <p id="validateUserName" class="text-danger small-text"></p>
+
+                        <label class="form-label" for="Email">Email Address*</label>
+                        <input  class="form-control" id=email name="Email" value = "@Context.Session.GetString("UserEmail")" readonly>
+                        <p id="validateUserEmail" class="text-danger small-text"></p>
+
+                        <label class="form-label" for="Subject">Subject*</label>
+                        <input  class="form-control" id="subject" name="Subject" placeholder="Enter Your Subject" required>
+                        <p id="validateSubject" class="text-danger small-text"></p>
+                        
+                        <label class="form-label" for="Message">Message*</label>
+                        <textarea class="form-control" id="message" name="Message" placeholder="Enter Your Message" required></textarea>
+                        <p id="validateMessage" class="text-danger small-text"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="rec-btns px-4 text-muted" type="button" style="width:fit-content" data-dismiss="modal">
+                            <span class="ps-2">Cancel</span>
+                        </button> 
+                        <button type="button"  class="Apply-mission-btn px-4" onclick="SaveContactUs()">Save</button>
+                    </div>
+                @*</form>*@
             </div>
         </div>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

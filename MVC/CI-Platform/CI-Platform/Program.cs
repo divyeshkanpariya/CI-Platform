@@ -34,6 +34,7 @@ builder.Services.AddScoped<IRepository<StoryInvite>, Repository<StoryInvite>>();
 builder.Services.AddScoped<IRepository<UserSkill>, Repository<UserSkill>>();
 builder.Services.AddScoped<IRepository<CmsPage>, Repository<CmsPage>>();
 builder.Services.AddScoped<IRepository<ContactU>, Repository<ContactU>>();
+builder.Services.AddScoped<IRepository<Timesheet>, Repository<Timesheet>>();
 
 
 builder.Services.AddScoped<ILostPasswordRepository, LostPasswordRepository>();
@@ -49,6 +50,7 @@ builder.Services.AddScoped<IStoryDetailsRepository, StoryDetailsRepository>();
 builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 builder.Services.AddScoped<IPrivacyPolicyRepository, PrivacyPolicyRepository>();
 builder.Services.AddScoped<IContactUsRepository, ContactUsRepository>();
+builder.Services.AddScoped<IVolunteeringTimesheet, VolunteeringTimesheetRepository>();
 
 builder.Services.AddScoped<IMissionListingRepository, MissionListingRepository>();
 builder.Services.AddScoped<IMissionCardRepository,MissionCardRepository>();
