@@ -12,9 +12,14 @@
     
 </style>
 
-<div class="row my-5 mx-sm-5 mx-2 g-sm-5 gy-3">
+<div class="alert alert-success" style="display:none; " id="success-alert">
+   <strong>Success!</strong>
+   Email Sent Successfully
+</div>
+
+<div class="row my-5 mx-sm-5 mx-2 g-sm-5 gy-3 ">
     <div class="col-lg-6 col-12">
-        <div class="border timesheet-box px-2">
+        <div class="border timesheet-box p-2">
             <div class="d-flex justify-content-between py-4 px-2">
                     <h4>Volunteering Hours</h4>
                     <button type="button" id="" class="Apply-mission-btn d-flex px-3 py-2 text-decoration-none" data-toggle="modal" data-target="#addVolHoursModal"><i class="bi bi-plus-lg"></i> Add</button>
@@ -46,8 +51,8 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-6 col-12">
-        <div class="border timesheet-box px-2">
+    <div class="col-lg-6 col-12 ">
+        <div class="border timesheet-box p-2 ">
             <div class="d-flex justify-content-between py-4 px-2">
                 <h4>Volunteering Goals</h4>
                 <button type="button" id="addVolGoals" class="Apply-mission-btn d-flex px-3 py-2 text-decoration-none" data-toggle="modal" data-target="#addVolGoalsModal"><i class="bi bi-plus-lg"></i><span>Add</span></button>
@@ -68,7 +73,7 @@
                             <td>11/04/2002</td>
                             <td>1</td>
                             <td>
-                                <i class="bi bi-pencil-square" style="color: #F88634;"></i>
+                                <i class="bi bi-pencil-square " style="color: #F88634;"></i>
                                 <i class="bi bi-trash"></i>
                             </td>
                         </tr>
@@ -92,6 +97,7 @@
             </div>
                 <div class="modal-body">
                     <div class="row">
+                        <input type="hidden" id="timeSheetId"/>
                         <div class="col-12">
                             <label for="Mission" class="form-label" id="timeMission">Select Mission</label>
                             <select  name="Mission" id="selectedMissionTime"class="form-select" aria-label=".form-select-lg example">
@@ -133,7 +139,7 @@
                 </div>     
                         
                 <div class="modal-footer">
-                    <button class="rec-btns px-4 text-muted" type="button" style="width:fit-content" data-dismiss="modal">
+                    <button class="rec-btns px-4 text-muted" type="button" id="cancelBtn" style="width:fit-content" data-dismiss="modal">
                         <span class="ps-2">Cancel</span>
                     </button> 
                     <button type="button"  class="Apply-mission-btn px-4" onclick="SaveVolTime()">Submit</button>
@@ -155,6 +161,7 @@
             
             <div class="modal-body">
                 <div class="row">
+                    <input type="hidden" id="timeSheetId"/>
                     <div class="col-12">
                         <label for="Mission" class="form-label" id="goalmission">Select Mission</label>
                         <select  name="Mission" id="selectedMissionGoal"class="form-select" aria-label=".form-select-lg example">
@@ -165,7 +172,7 @@
                     </div>
                     <div class="col-12">
                         <label class="form-label" for="Actions">Actions</label>
-                        <input type="number" class="form-control" id="actions" name="Actions" placeholder="Enter Spent Minutes" required>
+                        <input type="number" class="form-control" id="actions" name="Actions" placeholder="Enter Actions" required>
                         <p id="valGoalAction" class="text-danger small-text"></p>
                     </div>
                     <div class="col-12">
@@ -186,7 +193,7 @@
             </div>     
                         
             <div class="modal-footer">
-                <button class="rec-btns px-4 text-muted" type="button" style="width:fit-content" data-dismiss="modal">
+                <button class="rec-btns px-4 text-muted" type="button" id="cancelBtn" style="width:fit-content" data-dismiss="modal">
                     <span class="ps-2">Cancel</span>
                 </button> 
                 <button type="button"  class="Apply-mission-btn px-4" onclick="SaveVolunteerGoal()">Submit</button>
@@ -198,6 +205,7 @@
 
 <script>
     var arr;
+    var timeSheet;
     $(document).ready( () => {
         $.ajax({
             url: '/UserProfile/GetMissions',
@@ -205,8 +213,9 @@
             data: {},
             dataType: 'json',
             success:function (data) {
-                console.log(data);
+                
                 arr = data;
+                console.log(arr);
                 for (var i=0;i<data.length;i++){
                     if(data[i][2] == "Time"){
                         var ms = document.createElement("option");
@@ -222,9 +231,141 @@
                 }
             }
         });
+         
         document.getElementById("timeDate").max = new Date().toISOString().split("T")[0];
         document.getElementById("goalDate").max = new Date().toISOString().split("T")[0];
+        listVolunteering();
+        
     });
+
+    $("#cancelBtn").click(function(){
+        $(".close").click();
+    });
+
+    $(".close").click(function(){
+        clearFields();
+    });
+
+    $("#selectedMissionTime").change(function(){
+        var mid = document.getElementById("selectedMissionTime").value;
+        for(var i=0;i<arr.length;i++){
+            if(arr[i][0] == mid){
+                var data = arr[i];
+                break;
+            }
+
+        }
+        
+        if(data[3] != "") document.getElementById("timeDate").min = convertDate(data[3]);
+        if(data[4] != "") {
+            console.log(convertDate(data[4]));
+            if(convertDate(data[4]) < new Date().toISOString().split("T")[0]) document.getElementById("timeDate").max = convertDate(data[4]);
+        }
+    })
+    function listVolunteering(){
+        $.ajax({
+            url: '/UserProfile/getVolunteeringdetails',
+            type: 'get',
+            data: {},
+            dataType: 'json',
+            success:function (data) {
+                timeSheet = data;
+                console.log(data);
+                $("#hourTimetable table tbody").empty();
+                var timeVols ="";
+                for(var i=0;i<data.length;i++){
+                    if(data[i][3] == "Time"){
+                        timeVols += `<tr>
+                                    <td>${data[i][2]}</td>
+                                    <td class="text-nowrap">${data[i][4]}</td>
+                                    <td>${data[i][5]}</td>
+                                    <td>${data[i][6]}</td>
+                                    <td>
+                                        <i class="bi bi-pencil-square" style="color: #F88634;" onclick = "editTimeVol(${data[i][0]})" data-toggle="modal" data-target="#addVolHoursModal"></i>
+                                        <i class="bi bi-trash" onclick = "deleteVolDetail(${data[i][0]})"></i>
+                                    </td>
+                                </tr>`;
+                    }
+                    
+                }
+                $("#hourTimetable table tbody").html(timeVols);
+
+                var goalVols = "";
+                $("#goalTimeTable table tbody").empty();
+                for(var i=0;i<data.length;i++){
+                    if(data[i][3] == "Go"){
+                        goalVols += `<tr>
+                                    <td>${data[i][2]}</td>
+                                    <td class="text-nowrap">${data[i][4]}</td>
+                                    <td>${data[i][7]}</td>
+                                    <td>
+                                        <i class="bi bi-pencil-square" style="color: #F88634;" onclick = "editGoalVol(${data[i][0]})" data-toggle="modal" data-target="#addVolGoalsModal"></i>
+                                        <i class="bi bi-trash" onclick = "deleteVolDetail(${data[i][0]})"></i>
+                                    </td>
+                                </tr>`;
+                    }
+                }
+                $("#goalTimeTable table tbody").html(goalVols);
+
+            }
+        });
+    }
+    function editTimeVol(id){
+        var data;
+        for(var i=0;i<timeSheet.length;i++){
+            if(timeSheet[i][0] == id){
+                data = timeSheet[i];
+            }
+        }
+        document.getElementById("timeSheetId").value = data[0];
+
+        document.getElementById("selectedMissionTime").value = data[1];
+        $("#selectedMissionTime option:not(:selected)").attr("disabled", "disabled");
+
+        
+        document.getElementById("timeDate").value = convertDate(data[4]);
+        
+        document.getElementById("hours").value = data[5];
+        document.getElementById("minutes").value = data[6];
+        document.getElementById("timeMessage").value = data[8];
+    }
+    function editGoalVol(id){
+        var data;
+        for(var i=0;i<timeSheet.length;i++){
+            if(timeSheet[i][0] == id){
+                data = timeSheet[i];
+            }
+        }
+        document.getElementById("timeSheetId").value = data[0];
+        document.getElementById("selectedMissionGoal").value = data[1];
+        $("#selectedMissionTime option:not(:selected)").attr("disabled", "disabled");
+
+        
+        document.getElementById("goalDate").value = convertDate(data[4]);
+        document.getElementById("actions").value = data[7];
+        document.getElementById("goalMessage").value = data[8];
+    }
+
+    function deleteVolDetail(id){
+        if(confirm("Are You Sure You want to delete field") == true){
+            $.ajax({
+                url: '/UserProfile/DeleteVolField',
+                type: 'POST',
+                data: {TimesheetId: id},
+                success:function () {
+                    listVolunteering();
+                    $("#success-alert").html("<strong>Success!!</strong> Record Deleted Successfully");
+                    $("#success-alert").alert().show();
+                    window.setTimeout(function () { 
+                        $("#success-alert").alert().hide(); 
+                    }, 1000); 
+                },
+                error: function(req,err) {
+                    console.log(err);
+                }
+            });
+        }
+    }
 
     function SaveVolTime(){
         var mission = document.getElementById("selectedMissionTime").value;
@@ -232,6 +373,7 @@
         var hours = document.getElementById("hours").value;
         var minutes = document.getElementById("minutes").value;
         var message = document.getElementById("timeMessage").value;
+        var status = document.getElementById("timeSheetId").value;
 
         if(mission == "Select Your Mission"){
             document.getElementById("valTimeMission").innerHTML = "Please Select Mission";
@@ -275,7 +417,7 @@
             document.getElementById("valTimeMinutes").innerHTML = document.getElementById("valTimeMission").innerHTML = "";
             return;
         }
-        SaveVolunteeringDetails("Time", mission, date, hours, minutes, "", message)
+        SaveVolunteeringDetails("Time", mission, date, hours, minutes, "", message, status)
     }
 
     function SaveVolunteerGoal(){
@@ -283,6 +425,7 @@
         var date = document.getElementById("goalDate").value;
         var action = document.getElementById("actions").value;
         var message = document.getElementById("goalMessage").value;
+        var status = document.getElementById("timeSheetId").value;
         if(mission == "Select Your Mission"){
             document.getElementById("valGoalMission").innerHTML = "Please Select Mission";
             document.getElementById("valGoalDate").innerHTML = document.getElementById("valGoalAction").innerHTML = document.getElementById("valGoalMessage").innerHTML = "";
@@ -303,33 +446,49 @@
             document.getElementById("valGoalAction").innerHTML = document.getElementById("valGoalMission").innerHTML = document.getElementById("valGoalDate").innerHTML = "";
             return;
         }
-        SaveVolunteeringDetails("Go", mission, date, "", "", action, message);
+        SaveVolunteeringDetails("Go", mission, date, "", "", action, message,status);
     }
 
-    function SaveVolunteeringDetails(type, mission, date, hours, minutes, action, message){
-        //$.ajax({
-        //    url: '/UserProfile/SaveVolunteeringDetails',
-        //    type: 'POST',
-        //    data: {Type: type,
-        //    MissionId: mission,
-        //    Date: date,
-        //    Hours: hours,
-        //    Minutes: minutes,
-        //    Action: action,
-        //    Message: message},
-        //    success:function () {
+    function SaveVolunteeringDetails(type, mission, date, hours, minutes, action, message, status){
+        $.ajax({
+            url: '/UserProfile/SaveVolunteeringDetails',
+            type: 'POST',
+            data: {Type: type,
+            MissionId: mission,
+            Date: date,
+            Hours: hours,
+            Minutes: minutes,
+            Action: action,
+            Message: message,
+            Status: status},
+            success:function () {
+
+                listVolunteering();
+                if(status == ""){
+                    $("#success-alert").html("<strong>Success!!</strong> Record Added Successfully");
+                }else{
+                    $("#success-alert").html("<strong>Success!!</strong> Record Updated Successfully");
+                }
                 
-        //    },
-        //    error: function(req,err) {
-        //        console.log(err);
-        //    }
-        //});
-        clearAllData();
+                $("#success-alert").alert().show();
+                window.setTimeout(function () { 
+                    $("#success-alert").alert().hide(); 
+                }, 1000); 
+            },
+            error: function(req,err) {
+                console.log(err);
+            }
+        });
         $(".close").click();
     }
 
-    function clearAllData(){
-        document.getElementById("selectedMissionTime").value = "Select Your Mission";
+    
+   function clearFields(){
+       document.getElementById("selectedMissionTime").value = "Select Your Mission";
+        $("#selectedMissionTime option:not(:selected)").attr("disabled", false);
+        $("#selectedMissionTime option:selected").attr("disabled", false);
+
+        document.getElementById("timeSheetId").value = "";
         document.getElementById("timeDate").value = document.getElementById("hours").value =
         document.getElementById("minutes").value = document.getElementById("timeMessage").value = "";
 
@@ -341,7 +500,17 @@
 
         document.getElementById("valGoalDate").innerHTML = document.getElementById("valGoalMission").innerHTML = 
         document.getElementById("valGoalAction").innerHTML = document.getElementById("valGoalMessage").innerHTML = "";
-    }
+   }
+
+   function convertDate(strDate){
+        let date = strDate.split("-");
+        const ddd = new Date(date);
+        const yyyy = date[2];
+        const mm = date[1];
+        const dd = date[0];
+        const formattedDate = `${yyyy}-${mm}-${dd}`;
+        return formattedDate;
+   }
 
     
 </script>

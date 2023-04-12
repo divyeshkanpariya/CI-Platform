@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Mail;
-
+using System.Text.Json;
 
 namespace CI_Platform.Controllers
 {
@@ -238,6 +238,11 @@ namespace CI_Platform.Controllers
             var UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
             
             _contactUsRepo.SubmitContact(UserId,Subject,Message);
+        }
+
+        public string getPolicies()
+        {
+            return JsonSerializer.Serialize(_privacyPolicyRepo.GetPolicies());
         }
     }
 }

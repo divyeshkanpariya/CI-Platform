@@ -29,20 +29,23 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     @*<ul class="navbar-nav flex-grow-1">*@
                     <div class="d-sm-flex">
-                        <li class="nav-item" style="list-style: none;">
+                        <div class="nav-item" style="list-style: none;">
+                            <a class="nav-link text-dark" asp-action="MissionListing" asp-controller="Home"><span class=" header-text">Home</span></a>
+                        </div>
+                        <div class="nav-item" style="list-style: none;">
                             <a class="nav-link text-dark" asp-action="StoryListing" asp-controller="Story"><span class=" header-text">Stories</span></a>
-                        </li>
-                        <li class="nav-item dropdown d-flex align-items-center">
+                        </div>
+                        <div class="nav-item dropdown d-flex align-items-center">
                             <a class="nav-link dropdown-toggle text-dark header-text" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span>Policy</span>
                                 <img src="~/images/drop-down.png" class="mx-2 dropdown-img" alt="">
                             </a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" id="PrivacyPolicyDd">
                                 <li><a class="dropdown-item" href="#">Action</a></li>
                                 <li><a class="dropdown-item" href="#">Another action</a></li>
                                 
                             </ul>
-                        </li>
+                        </div>
                     </div>
                     @* </ul>*@
                 </div>
@@ -151,6 +154,22 @@
             });
             
         }
+
+        $(document).ready( () => {
+            $.ajax({
+                url: '/Auth/getPolicies',
+                type: 'get',
+                data: {},
+                dataType: 'json',
+                success:function (data) {
+                    var ht = "";
+                    for(var i=0;i< data.length;i++){
+                        ht += `<li><a class="dropdown-item" href="/Auth/PrivacyPolicy#${data[i].Slug}">${data[i].Title}</a></li>`;
+                    }
+                    $("#PrivacyPolicyDd").html(ht);
+                }
+            });
+        });
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

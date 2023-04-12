@@ -147,14 +147,17 @@
             sname.innerHTML = this.name;
 
 
-            var img = $('<img />', {
-                class: 'ps-2',
-                src: '/images/cancel.png',
-                alt: 'MyAlt'
-            });
-
+            var img = document.createElement("i");
+            img.classList.add("bi", "bi-x");
+            img.id = "closeFilter";
+            img.addEventListener("click", function(){
+                console.log(this.parentElement);
+                document.getElementById(this.parentElement.id).click();
+                this.parentElement.remove();
+                applyFilter("1");
+            })
             main.appendChild(sname);
-            img.appendTo(sname);
+            main.append(img);
             filters.append(main);
         });
     }
@@ -492,6 +495,7 @@
         });
     }
     function applyFilter(pageIndex){
+        //console.log("applied")
         var selectedCountryID = $('#countries li a input[type=checkbox]:checked').map(function () {return this.value;}).get().join();
         
         var selectedCityID = $('#cities li a input[type=checkbox]:checked').map(function () {return this.value;}).get().join();
@@ -504,7 +508,7 @@
 
         var searchText = $('#search').map(function(){return this.value;}).get().join();
 
-        //console.log(searchText);
+        console.log(selectedCountryID);
 
         if(selectedCityID == "") {
             selectedCityID = $('#cities li a input[type=checkbox]').map(function () {
@@ -543,7 +547,7 @@
             PageIndex: pageIndex},
             dataType: 'html',
             success:function (viewModel) {
-                //console.log(viewModel);
+                //console.log("success");
                 
                 $('#cardContainer').html(viewModel);
                 

@@ -155,11 +155,22 @@ namespace CI_Platform.Controllers
             return Json(list);
         }
 
-        [HttpPost]
-        public void SaveVolunteeringDetails(string Type,string MissionId,string Date, string Hours, string Minutes, string Action, string Message)
+        public IActionResult getVolunteeringdetails()
         {
             long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
-            _volunteeringTimesheetRepo.SaveVolDetails(Type,UserId, Convert.ToInt64(MissionId), Convert.ToDateTime(Date), Convert.ToInt32(Hours), Convert.ToInt32(Minutes), Convert.ToInt32(Action), Message);
+            return Json(_volunteeringTimesheetRepo.getVolDetailsByUser(UserId));
+        }
+
+        [HttpPost]
+        public void SaveVolunteeringDetails(string Type,string MissionId,string Date, string Hours, string Minutes, string Action, string Message, string Status)
+        {
+            long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+            _volunteeringTimesheetRepo.SaveVolDetails(Type,UserId, Convert.ToInt64(MissionId), Convert.ToDateTime(Date), Convert.ToInt32(Hours), Convert.ToInt32(Minutes), Convert.ToInt32(Action), Message,Status);
+        }
+        [HttpPost]
+        public void DeleteVolField(string TimesheetId)
+        {
+            _volunteeringTimesheetRepo.DeleteVol(Convert.ToInt64(TimesheetId));
         }
     }
 
