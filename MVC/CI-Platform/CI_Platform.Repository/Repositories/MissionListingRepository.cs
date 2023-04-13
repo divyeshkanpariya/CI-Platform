@@ -257,7 +257,16 @@ namespace CI_Platform.Repository.Repositories
                     mission.IsFavourite = true;
                 }
 
-                
+                /* Approval Status */
+                if (_MissionApplicationList.ExistUser(u => u.MissionId == mission.MissionId && u.UserId == uid))
+                {
+                    string status = _MissionApplicationList.GetFirstOrDefault(u => u.MissionId == mission.MissionId && u.UserId == uid).ApprovalStatus;
+                    mission.ApprovalStatus = status;
+                }
+                else
+                {
+                    mission.ApprovalStatus = "NotApplied";
+                }
 
 
 

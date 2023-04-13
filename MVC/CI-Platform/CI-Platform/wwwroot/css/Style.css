@@ -334,8 +334,22 @@ input#search {
     padding: 9px;
 }
 
-
-
+.apply-status-applied {
+    position: absolute;
+    top:3%;
+    color: white;
+    padding:5px 8px;
+    border-radius: 0px 15px 15px 0px; 
+    background-color: green;
+}
+.apply-status-passed {
+    position: absolute;
+    top: 3%;
+    color: white;
+    padding: 5px 8px;
+    border-radius: 0px 15px 15px 0px;
+    background-color: red;
+}
 
 .card-body {
     display: inline-block;
@@ -503,6 +517,7 @@ input#search {
     }
     .list-view .card-img-div {
         height: auto !important;
+        width: 50%;
     }
 }
 
@@ -579,18 +594,18 @@ background-color: #DDDDDD;
     right: 0;
 }
 
-    #carousel-thumbs img {
-        border: 5px solid transparent;
-        cursor: pointer;
-    }
+#carousel-thumbs img {
+    border: 5px solid transparent;
+    cursor: pointer;
+}
 
-        #carousel-thumbs img:hover {
-            border-color: rgba(255,255,255,.3);
-        }
+#carousel-thumbs img:hover {
+    border-color: rgba(255,255,255,.3);
+}
 
-    #carousel-thumbs .selected img {
-        border-color: #fff;
-    }
+#carousel-thumbs .selected img {
+    border-color: #fff;
+}
 
 .carousel-vm .carousel-control-prev,
 .carousel-vm .carousel-control-next {
@@ -630,10 +645,9 @@ background-color: #DDDDDD;
     font-weight:500;
 }
 .favMission {
-    background-color: hotpink;
-    border:none;
+    background-color: #F15454;
+    border: none;
     color: white;
-    
 }
 .rec-btns div {
     width: 22px;
@@ -1095,3 +1109,54 @@ output .span--hidden {
     color:white !important;
 
 }
+#menu li a img {
+    width: 25px;
+    height: fit-content;
+}
+#menu li {
+    margin-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px;
+}
+#menu li.active {
+    background-color: white;
+    color: #F88634
+}
+#menu li.active span {
+    color: #F88634
+}
+#menu li:hover {
+    background-color: white;
+}
+#menu li:hover span {
+    color: #F88634;
+}
+#menu li:nth-child(1) {
+    pointer-events:none;
+}
+#menu li:nth-child(2):hover img{
+    content: url("/images/user-icon-active.png");
+}
+#menu li:nth-child(3):hover img{
+    content: url("/images/page-active.png");
+}
+#menu li:nth-child(4):hover img{
+    content: url("/images/bullseye-active.png");
+}
+#menu li:nth-child(5):hover img{
+    content: url("/images/themes-active.png");
+}
+#menu li:nth-child(6):hover img{
+    content: url("/images/skills-active.png");
+}
+#menu li:nth-child(7):hover img{
+    content: url("/images/folder-active.png");
+}
+#menu li:nth-child(8):hover img{
+    content: url("/images/tale-active.png");
+}
+ #menu li:nth-child(9):hover img{
+    content: url("/images/folded-ribbon-active.png");
+}
+    

@@ -299,13 +299,7 @@
             moveToFirstPage();
             changeCount();
         });
-        //$('#missionContainer').change(function(){
-        //    document.getElementById("missionCount").innerHTML = $('#missionCo').text() + " Missions";
-
-        //});
-        //$('addToFavourite').click(function(){
-        //    console.log("sss");
-        //});
+        
         
         $('#paginationContainer div a').click(function (e){
             //console.log(e.target.id);
@@ -397,23 +391,9 @@
             var misssionCountText = $("#missionCo").text();
             var missionCount =  parseInt(misssionCountText);
             console.log(missionCount);
-            //$("#pagination").empty();
-            //var str = `<a id="fr"><img src="/images/previous.png" alt="Previous" /></a>
-            //    <a id="pre"><img src="/images/left.png" alt="Previous" /></a>`;
-            //for(var i= 1; i <= (missionCount/9)+1; i++){
-            //    if (i == 1)
-            //    {
-            //        str += `<a  class="active pt-1" id="first">`+ i +`</a>`;
-            //    }else{
-            //        str += `<a class="pt-1">` + i + `</a>`;
-            //    }
-            //}
-            //str+=`<a id="next"><img src="/images/right-arrow1.png" alt="Previous" /></a>
-            //    <a id="last"><img src=" /images/next.png" alt="Previous" /></a>`;
-            //    console.log(str);
-            //$("#pagination").html(str);
+            
 
-        },1000);
+        },500);
 
     }
     function moveToFirstPage(){
@@ -493,6 +473,7 @@
 
             }
         });
+        changeCount();
     }
     function applyFilter(pageIndex){
         //console.log("applied")

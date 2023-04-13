@@ -23,71 +23,90 @@
     </header>
     <div class="mainbody">
         <main role="main" class="">
-            <div class="container-fluid">
-                <div class="row flex-nowrap">
+            <div class="container-fluid px-0">
+                <div class="row flex-nowrap g-0 ">
                     <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 admin-sidebar">
-                        <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2  min-vh-100 ">
+                        <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 mt-4 min-vh-100 ">
                             
                             <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start w-100" id="menu">
-                                
+                                <li class="small-text d-sm-inline d-none">NAVIGATION</li>
                                 <li class="nav-item w-100">
-                                    <a href="#" class="nav-link align-middle px-0">
-                                        <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                                    <a href="#" class="nav-link align-middle px-0 text-white">
+                                        <img src="/images/user-icon.png" /> <span class="ms-1 d-none d-sm-inline">User</span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                                        <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Dashboard</span> 
-                                    </a>
-                                    
-                                </li>
-                                <li>
-                                    <a href="#" class="nav-link px-0 align-middle">
-                                        <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-                                </li>
-                                <li>
-                                    <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
-                                        <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Bootstrap</span>
+                                <li class="nav-item w-100">
+                                    <a href="#"class="nav-link px-0 align-middle text-white">
+                                        <img src="/images/page.png" /> <span class="ms-1 d-none d-sm-inline">CMS Page</span> 
                                     </a>
                                     
                                 </li>
-                                <li>
-                                    <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                                        <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">Products</span> 
+                                <li class="nav-item w-100">
+                                    <a href="#" class="nav-link px-0 align-middle text-white  d-flex">
+                                       <img src="/images/bullseye.png" /> <span class="ms-1 d-none d-sm-inline">Mission</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item w-100">
+                                    <a href="#submenu2" class="nav-link px-0 align-middle text-white  d-flex">
+                                        <img src="/images/themes.png" /> <span class="ms-1 d-none d-sm-inline">Mission Theme</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item w-100">
+                                    <a href="#submenu3"  class="nav-link px-0 align-middle text-white d-flex">
+                                        <img src="/images/skills.png" /> <span class="ms-1 d-none d-sm-inline">Mission Skills</span> 
                                     </a>
                                         
                                 </li>
-                                <li>
-                                    <a href="#" class="nav-link px-0 align-middle">
-                                        <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Customers</span> </a>
+                                <li class="nav-item w-100">
+                                    <a href="#" class="nav-link px-0 align-middle text-white d-flex">
+                                        <img src="/images/folder.png" /> <span class="ms-1 d-none d-sm-inline">Mission Application</span> 
+                                    </a>
+                                </li>
+                                <li class="nav-item w-100">
+                                    <a href="#" class="nav-link px-0 align-middle text-white">
+                                        <img src="/images/tale.png" /> <span class="ms-1 d-none d-sm-inline">Story</span> </a>
+                                </li>
+                                <li class="nav-item w-100">
+                                    <a href="#" class="nav-link px-0 align-middle text-white d-flex">
+                                        <img src="/images/folded-ribbon.png" /> <span class="ms-1 d-none d-sm-inline">Banner Management</span> 
+                                    </a>
                                 </li>
                             </ul>
                             <hr>
-                            <div class="dropdown pb-4">
-                                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
-                                    <span class="d-none d-sm-inline mx-1">loser</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                                    <li><a class="dropdown-item" href="#">New project...</a></li>
-                                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="#">Sign out</a></li>
-                                </ul>
-                            </div>
+                            
                         </div>
                     </div>
-                    <div class="col py-3">
-                        <h3>Left Sidebar with Submenus</h3>
-                        <p class="lead">
-                            An example 2-level sidebar with collasible menu items. The menu functions like an "accordion" where only a single 
-                            menu is be open at a time. While the sidebar itself is not toggle-able, it does responsively shrink in width on smaller screens.</p>
-                        <ul class="list-unstyled">
-                            <li><h5>Responsive</h5> shrinks in width, hides text labels and collapses to icons only on mobile</li>
-                        </ul>
+                    <div class="col">
+                        <nav class="navbar navbar-expand navbar-toggleable bg-white navbar-light bg-white border-bottom" style="box-shadow: 3px 5px 10px #00000014;">
+                            <div class="container-fluid">
+
+                                
+                                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between ms-md-5 ms-sm-3 ms-2">
+                                    
+                                    <span id="displayTime"></span>
+                                    
+                                </div>
+                                <div class=" dropdown d-flex justify-content-center align-items-center me-3">
+                                    <a class="dropdown-toggle  small-text" style="text-decoration:none" data-bs-toggle="dropdown" aria-expanded="false">
+                                        @if(@Context.Session.GetString("UserAvatar") != null)
+                                        {
+                                            <img src="@Context.Session.GetString("UserAvatar")" class="profile-image mx-1" alt="">
+                                        }else{
+                                            <img src="~/images/default-user-icon.jpg" class="profile-image mx-1" alt="">
+                                        }
+                        
+                                        <span class="mx-1 header-text">@Context.Session.GetString("UserName")</span>
+                                        <img src="~/images/drop-down.png" class="mx-1" alt="">
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-lg-right">
+                                        <li><a class="dropdown-item" asp-action="UserEditProfile" asp-controller="UserProfile">My Profile</a></li>
+                                        <li><a class="dropdown-item" asp-action="VolunteeringTimesheet" asp-controller="UserProfile">Volunteering Timesheet</a></li>
+                                        <li><a class="dropdown-item" asp-action="Login" asp-controller="Auth">Logout</a></li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -106,3 +125,45 @@
 </body>
 </html>
 
+<script>
+    $(document).ready(function(){
+        display_ct();
+    })
+    function display_c(){
+        var refresh=1000; // Refresh rate in milli seconds
+        mytime=setTimeout('display_ct()',refresh)
+    }
+    function display_ct() {
+        var x = new Date();
+        document.getElementById('displayTime').innerHTML = getDay(x.getDay()) +", "+ getMonth(x.getMonth()) + " " + x.getDate() + ", " + x.getFullYear() + ", " + x.getHours()+":"+ x.getMinutes()+":"+x.getSeconds() + " AM" ;
+        display_c();
+    }
+    function getDay(x){
+        var weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+        return weekdays[x];
+    }
+    function getMonth(x){
+        var mL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        return mL[x];
+    }
+    $("#menu li").click(function(){
+        var index = $(this).index();
+        var oldIndex = -1;
+        var ul = document.getElementById("menu").getElementsByTagName("li");
+        for(var i=0;i<ul.length;i++){
+            if(ul[i].classList.contains("active")){
+                ul[i].classList.remove("active");
+                oldIndex = i;
+                var Oldimage = ul[i].getElementsByTagName("a")[0].getElementsByTagName("img")[0];
+                var srcOld = Oldimage.src;
+                var srcnew = srcOld.split("-active")[0] + srcOld.split("-active")[1];
+                ul[i].getElementsByTagName("a")[0].getElementsByTagName("img")[0].src = srcnew;
+
+            }
+        }
+        ul[index].classList.add("active");
+        var Noldsrc = ul[index].getElementsByTagName("a")[0].getElementsByTagName("img")[0].src;
+        NnewSrc = Noldsrc.split(".")[0] +"-active." + Noldsrc.split(".")[1];
+        ul[index].getElementsByTagName("a")[0].getElementsByTagName("img")[0].src = NnewSrc;
+    })
+</script>

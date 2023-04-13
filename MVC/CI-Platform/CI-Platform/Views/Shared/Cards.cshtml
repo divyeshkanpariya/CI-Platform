@@ -33,6 +33,30 @@
                     <p id="passCountry" style="display:none;">@item.Country</p>
                     <div class="card-img-div">
                         <img class="card-img-top" src="@item.Path" alt="Card image cap">
+                        
+                            @if(@item.ApprovalStatus == "APPROVE" || @item.ApprovalStatus == "PENDING")
+                            {
+                                <div class="apply-status-applied" style="">
+                                    <span>Applied</span>
+                                </div>
+                            }else if(@item.ApprovalStatus == "NotApplied")
+                            {
+                                @if(@item.StartDate != null && @item.StartDate <DateTime.Now)
+                                {
+                                    <div class="apply-status-passed" style="">
+                                        <span>Deadline Passed</span>
+                                    </div>
+                                }else if(@item.GoalArchived >= @item.GoalValue && @item.GoalObjectiveText != null)
+                                {
+                                    <div class="apply-status-passed" style="">
+                                        <span>Goal Archived</span>
+                                    </div>
+
+                                }
+                                
+                            }
+                            
+                           
                         <div class="location over-buttons px-3 py-1">
                             <img src="~/images/pin.png" />
                             <span>@item.City</span>
@@ -179,7 +203,7 @@
                                                 <img class="timing-img" src="~/images/deadline.png" alt="" />
                                                 <div>
 
-                                                    <strong><p class="mb-0 card-timing-big">@item.StartDate.ToString().Substring(0,10)</p></strong>
+                                                    <strong><p class="mb-0 card-timing-big">@Convert.ToDateTime(@item.StartDate.ToString().Substring(0,10)).AddDays(-1).ToString().Substring(0,10)</p></strong> 
                                                     <p class="card-text">Deadline</p>
 
 

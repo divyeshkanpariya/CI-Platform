@@ -25,12 +25,12 @@
                     <button type="button" id="" class="Apply-mission-btn d-flex px-3 py-2 text-decoration-none" data-toggle="modal" data-target="#addVolHoursModal"><i class="bi bi-plus-lg"></i> Add</button>
             </div>
             <div class="" id="hourTimetable">
-                <table class="table text-muted table-borderless">
+                <table class="table text-muted table-borderless" id="myTimeTable">
                     <thead>
                         <tr>
                             <th scope="col">Mission</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Hours</th>
+                            <th scope="col" onclick="SortTableByDate('myTimeTable')">Date</th>
+                            <th scope="col" onclick="SortTableByNum('myTimeTable')">Hours</th>
                             <th scope="col">Minutes</th>
                             <th></th>
                         </tr>
@@ -58,12 +58,12 @@
                 <button type="button" id="addVolGoals" class="Apply-mission-btn d-flex px-3 py-2 text-decoration-none" data-toggle="modal" data-target="#addVolGoalsModal"><i class="bi bi-plus-lg"></i><span>Add</span></button>
             </div>
             <div class="" id="goalTimeTable">
-                <table class="table text-muted table-borderless" >
+                <table class="table text-muted table-borderless" id="myGoalTable">
                     <thead>
                         <tr>
                             <th scope="col">Mission</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Action</th>
+                            <th scope="col" onclick = "SortTableByDate('myGoalTable')">Date</th>
+                            <th scope="col" onclick="SortTableByNum('myGoalTable')">Action</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -215,7 +215,7 @@
             success:function (data) {
                 
                 arr = data;
-                console.log(arr);
+                //console.log(arr);
                 for (var i=0;i<data.length;i++){
                     if(data[i][2] == "Time"){
                         var ms = document.createElement("option");
@@ -258,10 +258,95 @@
         
         if(data[3] != "") document.getElementById("timeDate").min = convertDate(data[3]);
         if(data[4] != "") {
-            console.log(convertDate(data[4]));
+            //console.log(convertDate(data[4]));
             if(convertDate(data[4]) < new Date().toISOString().split("T")[0]) document.getElementById("timeDate").max = convertDate(data[4]);
         }
-    })
+    });
+    
+    function SortTableByNum(tablename){
+        
+            var n=2;
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById(tablename).getElementsByTagName("tbody")[0];
+            switching = true;
+            dir = "asc";
+            while (switching) {
+            switching = false;
+            rows = table.rows;
+            for (i = 0; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+
+                if (dir == "asc") {
+                    if (Number(x.innerHTML) > Number(y.innerHTML)) {
+                        shouldSwitch= true;
+                        break;
+                    }
+                    } else if (dir == "desc") {
+                        if (Number(x.innerHTML) < Number(y.innerHTML)) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount ++;      
+                } else {
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+    }
+
+    function convertDate(d) {
+        var p = d.split("/");
+        return +(p[2]+p[1]+p[0]);
+    }
+
+    function SortTableByDate(tablename) {
+        var n=1;
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById(tablename).getElementsByTagName("tbody")[0];
+        switching = true;
+        dir = "asc";
+        while (switching) {
+        switching = false;
+        rows = table.rows;
+        for (i = 0; i < (rows.length - 1); i++) {
+            shouldSwitch = false;
+            x = rows[i].getElementsByTagName("TD")[n];
+            y = rows[i + 1].getElementsByTagName("TD")[n];
+            if (dir == "asc") {
+                if (convertDate(x.innerHTML) > convertDate(y.innerHTML)) {
+                    shouldSwitch= true;
+                    break;
+                }
+                } else if (dir == "desc") {
+                    if (convertDate(x.innerHTML) < convertDate(y.innerHTML)) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                switchcount ++;      
+            } else {
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+
+
     function listVolunteering(){
         $.ajax({
             url: '/UserProfile/getVolunteeringdetails',
@@ -270,7 +355,6 @@
             dataType: 'json',
             success:function (data) {
                 timeSheet = data;
-                console.log(data);
                 $("#hourTimetable table tbody").empty();
                 var timeVols ="";
                 for(var i=0;i<data.length;i++){
@@ -310,6 +394,7 @@
             }
         });
     }
+
     function editTimeVol(id){
         var data;
         for(var i=0;i<timeSheet.length;i++){
@@ -329,6 +414,7 @@
         document.getElementById("minutes").value = data[6];
         document.getElementById("timeMessage").value = data[8];
     }
+
     function editGoalVol(id){
         var data;
         for(var i=0;i<timeSheet.length;i++){
@@ -338,7 +424,7 @@
         }
         document.getElementById("timeSheetId").value = data[0];
         document.getElementById("selectedMissionGoal").value = data[1];
-        $("#selectedMissionTime option:not(:selected)").attr("disabled", "disabled");
+        $("#selectedMissionGoal option:not(:selected)").attr("disabled", "disabled");
 
         
         document.getElementById("goalDate").value = convertDate(data[4]);
@@ -487,6 +573,10 @@
        document.getElementById("selectedMissionTime").value = "Select Your Mission";
         $("#selectedMissionTime option:not(:selected)").attr("disabled", false);
         $("#selectedMissionTime option:selected").attr("disabled", false);
+        
+        document.getElementById("selectedMissionGoal").value = "Select Your Mission";
+        $("#selectedMissionGoal option:not(:selected)").attr("disabled", false);
+        $("#selectedMissionGoal option:selected").attr("disabled", false);
 
         document.getElementById("timeSheetId").value = "";
         document.getElementById("timeDate").value = document.getElementById("hours").value =

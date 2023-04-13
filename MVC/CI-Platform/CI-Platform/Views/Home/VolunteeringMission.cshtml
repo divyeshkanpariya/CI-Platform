@@ -16,7 +16,7 @@
 <p id="getUserAvatar" style="display:none;">@Context.Session.GetString("UserAvatar")</p>
 
 <div class="container-fluid">
-    <div class="row">
+    <div class="row mx-lg-5 mx-3    ">
         @* Image Slider *@
         <div class="col-lg-6 ">
             <div class="container mt-4 h-100">
@@ -189,15 +189,33 @@
                     {
                         @if(item.GoalObjectiveText != null)
                         {
-                            <div class="d-flex align-items-center justify-content-center">
-                                <img class="timing-img" src="~/images/achieved.png" alt="" />
-                                <div>
-                                    <div class="progress" style="height: 10px;">
-                                        <div class="progress-bar" role="progressbar" style="width: @item.prArchivement%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                @if(@item.GoalArchived > @item.GoalValue)
+                                {
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <img class="timing-img" src="~/images/achieved.png" alt="" />
+                                        <div>
+                                            <div class="progress" style="height: 10px;">
+                                                <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <p class="card-text">@item.GoalArchived achived</p>
+                                        </div>
                                     </div>
-                                    <p class="card-text">@item.GoalArchived achived</p>
-                                </div>
-                            </div>
+
+                                }
+                                else
+                                {
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <img class="timing-img" src="~/images/achieved.png" alt="" />
+                                        <div>
+                                            <div class="progress" style="height: 10px;">
+                                                <div class="progress-bar" role="progressbar" style="width: @item.prArchivement%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <p class="card-text">@item.GoalArchived achived</p>
+                                        </div>
+                                    </div>
+
+                                }
+                            
                         }
                                             
                     }
@@ -209,7 +227,7 @@
                                 <img class="timing-img" src="~/images/deadline.png" alt="" />
                                 <div>
 
-                                    <strong><p class="mb-0 card-timing-big">@item.StartDate.ToString().Substring(0,10)</p></strong>
+                                    <strong><p class="mb-0 card-timing-big">@Convert.ToDateTime(@item.StartDate.ToString().Substring(0,10)).AddDays(-1).ToString().Substring(0,10)</p></strong>
                                     <p class="card-text">Deadline</p>
 
 
@@ -358,9 +376,26 @@
             </div>
                 @if(@item.ApprovalStatus == "NotApplied")
                 {
-                    <div class="my-3 d-flex justify-content-center">
-                        <button type="button" class="Apply-mission-btn" id ="applyMissionBtn" onclick="ApplyMission()"><span class="me-2">Apply Now</span> <img src="~/images/right-arrow.png" /></button>
-                    </div>
+                    @if(@item.StartDate != null && @item.StartDate < DateTime.Now){
+                        <div class="my-3 alert alert-danger" style="" id="success-alert">
+                       
+                        Deadline is already Passed.
+                        </div>
+                    }
+                    else if(@item.GoalObjectiveText!= null && @item.GoalArchived >= @item.GoalValue)
+                    {
+                        <div class="my-3 alert alert-danger" style="" id="success-alert">
+                       
+                        Goal of this Mission is Already Archived !!!!!
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="my-3 d-flex justify-content-center">
+                            <button type="button" class="Apply-mission-btn" id ="applyMissionBtn" onclick="ApplyMission()"><span class="me-2">Apply Now</span> <img src="~/images/right-arrow.png" /></button>
+                        </div>
+                    }
+                    
 
                 }else if(@item.ApprovalStatus == "PENDING"){
                     
@@ -533,63 +568,63 @@
                     </div>
                 </div>
 
-                <div id="recentVolunteersSlider" class="carousel slide" style="height:min-content">
+                <div id="recentVolunteersSlider" class="carousel slide" style="height:min-content" >
                     <div class="carousel-inner">
-                                @for(var j = 0; j < (@item.RecentVolunteers.Count / 9)+1; j++)
-                                {
-                                    var count = @item.RecentVolunteers.Count;
-                                    var x = j*9;
-                                    if (x == 0)
-                                    {
-                                        <div class="carousel-item active">
-                                            <div class="row text-muted mx-3 pt-3">
-                                                @for (var i = 0; i < 9; i++)
-                                                {
-                                                    @if(count <= x)
-                                                    {
-                                                        break;
-                                                    }
-                                                    <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                                                        <img class="volunteer-profile-img" src="@item.RecentVolunteers[@x][0]" alt="volunteer1" />
-                                                        <p>@item.RecentVolunteers[@x][1] @item.RecentVolunteers[@x][2]</p>
-                                                    </div>                                                     
-                                                    x++;
-                                                }
+                        @for(var j = 0; j < (@item.RecentVolunteers.Count / 9)+1; j++)
+                        {
+                            var count = @item.RecentVolunteers.Count;
+                            var x = j*9;
+                            if (x == 0)
+                            {
+                                <div class="carousel-item active">
+                                    <div class="row text-muted mx-3 pt-3">
+                                        @for (var i = 0; i < 9; i++)
+                                        {
+                                            @if(count <= x)
+                                            {
+                                                break;
+                                            }
+                                            <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                                                <img class="volunteer-profile-img" src="@item.RecentVolunteers[@x][0]" alt="volunteer1" />
+                                                <p>@item.RecentVolunteers[@x][1] @item.RecentVolunteers[@x][2]</p>
+                                            </div>                                                     
+                                            x++;
+                                        }
 
                                                 
-                                            </div>
-                                        </div>
+                                    </div>
+                                </div>
 
-                                    }else
-                                    {
-                                        <div class="carousel-item">
-                                            <div class="row text-muted mx-3 pt-3">
-                                                @for (var i = 0; i < 9; i++)
-                                                {
-                                                    @if(count <= x)
-                                                    {
-                                                        <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                                                            @*<img class="volunteer-profile-img" src="" alt="" />
-                                                            <p>xyzxyz</p>*@
-                                                        </div>  
+                            }else
+                            {
+                                <div class="carousel-item">
+                                    <div class="row text-muted mx-3 pt-3">
+                                        @for (var i = 0; i < 9; i++)
+                                        {
+                                            @if(count <= x)
+                                            {
+                                                <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                                                    @*<img class="volunteer-profile-img" src="" alt="" />
+                                                    <p>xyzxyz</p>*@
+                                                </div>  
 
-                                                    }
-                                                    else
-                                                    {
-                                                        <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
-                                                            <img class="volunteer-profile-img" src="@item.RecentVolunteers[@x][0]" alt="volunteer1" />
-                                                            <p>@item.RecentVolunteers[@x][1] @item.RecentVolunteers[@x][2]</p>
-                                                        </div>  
-                                                    }
+                                            }
+                                            else
+                                            {
+                                                <div class="col-lg-4 text-center col-md-6 col-4 pb-3">
+                                                    <img class="volunteer-profile-img" src="@item.RecentVolunteers[@x][0]" alt="volunteer1" />
+                                                    <p>@item.RecentVolunteers[@x][1] @item.RecentVolunteers[@x][2]</p>
+                                                </div>  
+                                            }
                                                                                                    
-                                                    x++;
-                                                }
+                                            x++;
+                                        }
 
                                                 
-                                            </div>
-                                        </div>
-                                    }
-                                }
+                                    </div>
+                                </div>
+                            }
+                        }
                             
                     </div>
                 </div>
@@ -627,19 +662,6 @@
             </div>
             
 
-            
-            @*<div class="border-top text-wrap text-center d-flex align-items-center mx-0 py-0">*@
-                @*<a id="previous-vol" class="py-1 carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                    <img src="~/images/left.png" />
-                </a>
-                <div class="py-1" style="width:80%">
-                    <span id="currentVol">1 - 9 of 25 Recent Volunteers</span>
-                </div>
-                <a id="next-vol" class="py-1" onclick="nextVol()">
-                    <img src="~/images/right-arrow1.png" />*@
-                @*</a>*@
-            @*</div>*@
-
        
         }
 
@@ -656,6 +678,7 @@
 
 </div>
 <script>
+
     $(".changesVolSlide").click(function(){
             recentVolunteerCount();
            
@@ -795,6 +818,10 @@
     $(document).ready(function(){
         var missionId = $('#getMissionId').text();
         @*console.log(missionId);*@
+
+        @*$("#recentVolunteersSlider.carousel").carousel({
+            interval: false,
+        });*@
        $.ajax({
             url: '/Home/RelatedMissions',
             type: 'POST',
