@@ -39,4 +39,3 @@ C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\Models\obj\D
 C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\Models\obj\Debug\net6.0\CI_Platform.Models.pdb
 C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\Models\obj\Debug\net6.0\CI_Platform.Models.genruntimeconfig.cache
 C:\Users\divyesh kanpariya\Source\Repos\CI-Platform\MVC\CI-Platform\Models\obj\Debug\net6.0\ref\CI_Platform.Models.dll
-C:\Users\pci117\source\repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\Models\obj\Debug\net6.0\CI_Platform.Models.csproj.AssemblyReference.cache

@@ -336,11 +336,11 @@ input#search {
 
 .apply-status-applied {
     position: absolute;
-    top:3%;
+    top: 3%;
     color: white;
-    padding:5px 8px;
-    border-radius: 0px 15px 15px 0px; 
-    background-color: green;
+    padding: 5px 8px;
+    border-radius: 0px 15px 15px 0px;
+    background-color: #14C506;
 }
 .apply-status-passed {
     position: absolute;
@@ -1104,6 +1104,9 @@ output .span--hidden {
 
 /* -------------------- Admin ----------------- */
 
+
+/* ====== sidebar ======= */
+
 .admin-sidebar {
     background-color: #F88634;
     color:white !important;
@@ -1159,4 +1162,25 @@ output .span--hidden {
  #menu li:nth-child(9):hover img{
     content: url("/images/folded-ribbon-active.png");
 }
-    
+
+/* ====== Inner Content ======== */
+
+.admin-table-heading {
+    width: fit-content;
+    border-bottom: 2px solid #333333;
+    color: #333333;
+}
+
+#admin-table thead {
+    background-color: #E8E8E8;
+}
+
+#admin-table tr th {
+    padding:15px 15px;
+}
+#admin-table tr td {
+    padding:15px 15px;
+}
+.status {
+    color: #14C506;
+}

@@ -125,10 +125,25 @@ namespace CI_Platform.Controllers
         [HttpPost]
         public IActionResult ChangePassword(string OldPwd,string NewPwd, string ConfirmPwd)
         {
-            
+            List<string> arr = new List<string>();
+            if (OldPwd == "" || OldPwd == null)
+            {
+                arr.Add("Please Enter Old Password");
+                return Json(arr);
+            }
+            if(NewPwd == "" || NewPwd == null)
+            {
+                arr.Add("Please Enter New Password");
+                return Json(arr);
+            }
+            if(OldPwd != NewPwd)
+            {
+                arr.Add("Old Password and New Password are not Same");
+                return Json(arr);
+            }
             long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
             string result = _userProfileRepo.ChangePassword(UserId, OldPwd, NewPwd);
-            List<string> arr = new List<string> { result };
+            arr.Add(result);
             return Json(arr);
         }
 

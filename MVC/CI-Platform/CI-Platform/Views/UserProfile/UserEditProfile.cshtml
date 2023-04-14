@@ -24,11 +24,10 @@
                     }else{
                         <img class="" src="~/images/default-user-icon.jpg" alt="volunteer1" id="profileImg"/>
                     }
-                        
-                    
                 </div>
                 <p style="font-size:large; font-weight:500" class="mt-2">Divyesh Kanpariya</p>
                 <a data-toggle="modal" data-target="#exampleModal"> Change Password</a>
+
             </div> 
         </div>
     </div>
@@ -328,7 +327,18 @@
                     document.getElementById("confirmPwd").value = "";
                     console.log("data");
                     document.getElementById("validateOldPwd").innerHTML = "Please Enter Correct Old Password";
-                }else{
+                }else if(data[0] == "Please Enter Old Password"){
+                    document.getElementById("validateOldPwd").innerHTML = data[0]
+                }
+                else if(data[0] == "Please Enter New Password"){
+                    document.getElementById("confirmPwd").value = "";
+                    document.getElementById("validateNewPwd").innerHTML = data[0]
+                }
+                else if(data[0] == "Old Password and New Password are not Same"){
+                    document.getElementById("confirmPwd").value = "";
+                    document.getElementById("validateCnfPwd").innerHTML = data[0]
+                }
+                else{
                     $(".close").click();
                 }
 

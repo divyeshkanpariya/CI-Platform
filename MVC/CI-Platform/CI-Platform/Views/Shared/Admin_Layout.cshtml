@@ -31,44 +31,44 @@
                             <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start w-100" id="menu">
                                 <li class="small-text d-sm-inline d-none">NAVIGATION</li>
                                 <li class="nav-item w-100">
-                                    <a href="#" class="nav-link align-middle px-0 text-white">
-                                        <img src="/images/user-icon.png" /> <span class="ms-1 d-none d-sm-inline">User</span>
+                                    <a href="#" class="nav-link align-middle px-0 text-white d-flex align-items-center">
+                                        <img src="/images/user-icon.png" /> <span class="ms-2 d-none d-sm-inline">User</span>
                                     </a>
                                 </li>
                                 <li class="nav-item w-100">
-                                    <a href="#"class="nav-link px-0 align-middle text-white">
-                                        <img src="/images/page.png" /> <span class="ms-1 d-none d-sm-inline">CMS Page</span> 
+                                    <a href="#"class="nav-link px-0 align-middle text-white d-flex align-items-center">
+                                        <img src="/images/page.png" /> <span class="ms-2 d-none d-sm-inline">CMS Page</span> 
                                     </a>
                                     
                                 </li>
                                 <li class="nav-item w-100">
-                                    <a href="#" class="nav-link px-0 align-middle text-white  d-flex">
-                                       <img src="/images/bullseye.png" /> <span class="ms-1 d-none d-sm-inline">Mission</span>
+                                    <a href="#" class="nav-link px-0 align-middle text-white  d-flex align-items-center">
+                                       <img src="/images/bullseye.png" /> <span class="ms-2 d-none d-sm-inline">Mission</span>
                                     </a>
                                 </li>
                                 <li class="nav-item w-100">
-                                    <a href="#submenu2" class="nav-link px-0 align-middle text-white  d-flex">
-                                        <img src="/images/themes.png" /> <span class="ms-1 d-none d-sm-inline">Mission Theme</span>
+                                    <a href="#submenu2" class="nav-link px-0 align-middle text-white  d-flex align-items-center">
+                                        <img src="/images/themes.png" /> <span class="ms-2 d-none d-sm-inline">Mission Theme</span>
                                     </a>
                                 </li>
                                 <li class="nav-item w-100">
-                                    <a href="#submenu3"  class="nav-link px-0 align-middle text-white d-flex">
-                                        <img src="/images/skills.png" /> <span class="ms-1 d-none d-sm-inline">Mission Skills</span> 
+                                    <a href="#submenu3"  class="nav-link px-0 align-middle text-white d-flex align-items-center">
+                                        <img src="/images/skills.png" /> <span class="ms-2 d-none d-sm-inline">Mission Skills</span> 
                                     </a>
                                         
                                 </li>
                                 <li class="nav-item w-100">
-                                    <a href="#" class="nav-link px-0 align-middle text-white d-flex">
-                                        <img src="/images/folder.png" /> <span class="ms-1 d-none d-sm-inline">Mission Application</span> 
+                                    <a href="#" class="nav-link px-0 align-middle text-white d-flex align-items-cente2">
+                                        <img src="/images/folder.png" /> <span class="ms-2 d-none d-sm-inline">Mission Application</span> 
                                     </a>
                                 </li>
                                 <li class="nav-item w-100">
-                                    <a href="#" class="nav-link px-0 align-middle text-white">
-                                        <img src="/images/tale.png" /> <span class="ms-1 d-none d-sm-inline">Story</span> </a>
+                                    <a href="#" class="nav-link px-0 align-middle text-white d-flex align-items-center">
+                                        <img src="/images/tale.png" /> <span class="ms-2 d-none d-sm-inline">Story</span> </a>
                                 </li>
                                 <li class="nav-item w-100">
-                                    <a href="#" class="nav-link px-0 align-middle text-white d-flex">
-                                        <img src="/images/folded-ribbon.png" /> <span class="ms-1 d-none d-sm-inline">Banner Management</span> 
+                                    <a href="#" class="nav-link px-0 align-middle text-white d-flex align-items-center">
+                                        <img src="/images/folded-ribbon.png" /> <span class="ms-2 d-none d-sm-inline">Banner Management</span> 
                                     </a>
                                 </li>
                             </ul>
@@ -107,10 +107,11 @@
                                 </div>
                             </div>
                         </nav>
+                        @RenderBody()
                     </div>
                 </div>
             </div>
-            @RenderBody()
+            
         </main>
     </div>
     @*<footer class="border-top footer text-muted py-4">
@@ -128,24 +129,29 @@
 <script>
     $(document).ready(function(){
         display_ct();
-    })
+    });
+
     function display_c(){
         var refresh=1000; // Refresh rate in milli seconds
         mytime=setTimeout('display_ct()',refresh)
     }
+
     function display_ct() {
         var x = new Date();
         document.getElementById('displayTime').innerHTML = getDay(x.getDay()) +", "+ getMonth(x.getMonth()) + " " + x.getDate() + ", " + x.getFullYear() + ", " + x.getHours()+":"+ x.getMinutes()+":"+x.getSeconds() + " AM" ;
         display_c();
     }
+
     function getDay(x){
         var weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
         return weekdays[x];
     }
+
     function getMonth(x){
         var mL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         return mL[x];
     }
+
     $("#menu li").click(function(){
         var index = $(this).index();
         var oldIndex = -1;

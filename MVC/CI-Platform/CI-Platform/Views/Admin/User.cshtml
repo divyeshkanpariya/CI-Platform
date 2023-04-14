@@ -1,3 +1,83 @@
 ﻿@{
     Layout = "Admin_Layout";
 }
+@model IEnumerable<CI_Platform.Models.ViewModels.AdminUserTableViewModel>
+
+<div class="my-3 mx-4">
+    <div class="border-bottom my-3">
+        <div class="admin-table-heading pe-2">
+            <h2>User</h2>
+        </div>
+    </div>
+
+    <div class="my-4 d-flex justify-content-between align-items-center">
+        <input class="form-control mr-2" type="search" id="search" placeholder="Search" aria-label="Search"  style="width:300px;"/>
+        <button type="button" id="" class="Apply-mission-btn d-flex px-3 align-items-center text-decoration-none" ><i class="bi bi-plus-lg me-2"></i> Add</button>
+    </div>
+
+    <div id="admin-table" class="my-4">
+        <table class="table border" id="myTimeTable">
+            <thead>
+                <tr>
+                    <th scope="col">FirstName</th>
+                    <th scope="col">LastName</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Employee Id</th>
+                    <th scope="col">Department</th>
+                    <th scope="col" >Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in @Model)
+                    {
+                        <tr>
+                            <td>@item.FirstName</td>
+                            <td>@item.LastName</td>
+                            <td>@item.Email</td>
+                            <td>@item.EmployeeId</td>
+                            <td>@item.Department</td>
+                    
+                            <td class="status">Active</td>
+                            <td>
+                                <i class="bi bi-pencil-square" style="color: #F88634;"></i>
+                                <i class="bi bi-trash"></i>
+                            </td>
+                        </tr>
+                    }
+                
+            </tbody>
+        </table>
+    </div>
+
+    @{
+        int pageCount;
+        if(@Model.Count() % 6 == 0)
+        {
+            pageCount = @Model.Count() / 6;
+        }
+        else    
+        {
+            pageCount = @Model.Count() / 6 +1;
+
+        }
+    }
+    <div id="paginationContainer">
+        <div class="pagination d-flex justify-content-end mt-5 mb-5" id="pagination">
+            <a id="fr"><img src="~/images/previous.png" alt="Previous" /></a>
+            <a id="pre"><img src="~/images/left.png" alt="Previous" /></a>
+            @for(var i= 1; i <= @pageCount; i++){
+                @if (i == 1)
+                {
+                    <a  class="active pt-1" id="first">@i</a>
+                }else{
+                    <a class="pt-1">@i</a>
+                }
+            }
+
+            <a id="next"><img src="~/images/right-arrow1.png" alt="Previous" /></a>
+            <a id="last"><img src="~/images/next.png" alt="Previous" /></a>
+        </div>
+    </div>
+
+</div>
