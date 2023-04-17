@@ -1,0 +1,51 @@
+﻿@{
+    Layout = "Admin_Layout";
+}
+
+
+<div class="my-3 my-lg-5 mx-4 mx-lg-5" id="AdminUserMain">
+    @*@Html.Partial("~/Views/Admin/User/UserDetails.cshtml")*@
+    @*<partial name="~/Views/Admin/User/UserDetails.cshtml" />*@
+
+</div>
+
+<script>
+    function AddNewUser(){
+        $.ajax({
+            url: '/Admin/AddNewUser',
+            type: 'GET',
+            data: {},
+            dataType: 'html',
+            success: function(data){
+                $("#AdminUserMain").html(data);
+            }
+
+        });
+    }
+
+    function editUser(UserId){
+        $.ajax({
+            url: '/Admin/EditUser',
+            type: 'GET',
+            data: {UserId: UserId},
+            dataType: 'html',
+            success: function(data){
+                $("#AdminUserMain").html(data);
+            }
+
+        });
+    }
+    $(document).ready( () => {
+        console.log("ss");
+        $.ajax({
+            url: '/Admin/GetUsers',
+            type: 'GET',
+            data: {SearchText: "",
+            PageIndex: 1},
+            dataType: 'html',
+            success:function (data) {
+                $("#AdminUserMain").html(data);
+            }
+        });
+    });
+</script>

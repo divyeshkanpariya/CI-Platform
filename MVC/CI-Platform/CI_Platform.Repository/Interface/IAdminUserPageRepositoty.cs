@@ -9,6 +9,8 @@ namespace CI_Platform.Repository.Interface
 {
     public interface IAdminUserPageRepositoty
     {
-        public IEnumerable<AdminUserTableViewModel> UsersList();
+        public IEnumerable<AdminUserTableViewModel> UsersList(string searchtext, int pageIndex);
+
+        public AdminAddUserViewModel getUserDetails(long UserId);
     }
 }

@@ -22,5 +22,7 @@ namespace CI_Platform.Models.ViewModels
 
         public string Status { get; set; } = null!;
 
+        public int TotalUsers { get; set; }
+
     }
 }

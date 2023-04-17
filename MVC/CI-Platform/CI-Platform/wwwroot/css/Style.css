@@ -1164,14 +1164,16 @@ output .span--hidden {
 }
 
 /* ====== Inner Content ======== */
-
+#admin-table {
+    width:100%;
+}
 .admin-table-heading {
     width: fit-content;
     border-bottom: 2px solid #333333;
     color: #333333;
 }
 
-#admin-table thead {
+#admin-table thead, .admin-form-heading {
     background-color: #E8E8E8;
 }
 
