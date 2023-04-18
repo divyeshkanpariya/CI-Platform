@@ -3,7 +3,15 @@
 <form method="post">
 <div class="border">
     <div class="admin-form-heading border-bottom px-3 py-3">
-        <h3>Add</h3>
+        @if(@Model.Email != null)
+        {
+            <h3>Edit</h3>
+        }
+        else
+        {
+            <h3>Add</h3>
+        }
+            
     </div>
     <div class="row px-3 mb-3">
         <div class="col-md-6 mt-3">
@@ -19,18 +27,18 @@
         </div>
         <div class="col-md-6 mt-3">
             <label class="form-label" asp-for="Email">Email ID</label>
-            <input asp-for="Email" name="Email" class="form-control" id="EmailId" placeholder="Enter Your Email ID" >
+            <input asp-for="Email" name="Email" class="form-control" id="EmailId" placeholder="Enter Your Email ID" required>
             <span asp-validation-for="Email" class="text-danger small-text"></span>
         </div>
         <div class="col-md-6 mt-3">
             <label class="form-label" asp-for="EmployeeId">Employee ID</label>
-            <input asp-for="EmployeeId" name="EmployeeId" class="form-control"  id="employeeId" placeholder="Enter Your Employee ID" >
+            <input asp-for="EmployeeId" name="EmployeeId" class="form-control"  id="employeeId" placeholder="Enter Your Employee ID" required>
             <span asp-validation-for="EmployeeId" class="text-danger small-text"></span>
         </div>
 
         <div class="mt-3 col-md-6">
             <label class="form-label" asp-for="Department">Department</label>
-            <input asp-for="Department" name="Department" class="form-control" id="department" placeholder="Enter Your Department Details">
+            <input asp-for="Department" name="Department" class="form-control" id="department" placeholder="Enter Your Department Details" required>
             <span asp-validation-for="Department" class="text-danger small-text"></span>
         </div>
         <div class="mt-3">
@@ -38,48 +46,48 @@
             <textarea asp-for="ProfileText" class="form-control" rows=4 id="myProfileText" placeholder="Enter your Comments" required></textarea>
             <span asp-validation-for="ProfileText" class="text-danger small-text"></span>
         </div>
-                
+        <div class="col-md-6 mt-3">
+            <label asp-for="Country" class="form-label">Country*</label>
+            <select asp-for="Country" name="Country" id="selectedCountry" class="form-select" aria-label=".form-select-lg example">
+                <option value="0" >Select Your Country</option>
+                    
+            </select>
+                <span asp-validation-for="Country" class="text-danger small-text"></span>
+        </div>        
         <div class="col-md-6 mt-3">
             <label asp-for="City" class="form-label" id="mission">City</label>
             <select asp-for="City" name="City" id="selectedCity" class="form-select" aria-label=".form-select-lg example">
-                <option value="0" selected>Select Your City</option>
-                        
+                <option value="0" >Select Your City</option>
                     
             </select>
                 <span asp-validation-for="City" class="text-danger small-text"></span>
         </div>
-        <div class="col-md-6 mt-3">
-            <label asp-for="Country" class="form-label">Country*</label>
-            <select asp-for="Country" name="Country" id="selectedCountry" class="form-select" aria-label=".form-select-lg example">
-                <option value="0" selected>Select Your Country</option>
-                        
-                    
-            </select>
-                <span asp-validation-for="Country" class="text-danger small-text"></span>
-        </div>
-        <div class="col-md-6 mt-3">
+        
+        <div class="col-12 mt-3">
             <label asp-for="Status" class="form-label">Status*</label>
-            <select asp-for="Status" name="Status" id="selectedCountry" class="form-select" aria-label=".form-select-lg example">
-                <option value="1" selected>Active</option>
-                <option value="0" selected>Disactive</option>
+            <select asp-for="Status" name="Status" id="selectedStatus" class="form-select" aria-label=".form-select-lg example">
+                <option value="1">Active</option>
+                <option value="0">Disactive</option>
                         
                     
             </select>
                 <span asp-validation-for="Status" class="text-danger small-text"></span>
         </div>
+
     </div>
     
 </div>
 
 <div class="d-flex justify-content-end my-5">
-    <button class="rec-btns px-4 text-muted" type="button" style="width:fit-content" onclick="" id="">
+    <a class="rec-btns px-4 text-muted text-decoration-none d-flex align-items-center" type="button" style="width:fit-content" asp-action="User" asp-controller="Admin">
         <span class="ps-2">Cancel</span>
-    </button> 
+    </a> 
     <button type="submit" formaction="@Url.Action("SaveUserDetails","Admin")" class="Apply-mission-btn px-4 ms-3" id = "saveSkillls">Save</button>
 </div>
 </form>
 
 <script>
+    var locations;
     $(document).ready( () => {
         $.ajax({
             url: '/UserProfile/GetCountries',
@@ -95,26 +103,42 @@
                     option.innerHTML = data[index].Name;
                     countries.append(option);
                     
-                    
                 } 
+                var email = document.getElementById("EmailId").value;
+                console.log(email);
+                if(email == null || email =="") return;
+                $.ajax({
+                    url: '/Admin/GetLocationDetails',
+                    type: 'GET',
+                    data: {Email: email},
+                    dataType: 'json',
+                    success:function (data) {
+                        console.log(data);
+                        locations = data;
+
+                        document.getElementById("selectedCountry").value = data[0];
+                        $.ajax({
+                            url: '/UserProfile/GetCities',
+                            type: 'POST',
+                            data: {CountryId: data[0]},
+                            dataType: 'json',
+                            success:function (data) {
+                                var cities = $("#selectedCity");
+                                for(var index in data){
+                                    var option = document.createElement("option");
+                                    option.value = data[index].CityId;
+                                    option.innerHTML = data[index].Name;
+                                    cities.append(option);
+                                } 
+                                document.getElementById("selectedCity").value = locations[1];
+                            }
+                        });
+                    }
+                });
             }
         });
 
-        $.ajax({
-            url: '/UserProfile/GetCities',
-            type: 'POST',
-            data: {CountryId: "0"},
-            dataType: 'json',
-            success:function (data) {
-                var cities = $("#selectedCity");
-                for(var index in data){
-                    var option = document.createElement("option");
-                    option.value = data[index].CityId;
-                    option.innerHTML = data[index].Name;
-                    cities.append(option);
-                } 
-            }
-        });
+        
 
         $("#selectedCountry").change( () => {
             var countryId = $("#selectedCountry").val();

@@ -1,26 +1,40 @@
 ﻿
-@model IEnumerable<CI_Platform.Models.ViewModels.AdminUserTableViewModel>
-
+@model IEnumerable<CI_Platform.Models.ViewModels.AdminCmsPageViewModel>
+@if(TempData["Description"] != null)
+{
+    <div class="alert alert-danger" style="" id="success-alert">
+       <strong>Failed</strong>
+        Description can not be Empty!!   Please try Again...
+    </div>
+}
+@if(TempData["Success"] != null)
+{
+    <div class="alert alert-success" style="" id="success-alert">
+       <strong>Success!!  </strong>
+        Data Added/Updated Successfully
+    </div>
+}
+<div class="alert alert-danger" style="display:none;" id="success-deleted">
+    <strong>Success</strong>
+    Data Deleted Successfully !!!!
+</div>
 <div class="border-bottom my-3">
     <div class="admin-table-heading pe-2">
-        <h2>User</h2>
+        <h2>CMS Page</h2>
     </div>
 </div>
 
 <div class="my-4 d-flex justify-content-between align-items-center">
     <input class="form-control mr-2" type="search" id="searchUser" placeholder="Search" aria-label="Search"  style="width:300px;"/>
-    <button type="button" onclick = "AddNewUser()" id="AddNewUser" class="Apply-mission-btn d-flex px-3 align-items-center text-decoration-none" ><i class="bi bi-plus-lg me-2"></i> Add</button>
+    <button type="button" onclick="AddCmsPage()" class="Apply-mission-btn d-flex px-3 align-items-center text-decoration-none" ><i class="bi bi-plus-lg me-2"></i> Add</button>
 </div>
 
-<div id="admin-table" class="my-4" style="overflow:auto;">
+<div id="admin-table" class="my-4">
     <table class="table border" id="myTimeTable">
         <thead>
             <tr>
-                <th scope="col">FirstName</th>
-                <th scope="col">LastName</th>
-                <th scope="col">Email</th>
-                <th scope="col">Employee Id</th>
-                <th scope="col">Department</th>
+                <th scope="col">Title</th>
+                    
                 <th scope="col" >Status</th>
                 <th scope="col">Action</th>
             </tr>
@@ -29,21 +43,16 @@
             @foreach(var item in @Model)
                 {
                     <tr>
-                        <td>@item.FirstName</td>
-                        <td>@item.LastName</td>
-                        <td>@item.Email</td>
-                        <td>@item.EmployeeId</td>
-                        <td>@item.Department</td>
+                        <td>@item.Title</td>
                     @if(@item.Status == "1")
                     {
                         <td style="color: #14C506">Active</td>
                     }else{
                         <td class="text-danger">Disactive</td>
                     }
-                    
                         <td>
-                            <i class="bi bi-pencil-square" style="color: #F88634;" onclick="editUser(@item.UserId)"></i>
-                            <i class="bi bi-trash" itemid="deleteUser" onclick="deleteUser(@item.UserId)"></i>
+                            <i class="bi bi-pencil-square" style="color: #F88634;" onclick="EditCms(@item.CmsPageId)"></i>
+                            <i class="bi bi-trash" onclick="DeleteCms(@item.CmsPageId)"></i>
                         </td>
                     </tr>
                 }
@@ -54,15 +63,23 @@
 
 @{
     int pageCount;
-    if(@Model.FirstOrDefault().TotalUsers % 9 == 0)
+    if(@Model != null)
     {
-        pageCount = @Model.FirstOrDefault().TotalUsers / 9;
-    }
-    else    
-    {
-        pageCount = @Model.FirstOrDefault().TotalUsers / 9 +1;
+        if(@Model.FirstOrDefault().TotalPages % 9 == 0)
+        {
+            pageCount = @Model.FirstOrDefault().TotalPages / 9;
+        }
+        else    
+        {
+            pageCount = @Model.FirstOrDefault().TotalPages / 9 +1;
 
+        }
     }
+    else
+    {
+        pageCount = -1;
+    }
+
 }
 <div id="paginationContainer">
         
@@ -86,7 +103,7 @@
     </div>
         
 </div>
-<div class="modal fade" id="DeleteUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="DeleteCms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header border-0">
@@ -106,17 +123,17 @@
                 <button class="rec-btns px-4 text-muted" type="button" onclick="dismissModal()" style="width:fit-content" data-dismiss="modal">
                     <span class="ps-2">Cancel</span>
                 </button> 
-                <button type="button" onclick="deleteUserBtn()" class="Apply-mission-btn px-4">Delete</button>
+                <button type="button" onclick="deleteCmsBtn()" class="Apply-mission-btn px-4">Delete</button>
             </div>
             
         </div>
     </div>
 </div>
-<script>
 
+<script>
     function updatePagination(total,currIndex){
         var pagination = $("#pagination");
-        var pages ;
+        var pages;
         var text="";
         pagination.empty();
 
@@ -125,8 +142,9 @@
         }else{
             pages = total/9 + 1;
         }
+        
         if(pages <2) return;
-        console.log(pages);
+        
         text += `<a id="fr"><img src="/images/previous.png" alt="Previous" /></a>
                 <a id="pre"><img src="/images/left.png" alt="Previous" /></a>`;
         for(var i=1;i < pages;i++){
@@ -147,7 +165,7 @@
     function ShowUsers(pageIndex){
         var text = $("#searchUser").val();
         $.ajax({
-            url: '/Admin/GetUpdatedUsers',
+            url: '/Admin/GetUpdatedCms',
             type: 'POST',
             data: {SearchText: text,
             PageIndex: pageIndex},
@@ -159,25 +177,21 @@
                 var optext = "";
                 for(var i=0;i<data.length;i++){
                     optext += `<tr>
-                            <td>${data[i].FirstName}</td>
-                            <td>${data[i].LastName}</td>
-                            <td>${data[i].Email}</td>
-                            <td>${data[i].EmployeeId}</td>
-                            <td>${data[i].Department}</td>`;
-                    if(data[i].Status == "0"){
-                        optext +=`<td class="text-danger">Disactive</td>`;
-                    }else{
+                            <td>${data[i].Title}</td>`;
+
+                    if(data[i].Status =="1"){
                         optext +=`<td style="color: #14C506">Active</td>`;
+                    }else{
+                        optext += `<td class="text-danger">Disactive</td>`;
                     }
-                    
                     optext += `<td>
-                                <i class="bi bi-pencil-square" onclick="editUser(${data[i].UserId })" style="color: #F88634;"></i>
-                                <i class="bi bi-trash" onclick="deleteUser(${data[i].UserId})"></i>
+                                <i class="bi bi-pencil-square" onclick="EditCms(${data[i].CmsPageId})" style="color: #F88634;"></i>
+                                <i class="bi bi-trash" onclick = "DeleteCms(${data[i].CmsPageId})"></i>
                             </td>
                         </tr>`;
                 }
                 tbody.html(optext);
-                updatePagination(data[0].TotalUsers, Number(pageIndex));
+                updatePagination(data[0].TotalPages, Number(pageIndex));
             },
             error:function(err){
                 console.log("errr");
@@ -252,10 +266,14 @@
             }
         });
     }
+    $(document).ready( function() {
+       setTimeout(function(){
+           $("#success-alert").hide();
+       },1500);
+    });
+
     
     $(document).ready( () => {
-        document.getElementById("menu").getElementsByTagName("li")[1].classList.add("active");
-        document.getElementById("menu").getElementsByTagName("li")[1].getElementsByTagName("a")[0].getElementsByTagName("img")[0].src = "/images/user-icon-active.png";
         $("#searchUser").keyup( () => {
             ShowUsers("1");
             var pagination = document.getElementById("pagination").getElementsByTagName("a");
@@ -269,6 +287,4 @@
 
         applypagination();
     });
-
-    
 </script>

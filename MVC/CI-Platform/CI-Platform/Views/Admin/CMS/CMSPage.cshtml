@@ -4,230 +4,74 @@
 }
 @model IEnumerable<CI_Platform.Models.ViewModels.AdminCmsPageViewModel>
 
-<div class="my-3 mx-4">
-    <div class="border-bottom my-3">
-        <div class="admin-table-heading pe-2">
-            <h2>CMS Page</h2>
-        </div>
-    </div>
-
-    <div class="my-4 d-flex justify-content-between align-items-center">
-        <input class="form-control mr-2" type="search" id="searchUser" placeholder="Search" aria-label="Search"  style="width:300px;"/>
-        <button type="button" id="" class="Apply-mission-btn d-flex px-3 align-items-center text-decoration-none" ><i class="bi bi-plus-lg me-2"></i> Add</button>
-    </div>
-
-    <div id="admin-table" class="my-4">
-        <table class="table border" id="myTimeTable">
-            <thead>
-                <tr>
-                    <th scope="col">Title</th>
-                    
-                    <th scope="col" >Status</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach(var item in @Model)
-                    {
-                        <tr>
-                            <td>@item.Title</td>
-                    
-                            <td class="status">Active</td>
-                            <td>
-                                <i class="bi bi-pencil-square" style="color: #F88634;"></i>
-                                <i class="bi bi-trash"></i>
-                            </td>
-                        </tr>
-                    }
-                
-            </tbody>
-        </table>
-    </div>
-
-    @{
-        int pageCount;
-        if(@Model.FirstOrDefault().TotalPages % 9 == 0)
-        {
-            pageCount = @Model.FirstOrDefault().TotalPages / 9;
-        }
-        else    
-        {
-            pageCount = @Model.FirstOrDefault().TotalPages / 9 +1;
-
-        }
-    }
-    <div id="paginationContainer">
-        
-        <div class="pagination d-flex justify-content-end mt-5 mb-5" id="pagination">
-        @if(@pageCount>1){
-                <a id="fr"><img src="~/images/previous.png" alt="Previous" /></a>
-                <a id="pre"><img src="~/images/left.png" alt="Previous" /></a>
-                @for(var i= 1; i <= @pageCount; i++){
-                    @if (i == 1)
-                    {
-                        <a  class="active pt-1" id="first">@i</a>
-                    }else{
-                        <a class="pt-1">@i</a>
-                    }
-                }
-
-                <a id="next"><img src="~/images/right-arrow1.png" alt="Previous" /></a>
-                <a id="last"><img src="~/images/next.png" alt="Previous" /></a>
-            
-            }
-        </div>
-        
-    </div>
+<div class="my-3 my-lg-5 mx-4 mx-lg-5" id="AdminCmsPage">
+    
 
 </div>
-
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
-    function updatePagination(total,currIndex){
-        var pagination = $("#pagination");
-        var pages ;
-        var text="";
-        pagination.empty();
-
-        if(total % 9 == 0){
-            pages = total/9;
-        }else{
-            pages = total/9 + 1;
-        }
-        if(pages <2) return;
-        console.log(pages);
-        text += `<a id="fr"><img src="/images/previous.png" alt="Previous" /></a>
-                <a id="pre"><img src="/images/left.png" alt="Previous" /></a>`;
-        for(var i=1;i < pages;i++){
-            console.log(i)
-            if(i == currIndex){
-                text += `<a  class="active pt-1" id="first">${i}</a>`;
-            }else{
-                text += `<a class="pt-1">${i}</a>`;
-            }
-        }
-        text += `<a id="next"><img src="/images/right-arrow1.png" alt="Previous" /></a>
-                <a id="last"><img src="/images/next.png" alt="Previous" /></a>`;
-        console.log(text);
-        pagination.html(text);
-        applypagination();
-    }
-
-    function ShowUsers(pageIndex){
-        var text = $("#searchUser").val();
+    function AddCmsPage(){
+        console.log("addcms");
         $.ajax({
-            url: '/Admin/GetUpdatedCms',
+            url: '/Admin/AddNewCmsPage',
+            type: 'GET',
+            data: {},
+            dataType: 'html',
+            success: function(data){
+                $("#AdminCmsPage").html(data);
+            }
+
+        });
+    }
+
+    function EditCms(id){
+        console.log(id)
+        $.ajax({
+            url: '/Admin/EditCmsPage',
+            type: 'GET',
+            data: {CmsId: id},
+            dataType: 'html',
+            success: function(data){
+                $("#AdminCmsPage").html(data);
+            }
+
+        });
+    }
+
+    function DeleteCms(id){
+        $("#DeleteCms").modal("show");
+        document.getElementById("targetId").value = id;
+    }
+    function deleteCmsBtn(){
+        var x = document.getElementById("targetId").value;
+        $.ajax({
+            url: '/Admin/DeleteCmsPage',
             type: 'POST',
-            data: {SearchText: text,
-            PageIndex: pageIndex},
-            dataType: 'json',
-            success:function (data) {
-                console.log(data);
-                var tbody = $("#myTimeTable tbody");
-                tbody.empty();
-                var optext = "";
-                for(var i=0;i<data.length;i++){
-                    optext += `<tr>
-                            <td>${data[i].Title}</td>
-                    
-                            <td class="status">Active</td>
-                            <td>
-                                <i class="bi bi-pencil-square" style="color: #F88634;"></i>
-                                <i class="bi bi-trash"></i>
-                            </td>
-                        </tr>`
-                }
-                tbody.html(optext);
-                updatePagination(data[0].TotalUsers, Number(pageIndex));
-            },
-            error:function(err){
-                console.log("errr");
+            data: {CmsId: Number(x)},
+            success: function(){
+                location.reload();
+                
             }
         });
     }
-
-    function applypagination(){
-        $("#pagination a").click( (e) =>{
-
-            var pagination = document.getElementById("pagination").getElementsByTagName("a");
-            if(e.target.id == "fr"){
-
-                for(i=0;i<pagination.length;i++){
-                    if(pagination[i].classList.contains("active")){
-                        pagination[i].classList.remove("active");
-                    }
-                }
-                document.getElementById("first").classList.add("active");
-                ShowUsers("1");
-
-            }else if(e.target.id == "last"){
-                    
-                    console.log("sds")
-                for(i=0;i<pagination.length;i++){
-                    if(pagination[i].classList.contains("active")){
-                        pagination[i].classList.remove("active");
-                    }
-                }
-                pagination[pagination.length - 3].classList.add("active");
-                ShowUsers(pagination[pagination.length - 3].innerHTML);
-                
-            }else if(e.target.id == "next"){
-                
-                for(i=0;i<pagination.length;i++){
-                    if(pagination[i].classList.contains("active")){
-                        if(pagination[i].innerHTML != pagination[pagination.length - 3].innerHTML){
-                            pagination[i].classList.remove("active");
-                            pagination[i+1].classList.add("active");
-                            ShowUsers(pagination[i+1].innerHTML);
-                        }
-                        break;
-                    }
-                        
-                }
-            
-            }else if(e.target.id == "pre"){
-                for(i=0;i<pagination.length;i++){
-                    console.log(pagination[i])
-                    if(pagination[i].classList.contains("active")){
-                            
-                        if(pagination[i].innerHTML != pagination[2].innerHTML){
-                            console.log("not1st")
-                            pagination[i].classList.remove("active");
-                            pagination[i-1].classList.add("active");
-                            ShowUsers(pagination[i-1].innerHTML);
-                        }
-                        break;
-                    }
-                        
-                }
-                    
-            }else{
-                $('#paginationContainer div a').each(function(){
-                    var x = $(this);
-                    if(x.hasClass('active')){
-                        x.removeClass('active');
-                    }
-                });
-                e.target.classList.add('active');
-                ShowUsers(e.target.innerHTML);
-            }
-        });
+    function dismissModal(){
+        $("#DeleteCms").modal("hide");
     }
-
     $(document).ready( () => {
+        $.ajax({
+            url: '/Admin/GetCmsPages',
+            type: 'GET',
+            data: {},
+            dataType: 'html',
+            success:function (data) {
+                $("#AdminCmsPage").html(data);
+            }
+        });
+
         document.getElementById("menu").getElementsByTagName("li")[2].classList.add("active");
         document.getElementById("menu").getElementsByTagName("li")[2].getElementsByTagName("a")[0].getElementsByTagName("img")[0].src = "/images/page-active.png";
-        $("#searchUser").keyup( () => {
-            ShowUsers("1");
-            var pagination = document.getElementById("pagination").getElementsByTagName("a");
-            for(i=0;i<pagination.length;i++){
-                if(pagination[i].classList.contains("active")){
-                    pagination[i].classList.remove("active");
-                }
-            }
-            document.getElementById("first").classList.add("active");
-        });
+        
 
-        applypagination();
     });
 
 </script>

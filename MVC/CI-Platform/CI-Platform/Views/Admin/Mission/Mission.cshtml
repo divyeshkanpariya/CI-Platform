@@ -1,0 +1,47 @@
+﻿
+@{
+    Layout = "Admin_Layout";
+}
+
+<div class="my-3 my-lg-5 mx-4 mx-lg-5" id="AdminMissionPage">
+    
+
+</div>
+
+
+
+<script>
+    function deleteMission(id){
+        $("#DeleteMission").modal("show");
+        document.getElementById("targetId").value = id;
+    }
+    function deleteMissionBtn(){
+        var x = document.getElementById("targetId").value;
+        $.ajax({
+            url: '/Admin/DeleteMission',
+            type: 'POST',
+            data: {MissionId: Number(x)},
+            success: function(){
+                location.reload();
+            }
+
+        });
+    }
+    function dismissModal(){
+        $("#DeleteMission").modal("hide");
+    }
+    $(document).ready( () => {
+        $.ajax({
+            url: '/Admin/GetMissions',
+            type: 'GET',
+            data: {},
+            dataType: 'html',
+            success:function (data) {
+                $("#AdminMissionPage").html(data);
+            }
+        });
+
+        document.getElementById("menu").getElementsByTagName("li")[3].classList.add("active");
+        document.getElementById("menu").getElementsByTagName("li")[3].getElementsByTagName("a")[0].getElementsByTagName("img")[0].src = "/images/bullseye-active.png";
+    })
+</script>

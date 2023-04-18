@@ -24,7 +24,8 @@ namespace CI_Platform.Repository.Repositories
         {
             List<AdminUserTableViewModel> UsersList = new List<AdminUserTableViewModel>();
             var Users = (from u in _db.Users
-                    where u.FirstName.Contains(searchText) || u.LastName.Contains(searchText) || u.Email.Contains(searchText)
+                    where (u.FirstName.Contains(searchText) || u.LastName.Contains(searchText) || u.Email.Contains(searchText))
+                    && (u.DeletedAt == null)
                     select new
                     {
                         u.UserId,
@@ -65,6 +66,7 @@ namespace CI_Platform.Repository.Repositories
             return UsersList;
         }
 
+
         public AdminAddUserViewModel getUserDetails(long UserId)
         {
             User Userdetails = _UserList.GetFirstOrDefault(x => x.UserId == UserId);
@@ -81,6 +83,72 @@ namespace CI_Platform.Repository.Repositories
                 Status = Convert.ToChar(Userdetails.Status),
             };
             return ViewModel;
+        }
+
+        public List<string> getUserLocation(string Email)
+        {
+            List<string> locations = new List<string>();
+            if (Email != null)
+            {
+                User user = _UserList.GetFirstOrDefault(user => user.Email == Email);
+                if (user != null)
+                {
+                    locations.Add(user.CountryId.ToString());
+                    locations.Add(user.CityId.ToString());
+                }
+            }
+            return locations;
+        }
+
+        public void SaveUserDetails(AdminAddUserViewModel model)
+        {
+            if(_UserList.ExistUser(user => user.Email == model.Email))
+            {
+                User user = _UserList.GetFirstOrDefault(user => user.Email == model.Email);
+                user.Email = model.Email;
+                user.CountryId = Convert.ToInt64(model.Country);
+                user.CityId = Convert.ToInt64(model.City);
+                user.FirstName = model.Name;
+                user.LastName = model.Surname;
+                user.EmployeeId = model.EmployeeId;
+                user.Department = model.Department;
+                user.ProfileText = model.ProfileText;
+                user.Status = model.Status.ToString();
+                user.UpdatedAt = DateTime.Now;
+                _UserList.Update(user);
+                _UserList.Save();
+
+            }
+            else
+            {
+                User newUser = new User()
+                {
+                    Email = model.Email,
+                    FirstName = model.Name,
+                    LastName = model.Surname,
+                    Department = model.Department,
+                    EmployeeId = model.EmployeeId,
+                    ProfileText = model.ProfileText,
+                    CityId = Convert.ToInt64(model.City),
+                    CountryId = Convert.ToInt64(model.Country),
+                    Status = model.Status.ToString(),
+                    Password = Guid.NewGuid().ToString(),
+                };
+
+                _UserList.AddNew(newUser);
+                _UserList.Save();
+            }
+        }
+
+        public void DeleteUser(long UserId)
+        {
+            if(_UserList.ExistUser(u => u.UserId == UserId))
+            {
+                User user = _UserList.GetFirstOrDefault(u => u.UserId == UserId);
+                user.DeletedAt = DateTime.Now;
+                _UserList.Update(user);
+                _UserList.Save();
+            }
         }
     }
 }

@@ -12,5 +12,11 @@ namespace CI_Platform.Repository.Interface
     {
         public IEnumerable<AdminCmsPageViewModel> getCmsPages(string searchText, int pageIndex);
 
+        public AdminAddCmsViewModel getCmsDetails(long CmsId);
+
+        public void SaveCmsPage(AdminAddCmsViewModel model);
+
+        public void DeleteCmsPage(long CmsId);
+
     }
 }

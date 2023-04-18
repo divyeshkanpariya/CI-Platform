@@ -1,27 +1,24 @@
-﻿
-@model IEnumerable<CI_Platform.Models.ViewModels.AdminUserTableViewModel>
+﻿@model IEnumerable<CI_Platform.Models.ViewModels.AdminMissionTableViewModel>
 
 <div class="border-bottom my-3">
     <div class="admin-table-heading pe-2">
-        <h2>User</h2>
+        <h2>Mission</h2>
     </div>
 </div>
 
 <div class="my-4 d-flex justify-content-between align-items-center">
     <input class="form-control mr-2" type="search" id="searchUser" placeholder="Search" aria-label="Search"  style="width:300px;"/>
-    <button type="button" onclick = "AddNewUser()" id="AddNewUser" class="Apply-mission-btn d-flex px-3 align-items-center text-decoration-none" ><i class="bi bi-plus-lg me-2"></i> Add</button>
+    <button type="button" onclick = "AddNewMission()" id="AddNewUser" class="Apply-mission-btn d-flex px-3 align-items-center text-decoration-none" ><i class="bi bi-plus-lg me-2"></i> Add</button>
 </div>
 
 <div id="admin-table" class="my-4" style="overflow:auto;">
     <table class="table border" id="myTimeTable">
         <thead>
             <tr>
-                <th scope="col">FirstName</th>
-                <th scope="col">LastName</th>
-                <th scope="col">Email</th>
-                <th scope="col">Employee Id</th>
-                <th scope="col">Department</th>
-                <th scope="col" >Status</th>
+                <th scope="col">Mission Title</th>
+                <th scope="col">Mission Type</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
@@ -29,21 +26,20 @@
             @foreach(var item in @Model)
                 {
                     <tr>
-                        <td>@item.FirstName</td>
-                        <td>@item.LastName</td>
-                        <td>@item.Email</td>
-                        <td>@item.EmployeeId</td>
-                        <td>@item.Department</td>
-                    @if(@item.Status == "1")
+                        <td>@item.Title</td>
+                       
+                    @if(@item.MissionType == "Go")
                     {
-                        <td style="color: #14C506">Active</td>
+                        <td>Goal</td>
                     }else{
-                        <td class="text-danger">Disactive</td>
+                         <td>@item.MissionType</td>
                     }
-                    
+                        <td>@item.StartDate.ToString().Split(" ")[0]</td>
+                        <td>@item.EndDate.ToString().Split(" ")[0]</td>
+                   
                         <td>
-                            <i class="bi bi-pencil-square" style="color: #F88634;" onclick="editUser(@item.UserId)"></i>
-                            <i class="bi bi-trash" itemid="deleteUser" onclick="deleteUser(@item.UserId)"></i>
+                            <i class="bi bi-pencil-square" style="color: #F88634;" onclick="editUser(@item.MissionId)"></i>
+                            <i class="bi bi-trash" itemid="deleteUser" onclick="deleteMission(@item.MissionId)"></i>
                         </td>
                     </tr>
                 }
@@ -54,13 +50,13 @@
 
 @{
     int pageCount;
-    if(@Model.FirstOrDefault().TotalUsers % 9 == 0)
+    if(@Model.FirstOrDefault().TotalMissions % 9 == 0)
     {
-        pageCount = @Model.FirstOrDefault().TotalUsers / 9;
+        pageCount = @Model.FirstOrDefault().TotalMissions / 9;
     }
     else    
     {
-        pageCount = @Model.FirstOrDefault().TotalUsers / 9 +1;
+        pageCount = @Model.FirstOrDefault().TotalMissions / 9 +1;
 
     }
 }
@@ -86,7 +82,7 @@
     </div>
         
 </div>
-<div class="modal fade" id="DeleteUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="DeleteMission" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header border-0">
@@ -106,17 +102,18 @@
                 <button class="rec-btns px-4 text-muted" type="button" onclick="dismissModal()" style="width:fit-content" data-dismiss="modal">
                     <span class="ps-2">Cancel</span>
                 </button> 
-                <button type="button" onclick="deleteUserBtn()" class="Apply-mission-btn px-4">Delete</button>
+                <button type="button" onclick="deleteMissionBtn()" class="Apply-mission-btn px-4">Delete</button>
             </div>
             
         </div>
     </div>
 </div>
+
 <script>
 
     function updatePagination(total,currIndex){
         var pagination = $("#pagination");
-        var pages ;
+        var pages;
         var text="";
         pagination.empty();
 
@@ -125,8 +122,9 @@
         }else{
             pages = total/9 + 1;
         }
+        
         if(pages <2) return;
-        console.log(pages);
+        
         text += `<a id="fr"><img src="/images/previous.png" alt="Previous" /></a>
                 <a id="pre"><img src="/images/left.png" alt="Previous" /></a>`;
         for(var i=1;i < pages;i++){
@@ -147,7 +145,7 @@
     function ShowUsers(pageIndex){
         var text = $("#searchUser").val();
         $.ajax({
-            url: '/Admin/GetUpdatedUsers',
+            url: '/Admin/GetUpdatedMissions',
             type: 'POST',
             data: {SearchText: text,
             PageIndex: pageIndex},
@@ -158,26 +156,33 @@
                 tbody.empty();
                 var optext = "";
                 for(var i=0;i<data.length;i++){
-                    optext += `<tr>
-                            <td>${data[i].FirstName}</td>
-                            <td>${data[i].LastName}</td>
-                            <td>${data[i].Email}</td>
-                            <td>${data[i].EmployeeId}</td>
-                            <td>${data[i].Department}</td>`;
-                    if(data[i].Status == "0"){
-                        optext +=`<td class="text-danger">Disactive</td>`;
+                    var startdate,enddate;
+
+                    if(data[i].StartDate != null){
+                        var startdate = data[i].StartDate.toString();
+                        startdate = startdate.substring(8,10)+"-" + startdate.substring(5,7)+"-" + startdate.substring(0,4);
                     }else{
-                        optext +=`<td style="color: #14C506">Active</td>`;
+                        startdate = "";
                     }
-                    
-                    optext += `<td>
-                                <i class="bi bi-pencil-square" onclick="editUser(${data[i].UserId })" style="color: #F88634;"></i>
-                                <i class="bi bi-trash" onclick="deleteUser(${data[i].UserId})"></i>
+                    if(data[i].EndDate != null){
+                        var enddate = data[i].EndDate.toString();
+                        enddate =  enddate.substring(8,10)+"-" + enddate.substring(5,7)+"-" + enddate.substring(0,4);
+                    }else{
+                        enddate = "";
+                    }
+                    optext += `<tr>
+                            <td>${data[i].Title}</td>
+                            <td>${data[i].MissionType}</td>
+                            <td>${startdate}</td>
+                            <td>${enddate}</td>
+                            <td>
+                                <i class="bi bi-pencil-square" onclick="EditCms(${data[i].MissionId})" style="color: #F88634;"></i>
+                                <i class="bi bi-trash" onclick = "DeleteCms(${data[i].MissionId})"></i>
                             </td>
-                        </tr>`;
+                        </tr>`
                 }
                 tbody.html(optext);
-                updatePagination(data[0].TotalUsers, Number(pageIndex));
+                updatePagination(data[0].TotalMissions, Number(pageIndex));
             },
             error:function(err){
                 console.log("errr");
@@ -252,10 +257,7 @@
             }
         });
     }
-    
     $(document).ready( () => {
-        document.getElementById("menu").getElementsByTagName("li")[1].classList.add("active");
-        document.getElementById("menu").getElementsByTagName("li")[1].getElementsByTagName("a")[0].getElementsByTagName("img")[0].src = "/images/user-icon-active.png";
         $("#searchUser").keyup( () => {
             ShowUsers("1");
             var pagination = document.getElementById("pagination").getElementsByTagName("a");
@@ -269,6 +271,4 @@
 
         applypagination();
     });
-
-    
 </script>

@@ -12,5 +12,11 @@ namespace CI_Platform.Repository.Interface
         public IEnumerable<AdminUserTableViewModel> UsersList(string searchtext, int pageIndex);
 
         public AdminAddUserViewModel getUserDetails(long UserId);
+
+        public List<string> getUserLocation(string Email);
+
+        public void SaveUserDetails(AdminAddUserViewModel model);
+
+        public void DeleteUser(long UserId);
     }
 }

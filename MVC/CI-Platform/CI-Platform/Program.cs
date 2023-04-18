@@ -57,6 +57,7 @@ builder.Services.AddScoped<IMissionCardRepository,MissionCardRepository>();
 
 builder.Services.AddScoped<IAdminUserPageRepositoty,AdminUserPageRepository>();
 builder.Services.AddScoped<IAdminCMSPageRepository,AdminCMSPageRepository>();
+builder.Services.AddScoped<IAdminMissionPageRepository,AdminMissionPageRepository>();
 
 
 builder.Services.AddSession();

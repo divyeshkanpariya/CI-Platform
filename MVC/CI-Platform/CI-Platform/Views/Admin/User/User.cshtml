@@ -10,6 +10,9 @@
 </div>
 
 <script>
+    function dismissModal(){
+        $("#DeleteUser").modal("hide");
+    }
     function AddNewUser(){
         $.ajax({
             url: '/Admin/AddNewUser',
@@ -31,6 +34,23 @@
             dataType: 'html',
             success: function(data){
                 $("#AdminUserMain").html(data);
+            }
+
+        });
+    }
+    function deleteUser(UserId){
+        $("#DeleteUser").modal("show");
+        document.getElementById("targetId").value = UserId;
+        
+    }
+    function deleteUserBtn(){
+        var x = document.getElementById("targetId").value;
+        $.ajax({
+            url: '/Admin/DeleteUser',
+            type: 'POST',
+            data: {UserId: Number(x)},
+            success: function(){
+                location.reload();
             }
 
         });

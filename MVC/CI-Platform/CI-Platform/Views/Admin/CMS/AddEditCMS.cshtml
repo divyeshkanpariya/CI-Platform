@@ -1,0 +1,73 @@
+﻿
+@model CI_Platform.Models.ViewModels.AdminAddCmsViewModel
+
+<form method="post">
+<div class="border" style="box-shadow: 3px 5px 10px #00000014;">
+    <div class="admin-form-heading border-bottom px-3 py-3">
+        @if(@Model.Title != null)
+        {
+            <h3>Edit</h3>
+        }
+        else
+        {
+            <h3>Add</h3>
+        }
+            
+    </div>
+
+    @if(@Model.Id != null){
+        <input asp-for="Id" value= "@Model.Id"  type="hidden"/>
+    }else{
+        <input asp-for="Id" value= "0"  type="hidden"/>
+    }
+    <div class="row px-3 mb-3">
+        <div class="col-12 mt-3">
+            <label class="form-label" asp-for="Title">Title*</label>
+            <input asp-for="Title" name="Title" class="form-control" id="title" placeholder="Enter Title" autofocus required>
+            <span asp-validation-for="Title" class="text-danger small-text"></span>
+        </div>
+        <div class="col-12 mt-3">
+            <label asp-for="Description" class="form-label">My Story</label>
+            <div class="form-group">
+                <textarea asp-for="Description" name="Description" id="editor"></textarea>
+                <span asp-validation-for="Description" class="text-danger small-text"></span>
+
+            </div>
+        </div>
+        <div class="col-12 mt-3">
+            <label class="form-label" asp-for="Slug">Slug</label>
+            <input asp-for="Slug" name="Slug" class="form-control" id="slug" placeholder="Slug" required>
+            <span asp-validation-for="Slug" class="text-danger small-text"></span>
+        </div>
+
+        <div class="col-12 mt-3">
+            <label asp-for="Status" class="form-label">Status*</label>
+            <select asp-for="Status" name="Status" id="selectedStatus" class="form-select" aria-label=".form-select-lg example">
+                <option value="1">Active</option>
+                <option value="0">Disactive</option>
+                        
+                    
+            </select>
+                <span asp-validation-for="Status" class="text-danger small-text"></span>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-end my-5">
+    <a class="rec-btns px-4 text-muted text-decoration-none d-flex align-items-center" type="button" style="width:fit-content" asp-action="User" asp-controller="Admin">
+        <span class="ps-2">Cancel</span>
+    </a> 
+    <button type="submit" formaction="@Url.Action("SaveCmsDetails","Admin")" class="Apply-mission-btn px-4 ms-3" id = "saveSkillls">Save</button>
+</div>
+</form>
+
+<script>
+    tinymce.init({
+        selector: 'textarea#editor',
+        //statusbar: false,
+        skin: 'bootstrap',
+        plugins: 'lists, link, image, media',
+        toolbar: 'bold italic underline strikethrough forecolor backcolor bullist numlist indent outdent image link media undo redo removeformat',
+        menubar: false,
+    });
+</script>

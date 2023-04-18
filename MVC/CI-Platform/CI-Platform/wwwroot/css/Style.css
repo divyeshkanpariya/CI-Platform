@@ -1186,3 +1186,10 @@ output .span--hidden {
 .status {
     color: #14C506;
 }
+
+.tox-toolbar__primary {
+    background-color: #E8E8E8 !important;
+}
+.tox-editor-header {
+    background-color: #E8E8E8 !important;
+}
