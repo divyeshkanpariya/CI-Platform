@@ -9,7 +9,7 @@ public partial class MissionTheme
 
     public string? Title { get; set; }
 
-    public byte Status { get; set; }
+    public string Status { get; set; } = null!;
 
     public DateTime CreatedAt { get; set; }
 

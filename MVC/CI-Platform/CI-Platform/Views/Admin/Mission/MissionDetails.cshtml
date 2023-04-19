@@ -38,7 +38,7 @@
                         <td>@item.EndDate.ToString().Split(" ")[0]</td>
                    
                         <td>
-                            <i class="bi bi-pencil-square" style="color: #F88634;" onclick="editUser(@item.MissionId)"></i>
+                            <i class="bi bi-pencil-square" style="color: #F88634;" onclick="EditMission(@item.MissionId)"></i>
                             <i class="bi bi-trash" itemid="deleteUser" onclick="deleteMission(@item.MissionId)"></i>
                         </td>
                     </tr>
@@ -176,8 +176,8 @@
                             <td>${startdate}</td>
                             <td>${enddate}</td>
                             <td>
-                                <i class="bi bi-pencil-square" onclick="EditCms(${data[i].MissionId})" style="color: #F88634;"></i>
-                                <i class="bi bi-trash" onclick = "DeleteCms(${data[i].MissionId})"></i>
+                                <i class="bi bi-pencil-square" onclick="EditMission(${data[i].MissionId})" style="color: #F88634;"></i>
+                                <i class="bi bi-trash" onclick = "deleteMission(${data[i].MissionId})"></i>
                             </td>
                         </tr>`
                 }

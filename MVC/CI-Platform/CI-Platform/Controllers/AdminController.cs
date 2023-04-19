@@ -170,7 +170,35 @@ namespace CI_Platform.Controllers
 
         public void DeleteMission(long MissionId)
         {
-
+            _adminMissionPageRepo.DeleteMission(MissionId);
         }
+        public IActionResult AddNewMission()
+        {
+            AdminAddEditMissionViewModel viewModel = new AdminAddEditMissionViewModel();
+            return PartialView("~/Views/Admin/Mission/AddEditMission.cshtml",viewModel);
+        }
+
+        public IActionResult EditMission(long MissionId)
+        {
+            AdminAddEditMissionViewModel viewModel = _adminMissionPageRepo.GetMissionDetails(MissionId);
+            return PartialView("~/Views/Admin/Mission/AddEditMission.cshtml", viewModel);
+        }
+
+        public IActionResult SaveMissionDetails(IFormCollection formData)
+        {
+            return View("Mission/Mission");
+        }
+        public IActionResult GetMissionLoc(string Mid)
+        {
+            List<string> result = _adminMissionPageRepo.GetMissionLoc(Convert.ToInt64(Mid));
+            return Json(result);
+        }
+
+        public string GetMissionThemes()
+        {
+            //IEnumerable<MissionTheme> themes = 
+            return JsonSerializer.Serialize(_adminMissionPageRepo.getMissionThemes());
+        }
+
     }
 }

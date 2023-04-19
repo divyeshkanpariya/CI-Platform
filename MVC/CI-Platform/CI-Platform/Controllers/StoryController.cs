@@ -7,10 +7,6 @@ namespace CI_Platform.Controllers
 {
     public class StoryController : Controller
     {
-        private readonly IMissionListingRepository _missionListingDb;
-        private readonly IMissionCardRepository _MissionCard;
-        private readonly IVolunteeringMissionRepository _VolunteeringMission;
-        private readonly IFavouriteMission _FavouriteMissions;
         private readonly IRepository<City> _Cities;
         private readonly IStoryListingRepository _StoriyListingDb;
         private readonly IStoryCardRepository _StoryCard;
@@ -20,11 +16,7 @@ namespace CI_Platform.Controllers
         private readonly IRepository<Story> _StoryList;
         private readonly IRepository<Mission> _Missions;
         public StoryController(
-            IMissionListingRepository missionListingDb,
-            IMissionCardRepository MissionCard,
             IRepository<City> Cities,
-            IVolunteeringMissionRepository volunteeringMission,
-            IFavouriteMission FavouriteMissions,
             IStoryListingRepository StoryListingDb,
             IStoryCardRepository StoryCards,
             IShareStoryRepository ShareStory,
@@ -34,11 +26,7 @@ namespace CI_Platform.Controllers
             IRepository<Mission> Missions)
         {
 
-            _missionListingDb = missionListingDb;
-            _MissionCard = MissionCard;
             _Cities = Cities;
-            _VolunteeringMission = volunteeringMission;
-            _FavouriteMissions = FavouriteMissions;
             _StoriyListingDb = StoryListingDb;
             _StoryCard = StoryCards;
             _ShareStory = ShareStory;
@@ -164,16 +152,15 @@ namespace CI_Platform.Controllers
             {
                 return View();
             }
-            return View();
+            
         }
 
         [HttpPost]
         public IActionResult SaveStoryDraft(IFormCollection formData)
         {
-            long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
-
             ShareYourStoryViewModel viewModel = new ShareYourStoryViewModel()
             {
+                
                 Mission = formData["Mission"],
                 Date = Convert.ToDateTime(formData["Date"]),
                 StoryTitle = formData["StoryTitle"],

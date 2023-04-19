@@ -1110,7 +1110,10 @@ output .span--hidden {
 .admin-sidebar {
     background-color: #F88634;
     color:white !important;
-
+    /*position:fixed;*/
+}
+.admin-pages-right-content {
+    /*position:relative;*/
 }
 #menu li a img {
     width: 25px;
@@ -1192,4 +1195,8 @@ output .span--hidden {
 }
 .tox-editor-header {
     background-color: #E8E8E8 !important;
+}
+
+#AdminSkillDropdown li:hover {
+    background-color: #E8E8E8;
 }

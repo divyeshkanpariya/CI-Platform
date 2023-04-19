@@ -13,11 +13,7 @@ namespace CI_Platform.Controllers
 {
     public class AuthController : Controller
     {
-        /*private readonly CiPlatformIContext  _db;
-        public AuthController(CiPlatformContext db)
-        {
-            _db = db;
-        }*/
+       
         private readonly IRegistrationRepository _registrationDb;
         private readonly ILostPasswordRepository _LostPwdDb;
         private readonly IResetPasswordRepository _ResetPwdDb;

@@ -686,7 +686,8 @@ public partial class CiPlatformContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("deleted_at");
             entity.Property(e => e.Status)
-                .HasDefaultValueSql("((1))")
+                .HasMaxLength(4)
+                .IsUnicode(false)
                 .HasColumnName("status");
             entity.Property(e => e.Title)
                 .HasMaxLength(255)
@@ -737,6 +738,8 @@ public partial class CiPlatformContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("skill_name");
             entity.Property(e => e.Status)
+                .HasMaxLength(4)
+                .IsUnicode(false)
                 .HasDefaultValueSql("((1))")
                 .HasColumnName("status");
             entity.Property(e => e.UpdatedAt)
@@ -870,7 +873,7 @@ public partial class CiPlatformContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(20)
                 .IsUnicode(false)
-                .HasDefaultValueSql("('PENDING')")
+                .HasDefaultValueSql("('SUBMIT_FOR_APPROVAL')")
                 .HasColumnName("status");
             entity.Property(e => e.Time).HasColumnName("time");
             entity.Property(e => e.UpdatedAt)

@@ -8,9 +8,33 @@
 
 </div>
 
-
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
 <script>
+    function EditMission(id){
+        $.ajax({
+            url: '/Admin/EditMission',
+            type: 'GET',
+            data: {MissionId: id},
+            dataType: 'html',
+            success:function (data) {
+                $("#AdminMissionPage").html(data);
+            }
+        });
+    }
+
+    function AddNewMission(){
+        $.ajax({
+            url: '/Admin/AddNewMission',
+            type: 'GET',
+            data: {},
+            dataType: 'html',
+            success:function (data) {
+                $("#AdminMissionPage").html(data);
+            }
+        });
+    }
+
     function deleteMission(id){
         $("#DeleteMission").modal("show");
         document.getElementById("targetId").value = id;

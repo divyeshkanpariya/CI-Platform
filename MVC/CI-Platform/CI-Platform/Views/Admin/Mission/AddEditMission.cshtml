@@ -1,1 +1,600 @@
 ﻿
+@model CI_Platform.Models.ViewModels.AdminAddEditMissionViewModel
+
+<form method="post" enctype="multipart/form-data">
+<div class="border" style="box-shadow: 3px 5px 10px #00000014;">
+    <div class="admin-form-heading border-bottom px-3 py-3">
+        @if(@Model.MissionId != null && @Model.MissionId != 0)
+        {
+            <h3>Edit</h3>
+        }
+        else
+        {
+            <h3>Add</h3>
+        }
+            
+    </div>
+
+    @if(@Model.MissionId != null){
+        <input asp-for="MissionId" value= "@Model.MissionId" id="missionId"  type="hidden"/>
+    }else{
+        <input asp-for="MissionId" value= "0"  type="hidden" id="missionId"/>
+    }
+    <div class="row px-3 px-md-5 mb-3">
+
+        <ul class="nav nav-tabs mt-3"  role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" type="button" >
+                    Basic Information
+                </button>
+            </li>
+            
+        </ul>
+        <div class="col-12 mt-3">
+            <label class="form-label" asp-for="Title">Title*</label>
+            <input asp-for="Title" name="Title" class="form-control" id="Title" placeholder="Enter Title" autofocus required>
+            <span asp-validation-for="Title" class="text-danger small-text"></span>
+        </div>
+        <div class="col-12 mt-3">
+            <label asp-for="Description" class="form-label">Short Description</label>
+            <div class="form-group">
+                <textarea asp-for ="ShortDescription" class="form-control" name="ShortDescription" id="ShortDescription" placeholder="Enter Short Description"></textarea>
+                <span asp-validation-for="ShortDescription" class="text-danger small-text"></span>
+            </div>
+            
+        </div>
+
+        <div class="col-12 mt-3">
+            <label asp-for="Description" class="form-label">Description</label>
+            <div class="form-group">
+                <textarea asp-for="Description" name="Description" id="editor"></textarea>
+                <span asp-validation-for="Description" class="text-danger small-text"></span>
+
+            </div>
+        </div>
+        <div class="col-sm-6 col-12 mt-3">
+            <label asp-for="StartDate" class="form-label" for="GoalDate">Start Date</label>
+            <input asp-for="StartDate" name="StartDate" class="form-control" type="date" id="StartDate" >
+            <span asp-validation-for="StartDate" class="text-danger small-text"></span>
+        </div>
+        <div class="col-sm-6 col-12 mt-3">
+            <label asp-for="EndDate" class="form-label" for="GoalDate">End Date</label>
+            <input asp-for="EndDate" name="EndDate" class="form-control" type="date" id="EndDate" >
+            <span asp-validation-for="EndDate" class="text-danger small-text"></span>
+        </div>
+
+        <div class="col-12 col-sm-6 mt-3">
+            <label asp-for="Availability" class="form-label">Availability*</label>
+            <select asp-for="Availability" name="Availability" id="selectedAvailability" class="form-select" aria-label=".form-select-lg example">
+                <option value="0">Select Availability</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="week-end">Week End</option>
+                <option value="monthly">Monthly</option>
+                        
+                    
+            </select>
+                <span asp-validation-for="Availability" class="text-danger small-text"></span>
+        </div>
+        <div class="col-12 col-sm-6 mt-3">
+            <label for="Skills" class="form-label">Skills*</label>
+                        <div class="button-group w-100">
+                            <button type="button" class="btn btn-default w-100 dropdown-toggle border text-start" data-toggle="dropdown"><span class="">Skills</span></button>
+                            <ul class="dropdown-menu" id="AdminSkillDropdown">
+                               
+                            </ul>
+                        </div>
+            
+        </div>
+
+        <div class="col-sm-6 col-12 mt-3">
+            <label asp-for="ThemeId" class="form-label">Theme*</label>
+            <select asp-for="ThemeId" name="Status" id="selectedTheme" class="form-select" aria-label=".form-select-lg example">
+                <option value="">Select Theme</option>
+                        
+                    
+            </select>
+                <span asp-validation-for="ThemeId" class="text-danger small-text"></span>
+        </div>
+        <div class="col-sm-6 col-12 mt-3">
+            <label asp-for="MissionType" class="form-label">Mission Type*</label>
+            <select asp-for="MissionType" name="MissionType" id="selectedtype" class="form-select" aria-label=".form-select-lg example">
+                <option value="Time">Time</option>
+                <option value="Go">Goal</option>
+                        
+            </select>
+                <span asp-validation-for="MissionType" class="text-danger small-text"></span>
+        </div>
+
+        @* -------------If Mission Type Goal ------------ *@
+
+        <ul class="nav nav-tabs mx-3 mt-3 missionTypeGoal"  role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" type="button" >
+                    Goal Values
+                </button>
+            </li>
+            
+        </ul>
+        
+        <div class="col-12 col-sm-6 mt-3 missionTypeGoal">
+            <label class="form-label" asp-for="GoalObjectiveText">Goal Value</label>
+            <input class="form-control" asp-for="GoalObjectiveText" id="GoalObjectiveText" name="GoalObjectiveText" placeholder="Enter Goal Objective Text" >
+            <span asp-validation-for="GoalObjectiveText" class="text-danger small-text"></span>
+        </div>
+        <div class="col-12 col-sm-6 mt-3 missionTypeGoal">
+            <label class="form-label" asp-for="GoalValue">Goal Value</label>
+            <input type="number" class="form-control" asp-for="GoalValue" id="GoalValue" name="GoalValue" placeholder="Enter Goal Value" >
+            <span asp-validation-for="GoalValue" class="text-danger small-text"></span>
+        </div>
+
+        @* -------------If Mission Type Time ------------ *@
+        
+        <ul class="nav nav-tabs mt-3 missionTypeTime"  role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" type="button" >
+                    Mission Type Time
+                </button>
+            </li>
+            
+        </ul>
+        <div class="col-12 col-sm-6 mt-3 missionTypeTime">
+            <label class="form-label" asp-for="TotalSeats">Total Seats</label>
+            <input type="number" class="form-control" asp-for="TotalSeats" id="TotalSeats" name="TotalSeats" placeholder="Enter Total Seats" >
+            <span asp-validation-for="TotalSeats" class="text-danger small-text"></span>
+        </div>
+
+        <div class="col-sm-6 col-12 mt-3 missionTypeTime">
+            <label asp-for="RegistrationDeadline" class="form-label" for="GoalDate">Registration Deadline Date</label>
+            <input asp-for="RegistrationDeadline" name="RegistrationDeadline" class="form-control" type="date" id="RegistrationDeadline" >
+            <span asp-validation-for="RegistrationDeadline" class="text-danger small-text"></span>
+        </div>
+
+        
+
+        @* ----------- Address Information ------------ *@
+        <ul class="nav nav-tabs mt-3 "  role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" type="button" >
+                    Mission Location
+                </button>
+            </li>
+        </ul>
+
+        <div class="col-sm-6 col-12 mt-3">
+            <label asp-for="CountryId" class="form-label">Country*</label>
+            <select asp-for="CountryId" name="CountryId" id="selectedCountry" class="form-select" aria-label=".form-select-lg example">
+                <option value="">Select Country</option>
+                        
+                    
+            </select>
+                <span asp-validation-for="CountryId" class="text-danger small-text"></span>
+        </div>
+
+        <div class="col-sm-6 col-12 mt-3">
+            <label asp-for="CityId" class="form-label">City*</label>
+            <select asp-for="CityId" name="CityId" id="selectedCity" class="form-select" aria-label=".form-select-lg example">
+                <option value="">Select City</option>
+                        
+                    
+            </select>
+                <span asp-validation-for="CityId" class="text-danger small-text"></span>
+        </div>
+
+        @* ------------  Organization Deails -------------- *@
+        <ul class="nav nav-tabs mt-3 "  role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" type="button" >
+                    Organization Details
+                </button>
+            </li>
+            
+        </ul>
+        <div class="col-12 mt-3">
+            <label class="form-label" asp-for="OrganizationName">Organization Name</label>
+            <input asp-for="OrganizationName" name="OrganizationName" class="form-control" id="OrganizationName" placeholder="Organization Name" >
+            <span asp-validation-for="OrganizationName" class="text-danger small-text"></span>
+        </div>
+        
+        <div class="col-12 mt-3">
+            <label asp-for="OrganizationDetail" class="form-label">Organization Details</label>
+            <div class="form-group">
+                <textarea asp-for ="OrganizationDetail" class="form-control" name="OrganizationDetail" rows="4" id="OrganizationDetail" placeholder="Enter Organization Details.."></textarea>
+                <span asp-validation-for="OrganizationDetail" class="text-danger small-text"></span>
+            </div>
+            
+        </div>
+        @* ---------------- Status ------------  *@
+        <ul class="nav nav-tabs mt-3 "  role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" type="button" >
+                    Status
+                </button>
+            </li>
+        </ul>
+        <div class="col-12 mt-3">
+            <label asp-for="Status" class="form-label">Status*</label>
+            <select asp-for="Status" name="Status" id="selectedStatus" class="form-select" aria-label=".form-select-lg example">
+                <option value="1">Active</option>
+                <option value="0">Disactive</option>
+                        
+                    
+            </select>
+                <span asp-validation-for="Status" class="text-danger small-text"></span>
+        </div>
+        @* ---------------- Media ------------  *@
+
+        <ul class="nav nav-tabs mt-3 "  role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" type="button" >
+                    Media
+                </button>
+            </li>
+        </ul>
+        <div class="col-12 mt-3">
+            <label asp-for="DefaultImage" class="form-label">Add Default Image *</label>
+            <input asp-for="DefaultImage" class="form-control" type="file" id="formFile">
+            <span asp-validation-for="DefaultImage" class="text-danger small-text"></span>
+        </div>
+        <div class="col-12 mt-3">
+            <label asp-for="VideoURLs" class="form-label">Youtube Video URLs</label>
+            <div class="form-group">
+                <textarea asp-for ="VideoURLs" class="form-control" name="VideoURLs" id="VideoURLs" rows="3" placeholder="Enter Organization Details.."></textarea>
+                <span asp-validation-for="VideoURLs" class="text-danger small-text"></span>
+            </div>
+        </div>
+        <div class="col-12 mt-3">
+            <div>
+                <label asp-for="Images" class="form-label">Upload Images</label>
+                <div class="form-group">
+                        <div class="d-flex justify-content-center align-items-center border input-div position-relative" style="height:150px">
+
+                            @*<input asp-for="Photos" id="imageupload" type="file" class="file " multiple="multiple" accept="image/jpeg, image/png, image/jpg"><img src="~/images/drag-and-drop.png" />*@
+                            <input asp-for="Images" id="imageupload"  class="file" accept="image/jpeg, image/png, image/jpg"><img src="~/images/drag-and-drop.png">
+
+                        </div>
+                </div>
+                <span asp-validation-for="Images" class="text-danger small-text"></span>
+                <output class="mt-3 " id="preview"></output>
+            </div>
+            
+        </div>
+        <div class="col-12 mt-3">
+            <div>
+            <label asp-for="Documents" class="form-label">Upload Documents</label>
+            <div class="form-group">
+                    <div class="d-flex justify-content-center align-items-center border input-div-doc position-relative" style="height:150px">
+
+                        @*<input asp-for="Photos" id="imageupload" type="file" class="file " multiple="multiple" accept="image/jpeg, image/png, image/jpg"><img src="~/images/drag-and-drop.png" />*@
+                        <input asp-for="Documents" id="docupload"  class="file" accept="application/pdf,.xls,.xlsx,.doc,.docx"><img src="~/images/drag-and-drop.png">
+
+                    </div>
+            </div>
+            <span asp-validation-for="Documents" class="text-danger small-text"></span>
+            <output class="mt-3" id="previewdoc"></output>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-end my-5">
+    <a class="rec-btns px-4 text-muted text-decoration-none d-flex align-items-center" type="button" style="width:fit-content" asp-action="User" asp-controller="Admin">
+        <span class="ps-2">Cancel</span>
+    </a> 
+    <button type="submit" formaction="@Url.Action("SaveMissionDetails","Admin")" class="Apply-mission-btn px-4 ms-3" id = "saveSkillls">Save</button>
+</div>
+</form>
+
+<script>
+    var options = [];
+    const inputDiv = document.querySelector(".input-div");
+    const input = document.querySelector("#imageupload");
+    const output = document.querySelector("#preview");
+    let imagesArray = [];
+    const inputDivdoc = document.querySelector(".input-div-doc");
+    const inputdoc = document.querySelector("#docupload");
+    const outputdoc = document.querySelector("#previewdoc");
+    let docsArray = [];
+    
+    input.addEventListener("change", () => {
+
+        const files = input.files;
+        for (let i = 0; i < files.length; i++) {
+            imagesArray.push(files[i])
+        }
+        //console.log(imagesArray);
+        fillInp();
+        displayImages();
+        
+    });
+    inputdoc.addEventListener("change", () => {
+
+        const files = inputdoc.files;
+        for (let i = 0; i < files.length; i++) {
+            docsArray.push(files[i])
+        }
+        //console.log(imagesArray);
+        fillInpDocs();
+        displayDocs();
+        
+    });
+    inputDiv.addEventListener("drop", () => {
+        e.preventDefault();
+        const files = e.dataTransfer.files;
+        for (let i = 0; i < files.length; i++) {
+            if (!files[i].type.match("image")) continue;
+
+            if (imagesArray.every(image => image.name !== files[i].name))
+                imagesArray.push(files[i]);
+        }
+        fillInp();
+        displayImages();
+    });
+    inputDivdoc.addEventListener("drop", () => {
+        e.preventDefault();
+        const files = e.dataTransfer.files;
+        for (let i = 0; i < files.length; i++) {
+            //if (!files[i].type.match("image")) continue;
+
+            if (docsArray.every(image => image.name !== files[i].name))
+                docsArray.push(files[i]);
+        }
+        fillInpDocs();
+        displayDocs();
+    });
+
+    function fillInp() {
+        var dt = new DataTransfer();
+        for (let i = 0; i < imagesArray.length && i < 20; i++) {
+            dt.items.add(imagesArray[i]);
+        }
+        document.querySelector("#imageupload").files = dt.files;
+        console.log(imagesArray);
+    }
+    function fillInpDocs() {
+        var dt = new DataTransfer();
+        for (let i = 0; i < docsArray.length && i < 20; i++) {
+            dt.items.add(docsArray[i]);
+        }
+        document.querySelector("#docupload").files = dt.files;
+        console.log(docsArray);
+    }
+
+    function deleteImage(index) {
+        imagesArray.splice(index, 1);
+        displayImages();
+        fillInp();
+        console.log(imagesArray);
+    }
+    function deleteDocs(index) {
+        docsArray.splice(index, 1);
+        displayDocs();
+        fillInpDocs();
+        console.log(docsArray);
+    }
+
+    function displayImages() {
+
+        let images = "";
+        imagesArray.forEach((image, index) => {
+            images += `<div class="image">
+                <img src="${URL.createObjectURL(image)}" alt="image">
+                <span onclick="deleteImage(${index})">&times;</span>
+                </div>`
+        });
+        console.log(images)
+        output.innerHTML = images;
+    }
+    function displayDocs() {
+        
+        let images = "";
+        docsArray.forEach((image, index) => {
+            console.log(image)
+            images += `<div class="d-flex align-items-center me-3"><a class="btn btn-outline-secondary px-3 mb-2 fav-button border" style="border-radius:23px;" href="${URL.createObjectURL(image)}" target="_blank">
+                            <img src="/images/doc.png">
+                            ${image.name}
+                        </a>
+                        <i class="btn-close ms-2" onclick="deleteDocs(${index})"></i></div>`
+        });
+        outputdoc.innerHTML = images;
+    }
+
+    tinymce.init({
+        selector: 'textarea#editor',
+        //statusbar: false,
+        skin: 'bootstrap',
+        plugins: 'lists, link, image, media',
+        toolbar: 'bold italic underline strikethrough forecolor backcolor bullist numlist indent outdent image link media undo redo removeformat',
+        menubar: false,
+    });
+
+    $(document).ready( () =>{
+        // --------- get Skills
+
+        $.ajax({
+            url: '/UserProfile/GetSkills',
+            type: 'get',
+            data: {},
+            dataType: 'json',
+            success:function (data) {
+                var  text = "";
+                for(var i=0;i<data.length;i++){
+                    text+=`<li class="px-3 my-1"><a href="#" class="small text-decoration-none text-dark" data-value="option${i+1}" tabIndex="-1">
+                        <input type="checkbox" asp-for="Skills" name="Skills" value="${data[i].SkillId}"/>&nbsp;<span class="ms-2">${data[i].SkillName}</span>
+                        </a></li>`;
+                }
+                $("#AdminSkillDropdown").append(text);
+
+                $( '.dropdown-menu a' ).on( 'click', function( event ) {
+
+                    var $target = $( event.currentTarget ),
+                        val = $target.attr( 'data-value' ),
+                        $inp = $target.find( 'input' ),
+                        idx;
+
+                    if ( ( idx = options.indexOf( val ) ) > -1 ) {
+                        options.splice( idx, 1 );
+                        setTimeout( function() { $inp.prop( 'checked', false ) }, 0);
+                    } else {
+                        options.push( val );
+                        setTimeout( function() { $inp.prop( 'checked', true ) }, 0);
+                    }
+
+                    $( event.target ).blur();
+      
+                    console.log( options );
+                    return false;
+                });
+            }
+        });
+
+        // ----------- Get and set Countries and other details details
+
+        $.ajax({
+            url: '/UserProfile/GetCountries',
+            type: 'GET',
+            data: {},
+            dataType: 'json',
+            success:function (data) {
+                
+                var countries = $("#selectedCountry");
+                for(var index in data){
+                    var option = document.createElement("option");
+                    option.value = data[index].CountryId;
+                    option.innerHTML = data[index].Name;
+                    countries.append(option);
+                    
+                } 
+                var missionId = document.getElementById("missionId").value;
+                console.log(missionId);
+                if(missionId == null || missionId =="0") {
+                    $(".missionTypeGoal").hide();
+                    $.ajax({
+                        url: '/UserProfile/GetCities',
+                        type: 'POST',
+                        data: {CountryId: "0"},
+                        dataType: 'json',
+                        success:function (data) {
+                            var cities = $("#selectedCity");
+                            cities.empty();
+                            var option1 = document.createElement("option");
+                            option1.value = 0;
+                            option1.innerHTML = "Select Your City";
+                            cities.append(option1);
+
+                            for(var index in data){
+                                var option = document.createElement("option");
+                                option.value = data[index].CityId;
+                                option.innerHTML = data[index].Name;
+                                cities.append(option);
+                      
+                            } 
+                    
+                        }
+
+                    });
+                    return;
+                }
+                $.ajax({
+                    url: '/Admin/GetMissionLoc',
+                    type: 'GET',
+                    data: {Mid: missionId},
+                    dataType: 'json',
+                    success:function (data) {
+                        console.log(data);
+                        locations = data;
+
+                        document.getElementById("selectedCountry").value = data[0];
+                        document.getElementById("selectedtype").value = data[3];
+                        if(data[3] == "Go"){
+                            $(".missionTypeTime").hide();
+                        }else{
+                            console.log("go")
+                            $(".missionTypeGoal").hide();
+                        }
+                        document.getElementById("selectedAvailability").value = data[4].toLowerCase();
+                        $.ajax({
+                            url: '/UserProfile/GetCities',
+                            type: 'POST',
+                            data: {CountryId: data[0]},
+                            dataType: 'json',
+                            success:function (data) {
+                                var cities = $("#selectedCity");
+                                for(var index in data){
+                                    var option = document.createElement("option");
+                                    option.value = data[index].CityId;
+                                    option.innerHTML = data[index].Name;
+                                    cities.append(option);
+                                } 
+                                document.getElementById("selectedCity").value = locations[1];
+                                document.getElementById("selectedTheme").value = locations[2];
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        // -------------- Change Mission Type
+
+        $("#selectedtype").change( () => {
+            var type = document.getElementById("selectedtype").value;
+            if(type == "Go"){
+                $(".missionTypeTime").hide();
+                $(".missionTypeGoal").show();
+            }else{
+                console.log("go")
+                $(".missionTypeGoal").hide();
+                $(".missionTypeTime").show();
+            }
+        })
+
+        // --------------- Change Cities According to country
+
+        $("#selectedCountry").change( () => {
+            var countryId = $("#selectedCountry").val();
+            
+            $.ajax({
+                url: '/UserProfile/GetCities',
+                type: 'POST',
+                data: {CountryId: countryId},
+                dataType: 'json',
+                success:function (data) {
+                    var cities = $("#selectedCity");
+                    cities.empty();
+                    var option1 = document.createElement("option");
+                    option1.value = 0;
+                    option1.innerHTML = "Select Your City";
+                    cities.append(option1);
+
+                    for(var index in data){
+                        var option = document.createElement("option");
+                        option.value = data[index].CityId;
+                        option.innerHTML = data[index].Name;
+                        cities.append(option);
+                      
+                    } 
+                    
+                }
+
+            });
+        });
+
+        // ----------------- Get and set Themes 
+
+        $.ajax({
+            url: '/Admin/GetMissionThemes',
+            type: 'GET',
+            data: {},
+            dataType: 'json',
+            success: function(data){
+                var options = "";
+                for (var i=0;i<data.length;i++){
+                    options += `<option value="${data[i].MissionThemeId}">${data[i].Title}</option>`
+                }
+                $("#selectedTheme").append(options);
+            }
+        });
+
+    });
+</script>

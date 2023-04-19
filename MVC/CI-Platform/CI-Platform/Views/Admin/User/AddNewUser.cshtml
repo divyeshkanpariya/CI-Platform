@@ -106,7 +106,33 @@
                 } 
                 var email = document.getElementById("EmailId").value;
                 console.log(email);
-                if(email == null || email =="") return;
+                if(email == null || email ==""){
+                    $.ajax({
+                        url: '/UserProfile/GetCities',
+                        type: 'POST',
+                        data: {CountryId: "0"},
+                        dataType: 'json',
+                        success:function (data) {
+                            var cities = $("#selectedCity");
+                            cities.empty();
+                            var option1 = document.createElement("option");
+                            option1.value = 0;
+                            option1.innerHTML = "Select Your City";
+                            cities.append(option1);
+
+                            for(var index in data){
+                                var option = document.createElement("option");
+                                option.value = data[index].CityId;
+                                option.innerHTML = data[index].Name;
+                                cities.append(option);
+                      
+                            } 
+                    
+                        }
+
+                    });
+                    return;
+                } 
                 $.ajax({
                     url: '/Admin/GetLocationDetails',
                     type: 'GET',
