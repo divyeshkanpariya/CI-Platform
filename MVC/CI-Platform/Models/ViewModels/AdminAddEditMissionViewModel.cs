@@ -18,13 +18,13 @@ namespace CI_Platform.Models.ViewModels
         public string? CityId { get; set; }
 
         public string? CountryId { get; set; }
-
+        [Required]
         public string Title { get; set; } = null!;
 
         public string? ShortDescription { get; set; }
 
         public string? Description { get; set; }
-
+        [Required]
         public DateTime? StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
@@ -34,18 +34,18 @@ namespace CI_Platform.Models.ViewModels
         public string MissionType { get; set; } = null!;
 
         public string Status { get; set; } = null!;
-
+        
         public string? OrganizationName { get; set; }
 
         public string? OrganizationDetail { get; set; }
 
         public string? Availability { get; set; }
 
-        public string? Skills { get; set; }
+        public string[]? Skills { get; set; }
 
         public IFormFile? DefaultImage { get; set; }
 
-        public int TotalSeats { get; set; }
+        public int? TotalSeats { get; set; }
 
         public int GoalValue { get; set; }
 

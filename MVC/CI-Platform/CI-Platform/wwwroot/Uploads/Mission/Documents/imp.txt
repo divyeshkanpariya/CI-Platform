@@ -1,0 +1,36 @@
+Some external plugin link for CI platform
+https://www.jqueryscript.net/form/jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect.html
+https://mdbootstrap.com/docs/b4/jquery/plugins/rating/
+https://dev.to/codeanddeploy/bootstrap-5-star-rating-jquery-plugin-example-5hl3
+
+
+
+
+public List<FieldsModel> GetFieldsByUserName(int clientId, int pageId, string tableName, Guid? userId, string type, int fk_table = 0, Guid? User_PK_ID = null)
+{
+List<FieldsModel> fieldModels = new List<FieldsModel>();
+try
+{
+var obj = new Dictionary<string, object>
+{
+{ "@MasterTable", tableName },
+{ "@Primay_Key_column", string.Empty },
+{ "@PK_ID", fk_table },
+{ "@FK_Client", clientId },
+{ "@FK_Page_ID", pageId },
+{ "@FK_UserId", (object)userId ?? (object)DBNull.Value },
+{ "@User_PK_ID", (object)User_PK_ID ?? (object)DBNull.Value },
+{ "@FK_Type", type }
+};
+DataSet dataSet = SQLHelper.DynamicListFromSqlGrid(_dbContext, "getFieldsbyPageAndClient", obj);
+DataTable dataTable = dataSet.Tables[0];
+fieldModels = ClsGeneral.ConvertToGenericModelList<FieldsModel>(dataTable);
+}
+catch (Exception ex)
+{
+_logger.LogError(ex, ex.InnerException != null ? ex.InnerException.ToString() : string.Empty);
+}
+return fieldModels;
+}
+
+https://drive.google.com/file/d/1VQ8Aw2tgezu1IRn1LiWiM7HbvjNCStRJ/view?usp=sharing

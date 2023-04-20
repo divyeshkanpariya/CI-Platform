@@ -17,6 +17,8 @@ namespace CI_Platform.Repository.Interface
 
         T GetFirstOrDefault(Expression<Func<T, bool>> filter);
 
+        public IEnumerable<T> GetRecordsWhere(Expression<Func<T, bool>> filter);
+
         void Update(T entity);
 
         void Save();

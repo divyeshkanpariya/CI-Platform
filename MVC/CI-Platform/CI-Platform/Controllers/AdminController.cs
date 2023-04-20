@@ -11,14 +11,17 @@ namespace CI_Platform.Controllers
         private readonly IAdminUserPageRepositoty _adminUserPageRepo;
         private readonly IAdminCMSPageRepository _adminCMSPageRepo;
         private readonly IAdminMissionPageRepository _adminMissionPageRepo;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public AdminController(IAdminUserPageRepositoty adminUserPageRepo,
             IAdminCMSPageRepository adminCMSPage,
+            IWebHostEnvironment webHostEnvironment,
             IAdminMissionPageRepository adminMissionPageRepo)
         {
             _adminUserPageRepo = adminUserPageRepo;
             _adminCMSPageRepo = adminCMSPage;
             _adminMissionPageRepo = adminMissionPageRepo;
+            _webHostEnvironment = webHostEnvironment;
         }
         /* ------------------------- User ----------------------- */
 
@@ -180,20 +183,29 @@ namespace CI_Platform.Controllers
 
         public IActionResult EditMission(long MissionId)
         {
-            AdminAddEditMissionViewModel viewModel = _adminMissionPageRepo.GetMissionDetails(MissionId);
+            string x = _webHostEnvironment.WebRootPath;
+            AdminAddEditMissionViewModel viewModel = _adminMissionPageRepo.GetMissionDetails(MissionId, x);
             return PartialView("~/Views/Admin/Mission/AddEditMission.cshtml", viewModel);
         }
-
-        public IActionResult SaveMissionDetails(IFormCollection formData)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult SaveMissionDetails(AdminAddEditMissionViewModel formData)
         {
+            if(formData.Availability == "0") return View("Mission/Mission");
+            
+            _adminMissionPageRepo.SaveMissionDetails(formData, _webHostEnvironment.WebRootPath);
             return View("Mission/Mission");
         }
-        public IActionResult GetMissionLoc(string Mid)
+        public string GetMissionLoc(string Mid)
         {
+            AdminAddEditMissionViewModel viewModel = _adminMissionPageRepo.GetMissionDetails(Convert.ToInt64(Mid), _webHostEnvironment.WebRootPath);
             List<string> result = _adminMissionPageRepo.GetMissionLoc(Convert.ToInt64(Mid));
-            return Json(result);
+            return JsonSerializer.Serialize(viewModel);
         }
-
+        public IActionResult GetMediaPaths(string Mid)
+        {
+            return Json(_adminMissionPageRepo.GetMedias(Convert.ToInt64(Mid)));
+        }
         public string GetMissionThemes()
         {
             //IEnumerable<MissionTheme> themes = 

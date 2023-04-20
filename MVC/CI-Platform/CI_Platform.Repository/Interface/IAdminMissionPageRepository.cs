@@ -16,7 +16,11 @@ namespace CI_Platform.Repository.Interface
 
         public void DeleteMission(long missionId);
 
-        public AdminAddEditMissionViewModel GetMissionDetails(long MissionId);
+        public AdminAddEditMissionViewModel GetMissionDetails(long MissionId, string webrootpath);
+
+        public List<List<string>> GetMedias(long MissionId);
+
+        public void SaveMissionDetails(AdminAddEditMissionViewModel viewModel, string WebRootPath);
 
         public List<string> GetMissionLoc(long MissionId);
     }

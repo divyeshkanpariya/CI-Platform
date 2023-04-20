@@ -51,6 +51,13 @@ namespace CI_Platform.Repository.Repositories
             return query.ToList();
         }
 
+        public IEnumerable<T> GetRecordsWhere(Expression<Func<T, bool>> filter)
+        {
+            IQueryable<T> query = dbSet;
+            query = query.Where(filter);
+            return query;
+        }
+
         public void DeleteField(T entity)
         {
             dbSet.Remove(entity);

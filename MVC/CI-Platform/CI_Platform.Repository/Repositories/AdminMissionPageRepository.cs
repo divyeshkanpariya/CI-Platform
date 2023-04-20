@@ -1,6 +1,8 @@
 ﻿using CI_Platform.Models.Models;
 using CI_Platform.Models.ViewModels;
 using CI_Platform.Repository.Interface;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +17,29 @@ namespace CI_Platform.Repository.Repositories
         private readonly CiPlatformContext _db;
         private readonly IRepository<Mission> _Missions;
         private readonly IRepository<MissionTheme> _MissionThemes;
+        private readonly IRepository<MissionSkill> _MissionSkills;
+        private readonly IRepository<MissionSeat> _MissionSeats;
+        private readonly IRepository<GoalMission> _MissionGoals;
+        private readonly IRepository<MissionMedium> _MissionMediums;
+        private readonly IRepository<MissionDocument> _MissionDocuments;
+
         public AdminMissionPageRepository(CiPlatformContext db,
             IRepository<Mission> missionList,
-            IRepository<MissionTheme> missionThemes)
+            IRepository<MissionTheme> missionThemes,
+            IRepository<MissionSkill> missionSkills,
+            IRepository<MissionSeat> missionSeats,
+            IRepository<GoalMission> missionGoals, 
+            IRepository<MissionDocument> missionDocuments,
+            IRepository<MissionMedium> missionMediums)
         {
             _db = db;
             _Missions = missionList;
             _MissionThemes = missionThemes;
+            _MissionSkills = missionSkills;
+            _MissionSeats = missionSeats;
+            _MissionGoals = missionGoals;
+            _MissionDocuments = missionDocuments;
+            _MissionMediums = missionMediums;
         }
 
         public void DeleteMission(long missionId)
@@ -74,7 +92,7 @@ namespace CI_Platform.Repository.Repositories
             return MissionList;
         }
 
-        public AdminAddEditMissionViewModel  GetMissionDetails(long MissionId)
+        public AdminAddEditMissionViewModel  GetMissionDetails(long MissionId,string WebroootPath)
         {
             AdminAddEditMissionViewModel model = new AdminAddEditMissionViewModel();
             if(_Missions.ExistUser(ms => ms.MissionId == MissionId))
@@ -94,9 +112,100 @@ namespace CI_Platform.Repository.Repositories
                 model.OrganizationDetail = mission.OrganizationDetail;
                 model.Availability = mission.Availability;
                 model.Status = mission.Status;
+                
+                if (_MissionSkills.ExistUser(ms => ms.MissionId == MissionId))
+                {
+                    
+                    IEnumerable<MissionSkill> mskills = _MissionSkills.GetRecordsWhere(ms => ms.MissionId == MissionId);
+                    string[] skills = new string[mskills.Count()];
+                    var x =0;
+                    foreach (MissionSkill skill in mskills)
+                    {
+                        skills[x++] = skill.SkillId.ToString();
+                    }
+                    model.Skills = skills;
+                }
+                
+                if (mission.MissionType == "Go")
+                {
+                    if(_MissionGoals.ExistUser(ms => ms.MissionId == MissionId))
+                    {
+                        GoalMission gm = _MissionGoals.GetFirstOrDefault(gm => gm.MissionId == MissionId);
+                        model.GoalObjectiveText = gm.GoalObjectiveText;
+                        model.GoalValue = gm.GoalValue;
+
+                    }
+                }
+                else if(mission.MissionType == "Time")
+                {
+                    if (_MissionSeats.ExistUser(ms => ms.MissionId == MissionId))
+                    {
+                        MissionSeat gm = _MissionSeats.GetFirstOrDefault(gm => gm.MissionId == MissionId);
+                        model.TotalSeats = gm.TotalSeats;
+
+                    }
+                }
+
+                //if (_MissionMediums.ExistUser(ms => ms.MissionId == MissionId && ms.Default == 1))
+                //{
+                //    string file = _MissionMediums.GetFirstOrDefault(ms => ms.MissionId == MissionId && ms.Default == 1).MediaPath.Substring(1);
+                //    string path = Path.Combine(WebroootPath, file);
+                //    //path += _MissionMediums.GetFirstOrDefault(ms => ms.MissionId == MissionId && ms.Default == 1).MediaPath;
+                //    var memoryStream = new MemoryStream();
+                //    using (var stream = new FileStream(path, FileMode.Open))
+                //    {
+                //        stream.CopyTo(memoryStream);
+                //    }
+                //    memoryStream.Position = 0;
+                //    //IFormFile formFile = new FormFile(memoryStream, 0, memoryStream.Length, null, Path.GetFileName(path));
+                //    //if (File.Exists(path))
+                //    //{
+                //    //    FileStream fl = File.Create(path); 
+                //    //}
+                //    //model.DefaultImage = formFile;
+                //}
+
             }
             return model;
             
+        }
+
+        public List<List<string>> GetMedias(long MissionId)
+        {
+            List<List<string>> mediaList = new List<List<string>>();
+
+            List<string> DefaultImage = new List<string>();
+            List<string> Images = new List<string>();
+            List<string> Documents = new List<string>();
+            List<string> DocumentsName = new List<string>();
+            if (_MissionMediums.ExistUser(ms => ms.MissionId == MissionId && ms.Default == 1))
+            {
+                string file = _MissionMediums.GetFirstOrDefault(ms => ms.MissionId == MissionId && ms.Default == 1 && ms.MediaType == "image").MediaPath;
+                DefaultImage.Add(file);
+            }
+            if (_MissionMediums.ExistUser(ms => ms.MissionId == MissionId && ms.Default == 0))
+            {
+                IEnumerable<MissionMedium> files = _MissionMediums.GetRecordsWhere(ms => ms.MissionId == MissionId && ms.Default == 0 && ms.MediaType == "image");
+                foreach (MissionMedium file in files)
+                {
+                    Images.Add(file.MediaPath);
+                }
+            }
+            if (_MissionDocuments.ExistUser(ms => ms.MissionId == MissionId))
+            {
+                IEnumerable<MissionDocument> Docs = _MissionDocuments.GetRecordsWhere(ms => ms.MissionId == MissionId);
+                foreach (MissionDocument file in Docs)
+                {
+                    Documents.Add(file.DocumentPath);
+                    DocumentsName.Add(file.DocumentName);
+                }
+            }
+            mediaList.Add(DefaultImage);
+            mediaList.Add(Images);
+            mediaList.Add(Documents);
+            mediaList.Add(DocumentsName);
+
+            return mediaList;
         }
 
         public List<string> GetMissionLoc(long MissionId)
@@ -120,6 +229,116 @@ namespace CI_Platform.Repository.Repositories
         public IEnumerable<MissionTheme> getMissionThemes()
         {
             return _MissionThemes.GetAll().Where(mt => mt.Status == "1");
+        }
+
+
+        public void SaveMissionDetails(AdminAddEditMissionViewModel viewModel,string WebRootPath)
+        {
+            if (viewModel == null) return;
+            else
+            {
+                Mission newMission = new Mission();
+                if (viewModel.MissionId != 0 && viewModel.MissionId != null) newMission = _Missions.GetFirstOrDefault(m => m.MissionId == viewModel.MissionId);
+                
+                newMission.Title = viewModel.Title;
+                newMission.Description = viewModel.Description;
+                newMission.ShortDescription = viewModel.ShortDescription;
+                newMission.CityId = Convert.ToInt64(viewModel.CityId);
+                newMission.CountryId = Convert.ToInt64(viewModel.CountryId);
+                newMission.ThemeId = Convert.ToInt64(viewModel.ThemeId);
+
+                newMission.StartDate = viewModel.StartDate;
+                newMission.EndDate = viewModel.EndDate;
+                newMission.MissionType = viewModel.MissionType;
+                newMission.Availability = viewModel.Availability;
+                newMission.Status = viewModel.Status;
+                newMission.OrganizationName = viewModel.OrganizationName;
+                
+                newMission.OrganizationDetail = viewModel.OrganizationDetail;
+                
+                if (viewModel.MissionId == 0 || viewModel.MissionId == null) _Missions.AddNew(newMission);
+                
+                else _Missions.Update(newMission);
+                
+                _Missions.Save();
+
+                if (viewModel.MissionId == 0 || viewModel.MissionId == null)
+                {
+                    if(_Missions.ExistUser(m => m.Title == viewModel.Title && m.CityId == Convert.ToInt64(viewModel.CityId) && viewModel.StartDate == m.StartDate && m.MissionType == viewModel.MissionType))
+                    {
+                        long MissionId = _Missions.GetFirstOrDefault(m => m.Title == viewModel.Title && m.CityId == Convert.ToInt64(viewModel.CityId) && viewModel.StartDate == m.StartDate && m.MissionType == viewModel.MissionType).MissionId;
+                        if (viewModel.MissionType == "Go")
+                        {
+                            GoalMission newGoal = new GoalMission()
+                            {
+                                GoalObjectiveText = viewModel.GoalObjectiveText,
+                                GoalValue = viewModel.GoalValue,
+                                MissionId = MissionId,
+                                GoalArchived = 0
+                            };
+                            _MissionGoals.AddNew(newGoal);
+                            _MissionGoals.Save();
+                        }
+                        else if (viewModel.MissionType == "Time")
+                        {
+                            if (viewModel.TotalSeats == 0 || viewModel.TotalSeats == null)
+                            {
+                                MissionSeat newSeats = new MissionSeat()
+                                {
+                                    MissionId = MissionId,
+                                    Islimited = 0,
+                                    SeatsFilled = 0,
+                                };
+                                _MissionSeats.AddNew(newSeats);
+                                _MissionSeats.Save();
+                            }
+                            else
+                            {
+                                MissionSeat newSeats = new MissionSeat()
+                                {
+                                    MissionId = MissionId,
+                                    TotalSeats = viewModel.TotalSeats,
+                                    Islimited = 1,
+                                    SeatsFilled = 0,
+                                };
+                                _MissionSeats.AddNew(newSeats);
+                                _MissionSeats.Save();
+                            }
+
+                        }
+
+                        foreach(string skill in viewModel.Skills)
+                        {
+                            MissionSkill newMissionSkill = new MissionSkill()
+                            {
+                                SkillId = Convert.ToInt32(skill),
+                                MissionId = MissionId
+                            };
+                            _MissionSkills.AddNew(newMissionSkill);
+                        }
+                        _MissionSkills.Save();
+
+                        if(viewModel.DefaultImage != null)
+                        {
+                            var file = viewModel.DefaultImage;
+                            string folder = "Uploads/Mission/Images";
+                            string ext = file.ContentType.ToLower().Substring(file.ContentType.LastIndexOf("/") + 1);
+                            folder += Convert.ToString(MissionId)  + "-Default-" + Guid.NewGuid().ToString() + "." + ext;
+                            string serverFolder = Path.Combine(WebRootPath, folder);
+                            file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+                        }
+
+                        //string folder = "Uploads/Story/";
+                        //string ext = file.ContentType.ToLower().Substring(file.ContentType.LastIndexOf("/") + 1);
+                        //folder += Convert.ToString(StoryId) + "-" + Convert.ToString(UserId) + "-" + Guid.NewGuid().ToString() + "." + ext;
+                        //string serverFolder = Path.Combine(_WebHostEnvironment.WebRootPath, folder);
+                        //file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+                        //string path = "/" + folder;
+                        //string FileType = Convert.ToString(file.ContentType);
+                        //_ShareStory.UploadMedia(StoryId, FileType, path);
+                    } 
+                }
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 @model CI_Platform.Models.ViewModels.AdminAddEditMissionViewModel
 
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data" asp-action="SaveMissionDetails" asp-controller="Admin">
 <div class="border" style="box-shadow: 3px 5px 10px #00000014;">
     <div class="admin-form-heading border-bottom px-3 py-3">
         @if(@Model.MissionId != null && @Model.MissionId != 0)
@@ -32,7 +32,7 @@
         </ul>
         <div class="col-12 mt-3">
             <label class="form-label" asp-for="Title">Title*</label>
-            <input asp-for="Title" name="Title" class="form-control" id="Title" placeholder="Enter Title" autofocus required>
+            <input asp-for="Title" name="Title" class="form-control" id="Title" placeholder="Enter Title" autofocus>
             <span asp-validation-for="Title" class="text-danger small-text"></span>
         </div>
         <div class="col-12 mt-3">
@@ -89,7 +89,7 @@
 
         <div class="col-sm-6 col-12 mt-3">
             <label asp-for="ThemeId" class="form-label">Theme*</label>
-            <select asp-for="ThemeId" name="Status" id="selectedTheme" class="form-select" aria-label=".form-select-lg example">
+            <select asp-for="ThemeId" name="ThemeId" id="selectedTheme" class="form-select" aria-label=".form-select-lg example">
                 <option value="">Select Theme</option>
                         
                     
@@ -168,7 +168,7 @@
                         
                     
             </select>
-                <span asp-validation-for="CountryId" class="text-danger small-text"></span>
+            <span asp-validation-for="CountryId" class="text-danger small-text"></span>
         </div>
 
         <div class="col-sm-6 col-12 mt-3">
@@ -178,7 +178,7 @@
                         
                     
             </select>
-                <span asp-validation-for="CityId" class="text-danger small-text"></span>
+            <span asp-validation-for="CityId" class="text-danger small-text"></span>
         </div>
 
         @* ------------  Organization Deails -------------- *@
@@ -232,9 +232,16 @@
             </li>
         </ul>
         <div class="col-12 mt-3">
-            <label asp-for="DefaultImage" class="form-label">Add Default Image *</label>
-            <input asp-for="DefaultImage" class="form-control" type="file" id="formFile">
-            <span asp-validation-for="DefaultImage" class="text-danger small-text"></span>
+            <div>
+                <div>
+                    <label asp-for="DefaultImage" class="form-label">Add Default Image *</label>
+                    <input asp-for="DefaultImage" class="form-control" accept="image/jpeg, image/png, image/jpg" type="file" id="defImage">
+                    <span asp-validation-for="DefaultImage" class="text-danger small-text"></span>
+                </div>
+            
+                <output class="mt-3 " id="previewDef"></output>
+            </div>
+            
         </div>
         <div class="col-12 mt-3">
             <label asp-for="VideoURLs" class="form-label">Youtube Video URLs</label>
@@ -249,8 +256,7 @@
                 <div class="form-group">
                         <div class="d-flex justify-content-center align-items-center border input-div position-relative" style="height:150px">
 
-                            @*<input asp-for="Photos" id="imageupload" type="file" class="file " multiple="multiple" accept="image/jpeg, image/png, image/jpg"><img src="~/images/drag-and-drop.png" />*@
-                            <input asp-for="Images" id="imageupload"  class="file" accept="image/jpeg, image/png, image/jpg"><img src="~/images/drag-and-drop.png">
+                            <input asp-for="Images" id="imageupload"  class="file" accept="image/jpeg, image/png, image/jpg"><img src="~/images/plus.png">
 
                         </div>
                 </div>
@@ -265,8 +271,7 @@
             <div class="form-group">
                     <div class="d-flex justify-content-center align-items-center border input-div-doc position-relative" style="height:150px">
 
-                        @*<input asp-for="Photos" id="imageupload" type="file" class="file " multiple="multiple" accept="image/jpeg, image/png, image/jpg"><img src="~/images/drag-and-drop.png" />*@
-                        <input asp-for="Documents" id="docupload"  class="file" accept="application/pdf,.xls,.xlsx,.doc,.docx"><img src="~/images/drag-and-drop.png">
+                        <input asp-for="Documents" id="docupload"  class="file" accept="application/pdf,.xls,.xlsx,.doc,.docx"><img src="~/images/plus.png">
 
                     </div>
             </div>
@@ -281,7 +286,7 @@
     <a class="rec-btns px-4 text-muted text-decoration-none d-flex align-items-center" type="button" style="width:fit-content" asp-action="User" asp-controller="Admin">
         <span class="ps-2">Cancel</span>
     </a> 
-    <button type="submit" formaction="@Url.Action("SaveMissionDetails","Admin")" class="Apply-mission-btn px-4 ms-3" id = "saveSkillls">Save</button>
+    <button type="submit"  class="Apply-mission-btn px-4 ms-3" id = "saveSkillls">Save</button>
 </div>
 </form>
 
@@ -296,8 +301,17 @@
     const outputdoc = document.querySelector("#previewdoc");
     let docsArray = [];
     
-    input.addEventListener("change", () => {
+    $("#defImage").change( () =>{
+        const files = document.getElementById("defImage").files[0];
+        var image = `<div class="image">
+                    <img src="${URL.createObjectURL(files)}" alt="image">
+                    </div>`;
+            document.getElementById("previewDef").innerHTML = image;
 
+
+    });
+
+    input.addEventListener("change", () => {
         const files = input.files;
         for (let i = 0; i < files.length; i++) {
             imagesArray.push(files[i])
@@ -305,7 +319,6 @@
         //console.log(imagesArray);
         fillInp();
         displayImages();
-        
     });
     inputdoc.addEventListener("change", () => {
 
@@ -316,8 +329,8 @@
         //console.log(imagesArray);
         fillInpDocs();
         displayDocs();
-        
     });
+
     inputDiv.addEventListener("drop", () => {
         e.preventDefault();
         const files = e.dataTransfer.files;
@@ -382,7 +395,7 @@
                 <span onclick="deleteImage(${index})">&times;</span>
                 </div>`
         });
-        console.log(images)
+        //console.log(images)
         output.innerHTML = images;
     }
     function displayDocs() {
@@ -420,7 +433,7 @@
                 var  text = "";
                 for(var i=0;i<data.length;i++){
                     text+=`<li class="px-3 my-1"><a href="#" class="small text-decoration-none text-dark" data-value="option${i+1}" tabIndex="-1">
-                        <input type="checkbox" asp-for="Skills" name="Skills" value="${data[i].SkillId}"/>&nbsp;<span class="ms-2">${data[i].SkillName}</span>
+                        <input type="checkbox" asp-for="Skills" name="Skills" id="skill${data[i].SkillId}" value="${data[i].SkillId}"/>&nbsp;<span class="ms-2">${data[i].SkillName}</span>
                         </a></li>`;
                 }
                 $("#AdminSkillDropdown").append(text);
@@ -495,6 +508,87 @@
                     });
                     return;
                 }
+
+                $.ajax({
+                    url: '/Admin/GetMediaPaths',
+                    type: 'GET',
+                    data: {Mid: missionId},
+                    dataType: 'json',
+                    success:function (data) {
+                        console.log(data)
+
+                        function toDataUrl(url, callback) {
+                            var newUrl = url;
+                            var xhr = new XMLHttpRequest();
+                            xhr.onload = function() {
+                                callback(xhr.response);
+    
+                            };
+                            xhr.open('GET', newUrl);
+                                
+                            xhr.responseType = 'blob';
+                            xhr.send();
+                        }
+
+                            const dT = new DataTransfer(); 
+
+                            var defImage = `<div class="image">
+                                <img src="${data[0][0]}" alt="image">
+                                </div>`;
+                                document.getElementById("previewDef").innerHTML = defImage;
+
+                            toDataUrl(data[0][0],function(x){ 
+                                var def = x;
+                                let ext = def.type.split("/");
+                                var nameDef = "Default" + "." + ext[1];
+                                dT.items.add(new File([def], nameDef, {
+                                        type: def.type
+                                    }));
+                                    document.querySelector("#defImage").files = dT.files;
+                            });
+
+                            let image;
+                            let ext;
+                            for(var j=0;j<data[1].length;j++){
+                                toDataUrl(data[1][j],function(x){   
+                                    image = x;
+                                    //console.log(image);
+                                    
+                                    dT.items.add(new File([image], "xyz", {
+                                        type: image.type
+                                    }));
+                                    imagesArray.push(new File([image], "xyz", {
+                                        type: image.type
+                                    }));
+                                    //console.log("image: ", dT);
+                                displayImages();
+                                document.querySelector('#imageupload').files = dT.files;
+                                });
+                            }
+
+                            let doc;
+                            for(var j=0;j<data[2].length;j++){
+
+                                toDataUrl(data[2][j],function(x){   
+                                    doc = x;
+                                    let ext = doc.type.split("/");
+                                    console.log(ext)
+                                    var name = "document" + j.toString() + "." +ext[1];
+                                    
+                                    dT.items.add(new File([doc], name, {
+                                        type: doc.type
+                                    }));
+                                    docsArray.push(new File([doc], name, {
+                                        type: doc.type
+                                    }));
+                                    //console.log("image: ", dT);
+                                displayDocs();
+                                document.querySelector('#docupload').files = dT.files;
+                                });
+                            }
+                    }
+                });
+
                 $.ajax({
                     url: '/Admin/GetMissionLoc',
                     type: 'GET',
@@ -504,37 +598,43 @@
                         console.log(data);
                         locations = data;
 
-                        document.getElementById("selectedCountry").value = data[0];
-                        document.getElementById("selectedtype").value = data[3];
-                        if(data[3] == "Go"){
+                        document.getElementById("selectedCountry").value = data.CountryId;
+
+                        if(data.MissionType == "Go"){
                             $(".missionTypeTime").hide();
                         }else{
                             console.log("go")
                             $(".missionTypeGoal").hide();
                         }
-                        document.getElementById("selectedAvailability").value = data[4].toLowerCase();
                         $.ajax({
                             url: '/UserProfile/GetCities',
                             type: 'POST',
-                            data: {CountryId: data[0]},
+                            data: {CountryId: data.CountryId},
                             dataType: 'json',
-                            success:function (data) {
+                            success:function (ct) {
                                 var cities = $("#selectedCity");
-                                for(var index in data){
+                                for(var index in ct){
                                     var option = document.createElement("option");
-                                    option.value = data[index].CityId;
-                                    option.innerHTML = data[index].Name;
+                                    option.value = ct[index].CityId;
+                                    option.innerHTML = ct[index].Name;
                                     cities.append(option);
                                 } 
-                                document.getElementById("selectedCity").value = locations[1];
-                                document.getElementById("selectedTheme").value = locations[2];
+                                document.getElementById("selectedCity").value = locations.CityId;
+                                document.getElementById("selectedTheme").value = locations.ThemeId;
+
+                                console.log(locations.Skills)
+                                for(var index in locations.Skills){
+                                    id = "skill" + locations.Skills[index];
+                                    document.getElementById(id).checked = true;
+                                }
                             }
                         });
                     }
                 });
             }
         });
-
+        
+        
         // -------------- Change Mission Type
 
         $("#selectedtype").change( () => {
