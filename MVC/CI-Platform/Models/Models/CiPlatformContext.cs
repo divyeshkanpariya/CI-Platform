@@ -553,7 +553,10 @@ public partial class CiPlatformContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
-            entity.Property(e => e.Default).HasColumnName("default");
+            entity.Property(e => e.Default)
+                .HasMaxLength(4)
+                .IsUnicode(false)
+                .HasColumnName("default");
             entity.Property(e => e.DeletedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("deleted_at");
@@ -566,7 +569,7 @@ public partial class CiPlatformContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("media_path");
             entity.Property(e => e.MediaType)
-                .HasMaxLength(4)
+                .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("media_type");
             entity.Property(e => e.MissionId).HasColumnName("mission_id");

@@ -27,6 +27,22 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ01TXENNU1BhZ2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Admin/Mission Application/MissionApplicationDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWlzc2lvbiBBcHBsaWNhdGlvblxNaXNzaW9uQXBwbGljYXRpb25EZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Admin/Mission Application/MissionApplications.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWlzc2lvbiBBcHBsaWNhdGlvblxNaXNzaW9uQXBwbGljYXRpb25zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Admin/Mission Theme/MissionThemeDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWlzc2lvbiBUaGVtZVxNaXNzaW9uVGhlbWVEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Admin/Mission Theme/MissionThemes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWlzc2lvbiBUaGVtZVxNaXNzaW9uVGhlbWVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Admin/Mission/AddEditMission.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWlzc2lvblxBZGRFZGl0TWlzc2lvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -37,6 +53,22 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Admin/Mission/MissionDetails.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWlzc2lvblxNaXNzaW9uRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Admin/Skills/SkillDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU2tpbGxzXFNraWxsRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Admin/Skills/Skills.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU2tpbGxzXFNraWxscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Admin/Stories/Stories.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU3Rvcmllc1xTdG9yaWVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Admin/Stories/StoriesDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU3Rvcmllc1xTdG9yaWVzRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/pci117/source/repos/divyeshkanpariya/CI-Platform/MVC/CI-Platform/CI-Platform/Views/Admin/User/AddNewUser.cshtml]

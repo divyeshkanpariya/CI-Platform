@@ -1,0 +1,49 @@
+﻿@{
+    Layout = "Admin_Layout";
+}
+
+<div class="my-3 my-lg-5 mx-4 mx-lg-5" id="MissionApplicationPage">
+    
+
+</div>
+
+<script>
+    function ConfirmAppBtn() {
+        var id = document.getElementById("targetId").value;
+        var Status = document.getElementById("targetStatus").value;
+        $.ajax({
+            url: '/Admin/UpdateStatus',
+            type: 'GET',
+            data: {AppId: id,
+            Status: Status},
+            success:function () {
+                
+            }
+        });
+
+    }
+    function UpdateStatus(Id,Status){
+        $("#MissionApplicationUpdate").modal("show");
+        document.getElementById("targetId").value = id;
+        document.getElementById("targetStatus").value = Status;
+    }
+    function dismissModal(){
+        $("#MissionApplicationUpdate").modal("hide");
+    }
+    $(document).ready( () => {
+        $.ajax({
+            url: '/Admin/GetMissionApplications',
+            type: 'GET',
+            data: {},
+            dataType: 'html',
+            success:function (data) {
+                $("#MissionApplicationPage").html(data);
+            }
+        });
+
+        document.getElementById("menu").getElementsByTagName("li")[6].classList.add("active");
+        document.getElementById("menu").getElementsByTagName("li")[6].getElementsByTagName("a")[0].getElementsByTagName("img")[0].src = "/images/folder-active.png";
+        
+
+    });
+</script>

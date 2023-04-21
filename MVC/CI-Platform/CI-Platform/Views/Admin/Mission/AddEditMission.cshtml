@@ -546,7 +546,7 @@
                                     }));
                                     document.querySelector("#defImage").files = dT.files;
                             });
-
+                            const dTImage = new DataTransfer();
                             let image;
                             let ext;
                             for(var j=0;j<data[1].length;j++){
@@ -554,7 +554,7 @@
                                     image = x;
                                     //console.log(image);
                                     
-                                    dT.items.add(new File([image], "xyz", {
+                                    dTImage.items.add(new File([image], "xyz", {
                                         type: image.type
                                     }));
                                     imagesArray.push(new File([image], "xyz", {
@@ -562,10 +562,10 @@
                                     }));
                                     //console.log("image: ", dT);
                                 displayImages();
-                                document.querySelector('#imageupload').files = dT.files;
+                                document.querySelector('#imageupload').files = dTImage.files;
                                 });
                             }
-
+                            const dTDoc = new DataTransfer();
                             let doc;
                             for(var j=0;j<data[2].length;j++){
 
@@ -575,7 +575,7 @@
                                     console.log(ext)
                                     var name = "document" + j.toString() + "." +ext[1];
                                     
-                                    dT.items.add(new File([doc], name, {
+                                    dTDoc.items.add(new File([doc], name, {
                                         type: doc.type
                                     }));
                                     docsArray.push(new File([doc], name, {
@@ -583,7 +583,7 @@
                                     }));
                                     //console.log("image: ", dT);
                                 displayDocs();
-                                document.querySelector('#docupload').files = dT.files;
+                                document.querySelector('#docupload').files = dTDoc.files;
                                 });
                             }
                     }

@@ -155,8 +155,8 @@ namespace CI_Platform.Repository.Repositories
                 if (_MissionMedia.ExistUser(u => u.MissionId == mission.MissionId))
                 {
 
-                    if(_MissionMedia.GetAll().Any(u => u.MissionId == mission.MissionId && u.Default == 1)){
-                        mission.Path = _MissionMedia.GetFirstOrDefault(u => u.MissionId == mission.MissionId && u.Default == 1).MediaPath;
+                    if(_MissionMedia.GetAll().Any(u => u.MissionId == mission.MissionId && u.Default == "1")){
+                        mission.Path = _MissionMedia.GetFirstOrDefault(u => u.MissionId == mission.MissionId && u.Default == "1").MediaPath;
                     }else
                     {
                         mission.Path = _MissionMedia.GetFirstOrDefault(u => u.MissionId == mission.MissionId).MediaPath;

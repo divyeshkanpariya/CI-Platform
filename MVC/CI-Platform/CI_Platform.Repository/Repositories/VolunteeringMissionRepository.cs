@@ -111,9 +111,9 @@ namespace CI_Platform.Repository.Repositories
                 if (_MissionMedia.ExistUser(u => u.MissionId == mission.MissionId))
                 {
 
-                    if (_MissionMedia.GetAll().Any(u => u.MissionId == mission.MissionId && u.Default == 1))
+                    if (_MissionMedia.GetAll().Any(u => u.MissionId == mission.MissionId && u.Default == "1"))
                     {
-                        mission.Path = _MissionMedia.GetFirstOrDefault(u => u.MissionId == mission.MissionId && u.Default == 1).MediaPath;
+                        mission.Path = _MissionMedia.GetFirstOrDefault(u => u.MissionId == mission.MissionId && u.Default == "1").MediaPath;
                     }
                     else
                     {
@@ -348,9 +348,9 @@ namespace CI_Platform.Repository.Repositories
                 if (_MissionMedia.ExistUser(u => u.MissionId == mission.MissionId))
                 {
 
-                    if (_MissionMedia.GetAll().Any(u => u.MissionId == mission.MissionId && u.Default == 1))
+                    if (_MissionMedia.GetAll().Any(u => u.MissionId == mission.MissionId && u.Default == "1"))
                     {
-                        mission.Path = _MissionMedia.GetFirstOrDefault(u => u.MissionId == mission.MissionId && u.Default == 1).MediaPath;
+                        mission.Path = _MissionMedia.GetFirstOrDefault(u => u.MissionId == mission.MissionId && u.Default == "1").MediaPath;
                     }
                     else
                     {

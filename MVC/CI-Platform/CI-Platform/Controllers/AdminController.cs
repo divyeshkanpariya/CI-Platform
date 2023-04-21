@@ -11,17 +11,20 @@ namespace CI_Platform.Controllers
         private readonly IAdminUserPageRepositoty _adminUserPageRepo;
         private readonly IAdminCMSPageRepository _adminCMSPageRepo;
         private readonly IAdminMissionPageRepository _adminMissionPageRepo;
+        private readonly IAdminMissionApplicationsRepository _adminMissionApps;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         public AdminController(IAdminUserPageRepositoty adminUserPageRepo,
             IAdminCMSPageRepository adminCMSPage,
             IWebHostEnvironment webHostEnvironment,
-            IAdminMissionPageRepository adminMissionPageRepo)
+            IAdminMissionPageRepository adminMissionPageRepo,
+            IAdminMissionApplicationsRepository adminMissionApplications)
         {
             _adminUserPageRepo = adminUserPageRepo;
             _adminCMSPageRepo = adminCMSPage;
             _adminMissionPageRepo = adminMissionPageRepo;
             _webHostEnvironment = webHostEnvironment;
+            _adminMissionApps = adminMissionApplications;
         }
         /* ------------------------- User ----------------------- */
 
@@ -192,7 +195,7 @@ namespace CI_Platform.Controllers
         public IActionResult SaveMissionDetails(AdminAddEditMissionViewModel formData)
         {
             if(formData.Availability == "0") return View("Mission/Mission");
-            
+            string x = _webHostEnvironment.WebRootPath;
             _adminMissionPageRepo.SaveMissionDetails(formData, _webHostEnvironment.WebRootPath);
             return View("Mission/Mission");
         }
@@ -212,5 +215,46 @@ namespace CI_Platform.Controllers
             return JsonSerializer.Serialize(_adminMissionPageRepo.getMissionThemes());
         }
 
+
+        /* ------------------------- Mission Application ----------------------- */
+
+        public IActionResult MissionApplications()
+        {
+            return View("Mission Application/MissionApplications");
+        }
+
+        public IActionResult GetMissionApplications()
+         {
+            IEnumerable<AdminMissionAppicationTableViewModel> viewModel = _adminMissionApps.GetMissionApplications("",1);
+            return PartialView("~/Views/Admin/Mission Application/MissionApplicationDetails.cshtml",viewModel);
+        }
+        public IActionResult UpdateStatus(string AppId, string Status)
+        {
+            _adminMissionApps.UpdateStatus(Convert.ToInt64(AppId), Status);
+            return View("Mission Application/MissionApplications");
+        }
+        public string GetUpdatedApplications(string SearchText, string PageIndex)
+        {
+            if (SearchText == null)
+            {
+                SearchText = "";
+            }
+            IEnumerable<AdminMissionAppicationTableViewModel> viewModel = _adminMissionApps.GetMissionApplications(SearchText, Convert.ToInt32(PageIndex));
+            return JsonSerializer.Serialize(viewModel);
+        }
+
+        public IActionResult MissionThemes()
+        {
+            return View("Mission Theme/MissionThemes");
+        }
+
+        public IActionResult Skills()
+        {
+            return View("Skills/Skills");
+        }
+        public IActionResult Stories()
+        {
+            return View("Stories/Stories");
+        }
     }
 }
