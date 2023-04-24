@@ -12,12 +12,16 @@ namespace CI_Platform.Controllers
         private readonly IAdminCMSPageRepository _adminCMSPageRepo;
         private readonly IAdminMissionPageRepository _adminMissionPageRepo;
         private readonly IAdminMissionApplicationsRepository _adminMissionApps;
+        private readonly IAdminStoryRepository _adminStories;
+        private readonly IAdminSkillRepository _adminSkills;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         public AdminController(IAdminUserPageRepositoty adminUserPageRepo,
             IAdminCMSPageRepository adminCMSPage,
             IWebHostEnvironment webHostEnvironment,
             IAdminMissionPageRepository adminMissionPageRepo,
+            IAdminStoryRepository adminStoryRepo,
+            IAdminSkillRepository adminSkills,
             IAdminMissionApplicationsRepository adminMissionApplications)
         {
             _adminUserPageRepo = adminUserPageRepo;
@@ -25,6 +29,8 @@ namespace CI_Platform.Controllers
             _adminMissionPageRepo = adminMissionPageRepo;
             _webHostEnvironment = webHostEnvironment;
             _adminMissionApps = adminMissionApplications;
+            _adminSkills = adminSkills;
+            _adminStories = adminStoryRepo;
         }
         /* ------------------------- User ----------------------- */
 
@@ -228,10 +234,10 @@ namespace CI_Platform.Controllers
             IEnumerable<AdminMissionAppicationTableViewModel> viewModel = _adminMissionApps.GetMissionApplications("",1);
             return PartialView("~/Views/Admin/Mission Application/MissionApplicationDetails.cshtml",viewModel);
         }
-        public IActionResult UpdateStatus(string AppId, string Status)
+        [HttpPost]
+        public void UpdateStatus(string AppId, string Status)
         {
             _adminMissionApps.UpdateStatus(Convert.ToInt64(AppId), Status);
-            return View("Mission Application/MissionApplications");
         }
         public string GetUpdatedApplications(string SearchText, string PageIndex)
         {
@@ -247,14 +253,64 @@ namespace CI_Platform.Controllers
         {
             return View("Mission Theme/MissionThemes");
         }
-
+        /* ------------------------- Skills --------------------------------- */
         public IActionResult Skills()
         {
             return View("Skills/Skills");
         }
+
+        public IActionResult GetSkills()
+        {
+            IEnumerable<AdminSkillTableViewModel> viewModel = _adminSkills.GetSkills("", 1);
+            return PartialView("~/Views/Admin/Skills/SkillDetails.cshtml", viewModel);
+        }
+
+        public string getUpdatedSkills(string SearchText, string PageIndex)
+        {
+            if (SearchText == null)
+            {
+                SearchText = "";
+            }
+            IEnumerable<AdminSkillTableViewModel> viewModel = _adminSkills.GetSkills(SearchText, Convert.ToInt32(PageIndex));
+            return JsonSerializer.Serialize(viewModel);
+        }
+        public IActionResult SaveSkill(string SkillId, string Name,string Status)
+        {
+
+            if (Name == null || Name == "") return Json("Name is Empty");
+            string status = _adminSkills.SaveSkill(Convert.ToInt32(SkillId), Name, Status);
+            return Json(status);
+        }
+        [HttpPost]
+        public void DeleteSkill(string SkillId)
+        {
+            _adminSkills.DeleteSkill(Convert.ToInt32(SkillId));
+        }
         public IActionResult Stories()
         {
+            //IEnumerable<AdminStoryTableViewModel> viewModel = _adminStories.GetStoriesApplications("", 1);
             return View("Stories/Stories");
+        }
+        public IActionResult GetStoriesDetails()
+        {
+            IEnumerable<AdminStoryTableViewModel> viewModel = _adminStories.GetStoriesApplications("", 1);
+            return PartialView("~/Views/Admin/Stories/StoriesDetails.cshtml", viewModel);
+        }
+
+        public string GetUpdateStories(string SearchText, string pageIndex)
+        {
+            if (SearchText == null)
+            {
+                SearchText = "";
+            }
+            IEnumerable<AdminStoryTableViewModel> viewModel = _adminStories.GetStoriesApplications(SearchText, Convert.ToInt32(pageIndex));
+            return JsonSerializer.Serialize(viewModel);
+        }
+
+        [HttpPost]
+        public void UpdateStoryStatus(string StoryId, string Status)
+        {
+            _adminStories.UpdateStatus(Convert.ToInt64(StoryId), Status);
         }
     }
 }

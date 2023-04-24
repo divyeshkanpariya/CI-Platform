@@ -1,3 +1,32 @@
 ﻿@{
     Layout = "Admin_Layout";
 }
+
+
+<div class="my-3 my-lg-5 mx-4 mx-lg-5" id="AdminSkillsPage">
+    
+
+</div>
+
+<script>
+    
+    //function dismissModal(){
+    //    $("#StoryStatusUpdate").modal("hide");
+    //}
+    $(document).ready( () => {
+        $.ajax({
+            url: '/Admin/GetSkills',
+            type: 'GET',
+            data: {},
+            dataType: 'html',
+            success:function (data) {
+                $("#AdminSkillsPage").html(data);
+            }
+        });
+
+        document.getElementById("menu").getElementsByTagName("li")[5].classList.add("active");
+        document.getElementById("menu").getElementsByTagName("li")[5].getElementsByTagName("a")[0].getElementsByTagName("img")[0].src = "/images/skills-active.png";
+        
+
+    });
+</script>

@@ -509,13 +509,13 @@
                 return this.value;
             }).get().join();
         }
-
+        //console.log("SkillList = ", selectedSkillID);
         if(selectedSkillID == ""){
-            selectedSkillID = $('#themes li a input[type=checkbox]').map(function () {
+            selectedSkillID = $('#skills li a input[type=checkbox]').map(function () {
                 return this.value;
             }).get().join();
         }
-
+        //console.log("SkillList Update ",selectedSkillID);
         $.ajax({
             url: '/Home/GetCards',
             type: 'POST',

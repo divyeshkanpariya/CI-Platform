@@ -59,6 +59,8 @@ builder.Services.AddScoped<IAdminUserPageRepositoty,AdminUserPageRepository>();
 builder.Services.AddScoped<IAdminCMSPageRepository,AdminCMSPageRepository>();
 builder.Services.AddScoped<IAdminMissionPageRepository,AdminMissionPageRepository>();
 builder.Services.AddScoped<IAdminMissionApplicationsRepository,AdminMissionApplicationsRepository>();
+builder.Services.AddScoped<IAdminStoryRepository,AdminStoryRepository>();
+builder.Services.AddScoped<IAdminSkillRepository,AdminSkillRepository>();
 
 
 builder.Services.AddSession();

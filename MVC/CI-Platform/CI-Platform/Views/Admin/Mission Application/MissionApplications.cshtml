@@ -8,25 +8,7 @@
 </div>
 
 <script>
-    function ConfirmAppBtn() {
-        var id = document.getElementById("targetId").value;
-        var Status = document.getElementById("targetStatus").value;
-        $.ajax({
-            url: '/Admin/UpdateStatus',
-            type: 'GET',
-            data: {AppId: id,
-            Status: Status},
-            success:function () {
-                
-            }
-        });
-
-    }
-    function UpdateStatus(Id,Status){
-        $("#MissionApplicationUpdate").modal("show");
-        document.getElementById("targetId").value = id;
-        document.getElementById("targetStatus").value = Status;
-    }
+    
     function dismissModal(){
         $("#MissionApplicationUpdate").modal("hide");
     }

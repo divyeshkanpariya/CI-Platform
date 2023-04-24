@@ -1200,3 +1200,14 @@ output .span--hidden {
 #AdminSkillDropdown li:hover {
     background-color: #E8E8E8;
 }
+
+.admin-story-viewbtn {
+    border: 1px solid #F88634;
+    color: #F88634;
+    /*pointer-events:none;*/
+    font-size:10px;
+    border-radius: 13px;
+}
+    .admin-story-viewbtn:hover {
+        color: #F88634;
+    }

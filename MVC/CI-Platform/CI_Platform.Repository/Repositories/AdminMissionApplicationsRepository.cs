@@ -79,8 +79,9 @@ namespace CI_Platform.Repository.Repositories
 
                 if (missionApplication != null)
                 {
-                    missionApplication.ApprovalStatus = Status;
+                    if(Status != "DELETE") missionApplication.ApprovalStatus = Status;
                     missionApplication.UpdatedAt = DateTime.Now;
+                    if(Status == "DELETE") missionApplication.DeletedAt = DateTime.Now;
                     _MissionApplications.Update(missionApplication);
                     _MissionApplications.Save();
                 }

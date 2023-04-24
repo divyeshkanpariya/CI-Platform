@@ -1,3 +1,32 @@
 ﻿@{
     Layout = "Admin_Layout";
 }
+
+
+<div class="my-3 my-lg-5 mx-4 mx-lg-5" id="StoriesPage">
+    
+
+</div>
+
+<script>
+    
+    function dismissModal(){
+        $("#StoryStatusUpdate").modal("hide");
+    }
+    $(document).ready( () => {
+        $.ajax({
+            url: '/Admin/GetStoriesDetails',
+            type: 'GET',
+            data: {},
+            dataType: 'html',
+            success:function (data) {
+                $("#StoriesPage").html(data);
+            }
+        });
+
+        document.getElementById("menu").getElementsByTagName("li")[7].classList.add("active");
+        document.getElementById("menu").getElementsByTagName("li")[7].getElementsByTagName("a")[0].getElementsByTagName("img")[0].src = "/images/folder-active.png";
+        
+
+    });
+</script>
