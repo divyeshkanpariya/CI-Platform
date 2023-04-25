@@ -1,5 +1,407 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<CI_Platform.Models.ViewModels.AdminMissionThemeViewModel>
+
+<div class="alert alert-success" style="display:none;" id="success-alert">
+    <strong>Success!</strong>
+    <p class="mb-0"></p>
+</div>
+<div class="border-bottom my-3">
+    <div class="admin-table-heading pe-2">
+        <h2>Mission Theme</h2>
+    </div>
+</div>
+
+<div class="my-4 d-flex justify-content-between align-items-center">
+    <input class="form-control mr-2" type="search" id="searchUser" placeholder="Search" aria-label="Search" style="width:300px;" />
+    <button type="button" onclick="AddNewTheme()" id="AddNewUser" class="Apply-mission-btn d-flex px-3 align-items-center text-decoration-none"><i class="bi bi-plus-lg me-2"></i> Add</button>
+</div>
+
+<div id="admin-table" class="my-4" style="overflow:auto;">
+    <table class="table border" id="myTimeTable">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (@Model != null)
+            {
+                @foreach (var item in @Model)
+                {
+                    <tr>
+                        <td>@item.Title</td>
+
+                        @if (@item.Status == "1")
+                        {
+                            <td style="color: #14C506">Active</td>
+                        }
+                        else
+                        {
+                            <td class="text-danger">Inactive</td>
+                        }
+
+                        <td>
+                            <i class="bi bi-pencil-square" style="color: #F88634;" onclick="EditTheme(@item.ThemeId,'@item.Title',@item.Status)"></i>
+                            <i class="bi bi-trash"  onclick="DeleteTheme(@item.ThemeId)"></i>
+                        </td>
+
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
 @{
+    int pageCount;
+    if (@Model.FirstOrDefault().ThemeCount % 9 == 0)
+    {
+        pageCount = @Model.FirstOrDefault().ThemeCount / 9;
+    }
+    else
+    {
+        pageCount = @Model.FirstOrDefault().ThemeCount / 9 + 1;
+
+    }
 }
+<div id="paginationContainer">
+
+    <div class="pagination d-flex justify-content-end mt-5 mb-5" id="pagination">
+        @if (@pageCount > 1)
+        {
+            <a id="fr"><img src="~/images/previous.png" alt="Previous" /></a>
+            <a id="pre"><img src="~/images/left.png" alt="Previous" /></a>
+            @for (var i = 1; i <= @pageCount; i++)
+            {
+                @if (i == 1)
+                {
+                    <a class="active pt-1" id="first">@i</a>
+                }
+                else
+                {
+                    <a class="pt-1">@i</a>
+                }
+            }
+
+            <a id="next"><img src="~/images/right-arrow1.png" alt="Previous" /></a>
+            <a id="last"><img src="~/images/next.png" alt="Previous" /></a>
+
+        }
+    </div>
+
+</div>
+<div class="modal fade" id="AddEditTheme" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+
+                <h5 class="modal-title" id="exampleModalLabel">Enter Details</h5>
+                <button type="button" class="close border-0 bg-white" data-dismiss="modal" aria-label="Close" onclick="dismissModal()">
+                    <i class="btn-close"></i>
+                </button>
+
+            </div>
+            
+            <div class="modal-body"> 
+                   <input type="hidden" value="" id="targetId"/>   
+                   <div>
+                        <label class="form-label" for="ThemeTitle">Theme Title</label>
+                        <input name="ThemeTitle" class="form-control" id="ThemeTitle" placeholder="Theme Title">
+                        <p class="text-danger small-text" id="valThemeTitle"></p>
+                   </div>
+                    
+                   <div>
+                        <label class="form-label">Status*</label>
+                        <select name="Status" id="selectedStatus" class="form-select" aria-label=".form-select-lg example">
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
+                        </select>
+                        <p class="text-danger"></p>
+                   </div>
+
+                    
+            </div>     
+                        
+            <div class="modal-footer">
+                <button class="rec-btns px-4 text-muted" type="button" onclick="dismissModal()" style="width:fit-content" data-dismiss="modal">
+                    <span class="ps-2">Cancel</span>
+                </button> 
+                <button type="button" onclick="SaveThemeDetails()" class="Apply-mission-btn px-4">Save</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="DeleteThemeModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
+                <button type="button" class="close border-0 bg-white" data-dismiss="modal" aria-label="Close" onclick="dismissModal()">
+                    <i class="btn-close"></i>
+                </button>
+
+            </div>
+            
+            <div class="modal-body">
+             <p id="UpdateAppAlertText">Are you sure you want to delete this Theme?</p>
+                   <input type="hidden" value="" id="targetId"/> 
+            </div>     
+                        
+            <div class="modal-footer">
+                <button class="rec-btns px-4 text-muted" type="button" onclick="dismissModal()" style="width:fit-content" data-dismiss="modal">
+                    <span class="ps-2">Cancel</span>
+                </button> 
+                <button type="button" onclick="ConfiremDeleteTheme()" class="Apply-mission-btn px-4">Confirm</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<script>
+    function DeleteTheme(Id){
+        $("#DeleteThemeModel").modal("show");
+        document.getElementById("targetId").value = Id;
+    }
+
+    function EditTheme(ThemeId,Title,Status){
+        document.getElementById("targetId").value = ThemeId;
+        document.getElementById("ThemeTitle").value = Title;
+        document.getElementById("selectedStatus").value = Status;
+        $("#AddEditTheme").modal("show");
+    }
+
+    function AddNewTheme(){
+        $("#AddEditTheme").modal("show");
+        document.getElementById("targetId").value = "0";
+    }
+    function dismissModal(){
+        $("#AddEditTheme").modal("hide");
+        $("#DeleteThemeModel").modal("hide");
+        document.getElementById("valThemeTitle").innerHTML = "";
+        document.getElementById("ThemeTitle").value = "";
+        document.getElementById("selectedStatus").value = "1";
+    }
+    function ConfiremDeleteTheme(){
+        var id = document.getElementById("targetId").value;
+
+        $.ajax({
+            url: '/Admin/DeleteTheme',    
+            type: 'POST',
+            data: {ThemeId: id},
+            success:function () {
+                $("#DeleteThemeModel").modal("hide");
+                document.getElementById("success-alert").getElementsByTagName("p")[0].innerHTML = "Theme Deleted Successfully";
+                $("#success-alert").alert().show();
+                window.setTimeout(function () { 
+                    $("#success-alert").alert().hide(); 
+                }, 1500);
+                ShowUsers("1");
+
+            }
+        });
+    }
+    function SaveThemeDetails(){
+        var id = document.getElementById("targetId").value;
+        var name = document.getElementById("ThemeTitle").value;
+        var status = document.getElementById("selectedStatus").value;
+        console.log(id,name,status);
+        if(name == "" || name == null){
+            document.getElementById("valThemeTitle").innerHTML = "Please Add Theme Name";
+        }
+
+        $.ajax({
+            url: '/Admin/SaveTheme',    
+            type: 'POST',
+            data: {ThemeId: id,
+                Title: name,
+                Status: status},
+            dataType: 'json',
+            success:function (data) {
+                console.log("success")
+
+                console.log(data)
+                if(data == "Title is Empty"){
+                    document.getElementById("valThemeTitle").innerHTML = "Please Add Theme Title";
+                }
+                else if(data == "Theme Already Exist"){
+                    document.getElementById("ThemeTitle").value = "";
+                    document.getElementById("valThemeTitle").innerHTML = "Theme Title Already Used";
+                }else if(data == "Theme not changed"){
+                    document.getElementById("valThemeTitle").innerHTML = "Theme not Updated Add different Title";
+                }else{
+                    dismissModal();
+
+                    ShowUsers("1");
+                    if(data == "Added"){
+                        document.getElementById("success-alert").getElementsByTagName("p")[0].innerHTML = "New Theme Added Successfully";
+                    }else if(data == "Updated"){
+                        document.getElementById("success-alert").getElementsByTagName("p")[0].innerHTML = "Theme Updated Successfully";
+                    }
+        
+        
+                    $("#success-alert").alert().show();
+                    window.setTimeout(function () { 
+                        $("#success-alert").alert().hide(); 
+                    }, 1500);
+                    //$("#fr").click();
+                }
+               
+            }
+        });
+    }
+
+    function updatePagination(total, currIndex) {
+        var pagination = $("#pagination");
+        var pages;
+        var text = "";
+        pagination.empty();
+
+        if (total % 9 == 0) {
+            pages = total / 9;
+        } else {
+            pages = total / 9 + 1;
+        }
+        if (pages < 2) return;
+        //console.log(pages);
+        text += `<a id="fr"><img src="/images/previous.png" alt="Previous" /></a>
+                    <a id="pre"><img src="/images/left.png" alt="Previous" /></a>`;
+        for (var i = 1; i <= pages; i++) {
+            console.log(i)
+            if (i == currIndex) {
+                text += `<a  class="active pt-1" id="first">${i}</a>`;
+            } else {
+                text += `<a class="pt-1">${i}</a>`;
+            }
+        }
+        text += `<a id="next"><img src="/images/right-arrow1.png" alt="Previous" /></a>
+                    <a id="last"><img src="/images/next.png" alt="Previous" /></a>`;
+        //console.log(text);
+        pagination.html(text);
+        applypagination();
+    }
+
+    function ShowUsers(pageIndex) {
+        var text = $("#searchUser").val();
+        $.ajax({
+            url: '/Admin/GetUpdatedThemes',
+            type: 'GET',
+            data: {
+                SearchText: text,
+                PageIndex: pageIndex
+            },
+            dataType: 'json',
+            success: function (data) {
+                var tbody = $("#myTimeTable tbody");
+                tbody.empty();
+
+                var optext = "";
+                for (var i = 0; i < data.length; i++) {
+
+                    optext += `<tr>
+                                <td>${data[i].Title}</td>`
+                    if (data[i].Status == "1") {
+                        optext += `<td style="color: #14C506">Active</td>`
+                    } else {
+                        optext += `<td class="text-danger">Inactive</td>`
+                    }
+                    optext += `<td>
+                                    <i class="bi bi-pencil-square" style="color: #F88634;" onclick="EditTheme(${data[i].ThemeId},'${data[i].Title}',${data[i].Status})"></i>
+                                <i class="bi bi-trash" itemid="deleteUser" onclick="DeleteTheme(${data[i].ThemeId})"></i>
+                                </td>
+                            </tr>`;
+                }
+                tbody.html(optext);
+                updatePagination(data[0].ThemeCount, Number(pageIndex));
+            },
+            error: function (err) {
+                console.log("errr");
+            }
+        });
+    }
+
+    function applypagination() {
+        $("#pagination a").click((e) => {
+            console.log("terget", e.target.id)
+            var pagination = document.getElementById("pagination").getElementsByTagName("a");
+            if (e.target.id == "fr") {
+
+                for (i = 0; i < pagination.length; i++) {
+                    if (pagination[i].classList.contains("active")) {
+                        pagination[i].classList.remove("active");
+                    }
+                }
+                document.getElementById("first").classList.add("active");
+                ShowUsers("1");
+
+            } else if (e.target.id == "last") {
+
+                console.log("sds")
+                for (i = 0; i < pagination.length; i++) {
+                    if (pagination[i].classList.contains("active")) {
+                        pagination[i].classList.remove("active");
+                    }
+                }
+                pagination[pagination.length - 3].classList.add("active");
+                ShowUsers(pagination[pagination.length - 3].innerHTML);
+
+            } else if (e.target.id == "next") {
+
+                for (i = 0; i < pagination.length; i++) {
+                    if (pagination[i].classList.contains("active")) {
+                        if (pagination[i].innerHTML != pagination[pagination.length - 3].innerHTML) {
+                            pagination[i].classList.remove("active");
+                            pagination[i + 1].classList.add("active");
+                            ShowUsers(pagination[i + 1].innerHTML);
+                        }
+                        break;
+                    }
+
+                }
+
+            } else if (e.target.id == "pre") {
+                for (i = 0; i < pagination.length; i++) {
+                    console.log(pagination[i])
+                    if (pagination[i].classList.contains("active")) {
+
+                        if (pagination[i].innerHTML != pagination[2].innerHTML) {
+                            console.log("not1st")
+                            pagination[i].classList.remove("active");
+                            pagination[i - 1].classList.add("active");
+                            ShowUsers(pagination[i - 1].innerHTML);
+                        }
+                        break;
+                    }
+
+                }
+
+            } else {
+                $('#paginationContainer div a').each(function () {
+                    var x = $(this);
+                    if (x.hasClass('active')) {
+                        x.removeClass('active');
+                    }
+                });
+                e.target.classList.add('active');
+                ShowUsers(e.target.innerHTML);
+            }
+        });
+
+    }
+
+    $(document).ready(() => {
+        $("#searchUser").keyup(() => {
+            ShowUsers("1");
+            var pagination = document.getElementById("pagination").getElementsByTagName("a");
+            for (i = 0; i < pagination.length; i++) {
+                if (pagination[i].classList.contains("active")) {
+                    pagination[i].classList.remove("active");
+                }
+            }
+            document.getElementById("first").classList.add("active");
+        });
+
+        applypagination();
+    });
+</script>

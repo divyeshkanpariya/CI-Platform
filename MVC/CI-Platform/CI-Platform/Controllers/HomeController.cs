@@ -36,7 +36,7 @@ namespace CI_Platform.Controllers
 
         public IActionResult MissionListing()
         {
-            if (HttpContext.Session.GetString("UserId") != null && HttpContext.Session.GetString("UserId") != "")
+            if (HttpContext.Session.GetString("Role") == "User" && HttpContext.Session.GetString("UserId") != "")
             {
                 string CountryIDs = "";
                 string CityIDs = "";
@@ -106,7 +106,7 @@ namespace CI_Platform.Controllers
 
         public IActionResult VolunteeringMission(long mid)
         {
-            if (HttpContext.Session.GetString("UserName") != null)
+            if (HttpContext.Session.GetString("Role") == "User" && HttpContext.Session.GetString("UserName") != null)
             {
                 long userId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
                 MissionListingViewModel data = _VolunteeringMission.GetAllMissionData(mid, userId);

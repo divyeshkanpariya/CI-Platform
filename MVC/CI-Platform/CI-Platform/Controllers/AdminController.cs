@@ -14,6 +14,8 @@ namespace CI_Platform.Controllers
         private readonly IAdminMissionApplicationsRepository _adminMissionApps;
         private readonly IAdminStoryRepository _adminStories;
         private readonly IAdminSkillRepository _adminSkills;
+        private readonly IAdminMissionThemeRepository _adminThemes;
+        private readonly IAdminBannerRepository _adminBanners;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         public AdminController(IAdminUserPageRepositoty adminUserPageRepo,
@@ -22,6 +24,8 @@ namespace CI_Platform.Controllers
             IAdminMissionPageRepository adminMissionPageRepo,
             IAdminStoryRepository adminStoryRepo,
             IAdminSkillRepository adminSkills,
+            IAdminMissionThemeRepository adminThemes,
+            IAdminBannerRepository adminBanners,
             IAdminMissionApplicationsRepository adminMissionApplications)
         {
             _adminUserPageRepo = adminUserPageRepo;
@@ -30,14 +34,25 @@ namespace CI_Platform.Controllers
             _webHostEnvironment = webHostEnvironment;
             _adminMissionApps = adminMissionApplications;
             _adminSkills = adminSkills;
+            _adminThemes = adminThemes;
+            _adminBanners = adminBanners;
             _adminStories = adminStoryRepo;
         }
         /* ------------------------- User ----------------------- */
 
         public IActionResult User()
         {
-            IEnumerable<AdminUserTableViewModel> viewModel = _adminUserPageRepo.UsersList("",1);
-            return View("User/User",viewModel);
+            if (HttpContext.Session.GetString("Role") == "Admin" && HttpContext.Session.GetString("UserId") != "")
+            {
+                IEnumerable<AdminUserTableViewModel> viewModel = _adminUserPageRepo.UsersList("", 1);
+                return View("User/User", viewModel);
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Login is Required";
+                return RedirectToAction("Login", "Auth");
+            }
+            
         }
 
         public IActionResult GetUsers(string SearchText,string PageIndex) 
@@ -98,16 +113,32 @@ namespace CI_Platform.Controllers
 
         public IActionResult CMSPage()
         {
-            IEnumerable<AdminCmsPageViewModel> viewModel = _adminCMSPageRepo.getCmsPages("", 1);
-
-            return View("CMS/CMSPage",viewModel);
+            if (HttpContext.Session.GetString("Role") == "Admin" && HttpContext.Session.GetString("UserId") != "")
+            {
+                IEnumerable<AdminCmsPageViewModel> viewModel = _adminCMSPageRepo.getCmsPages("", 1);
+                return View("CMS/CMSPage", viewModel);
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Login is Required";
+                return RedirectToAction("Login", "Auth");
+            }
+            
         }
 
         public IActionResult GetCmsPages()
         {
-
-            IEnumerable<AdminCmsPageViewModel> viewModel = _adminCMSPageRepo.getCmsPages("", 1);
-            return PartialView("~/Views/Admin/CMS/CMSDetails.cshtml", viewModel);
+            if (HttpContext.Session.GetString("Role") == "Admin" && HttpContext.Session.GetString("UserId") != "")
+            {
+                IEnumerable<AdminCmsPageViewModel> viewModel = _adminCMSPageRepo.getCmsPages("", 1);
+                return PartialView("~/Views/Admin/CMS/CMSDetails.cshtml", viewModel);
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Login is Required";
+                return RedirectToAction("Login", "Auth");
+            }
+            
         }
 
         public string GetUpdatedCms(string SearchText, string PageIndex)
@@ -163,12 +194,30 @@ namespace CI_Platform.Controllers
 
         public IActionResult Mission()
         {
-            return View("Mission/Mission");
+            if (HttpContext.Session.GetString("Role") == "Admin" && HttpContext.Session.GetString("UserId") != "")
+            {
+                return View("Mission/Mission");
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Login is Required";
+                return RedirectToAction("Login", "Auth");
+            }
+            
         }
         public IActionResult GetMissions()
         {
-            IEnumerable <AdminMissionTableViewModel> viewModel= _adminMissionPageRepo.GetAdminMissions("", 1);
-            return PartialView("~/Views/Admin/Mission/MissionDetails.cshtml", viewModel);
+            if (HttpContext.Session.GetString("Role") == "Admin" && HttpContext.Session.GetString("UserId") != "")
+            {
+                IEnumerable<AdminMissionTableViewModel> viewModel = _adminMissionPageRepo.GetAdminMissions("", 1);
+                return PartialView("~/Views/Admin/Mission/MissionDetails.cshtml", viewModel);
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Login is Required";
+                return RedirectToAction("Login", "Auth");
+            }
+            
         }
         public string GetUpdatedMissions(string SearchText, string PageIndex)
         {
@@ -226,7 +275,16 @@ namespace CI_Platform.Controllers
 
         public IActionResult MissionApplications()
         {
-            return View("Mission Application/MissionApplications");
+            if (HttpContext.Session.GetString("Role") == "Admin" && HttpContext.Session.GetString("UserId") != "")
+            {
+                return View("Mission Application/MissionApplications");
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Login is Required";
+                return RedirectToAction("Login", "Auth");
+            }
+            
         }
 
         public IActionResult GetMissionApplications()
@@ -249,14 +307,68 @@ namespace CI_Platform.Controllers
             return JsonSerializer.Serialize(viewModel);
         }
 
+        /* ------------------------- Mission Themes --------------------------------- */
+
         public IActionResult MissionThemes()
         {
-            return View("Mission Theme/MissionThemes");
+            
+            if (HttpContext.Session.GetString("Role") == "Admin" && HttpContext.Session.GetString("UserId") != "")
+            {
+                return View("Mission Theme/MissionThemes");
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Login is Required";
+
+                return RedirectToAction("Login", "Auth");
+            }
+                
         }
+
+        public IActionResult GetAdminThemes()
+        {
+            IEnumerable<AdminMissionThemeViewModel> viewModel = _adminThemes.GetThemes("", 1);
+            return PartialView("~/Views/Admin/Mission Theme/MissionThemeDetails.cshtml", viewModel);
+        }
+
+        public string GetUpdatedThemes(string SearchText, string PageIndex)
+        {
+            if (SearchText == null)
+            {
+                SearchText = "";
+            }
+            IEnumerable<AdminMissionThemeViewModel> viewModel = _adminThemes.GetThemes(SearchText, Convert.ToInt32(PageIndex));
+            return JsonSerializer.Serialize(viewModel);
+        }
+
+        public IActionResult SaveTheme(string ThemeId, string Title, string Status)
+        {
+
+            if (Title == null || Title == "") return Json("Title is Empty");
+            string status = _adminThemes.SaveTheme(Convert.ToInt64(ThemeId), Title, Status);
+            return Json(status);
+        }
+        public void DeleteTheme(string ThemeId)
+        {
+            _adminThemes.DeleteTheme(Convert.ToInt64(ThemeId));
+
+        }
+
         /* ------------------------- Skills --------------------------------- */
+
         public IActionResult Skills()
         {
-            return View("Skills/Skills");
+            if (HttpContext.Session.GetString("Role") == "Admin" && HttpContext.Session.GetString("UserId") != "")
+            {
+                return View("Skills/Skills");
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Login is Required";
+
+                return RedirectToAction("Login", "Auth");
+            }
+            
         }
 
         public IActionResult GetSkills()
@@ -286,10 +398,22 @@ namespace CI_Platform.Controllers
         {
             _adminSkills.DeleteSkill(Convert.ToInt32(SkillId));
         }
+
+        /* ------------------------- Stories --------------------------------- */
+
         public IActionResult Stories()
         {
-            //IEnumerable<AdminStoryTableViewModel> viewModel = _adminStories.GetStoriesApplications("", 1);
-            return View("Stories/Stories");
+            if (HttpContext.Session.GetString("Role") == "Admin" && HttpContext.Session.GetString("UserId") != "")
+            {
+                return View("Stories/Stories");
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Login is Required";
+
+                return RedirectToAction("Login", "Auth");
+            }
+            
         }
         public IActionResult GetStoriesDetails()
         {
@@ -311,6 +435,57 @@ namespace CI_Platform.Controllers
         public void UpdateStoryStatus(string StoryId, string Status)
         {
             _adminStories.UpdateStatus(Convert.ToInt64(StoryId), Status);
+        }
+
+        /* ------------------------- Skills --------------------------------- */
+
+        public IActionResult BannerManagement()
+        {
+            if (HttpContext.Session.GetString("Role") == "Admin" && HttpContext.Session.GetString("UserId") != "")
+            {
+                return View("Banner/BannerManagement");
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Login is Required";
+
+                return RedirectToAction("Login", "Auth");
+            }
+
+        }
+
+        public IActionResult GetBannerDetails()
+        {
+            IEnumerable<AdminBannerViewModel> viewModel = _adminBanners.GetBannerDetails("", 1);
+            return PartialView("~/Views/Admin/Banner/BannerDetails.cshtml", viewModel);
+        }
+
+        public string GetUpdatedBannerDetails(string SearchText, string PageIndex)
+        {
+            if (SearchText == null)
+            {
+                SearchText = "";
+            }
+            IEnumerable<AdminBannerViewModel> viewModel = _adminBanners.GetBannerDetails(SearchText, Convert.ToInt32(PageIndex));
+            return JsonSerializer.Serialize(viewModel);
+        }
+        public string GetBanner(long BannerId)
+        {
+            return JsonSerializer.Serialize(_adminBanners.GetBanner(BannerId));
+        }
+
+        [HttpPost]
+        public string SaveBannerDetails(AdminAddEditBannerViewModel Model)
+        {
+            if (Model.Title.Trim() == "") return "Enter Valid Title";
+
+            if (Model.SortOrder == "") Model.SortOrder = "0";
+
+            if (Model.Text.Trim() == "") return "Enter Valid Text";
+
+            if (Model.Image == null) return "Please Upload Image";
+            string result =_adminBanners.SaveBannerDetails(Model,_webHostEnvironment.WebRootPath);
+            return result;
         }
     }
 }

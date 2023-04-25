@@ -35,6 +35,8 @@ builder.Services.AddScoped<IRepository<UserSkill>, Repository<UserSkill>>();
 builder.Services.AddScoped<IRepository<CmsPage>, Repository<CmsPage>>();
 builder.Services.AddScoped<IRepository<ContactU>, Repository<ContactU>>();
 builder.Services.AddScoped<IRepository<Timesheet>, Repository<Timesheet>>();
+builder.Services.AddScoped<IRepository<Admin>, Repository<Admin>>();
+builder.Services.AddScoped<IRepository<Banner>, Repository<Banner>>();
 
 
 builder.Services.AddScoped<ILostPasswordRepository, LostPasswordRepository>();
@@ -61,6 +63,8 @@ builder.Services.AddScoped<IAdminMissionPageRepository,AdminMissionPageRepositor
 builder.Services.AddScoped<IAdminMissionApplicationsRepository,AdminMissionApplicationsRepository>();
 builder.Services.AddScoped<IAdminStoryRepository,AdminStoryRepository>();
 builder.Services.AddScoped<IAdminSkillRepository,AdminSkillRepository>();
+builder.Services.AddScoped<IAdminMissionThemeRepository,AdminMissionThemeRepository>();
+builder.Services.AddScoped<IAdminBannerRepository,AdminBannerRepository>();
 
 
 builder.Services.AddSession();

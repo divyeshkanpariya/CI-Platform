@@ -6,7 +6,7 @@
 </div>
 <div class="border-bottom my-3">
     <div class="admin-table-heading pe-2">
-        <h2>User</h2>
+        <h2>Skill</h2>
     </div>
 </div>
 
@@ -36,7 +36,7 @@
                         {
                             <td style="color: #14C506">Active</td>
                         }else{
-                            <td class="text-danger">Disactive</td>
+                            <td class="text-danger">Inactive</td>
                         }
                     
                         <td>
@@ -110,7 +110,7 @@
                         <label class="form-label">Status*</label>
                         <select name="Status" id="selectedStatus" class="form-select" aria-label=".form-select-lg example">
                             <option value="1">Active</option>
-                            <option value="0">Disactive</option>
+                            <option value="0">Inactive</option>
                         </select>
                         <p class="text-danger"></p>
                    </div>
@@ -167,7 +167,7 @@
             type: 'POST',
             data: {SkillId: id},
             success:function () {
-                $("#AddEditMission").modal("hide");
+                $("#DeleteSkillModel").modal("hide");
                 document.getElementById("success-alert").getElementsByTagName("p")[0].innerHTML = "Skill Deleted Successfully";
                 $("#success-alert").alert().show();
                 window.setTimeout(function () { 
@@ -209,13 +209,16 @@
                 console.log("success")
 
                 console.log(data)
-                if(data == "Skill Already Exist"){
+                if(data == "Name is Empty"){
+                    document.getElementById("valSkillName").innerHTML = "Please Add Skill Name";
+                }
+                else if(data == "Skill Already Exist"){
                     document.getElementById("SkillName").value = "";
                     document.getElementById("valSkillName").innerHTML = "Please Add Different Skill Name";
                 }else if(data == "Skill not changed"){
                     document.getElementById("valSkillName").innerHTML = "Skill not Updated Add different Name";
                 }else{
-                     $("#AddEditMission").modal("hide");
+                     dismissModal();
                     ShowUsers("1");
                     if(data == "Added"){
                         document.getElementById("success-alert").getElementsByTagName("p")[0].innerHTML = "New Skill Added Successfully";
@@ -228,7 +231,7 @@
                     window.setTimeout(function () { 
                         $("#success-alert").alert().hide(); 
                     }, 1500);
-                    $("#fr").click();
+                    //$("#fr").click();
                 }
                
             }
@@ -292,7 +295,7 @@
                     if(data[i].Status == "1"){
                         optext += `<td style="color: #14C506">Active</td>`
                     }else{
-                        optext +=  `<td class="text-danger">Disactive</td>`
+                        optext +=  `<td class="text-danger">Inactive</td>`
                     }
                     optext += `<td>
                                 <i class="bi bi-pencil-square" style="color: #F88634;" onclick="EditSkill(${data[i].SkillId},'${data[i].Name}',${data[i].Status})"></i>

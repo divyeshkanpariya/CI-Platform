@@ -53,24 +53,29 @@ namespace CI_Platform.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userFromDB = _UserDb.ExistUser(u => u.Email == data.Email && u.Password == data.Password);
-                if (userFromDB)
-                {
-                    string username = _LoginDb.getUserName(data.Email);
-                    long userid = _LoginDb.getUserId(data.Email);
-                    
-                    string Avatar = _LoginDb.getUserAvatar(data.Email);
-                    HttpContext.Session.SetString("UserName", username);
-                    HttpContext.Session.SetString("UserId", Convert.ToString(userid));
-                    HttpContext.Session.SetString("UserAvatar", Avatar);
-                    HttpContext.Session.SetString("UserEmail", data.Email);
-                    return RedirectToAction("MissionListing", "Home");
-                }
-                else
+
+                List<string> UserDetails = _LoginDb.GetLoginDetails(data.Email,data.Password);
+                if(UserDetails.Count == 0)
                 {
                     ModelState.AddModelError("Password", "Invalid Email or Password");
+                }else if (UserDetails.FirstOrDefault() == "Admin")
+                {
+                    HttpContext.Session.SetString("Role", UserDetails[0]);
+                    HttpContext.Session.SetString("UserId", UserDetails[1]);
+                    HttpContext.Session.SetString("UserName", UserDetails[3]);
+                    HttpContext.Session.SetString("UserEmail", UserDetails[2]);
+                    return RedirectToAction("User", "Admin");
                 }
-
+                else if(UserDetails.FirstOrDefault() == "User")
+                {
+                    HttpContext.Session.SetString("Role", UserDetails[0]);
+                    HttpContext.Session.SetString("UserId", UserDetails[1]);
+                    HttpContext.Session.SetString("UserName", UserDetails[3]);
+                    HttpContext.Session.SetString("UserEmail", UserDetails[2]);
+                    HttpContext.Session.SetString("UserAvatar", UserDetails[4]);
+                    return RedirectToAction("MissionListing", "Home");
+                }
+                
             }
             return View(data);
         }
@@ -224,8 +229,16 @@ namespace CI_Platform.Controllers
 
         public IActionResult PrivacyPolicy()
         {
-            var model = _privacyPolicyRepo.GetPolicies();
-            return View(model);
+            if (HttpContext.Session.GetString("Role") == "User" && HttpContext.Session.GetString("UserId") != "")
+            {
+                var model = _privacyPolicyRepo.GetPolicies();
+                return View(model);
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Login is Required";
+                return RedirectToAction("Login", "Auth");
+            }
         }
 
         [HttpPost]

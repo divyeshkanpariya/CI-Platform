@@ -7,6 +7,8 @@ public partial class Banner
 {
     public long BannerId { get; set; }
 
+    public string? Title { get; set; }
+
     public string Image { get; set; } = null!;
 
     public string? Text { get; set; }

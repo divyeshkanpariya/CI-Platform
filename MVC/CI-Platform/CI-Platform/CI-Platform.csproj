@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Uploads\Mission\Photos\" />
+    <Folder Include="wwwroot\Uploads\Banners\" />
     <Folder Include="wwwroot\Uploads\ProfilePhotos\" />
     <Folder Include="wwwroot\Uploads\Story\" />
   </ItemGroup>

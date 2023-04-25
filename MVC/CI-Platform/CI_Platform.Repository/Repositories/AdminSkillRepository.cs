@@ -55,8 +55,16 @@ namespace CI_Platform.Repository.Repositories
         {
             if(SkillId == 0 || SkillId == null)
             {
-                if(_Skills.ExistUser(u => u.SkillName.Replace(" ","") == Name.Trim().Replace(" ", ""))){
+                if(_Skills.ExistUser(u => u.SkillName.Replace(" ","") == Name.Trim().Replace(" ", "") && u.DeletedAt == null)){
                     return "Skill Already Exist";
+                }else if(_Skills.ExistUser(u => u.SkillName.Replace(" ", "") == Name.Trim().Replace(" ", "") && u.DeletedAt != null))
+                {
+                    Skill skill = _Skills.GetFirstOrDefault(u => u.SkillName.Replace(" ", "") == Name.Trim().Replace(" ", "") && u.DeletedAt != null);
+                    skill.DeletedAt = null;
+                    skill.UpdatedAt = DateTime.Now;
+                    _Skills.Update(skill);
+                    _Skills.Save();
+                    return "Added";
                 }
                 Skill newSkill = new Skill
                 {
@@ -74,11 +82,10 @@ namespace CI_Platform.Repository.Repositories
                     Skill skill = _Skills.GetFirstOrDefault(sk => sk.SkillId == SkillId);
                     if (skill.Status == Status && skill.SkillName == Name) return "Skill not changed";
 
-                    else if (_Skills.ExistUser(u => u.SkillName.Replace(" ", "") == Name.Trim().Replace(" ", "") && u.SkillId != SkillId))
+                    else if (_Skills.ExistUser(u => u.SkillName.Replace(" ", "") == Name.Trim().Replace(" ", "") && u.SkillId != SkillId && u.DeletedAt == null))
                     {
                         return "Skill Already Exist";
                     }
-                    
                     if (skill != null)
                     {
                         skill.Status = Status;

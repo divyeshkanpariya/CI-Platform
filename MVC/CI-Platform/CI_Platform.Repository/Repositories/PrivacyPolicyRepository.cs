@@ -20,7 +20,7 @@ namespace CI_Platform.Repository.Repositories
         }
         public IEnumerable<PrivacyPolicyViewModel> GetPolicies()
         {
-            var cms = _cmsPage.GetAll();
+            var cms = _cmsPage.GetRecordsWhere(p => p.DeletedAt ==null);
             List<PrivacyPolicyViewModel> finModel = new List<PrivacyPolicyViewModel>();
             foreach(var page in cms)
             {

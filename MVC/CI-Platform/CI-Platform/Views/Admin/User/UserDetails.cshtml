@@ -38,7 +38,7 @@
                     {
                         <td style="color: #14C506">Active</td>
                     }else{
-                        <td class="text-danger">Disactive</td>
+                        <td class="text-danger">Inactive</td>
                     }
                     
                         <td>
@@ -165,7 +165,7 @@
                             <td>${data[i].EmployeeId}</td>
                             <td>${data[i].Department}</td>`;
                     if(data[i].Status == "0"){
-                        optext +=`<td class="text-danger">Disactive</td>`;
+                        optext +=`<td class="text-danger">Inactive</td>`;
                     }else{
                         optext +=`<td style="color: #14C506">Active</td>`;
                     }

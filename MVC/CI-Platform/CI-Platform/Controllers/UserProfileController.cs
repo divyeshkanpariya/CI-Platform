@@ -26,7 +26,16 @@ namespace CI_Platform.Controllers
         public IActionResult UserEditProfile()
         {
             //UserProfileViewModel model = new UserProfileViewModel();
-            return View();
+            if (HttpContext.Session.GetString("Role") == "User" && HttpContext.Session.GetString("UserId") != "")
+            {
+                return View();
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Login is Required";
+
+                return RedirectToAction("Login", "Auth");
+            }
         }
 
         [HttpPost]
@@ -149,15 +158,14 @@ namespace CI_Platform.Controllers
 
         public IActionResult VolunteeringTimesheet()
         {
-            long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
-            if(UserId != null)
+            //long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+            if(HttpContext.Session.GetString("Role") == "User" && HttpContext.Session.GetString("UserId") != "")
             {
                 return View();
             }
             else
             {
                 TempData["SuccessMessage"] = "Login is Required";
-
                 return RedirectToAction("Login", "Auth");
             }
             

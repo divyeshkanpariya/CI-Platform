@@ -7,7 +7,7 @@
 </div>
 <div class="border-bottom my-3">
     <div class="admin-table-heading pe-2">
-        <h2>User</h2>
+        <h2>Stories</h2>
     </div>
 </div>
 
@@ -38,7 +38,7 @@
                     
 
                         <td class="align-items-center">
-                            <a class="text-decoration-none text-small me-2 px-2 py-1 admin-story-viewbtn" asp-controller="Story" asp-action="StoryDetails" asp-route-sid = "@item.StoryId">View</a>
+                            <a class="text-decoration-none text-small me-2 px-2 py-1 admin-story-viewbtn" asp-controller="Story" asp-action="PreviewStory" asp-route-sid = "@item.StoryId">View</a>
                             <i class="bi bi-check-circle me-2 status"  onclick="UpdateStatus(@item.StoryId,'PUBLISHED')"></i>
                             <i class="bi bi-x-circle me-2 text-danger" onclick="UpdateStatus(@item.StoryId,'DECLINED')"></i>
                             <i class="bi bi-trash"  onclick="UpdateStatus(@item.StoryId,'DELETE')"></i>

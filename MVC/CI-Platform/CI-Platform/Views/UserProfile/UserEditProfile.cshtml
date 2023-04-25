@@ -18,14 +18,14 @@
                         <span>Change Image</span>
                     </label>
                     <input asp-for="ProfileImage" id="file" type="file"  onchange="loadFile(event)"/>
-                    @if(@Context.Session.GetString("UserAvatar") !=null)
+                    @if(@Context.Session.GetString("UserAvatar") ==null || @Context.Session.GetString("UserAvatar") == "")
                     {
-                        <img class="" src="@Context.Session.GetString("UserAvatar")" alt="volunteer1" id="profileImg"/>
-                    }else{
                         <img class="" src="~/images/default-user-icon.jpg" alt="volunteer1" id="profileImg"/>
+                    }else{
+                        <img class="" src="@Context.Session.GetString("UserAvatar")" alt="volunteer1" id="profileImg"/>
                     }
                 </div>
-                <p style="font-size:large; font-weight:500" class="mt-2">Divyesh Kanpariya</p>
+                <p style="font-size:large; font-weight:500" class="mt-2">@Context.Session.GetString("UserName")</p>
                 <a data-toggle="modal" data-target="#exampleModal"> Change Password</a>
 
             </div> 

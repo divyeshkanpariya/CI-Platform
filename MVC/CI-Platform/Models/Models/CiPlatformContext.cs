@@ -110,7 +110,7 @@ public partial class CiPlatformContext : DbContext
 
         modelBuilder.Entity<Banner>(entity =>
         {
-            entity.HasKey(e => e.BannerId).HasName("PK__banner__10373C34338A3FD5");
+            entity.HasKey(e => e.BannerId).HasName("PK__banner__10373C3419B8C370");
 
             entity.ToTable("banner");
 
@@ -130,6 +130,10 @@ public partial class CiPlatformContext : DbContext
             entity.Property(e => e.Text)
                 .HasColumnType("text")
                 .HasColumnName("text");
+            entity.Property(e => e.Title)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("title");
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");

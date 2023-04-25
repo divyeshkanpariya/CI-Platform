@@ -9,6 +9,8 @@ namespace CI_Platform.Repository.Interface
 {
     public interface ILoginRepository
     {
+        public List<string> GetLoginDetails(string EmailId, string Password);
+
         public long getUserId(string email);
 
         public string getUserName(string email);

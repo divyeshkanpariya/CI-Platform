@@ -1,0 +1,24 @@
+﻿@{
+    Layout = "Admin_Layout";
+}
+<div class="my-3 my-lg-5 mx-4 mx-lg-5" id="AdminBannerPage">
+</div>
+
+<script>
+
+$(document).ready(() => {
+    $.ajax({
+        url: '/Admin/GetBannerDetails',
+        type: 'GET',
+        dataType: 'html',
+        success: function (data) {
+            $("#AdminBannerPage").html(data);
+        }
+    });
+
+    document.getElementById("menu").getElementsByTagName("li")[8].classList.add("active");
+    document.getElementById("menu").getElementsByTagName("li")[8].getElementsByTagName("a")[0].getElementsByTagName("img")[0].src = "/images/folded-ribbon-active.png";
+
+
+});
+</script>

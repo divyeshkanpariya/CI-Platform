@@ -48,7 +48,7 @@
                     {
                         <td style="color: #14C506">Active</td>
                     }else{
-                        <td class="text-danger">Disactive</td>
+                        <td class="text-danger">Inactive</td>
                     }
                         <td>
                             <i class="bi bi-pencil-square" style="color: #F88634;" onclick="EditCms(@item.CmsPageId)"></i>
@@ -182,7 +182,7 @@
                     if(data[i].Status =="1"){
                         optext +=`<td style="color: #14C506">Active</td>`;
                     }else{
-                        optext += `<td class="text-danger">Disactive</td>`;
+                        optext += `<td class="text-danger">Inactive</td>`;
                     }
                     optext += `<td>
                                 <i class="bi bi-pencil-square" onclick="EditCms(${data[i].CmsPageId})" style="color: #F88634;"></i>

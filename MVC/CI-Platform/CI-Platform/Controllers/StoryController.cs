@@ -37,15 +37,23 @@ namespace CI_Platform.Controllers
         }
         public IActionResult StoryListing()
         {
-            string CountryIDs = "";
-            string CityIDs = "";
-            string ThemeIDs = "";
-            string SkillIDs = "";
-            string SearchText = "";
-            string PageIndex = "";
-            string UserId = HttpContext.Session.GetString("UserId");
-            var data = _StoriyListingDb.GetAllData(CountryIDs, CityIDs, ThemeIDs, SkillIDs, SearchText, UserId, PageIndex);
-            return View(data);
+            if (HttpContext.Session.GetString("Role") == "User" && HttpContext.Session.GetString("UserId") != "")
+            {
+                string CountryIDs = "";
+                string CityIDs = "";
+                string ThemeIDs = "";
+                string SkillIDs = "";
+                string SearchText = "";
+                string PageIndex = "";
+                string UserId = HttpContext.Session.GetString("UserId");
+                var data = _StoriyListingDb.GetAllData(CountryIDs, CityIDs, ThemeIDs, SkillIDs, SearchText, UserId, PageIndex);
+                return View(data);
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Login is Required";
+                return RedirectToAction("Login", "Auth");
+            }
 
         }
         [HttpPost]
@@ -77,7 +85,7 @@ namespace CI_Platform.Controllers
         {
             long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
             ShareYourStoryViewModel shareYourStoryViewModel = new ShareYourStoryViewModel();
-            if (_ShareStory.GetMissions(UserId) != null)
+            if (HttpContext.Session.GetString("Role") == "User" && HttpContext.Session.GetString("UserId") != "")
             {
                 return View(shareYourStoryViewModel);
             }
@@ -189,7 +197,6 @@ namespace CI_Platform.Controllers
 
             List<List<string>> list = _ShareStory.GetStoryDetails(Convert.ToInt64(MissionId), UserId);
 
-            //string path = Path.Combine(_WebHostEnvironment.WebRootPath, list[4][0]);
 
             return Json(list);
         }
@@ -236,7 +243,7 @@ namespace CI_Platform.Controllers
 
         public IActionResult StoryDetails(string sid)
         {
-            if (HttpContext.Session.GetString("UserId") != null)
+            if (HttpContext.Session.GetString("Role") == "User" && HttpContext.Session.GetString("UserId") != "")
             {
                 long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
                 long StoryId = Convert.ToInt64(sid);
@@ -268,6 +275,15 @@ namespace CI_Platform.Controllers
             //_VolunteeringMission.SendInvitation(EmailTo, UserId, Sid, body);
             _StoryDetails.AddStoryInvite(UserId, EmailTo, Sid);
             return Json(SendTo);
+        }
+        
+        public IActionResult PreviewStory(string sid)
+        {
+            long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+            long StoryId = Convert.ToInt64(sid);
+            _StoryDetails.addStoryView(UserId, StoryId);
+            IEnumerable<StoryCardViewModel> storyCard = _StoryDetails.GetAllData(StoryId);
+            return View(storyCard);
         }
     }
 }

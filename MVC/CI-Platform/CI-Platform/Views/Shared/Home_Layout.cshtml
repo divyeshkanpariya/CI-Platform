@@ -51,11 +51,12 @@
                 </div>
                 <div class="profile-dropdown dropdown d-flex justify-content-center align-items-center">
                     <a class="dropdown-toggle  small-text" style="text-decoration:none" data-bs-toggle="dropdown" aria-expanded="false">
-                        @if(@Context.Session.GetString("UserAvatar") != null)
+                        @if(@Context.Session.GetString("UserAvatar") == null || @Context.Session.GetString("UserAvatar") == "")
                         {
-                            <img src="@Context.Session.GetString("UserAvatar")" class="profile-image mx-1" alt="">
-                        }else{
                             <img src="~/images/default-user-icon.jpg" class="profile-image mx-1" alt="">
+                            
+                        }else{
+                            <img src="@Context.Session.GetString("UserAvatar")" class="profile-image mx-1" alt="">
                         }
                         
                         <span class="mx-1 header-text">@Context.Session.GetString("UserName")</span>

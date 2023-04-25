@@ -156,7 +156,7 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
                         if(data.length != 0){
                             document.getElementById("previewStory").classList.remove("d-none");
                             $("#previewStory").click(function(){
-                                window.open("StoryDetails?sid="+data[5][0],"_self");
+                                window.open("PreviewStory?sid="+data[5][0],"_blank");
                             });
 
                             document.getElementById("storyTitle").value = data[0][0];
