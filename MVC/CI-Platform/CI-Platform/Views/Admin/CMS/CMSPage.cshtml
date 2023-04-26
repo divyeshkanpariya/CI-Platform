@@ -10,53 +10,7 @@
 </div>
 <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
-    function AddCmsPage(){
-        console.log("addcms");
-        $.ajax({
-            url: '/Admin/AddNewCmsPage',
-            type: 'GET',
-            data: {},
-            dataType: 'html',
-            success: function(data){
-                $("#AdminCmsPage").html(data);
-            }
-
-        });
-    }
-
-    function EditCms(id){
-        console.log(id)
-        $.ajax({
-            url: '/Admin/EditCmsPage',
-            type: 'GET',
-            data: {CmsId: id},
-            dataType: 'html',
-            success: function(data){
-                $("#AdminCmsPage").html(data);
-            }
-
-        });
-    }
-
-    function DeleteCms(id){
-        $("#DeleteCms").modal("show");
-        document.getElementById("targetId").value = id;
-    }
-    function deleteCmsBtn(){
-        var x = document.getElementById("targetId").value;
-        $.ajax({
-            url: '/Admin/DeleteCmsPage',
-            type: 'POST',
-            data: {CmsId: Number(x)},
-            success: function(){
-                location.reload();
-                
-            }
-        });
-    }
-    function dismissModal(){
-        $("#DeleteCms").modal("hide");
-    }
+    
     $(document).ready( () => {
         $.ajax({
             url: '/Admin/GetCmsPages',

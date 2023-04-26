@@ -49,18 +49,20 @@
             <div class="form-group">
                 <textarea asp-for="Description" name="Description" id="editor"></textarea>
                 <span asp-validation-for="Description" class="text-danger small-text"></span>
-
+                <span id="valDescription" class="text-danger small-text"></span>
             </div>
         </div>
         <div class="col-sm-6 col-12 mt-3">
             <label asp-for="StartDate" class="form-label" for="GoalDate">Start Date</label>
             <input asp-for="StartDate" name="StartDate" class="form-control" type="date" id="StartDate" >
             <span asp-validation-for="StartDate" class="text-danger small-text"></span>
+            <span id="valStartDate" class="text-danger small-text"></span>
         </div>
         <div class="col-sm-6 col-12 mt-3">
             <label asp-for="EndDate" class="form-label" for="GoalDate">End Date</label>
             <input asp-for="EndDate" name="EndDate" class="form-control" type="date" id="EndDate" >
             <span asp-validation-for="EndDate" class="text-danger small-text"></span>
+            <span id="valEndDate" class="text-danger small-text"></span>
         </div>
 
         <div class="col-12 col-sm-6 mt-3">
@@ -75,26 +77,29 @@
                     
             </select>
                 <span asp-validation-for="Availability" class="text-danger small-text"></span>
+                <span id="valAvailability" class="text-danger small-text"></span>
         </div>
         <div class="col-12 col-sm-6 mt-3">
             <label for="Skills" class="form-label">Skills*</label>
-                        <div class="button-group w-100">
-                            <button type="button" class="btn btn-default w-100 dropdown-toggle border text-start" data-toggle="dropdown"><span class="">Skills</span></button>
-                            <ul class="dropdown-menu" id="AdminSkillDropdown">
+                <div class="button-group w-100">
+                    <button type="button" class="btn btn-default w-100 dropdown-toggle border text-start" data-toggle="dropdown"><span class="">Skills</span></button>
+                    <ul class="dropdown-menu" id="AdminSkillDropdown">
                                
-                            </ul>
-                        </div>
+                    </ul>
+                </div>
+                <span id="valSkills" class="text-danger small-text"></span>
             
         </div>
 
         <div class="col-sm-6 col-12 mt-3">
             <label asp-for="ThemeId" class="form-label">Theme*</label>
             <select asp-for="ThemeId" name="ThemeId" id="selectedTheme" class="form-select" aria-label=".form-select-lg example">
-                <option value="">Select Theme</option>
+                <option value="0">Select Theme</option>
                         
                     
             </select>
                 <span asp-validation-for="ThemeId" class="text-danger small-text"></span>
+                <span id="valTheme" class="text-danger small-text"></span>
         </div>
         <div class="col-sm-6 col-12 mt-3">
             <label asp-for="MissionType" class="form-label">Mission Type*</label>
@@ -121,11 +126,13 @@
             <label class="form-label" asp-for="GoalObjectiveText">Goal Value</label>
             <input class="form-control" asp-for="GoalObjectiveText" id="GoalObjectiveText" name="GoalObjectiveText" placeholder="Enter Goal Objective Text" >
             <span asp-validation-for="GoalObjectiveText" class="text-danger small-text"></span>
+            <span id="valGoalText" class="text-danger small-text"></span>
         </div>
         <div class="col-12 col-sm-6 mt-3 missionTypeGoal">
             <label class="form-label" asp-for="GoalValue">Goal Value</label>
             <input type="number" class="form-control" asp-for="GoalValue" id="GoalValue" name="GoalValue" placeholder="Enter Goal Value" >
             <span asp-validation-for="GoalValue" class="text-danger small-text"></span>
+            <span id="valGoalValue" class="text-danger small-text"></span>
         </div>
 
         @* -------------If Mission Type Time ------------ *@
@@ -148,6 +155,7 @@
             <label asp-for="RegistrationDeadline" class="form-label" for="GoalDate">Registration Deadline Date</label>
             <input asp-for="RegistrationDeadline" name="RegistrationDeadline" class="form-control" type="date" id="RegistrationDeadline" >
             <span asp-validation-for="RegistrationDeadline" class="text-danger small-text"></span>
+            <span id="valDeadline" class="text-danger small-text"></span>
         </div>
 
         
@@ -164,21 +172,23 @@
         <div class="col-sm-6 col-12 mt-3">
             <label asp-for="CountryId" class="form-label">Country*</label>
             <select asp-for="CountryId" name="CountryId" id="selectedCountry" class="form-select" aria-label=".form-select-lg example">
-                <option value="">Select Country</option>
+                <option value="0">Select Country</option>
                         
                     
             </select>
             <span asp-validation-for="CountryId" class="text-danger small-text"></span>
+            <span id="valCountry" class="text-danger small-text"></span>
         </div>
 
         <div class="col-sm-6 col-12 mt-3">
             <label asp-for="CityId" class="form-label">City*</label>
             <select asp-for="CityId" name="CityId" id="selectedCity" class="form-select" aria-label=".form-select-lg example">
-                <option value="">Select City</option>
+                <option value="0">Select City</option>
                         
                     
             </select>
             <span asp-validation-for="CityId" class="text-danger small-text"></span>
+            <span id="valCity" class="text-danger small-text"></span>
         </div>
 
         @* ------------  Organization Deails -------------- *@
@@ -248,6 +258,7 @@
             <div class="form-group">
                 <textarea asp-for ="VideoURLs" class="form-control" name="VideoURLs" id="VideoURLs" rows="3" placeholder="Enter Organization Details.."></textarea>
                 <span asp-validation-for="VideoURLs" class="text-danger small-text"></span>
+                <span id="valVideoUrls" class="text-danger small-text"></span>
             </div>
         </div>
         <div class="col-12 mt-3">
@@ -286,11 +297,125 @@
     <a class="rec-btns px-4 text-muted text-decoration-none d-flex align-items-center" type="button" style="width:fit-content" asp-action="User" asp-controller="Admin">
         <span class="ps-2">Cancel</span>
     </a> 
-    <button type="submit"  class="Apply-mission-btn px-4 ms-3" id = "saveSkillls">Save</button>
+    <button type="button"  class="Apply-mission-btn px-4 ms-3" id = "saveMissionbtn">Save</button>
+    <button type="submit" class="d-none" id="submitForm"></button>
 </div>
 </form>
-
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 <script>
+    function validateYouTubeUrl(url)
+    {
+            if (url != undefined || url != '') {
+                var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+                var match = url.match(regExp);
+                if (match && match[2].length == 11) {
+                    // Do anything for being valid
+                    return true;
+                    // if need to change the url to embed url then use below line
+                    $('#ytplayerSide').attr('src', 'https://www.youtube.com/embed/' + match[2] + '?autoplay=0');
+                }
+                else {
+                    // Do anything for not being valid
+                    return false;
+                }
+            }
+    }
+
+    $("#saveMissionbtn").click( () => {
+        var Availability = document.getElementById("selectedAvailability").value;
+        var CityId = document.getElementById("selectedCity").value;
+        var CountryId = document.getElementById("selectedCountry").value;
+        var ThemeId = document.getElementById("selectedTheme").value;
+        var StartDate = document.getElementById("StartDate").value;
+        var EndDate = document.getElementById("EndDate").value;
+        var MissionType = document.getElementById("selectedtype").value;
+        var Deadline = document.getElementById("RegistrationDeadline").value;
+        var GoalText = document.getElementById("GoalObjectiveText").value;
+        var GoalValue = document.getElementById("GoalValue").value;
+        var AllSkills = $('input[name=Skills]:checked');
+        var Description = tinymce.get("editor").getContent();
+        var VideoUrls = document.getElementById("VideoURLs").value.split("\n");
+        
+        console.log(VideoUrls);
+        document.getElementById("valDescription").innerHTML = document.getElementById("valVideoUrls").innerHTML =
+        document.getElementById("valSkills").innerHTML = document.getElementById("valDeadline").innerHTML = 
+        document.getElementById("valGoalText").innerHTML = document.getElementById("valGoalValue").innerHTML = 
+        document.getElementById("valStartDate").innerHTML = document.getElementById("valEndDate").innerHTML =
+        document.getElementById("valAvailability").innerHTML = document.getElementById("valCity").innerHTML =
+        document.getElementById("valCountry").innerHTML = document.getElementById("valAvailability").innerHTML= "";
+        
+        if(StartDate == ""){
+            document.getElementById("valStartDate").innerHTML = "Please Enter Start Date"
+            return;
+        }
+        if(EndDate == ""){
+            document.getElementById("valEndDate").innerHTML = "Please Enter End Date"
+            return;
+        }else{
+            var startArr = StartDate.split("-");
+            var endArr = EndDate.split("-")
+            var FinSDate = new Date(parseInt(startArr[0]), parseInt(startArr[1]) - 1, parseInt(startArr[2]))
+            var FinEDate = new Date(parseInt(endArr[0]), parseInt(endArr[1]) - 1, parseInt(endArr[2]))
+            if(FinSDate >=FinEDate){
+                document.getElementById("EndDate").value = "";
+                document.getElementById("valEndDate").innerHTML = "End Date can not be Less than Start Date"
+                return
+            }
+        }
+        if(Availability == 0){
+            document.getElementById("valAvailability").innerHTML = "Please Select Availability"
+            return;
+        }
+        if(AllSkills.length == 0){
+            
+            document.getElementById("valSkills").innerHTML = "Please Select Skills"
+            return;
+        }
+        if(ThemeId == 0){
+            document.getElementById("valTheme").innerHTML = "Please Select Theme"
+            return;
+        }
+        
+        if(CountryId == 0){
+            document.getElementById("valCountry").innerHTML = "Please Select Country"
+            return;
+        }
+        if(CityId == 0){
+            document.getElementById("valCity").innerHTML = "Please Select city"
+            return;
+        }
+        if(MissionType == "Time"){
+            if(Deadline == ""){
+                document.getElementById("valDeadline").innerHTML = "Please Select Deadline"
+                return;
+            }
+        }else if (MissionType == "Go"){
+            if(GoalText == ""){
+                document.getElementById("valGoalText").innerHTML = "Please Add Goal Objective Text"
+                return;
+            }
+            if(GoalValue == "0"){
+                document.getElementById("valGoalValue").innerHTML = "Please Add Goal Value"
+                return;
+            }
+        }
+        if(Description == ""){
+            document.getElementById("valDescription").innerHTML = "Please Add Description"
+            return;
+        }
+        if(!(VideoUrls.length == 1 && VideoUrls[0] == "")){
+            for(var i=0;i<VideoUrls.length;i++){
+                if(!validateYouTubeUrl(VideoUrls[i])){
+                    document.getElementById("valVideoUrls").innerHTML = "All Youtube URLs Must be Valid";
+                    return;
+                };
+            }
+        }
+        $("#submitForm").click();
+
+    });
+
     var options = [];
     const inputDiv = document.querySelector(".input-div");
     const input = document.querySelector("#imageupload");

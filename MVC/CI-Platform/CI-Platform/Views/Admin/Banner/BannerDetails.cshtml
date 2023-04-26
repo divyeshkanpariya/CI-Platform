@@ -10,8 +10,8 @@
     </div>
 </div>
 
-<div class="my-4 d-flex justify-content-between align-items-center">
-    <input class="form-control mr-2" type="search" id="searchUser" placeholder="Search" aria-label="Search" style="width:300px;" />
+<div class="my-4 d-sm-flex justify-content-between align-items-center">
+    <input class="form-control mr-2 mb-2" type="search" id="searchUser" placeholder="Search" aria-label="Search" style="width:300px;" />
     <button type="button" onclick="AddNewBanner()" id="AddNewUser" class="Apply-mission-btn d-flex px-3 align-items-center text-decoration-none"><i class="bi bi-plus-lg me-2"></i> Add</button>
 </div>
 
@@ -21,6 +21,7 @@
             <tr>
                 <th scope="col">Title</th>
                 <th scope="col">Text</th>
+                <th scope="col">Image Name</th>
                 <th scope="col">Sort Order</th>
                 <th scope="col">Action</th>
             </tr>
@@ -37,12 +38,12 @@
                         }else{
                             <td>@item.Text</td>
                         }
-                        
+                        <td>@item.Image.Split("/")[@item.Image.Split("/").Length -1]</td>
                         <td>@item.SortOrder</td>
 
                         <td>
                             <i class="bi bi-pencil-square pe-2" style="color: #F88634;" onclick="EditBanner(@item.Id)"></i>
-                            <i class="bi bi-trash"  onclick="DeleteTheme(@item.Id)"></i>
+                            <i class="bi bi-trash"  onclick="DeleteBanner(@item.Id)"></i>
                         </td>
 
                     </tr>
@@ -158,25 +159,43 @@
             
             <div class="modal-body">
              <p id="UpdateAppAlertText">Are you sure you want to delete this Theme?</p>
-                   <input type="hidden" value="" id="targetId"/> 
+                   <input type="hidden" value="" id="targetDelId"/> 
             </div>     
                         
             <div class="modal-footer">
                 <button class="rec-btns px-4 text-muted" type="button" onclick="dismissModal()" style="width:fit-content" data-dismiss="modal">
                     <span class="ps-2">Cancel</span>
                 </button> 
-                <button type="button" onclick="ConfiremDeleteTheme()" class="Apply-mission-btn px-4">Confirm</button>
+                <button type="button" onclick="ConfirmDeleteBanner()" class="Apply-mission-btn px-4">Confirm</button>
             </div>
             
         </div>
     </div>
 </div>
 <script>
-    function DeleteTheme(Id){
+    function DeleteBanner(Id){
         $("#DeleteBanner").modal("show");
-        document.getElementById("targetId").value = Id;
+        document.getElementById("targetDelId").value = Id;
+        
     }
+    function ConfirmDeleteBanner(){
+        var Id = document.getElementById("targetDelId").value;
+        $.ajax({
+            url: '/Admin/DeleteBanner',
+            type: 'POST',
+            data: {BannerId: Id},
+            success: function () {
+                dismissModal();
+                document.getElementById("success-alert").getElementsByTagName("p")[0].innerHTML = "Banner Deleted Successfully";
 
+                $("#success-alert").alert().show();
+                window.setTimeout(function () { 
+                    $("#success-alert").alert().hide(); 
+                }, 1500);
+                ShowUsers("1")
+            }
+        });
+    }
     function EditBanner(BannerId){
         console.log(BannerId);
         $.ajax({
@@ -292,6 +311,7 @@
                     window.setTimeout(function () { 
                         $("#success-alert").alert().hide(); 
                     }, 1500);
+                    ShowUsers("1")
                 }
             }
         });
@@ -332,7 +352,7 @@
     function ShowUsers(pageIndex) {
         var text = $("#searchUser").val();
         $.ajax({
-            url: '/Admin/GetUpdatedThemes',
+            url: '/Admin/GetUpdatedBannerDetails',
             type: 'GET',
             data: {
                 SearchText: text,
@@ -345,14 +365,20 @@
 
                 var optext = "";
                 for (var i = 0; i < data.length; i++) {
-                    var text = data[i].Text.subsstring(0,70);
+                    var text = String(data[i].Text);
+                    var image = String(data[i].Image).split("/");
                     optext += `<tr>
-                                <td>${data[i].Title}</td>
-                                <td>${text}</td>
+                                <td>${data[i].Title}</td>`
+                    if(text.length >70){
+                        optext += `<td>${text.substring(0,70)}...</td>`
+                    }else{
+                        optext += `<td>${text}</td>`
+                    }
+                    optext += `<td>${image[image.length -1]}</td>
                                 <td>${data[i].SortOrder}</td>
                                 <td>
-                                    <i class="bi bi-pencil-square" style="color: #F88634;" onclick="EditTheme(${data[i].ThemeId},'${data[i].Title}',${data[i].Status})"></i>
-                                <i class="bi bi-trash" itemid="deleteUser" onclick="DeleteTheme(${data[i].ThemeId})"></i>
+                                    <i class="bi bi-pencil-square pe-2" style="color: #F88634;" onclick="EditBanner(${data[i].Id})"></i>
+                                <i class="bi bi-trash" itemid="deleteUser" onclick="DeleteBanner(${data[i].Id})"></i>
                                 </td>
                             </tr>`;
                 }
@@ -442,7 +468,10 @@
                     pagination[i].classList.remove("active");
                 }
             }
-            document.getElementById("first").classList.add("active");
+            if(document.getElementById("first") != null){
+                document.getElementById("first").classList.add("active");
+            }
+            
         });
 
         applypagination();

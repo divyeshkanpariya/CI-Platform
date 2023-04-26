@@ -1,60 +1,30 @@
 ﻿@{
     Layout = "Admin_Layout";
 }
-
+@if (TempData["UserEditError"] != null)
+    {
+    <div class="alert alert-danger" style="" id="success-alert">
+        <strong>Failed!</strong>
+        <span class="mb-0">@TempData["UserEditError"]</span>
+    </div>
+    }
+    @if (TempData["UserEditSuccess"] != null)
+    {
+    <div class="alert alert-success" style="" id="success-alert">
+        <strong>Success!</strong>
+        <span class="mb-0">@TempData["UserEditSuccess"]</span>
+    </div>
+    }
 
 <div class="my-3 my-lg-5 mx-4 mx-lg-5" id="AdminUserMain">
+    
     @*@Html.Partial("~/Views/Admin/User/UserDetails.cshtml")*@
     @*<partial name="~/Views/Admin/User/UserDetails.cshtml" />*@
 
 </div>
 
 <script>
-    function dismissModal(){
-        $("#DeleteUser").modal("hide");
-    }
-    function AddNewUser(){
-        $.ajax({
-            url: '/Admin/AddNewUser',
-            type: 'GET',
-            data: {},
-            dataType: 'html',
-            success: function(data){
-                $("#AdminUserMain").html(data);
-            }
-
-        });
-    }
-
-    function editUser(UserId){
-        $.ajax({
-            url: '/Admin/EditUser',
-            type: 'GET',
-            data: {UserId: UserId},
-            dataType: 'html',
-            success: function(data){
-                $("#AdminUserMain").html(data);
-            }
-
-        });
-    }
-    function deleteUser(UserId){
-        $("#DeleteUser").modal("show");
-        document.getElementById("targetId").value = UserId;
-        
-    }
-    function deleteUserBtn(){
-        var x = document.getElementById("targetId").value;
-        $.ajax({
-            url: '/Admin/DeleteUser',
-            type: 'POST',
-            data: {UserId: Number(x)},
-            success: function(){
-                location.reload();
-            }
-
-        });
-    }
+    
     $(document).ready( () => {
         console.log("ss");
         $.ajax({
@@ -67,5 +37,9 @@
                 $("#AdminUserMain").html(data);
             }
         });
+        window.setTimeout(function () { 
+            $("#success-alert").alert().hide(); 
+        }, 2000);
+        
     });
 </script>

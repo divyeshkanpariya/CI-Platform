@@ -72,6 +72,7 @@ namespace CI_Platform.Repository.Repositories
             User Userdetails = _UserList.GetFirstOrDefault(x => x.UserId == UserId);
             AdminAddUserViewModel ViewModel = new AdminAddUserViewModel()
             {
+                UserId = UserId.ToString(),
                 Name = Userdetails.FirstName,
                 Surname = Userdetails.LastName,
                 Email = Userdetails.Email,
@@ -102,10 +103,10 @@ namespace CI_Platform.Repository.Repositories
 
         public void SaveUserDetails(AdminAddUserViewModel model)
         {
-            if(_UserList.ExistUser(user => user.Email == model.Email))
+            if(_UserList.ExistUser(user => user.UserId == Convert.ToInt64(model.UserId)))
             {
-                User user = _UserList.GetFirstOrDefault(user => user.Email == model.Email);
-                user.Email = model.Email;
+                User user = _UserList.GetFirstOrDefault(user => user.UserId == Convert.ToInt64(model.UserId));
+                user.Email = model.Email.Trim().Replace(" ","");
                 user.CountryId = Convert.ToInt64(model.Country);
                 user.CityId = Convert.ToInt64(model.City);
                 user.FirstName = model.Name;
@@ -149,6 +150,11 @@ namespace CI_Platform.Repository.Repositories
                 _UserList.Update(user);
                 _UserList.Save();
             }
+        }
+
+        public bool ExistUser(string Email)
+        {
+            return _UserList.ExistUser(u => u.Email == Email && u.DeletedAt == null);
         }
     }
 }

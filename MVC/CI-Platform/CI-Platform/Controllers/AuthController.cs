@@ -20,6 +20,7 @@ namespace CI_Platform.Controllers
         private readonly ILoginRepository _LoginDb;
         public readonly IPrivacyPolicyRepository _privacyPolicyRepo;
         public readonly IContactUsRepository _contactUsRepo;
+        public readonly IAdminBannerRepository _adminBannerRepo;
 
         private readonly IRepository<User> _UserDb;
 
@@ -29,6 +30,7 @@ namespace CI_Platform.Controllers
             IResetPasswordRepository resetPwdDb, 
             ILoginRepository loginDb, 
             IPrivacyPolicyRepository privacyPolicyRepo,
+            IAdminBannerRepository adminBannerRepo,
             IContactUsRepository contactUsRepo)
         {
             _registrationDb = registrationDb;
@@ -37,6 +39,7 @@ namespace CI_Platform.Controllers
             _ResetPwdDb = resetPwdDb;
             _LoginDb = loginDb;
             _privacyPolicyRepo = privacyPolicyRepo;
+            _adminBannerRepo = adminBannerRepo;
             _contactUsRepo = contactUsRepo;
         }
         public IActionResult Login()
@@ -79,7 +82,7 @@ namespace CI_Platform.Controllers
             }
             return View(data);
         }
-
+        
         public IActionResult Registration()
         {
             return View();
@@ -91,7 +94,7 @@ namespace CI_Platform.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userFromDB = _registrationDb.ExistUser(u => u.Email == data.Email);
+                var userFromDB = _registrationDb.ExistUser(u => u.Email == data.Email && u.DeletedAt == null);
                 if (userFromDB)
                 {
                     ModelState.AddModelError("", "Email is already Used");
@@ -121,7 +124,7 @@ namespace CI_Platform.Controllers
             if (ModelState.IsValid)
             {
 
-                var userFromDB = _UserDb.ExistUser(u => u.Email == data.Email);
+                var userFromDB = _UserDb.ExistUser(u => u.Email == data.Email && u.DeletedAt == null);
                 if (userFromDB)
                 {
 
@@ -252,6 +255,12 @@ namespace CI_Platform.Controllers
         public string getPolicies()
         {
             return JsonSerializer.Serialize(_privacyPolicyRepo.GetPolicies());
+        }
+
+        public string getBanners()
+        {
+
+            return JsonSerializer.Serialize(_adminBannerRepo.getAllBanners());
         }
     }
 }

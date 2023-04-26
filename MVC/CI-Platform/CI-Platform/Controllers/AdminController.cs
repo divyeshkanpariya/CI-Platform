@@ -17,6 +17,7 @@ namespace CI_Platform.Controllers
         private readonly IAdminMissionThemeRepository _adminThemes;
         private readonly IAdminBannerRepository _adminBanners;
         private readonly IWebHostEnvironment _webHostEnvironment;
+       
 
         public AdminController(IAdminUserPageRepositoty adminUserPageRepo,
             IAdminCMSPageRepository adminCMSPage,
@@ -92,9 +93,68 @@ namespace CI_Platform.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult SaveUserDetails(AdminAddUserViewModel viewModel)
         {
+            if (viewModel.Name == "" ||viewModel.Name.Length > 16)
+            {
+                TempData["UserEditError"] = "InValid Name";
+                return RedirectToAction("User", "Admin");
+            }
+            if (viewModel.Surname == "" || viewModel.Surname.Length > 16)
+            {
+                TempData["UserEditError"] = "InValid SurName";
+                return RedirectToAction("User", "Admin");
+            }
+            if (viewModel.Email == "" || viewModel.Email.Length > 128 || viewModel.Email.Length < 8)
+            {
+                TempData["UserEditError"] = "InValid Email";
+                return RedirectToAction("User", "Admin");
+            }
+            if(viewModel.UserId == "0")
+            {
+                if (_adminUserPageRepo.ExistUser(viewModel.Email))
+                {
+                    TempData["UserEditError"] = "Email Already Used";
+                    return RedirectToAction("User", "Admin");
+                }
+            }
+            
+            if (viewModel.EmployeeId == "" || viewModel.EmployeeId.Length > 16)
+            {
+                TempData["UserEditError"] = "Invalid EmployeeId";
+                return RedirectToAction("User", "Admin");
+            }
+            if (viewModel.Department == "" || viewModel.Department.Length > 16)
+            {
+                TempData["UserEditError"] = "Invalid department";
+                return RedirectToAction("User", "Admin");
+            }
+            if (viewModel.ProfileText == "")
+            {
+                TempData["UserEditError"] = "Invalid ProfileText";
+                return RedirectToAction("User", "Admin");
+            }
+            if (viewModel.City == "0")
+            {
+                TempData["UserEditError"] = "Invalid City";
+                return RedirectToAction("User", "Admin");
+            }
+            if (viewModel.Country == "0")
+            {
+                TempData["UserEditError"] = "Invalid Country";
+                return RedirectToAction("User", "Admin");
+            }
+
             _adminUserPageRepo.SaveUserDetails(viewModel);
+            if(viewModel.UserId == "0")
+            {
+                TempData["UserEditSuccess"] = "User Added Successfully";
+            }
+            else
+            {
+                TempData["UserEditSuccess"] = "User Updated Successfully";
+            };
             return RedirectToAction("User", "Admin");
         }
 
@@ -249,9 +309,38 @@ namespace CI_Platform.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult SaveMissionDetails(AdminAddEditMissionViewModel formData)
         {
-            if(formData.Availability == "0") return View("Mission/Mission");
+            if (formData.Availability == "0" || formData.Skills.Length <= 0 || formData.StartDate >= formData.EndDate || formData.CityId == "0" || formData.CountryId == "0" || formData.ThemeId == "0" || formData.Description == "")
+            {
+                TempData["ErrorMessage"] = "Trying to Modify Scripts !!! Please Try Again";
+                return View("Mission/Mission");
+            }
+            if (formData.MissionType == "Go")
+            {
+                if(formData.GoalObjectiveText == "" || formData.GoalObjectiveText == null || formData.GoalValue <=0)
+                {
+                    TempData["ErrorMessage"] = "Trying to Modify Scripts !!! Please Try Again";
+                    return View("Mission/Mission");
+                }
+            }
+            else
+            {
+                if(formData.RegistrationDeadline == null || formData.RegistrationDeadline == DateTime.MinValue)
+                {
+                    TempData["ErrorMessage"] = "Trying to Modify Scripts !!! Please Try Again";
+                    return View("Mission/Mission");
+                }
+            }
             string x = _webHostEnvironment.WebRootPath;
             _adminMissionPageRepo.SaveMissionDetails(formData, _webHostEnvironment.WebRootPath);
+            if(formData.MissionId == 0 || formData.MissionId == null)
+            {
+                TempData["SuccessMessage"] = "Mission Added Successfully";
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Mission Updated Successfully";
+            }
+            
             return View("Mission/Mission");
         }
         public string GetMissionLoc(string Mid)
@@ -437,7 +526,7 @@ namespace CI_Platform.Controllers
             _adminStories.UpdateStatus(Convert.ToInt64(StoryId), Status);
         }
 
-        /* ------------------------- Skills --------------------------------- */
+        /* ------------------------- Banner Management --------------------------------- */
 
         public IActionResult BannerManagement()
         {
@@ -486,6 +575,12 @@ namespace CI_Platform.Controllers
             if (Model.Image == null) return "Please Upload Image";
             string result =_adminBanners.SaveBannerDetails(Model,_webHostEnvironment.WebRootPath);
             return result;
+        }
+
+        [HttpPost]
+        public void DeleteBanner(string BannerId)
+        {
+            _adminBanners.DeleteBanner(Convert.ToInt64(BannerId),_webHostEnvironment.WebRootPath);
         }
     }
 }

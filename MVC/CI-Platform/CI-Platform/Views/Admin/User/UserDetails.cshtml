@@ -1,6 +1,11 @@
 ﻿
 @model IEnumerable<CI_Platform.Models.ViewModels.AdminUserTableViewModel>
 
+<div class="alert alert-success" style="display:none;" id="success-del-alert">
+    <strong>Success!</strong>
+    <span class="mb-0">User Deleted Successfully</span>
+</div>
+
 <div class="border-bottom my-3">
     <div class="admin-table-heading pe-2">
         <h2>User</h2>
@@ -113,7 +118,57 @@
     </div>
 </div>
 <script>
+    function dismissModal(){
+        $("#DeleteUser").modal("hide");
+    }
+    function AddNewUser(){
+        $.ajax({
+            url: '/Admin/AddNewUser',
+            type: 'GET',
+            data: {},
+            dataType: 'html',
+            success: function(data){
+                $("#AdminUserMain").html(data);
+            }
 
+        });
+    }
+
+    function editUser(UserId){
+        $.ajax({
+            url: '/Admin/EditUser',
+            type: 'GET',
+            data: {UserId: UserId},
+            dataType: 'html',
+            success: function(data){
+                $("#AdminUserMain").html(data);
+            }
+
+        });
+    }
+    function deleteUser(UserId){
+        $("#DeleteUser").modal("show");
+        document.getElementById("targetId").value = UserId;
+        
+    }
+    function deleteUserBtn(){
+        var x = document.getElementById("targetId").value;
+        $.ajax({
+            url: '/Admin/DeleteUser',
+            type: 'POST',
+            data: {UserId: Number(x)},
+            success: function(){
+                dismissModal();
+                ShowUsers("1");
+                $("#success-del-alert").alert().show(); 
+                window.setTimeout(function () { 
+                    $("#success-del-alert").alert().hide(); 
+                }, 2000);
+                
+            }
+
+        });
+    }
     function updatePagination(total,currIndex){
         var pagination = $("#pagination");
         var pages ;
@@ -157,13 +212,18 @@
                 var tbody = $("#myTimeTable tbody");
                 tbody.empty();
                 var optext = "";
+                
                 for(var i=0;i<data.length;i++){
+                    var dep = data[i].Department;
+                    if(dep == null) dep ="";
+                    var employeeId = data[i].EmployeeId;
+                    if (employeeId == null) employeeId = ""
                     optext += `<tr>
                             <td>${data[i].FirstName}</td>
                             <td>${data[i].LastName}</td>
                             <td>${data[i].Email}</td>
-                            <td>${data[i].EmployeeId}</td>
-                            <td>${data[i].Department}</td>`;
+                            <td>${data[i].employeeId}</td>
+                            <td>${dep}</td>`;
                     if(data[i].Status == "0"){
                         optext +=`<td class="text-danger">Inactive</td>`;
                     }else{

@@ -113,6 +113,7 @@ namespace CI_Platform.Repository.Repositories
                 model.Availability = mission.Availability;
                 model.Status = mission.Status;
                 
+                
                 if (_MissionSkills.ExistUser(ms => ms.MissionId == MissionId))
                 {
                     
@@ -140,30 +141,14 @@ namespace CI_Platform.Repository.Repositories
                 {
                     if (_MissionSeats.ExistUser(ms => ms.MissionId == MissionId))
                     {
+                        
                         MissionSeat gm = _MissionSeats.GetFirstOrDefault(gm => gm.MissionId == MissionId);
                         model.TotalSeats = gm.TotalSeats;
-
+                        model.RegistrationDeadline = mission.RegistrationDeadline;
                     }
                 }
 
-                //if (_MissionMediums.ExistUser(ms => ms.MissionId == MissionId && ms.Default == 1))
-                //{
-                //    string file = _MissionMediums.GetFirstOrDefault(ms => ms.MissionId == MissionId && ms.Default == 1).MediaPath.Substring(1);
-                //    string path = Path.Combine(WebroootPath, file);
-                //    //path += _MissionMediums.GetFirstOrDefault(ms => ms.MissionId == MissionId && ms.Default == 1).MediaPath;
-                //    var memoryStream = new MemoryStream();
-                //    using (var stream = new FileStream(path, FileMode.Open))
-                //    {
-                //        stream.CopyTo(memoryStream);
-                //    }
-                //    memoryStream.Position = 0;
-                //    //IFormFile formFile = new FormFile(memoryStream, 0, memoryStream.Length, null, Path.GetFileName(path));
-                //    //if (File.Exists(path))
-                //    //{
-                //    //    FileStream fl = File.Create(path); 
-                //    //}
-                //    //model.DefaultImage = formFile;
-                //}
+                
 
             }
             return model;
@@ -434,9 +419,11 @@ namespace CI_Platform.Repository.Repositories
                             _MissionGoals.AddNew(newGoal);
                             _MissionGoals.Save();
                         }
+                        newMission.RegistrationDeadline = null;
                     }
                     else if (viewModel.MissionType == "Time")
                     {
+                        newMission.RegistrationDeadline = viewModel.RegistrationDeadline;
                         if (_MissionGoals.ExistUser(u => u.MissionId == MissionId && u.DeletedAt == null))
                         {
                             GoalMission GoalMiss = _MissionGoals.GetFirstOrDefault(u => u.MissionId == MissionId);

@@ -23,7 +23,7 @@
     <div class="row px-3 mb-3">
         <div class="col-12 mt-3">
             <label class="form-label" asp-for="Title">Title*</label>
-            <input asp-for="Title" name="Title" class="form-control" id="title" placeholder="Enter Title" autofocus required>
+            <input asp-for="Title" name="Title" class="form-control" id="title" placeholder="Enter Title" autofocus>
             <span asp-validation-for="Title" class="text-danger small-text"></span>
         </div>
         <div class="col-12 mt-3">
@@ -36,7 +36,7 @@
         </div>
         <div class="col-12 mt-3">
             <label class="form-label" asp-for="Slug">Slug</label>
-            <input asp-for="Slug" name="Slug" class="form-control" id="slug" placeholder="Slug" required>
+            <input asp-for="Slug" name="Slug" class="form-control" id="slug" placeholder="Slug">
             <span asp-validation-for="Slug" class="text-danger small-text"></span>
         </div>
 
@@ -71,3 +71,6 @@
         menubar: false,
     });
 </script>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

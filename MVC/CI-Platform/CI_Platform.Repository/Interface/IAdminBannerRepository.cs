@@ -1,4 +1,5 @@
-﻿using CI_Platform.Models.ViewModels;
+﻿using CI_Platform.Models.Models;
+using CI_Platform.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,9 @@ namespace CI_Platform.Repository.Interface
         public AdminBannerViewModel GetBanner(long BannerId);
 
         public string SaveBannerDetails(AdminAddEditBannerViewModel ViewModel, string Webroot);
+
+        public void DeleteBanner(long BannerId, string WebRootPath);
+
+        public IEnumerable<Banner> getAllBanners();
     }
 }

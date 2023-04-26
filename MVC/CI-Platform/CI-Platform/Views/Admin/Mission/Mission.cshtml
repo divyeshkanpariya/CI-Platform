@@ -2,7 +2,20 @@
 @{
     Layout = "Admin_Layout";
 }
-
+@if (TempData["ErrorMessage"] != null)
+{
+<div class="alert alert-danger" style="" id="success-alert">
+    <strong>Failed!</strong>
+    <span class="mb-0">@TempData["ErrorMessage"]</span>
+</div>
+}
+@if (TempData["SuccessMessage"] != null)
+{
+<div class="alert alert-success" style="" id="success-alert">
+    <strong>Succeed!!</strong>
+    <span class="mb-0">@TempData["SuccessMessage"]</span>
+</div>
+}
 <div class="my-3 my-lg-5 mx-4 mx-lg-5" id="AdminMissionPage">
     
 
@@ -68,6 +81,9 @@
                 $("#AdminMissionPage").html(data);
             }
         });
+        window.setTimeout(function () { 
+            $("#success-alert").alert().hide(); 
+        }, 2000);
 
         document.getElementById("menu").getElementsByTagName("li")[3].classList.add("active");
         document.getElementById("menu").getElementsByTagName("li")[3].getElementsByTagName("a")[0].getElementsByTagName("img")[0].src = "/images/bullseye-active.png";

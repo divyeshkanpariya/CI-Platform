@@ -39,6 +39,8 @@ public partial class Mission
 
     public DateTime? DeletedAt { get; set; }
 
+    public DateTime? RegistrationDeadline { get; set; }
+
     public virtual City City { get; set; } = null!;
 
     public virtual ICollection<Comment> Comments { get; } = new List<Comment>();

@@ -14,7 +14,7 @@
         Data Added/Updated Successfully
     </div>
 }
-<div class="alert alert-danger" style="display:none;" id="success-deleted">
+<div class="alert alert-success" style="display:none;" id="success-deleted">
     <strong>Success</strong>
     Data Deleted Successfully !!!!
 </div>
@@ -131,6 +131,60 @@
 </div>
 
 <script>
+    function AddCmsPage(){
+        console.log("addcms");
+        $.ajax({
+            url: '/Admin/AddNewCmsPage',
+            type: 'GET',
+            data: {},
+            dataType: 'html',
+            success: function(data){
+                $("#AdminCmsPage").html(data);
+            }
+
+        });
+    }
+
+    function EditCms(id){
+        console.log(id)
+        $.ajax({
+            url: '/Admin/EditCmsPage',
+            type: 'GET',
+            data: {CmsId: id},
+            dataType: 'html',
+            success: function(data){
+                $("#AdminCmsPage").html(data);
+            }
+
+        });
+    }
+
+    function DeleteCms(id){
+        $("#DeleteCms").modal("show");
+        document.getElementById("targetId").value = id;
+    }
+
+    function deleteCmsBtn(){
+        var x = document.getElementById("targetId").value;
+        $.ajax({
+            url: '/Admin/DeleteCmsPage',
+            type: 'POST',
+            data: {CmsId: Number(x)},
+            success: function(){
+                dismissModal();
+                ShowUsers("1");
+
+                $("#success-deleted").alert().show(); 
+                window.setTimeout(function () { 
+                    $("#success-deleted").alert().hide(); 
+                }, 2000);
+            }
+        });
+    }
+    function dismissModal(){
+        $("#DeleteCms").modal("hide");
+    }
+
     function updatePagination(total,currIndex){
         var pagination = $("#pagination");
         var pages;
@@ -269,7 +323,7 @@
     $(document).ready( function() {
        setTimeout(function(){
            $("#success-alert").hide();
-       },1500);
+       },2000);
     });
 
     

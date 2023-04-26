@@ -18,5 +18,7 @@ namespace CI_Platform.Repository.Interface
         public void SaveUserDetails(AdminAddUserViewModel model);
 
         public void DeleteUser(long UserId);
+
+        public bool ExistUser(string Email);
     }
 }

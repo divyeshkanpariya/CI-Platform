@@ -25,7 +25,7 @@ namespace CI_Platform.Repository.Repositories
         {
             List<AdminBannerViewModel> Banners = new List<AdminBannerViewModel>();
             IEnumerable<Banner> BannerDb = (from banner in _db.Banners
-                                                 where banner.Title.Contains(SearchText) && banner.DeletedAt == null
+                                                 where banner.DeletedAt == null && ( banner.Title.Contains(SearchText) || banner.Image.Contains(SearchText) )
                                                  select banner).ToList();
 
             foreach (Banner banner in BannerDb)
@@ -135,6 +135,36 @@ namespace CI_Platform.Repository.Repositories
             }
 
             return "";
+        }
+
+        public void DeleteBanner(long BannerId,string WebRootPath)
+        {
+            if(_Banners.ExistUser(u => u.BannerId == BannerId))
+            {
+                Banner target = _Banners.GetFirstOrDefault(u => u.BannerId == BannerId);
+                string oldPath = Path.Combine(WebRootPath, target.Image.Substring(1));
+                if (File.Exists(oldPath))
+                {
+                    try
+                    {
+                        File.Delete(oldPath);
+                    }catch (Exception ex)
+                    {
+                        Console.WriteLine("Error" + ex.Message);
+                    }
+                }
+                _Banners.DeleteField(target);
+                _Banners.Save();
+            }
+        }
+        public IEnumerable<Banner> getAllBanners()
+        {
+            IEnumerable<Banner> viewModels = new List<Banner>();
+            if(_Banners.ExistUser(u =>u.DeletedAt == null))
+            {
+                viewModels = _Banners.GetRecordsWhere(u => u.DeletedAt == null).OrderBy(u => u.SortOrder).ToList();
+            }
+            return viewModels;
         }
     }
 }
