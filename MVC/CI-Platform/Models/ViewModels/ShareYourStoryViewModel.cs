@@ -15,6 +15,7 @@ namespace CI_Platform.Models.ViewModels
         [Required]
         public string Mission { get; set; }
         [Required]
+        [MaxLength(255)]
         public string StoryTitle { get; set; }
         [Required]
         public DateTime Date { get; set; }

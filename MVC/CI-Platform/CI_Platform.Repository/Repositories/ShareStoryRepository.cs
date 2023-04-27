@@ -33,7 +33,7 @@ namespace CI_Platform.Repository.Repositories
         {
             List<long> missionIds = new List<long>();
 
-            IEnumerable<MissionApplication> missionApplications = _MissionApplications.GetAll().Where(u=>u.UserId == UserId);
+            IEnumerable<MissionApplication> missionApplications = _MissionApplications.GetAll().Where(u=>u.UserId == UserId && u.ApprovalStatus == "APPROVE" && u.DeletedAt == null);
 
             foreach (MissionApplication application in missionApplications)
             {

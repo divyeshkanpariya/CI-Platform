@@ -100,6 +100,13 @@
     </nav>
 </div>
 
+@if (TempData["SuccessMessage"] != null)
+{
+<div class="alert alert-success" style="" id="success-alert">
+    <strong>Succeed!!</strong>
+    <span class="mb-0">@TempData["SuccessMessage"]</span>
+</div>
+}
 
 <div class="story-listing-img  mb-4">
     <img class="story-img-top" src="~/images/Grow-Trees-On-the-path-to-environment-sustainability-login.png" alt="Card image cap">
@@ -115,7 +122,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="container-fluid grid-container px-3 px-sm-5" id="storyContainer">
     @Html.Partial("StoryCards")
@@ -215,15 +221,12 @@
             }
    
         });
-    
-        
+     
     }
+
     $('#countries li a input[type=checkbox]').click(function (e) {
             var CountryId = $(this).val();
             console.log(CountryId);
-            //console.log(CountryId.substring(CountryId.indexOf("-")+1));
-            ////console.log(CountryId);
-            //var CountryId = parseInt(CountryId);
             if (e.currentTarget.checked) {
 
                 $.ajax({
@@ -292,14 +295,10 @@
                         if($('#cities li').map(function(){return this}).get().join().length == 0){
                             console.log('getall');
                             getAllCities();
-                            //$.when(getAllCities()).then(applyFilter());
-                            //changeCount();
                             applyFilter();
                             
                         }else{
                             applyFilter("1");
-                            //moveToFirstPage();
-                            //changeCount();
 
                         }
                             
@@ -310,6 +309,11 @@
             
         });
         $(document).ready(function(){
+            
+            window.setTimeout(function () { 
+                $("#success-alert").alert().hide(); 
+            }, 2000);
+
             $.ajax({
                 url: '/Story/GetStoryCards',
                 type: 'POST',

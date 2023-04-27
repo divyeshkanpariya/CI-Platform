@@ -85,10 +85,6 @@ namespace CI_Platform.Repository.Repositories
             var SelectedMissions = _Missions.GetAll().Where(u=>u.MissionId == missionId);
             viewModel.MissionCards = _MissionCard.FillData(SelectedMissions);
 
-            //MissionCardViewModel cardmodel = new MissionCardViewModel();
-            //IEnumerable<Mission> missions = _Missions.GetAll();
-
-            //IEnumerable<MissionCardViewModel> miss = _MissionCard.FillData(missions);
 
             viewModel.Cities = _CityList.GetAll();
             viewModel.Countries = _CountryList.GetAll();
@@ -128,7 +124,14 @@ namespace CI_Platform.Repository.Repositories
 
                 /* Rating */
 
-
+                if(_MissionRatingList.ExistUser(u => u.UserId == UserId && u.MissionId == mission.MissionId))
+                {
+                    mission.CurrMissionRatings = _MissionRatingList.GetFirstOrDefault(u => u.UserId == UserId && u.MissionId == mission.MissionId).Rating;
+                }
+                else
+                {
+                    mission.CurrMissionRatings= 0;
+                }
 
                 if (_MissionRatingList.ExistUser(u => u.MissionId == mission.MissionId))
                 {
@@ -297,12 +300,10 @@ namespace CI_Platform.Repository.Repositories
         public MissionListingViewModel GetRelatedMissions(long missionId,long UserId)
         {
             MissionListingViewModel viewModel = new MissionListingViewModel();
-            long cityId = _Missions.GetFirstOrDefault(u=>u.MissionId == missionId).CityId;
-            long countryId = _Missions.GetFirstOrDefault(u => u.MissionId == missionId).CountryId;
-            long themeId = _Missions.GetFirstOrDefault(u => u.MissionId == missionId).ThemeId;
+            long cityId = _Missions.GetFirstOrDefault(u=>u.MissionId == missionId && u.DeletedAt == null).CityId;
+            long countryId = _Missions.GetFirstOrDefault(u => u.MissionId == missionId && u.DeletedAt == null).CountryId;
+            long themeId = _Missions.GetFirstOrDefault(u => u.MissionId == missionId && u.DeletedAt == null).ThemeId;
 
-
-            //IEnumerable<Mission> AllMissions = _Missions.GetAll();
              
             List<Mission> Relatedmissions = new List<Mission>();
             
@@ -321,8 +322,6 @@ namespace CI_Platform.Repository.Repositories
             }
             
             IEnumerable<Mission> AllMissions = Relatedmissions.Take(3);
-
-
 
             viewModel.MissionCards = _MissionCard.FillData(AllMissions);
 
@@ -517,6 +516,7 @@ namespace CI_Platform.Repository.Repositories
 
             
         }
+
         public void addInvitation(long from_id,long to_id, long missionId)
         {
             
@@ -529,6 +529,7 @@ namespace CI_Platform.Repository.Repositories
             _MissionInviteList.AddNew(newInvite);
             _MissionInviteList.Save();
         }
+
         public void PostComment(long MissionId, string CommentText, long UserId)
         {
             Comment comment = new Comment

@@ -105,7 +105,7 @@ namespace CI_Platform.Repository.Repositories
 
             List<List<string>> UserList = new List<List<string>>();
 
-            foreach (var user in _Users.GetAll().Where(u => u.UserId !=story.FirstOrDefault().UserId))
+            foreach (var user in _Users.GetAll().Where(u => u.UserId != story.FirstOrDefault().UserId && u.DeletedAt == null))
             {
                 List<string> newuser = new List<string>();
                 newuser.Add(Convert.ToString(user.UserId));

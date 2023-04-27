@@ -11,37 +11,47 @@ namespace CI_Platform.Models.ViewModels
 {
     public class UserProfileViewModel
     {
-        public IFormFile ProfileImage { get; set; }
+        public IFormFile? ProfileImage { get; set; }
 
         [Required]
+        [MaxLength(16)]
         public string Name { get; set; }
         [Required]
+        [MaxLength(16)]
         public string Surname { get; set; }
-        
+        [MaxLength(16)]
         public string EmployeeId { get; set; }
 
-        public string Manager { get; set; }
-        
-        public string Title { get; set; }
+        public string? Manager { get; set; }
 
-        public string Department { get; set; }
+        [MaxLength(255)]
+        
+        public string? Title { get; set; }
+
+        [MaxLength(16)]
+        public string? Department { get; set; }
+
         [Required]
         public string MyProfileText { get; set; }
 
-        public string WhyIVol { get; set; }
+        public string? WhyIVol { get; set; }
 
         public string City { get; set; }
+
         [Required]
         public string Country { get; set; }
 
         public string Availability { get; set; }
 
-        public string LinkedinURL { get; set; }
+        [MaxLength(255)]
+        [Url]
+        public string? LinkedinURL { get; set; }
 
         public List<string> UserSkillIdList { get; set; }
 
         public List<string> UserSkills { get; set; }
-        
+        [Required]
+        [MinLength(1)]
         public string MySkills { get; set; }
     }
 }

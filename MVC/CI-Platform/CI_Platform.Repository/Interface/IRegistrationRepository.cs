@@ -13,6 +13,6 @@ namespace CI_Platform.Repository.Interface
     {
         User NewUser(RegistrationViewModel data);
 
-
+        public bool ExistAdmin(string EmailId);
     }
 }

@@ -41,7 +41,7 @@
                             <td>11/04/2002</td>
                             <td>1h</td>
                             <td>30 min</td>
-                            <td>
+                            <td class="text-nowrap">
                                 <i class="bi bi-pencil-square" style="color: #F88634;"></i>
                                 <i class="bi bi-trash"></i>
                             </td>
@@ -461,46 +461,42 @@
         var message = document.getElementById("timeMessage").value;
         var status = document.getElementById("timeSheetId").value;
 
+        document.getElementById("valTimeDate").innerHTML = 
+        document.getElementById("valTimeMission").innerHTML = document.getElementById("valTimeHours").innerHTML = 
+        document.getElementById("valTimeMinutes").innerHTML = document.getElementById("valTimeMessage").innerHTML = "";
+           
         if(mission == "Select Your Mission"){
             document.getElementById("valTimeMission").innerHTML = "Please Select Mission";
-            document.getElementById("valTimeDate").innerHTML = document.getElementById("valTimeHours").innerHTML = 
-            document.getElementById("valTimeMinutes").innerHTML = document.getElementById("valTimeMessage").innerHTML = "";
             return;
         }
         if(date == ""){
             document.getElementById("valTimeDate").innerHTML = "Please Select Date";
-            document.getElementById("valTimeMission").innerHTML = document.getElementById("valTimeHours").innerHTML = 
-            document.getElementById("valTimeMinutes").innerHTML = document.getElementById("valTimeMessage").innerHTML = "";
             return;
         }
         if(hours == ""){
             document.getElementById("valTimeHours").innerHTML = "Please Add Hours";
-            document.getElementById("valTimeDate").innerHTML = document.getElementById("valTimeMission").innerHTML = 
-            document.getElementById("valTimeMinutes").innerHTML = document.getElementById("valTimeMessage").innerHTML = "";
             return;
         }else if(Number(hours) >23){
             document.getElementById("hours").value = "";
             document.getElementById("valTimeHours").innerHTML = "Hours can not be greater than 23";
-            document.getElementById("valTimeDate").innerHTML = document.getElementById("valTimeMission").innerHTML = 
-            document.getElementById("valTimeMinutes").innerHTML = document.getElementById("valTimeMessage").innerHTML = "";
             return;
         }
         if(minutes == ""){
             document.getElementById("valTimeMinutes").innerHTML = "Please Add Minutes";
-            document.getElementById("valTimeDate").innerHTML = document.getElementById("valTimeHours").innerHTML = 
-            document.getElementById("valTimeMission").innerHTML = document.getElementById("valTimeMessage").innerHTML = "";
             return;
         }else if(Number(minutes) >59){
             document.getElementById("minutes").value = "";
             document.getElementById("valTimeMinutes").innerHTML = "Minutes can not be greater than 59";
-            document.getElementById("valTimeDate").innerHTML = document.getElementById("valTimeHours").innerHTML = 
-            document.getElementById("valTimeMission").innerHTML = document.getElementById("valTimeMessage").innerHTML = "";
+            return;
+        }
+        if(minutes == "0" && hours == "0"){
+            document.getElementById("minutes").value = "";
+            document.getElementById("hours").value = "";
+            document.getElementById("valTimeMinutes").innerHTML = "Please Enter valid Time";
             return;
         }
         if(message == ""){
             document.getElementById("valTimeMessage").innerHTML = "Please Add Message";
-            document.getElementById("valTimeDate").innerHTML = document.getElementById("valTimeHours").innerHTML = 
-            document.getElementById("valTimeMinutes").innerHTML = document.getElementById("valTimeMission").innerHTML = "";
             return;
         }
         SaveVolunteeringDetails("Time", mission, date, hours, minutes, "", message, status)
@@ -512,24 +508,24 @@
         var action = document.getElementById("actions").value;
         var message = document.getElementById("goalMessage").value;
         var status = document.getElementById("timeSheetId").value;
+
+        document.getElementById("valGoalMission").innerHTML = document.getElementById("valGoalAction").innerHTML =
+        document.getElementById("valGoalDate").innerHTML  = document.getElementById("valGoalMessage").innerHTML = "";
+
         if(mission == "Select Your Mission"){
             document.getElementById("valGoalMission").innerHTML = "Please Select Mission";
-            document.getElementById("valGoalDate").innerHTML = document.getElementById("valGoalAction").innerHTML = document.getElementById("valGoalMessage").innerHTML = "";
             return;
         }
         if(action == ""){
             document.getElementById("valGoalAction").innerHTML = "Please Add Actions";
-            document.getElementById("valGoalDate").innerHTML = document.getElementById("valGoalMission").innerHTML = document.getElementById("valGoalMessage").innerHTML = "";
             return;
         }
         if(date == ""){
             document.getElementById("valGoalDate").innerHTML = "Please Select Date";
-            document.getElementById("valGoalAction").innerHTML = document.getElementById("valGoalMission").innerHTML = document.getElementById("valGoalMessage").innerHTML = "";
             return;
         }
         if(message == ""){
             document.getElementById("valGoalMessage").innerHTML = "Please Add Message";
-            document.getElementById("valGoalAction").innerHTML = document.getElementById("valGoalMission").innerHTML = document.getElementById("valGoalDate").innerHTML = "";
             return;
         }
         SaveVolunteeringDetails("Go", mission, date, "", "", action, message,status);

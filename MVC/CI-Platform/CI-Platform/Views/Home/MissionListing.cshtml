@@ -14,7 +14,7 @@
     <div class="row justify-content-between px-4 align-items-center pb-4">
         <div class="col-sm-6 d-flex">
             <p style="font-size:24px;">Explore </p>&nbsp;
-            <h2 id="missionCount">@Model.Missions.Count() Missions</h2>
+            <h2 id="missionCount">@Model.MissionCount Missions</h2>
         </div>
         <div class="col-sm-6 d-flex  align-items-center justify-content-end" style="padding-right:0px;">
             <select class="mx-3 px-2 py-1 sort-by-dd text-wrap" id="sortBy">
@@ -56,21 +56,26 @@
 
     }
 }
+
 <div id="paginationContainer">
     <div class="pagination d-flex justify-content-center mt-5 mb-5" id="pagination">
-        <a id="fr"><img src="~/images/previous.png" alt="Previous" /></a>
-        <a id="pre"><img src="~/images/left.png" alt="Previous" /></a>
-        @for(var i= 1; i <= @pageCount; i++){
-            @if (i == 1)
-            {
-                <a  class="active pt-1" id="first">@i</a>
-            }else{
-                <a class="pt-1">@i</a>
+        @if(pageCount > 1)
+        {
+            <a id="fr"><img src="~/images/previous.png" alt="Previous" /></a>
+            <a id="pre"><img src="~/images/left.png" alt="Previous" /></a>
+            @for(var i= 1; i <= @pageCount; i++){
+                @if (i == 1)
+                {
+                    <a  class="active pt-1" id="first">@i</a>
+                }else{
+                    <a class="pt-1">@i</a>
+                }
             }
-        }
 
-        <a id="next"><img src="~/images/right-arrow1.png" alt="Previous" /></a>
-        <a id="last"><img src="~/images/next.png" alt="Previous" /></a>
+            <a id="next"><img src="~/images/right-arrow1.png" alt="Previous" /></a>
+            <a id="last"><img src="~/images/next.png" alt="Previous" /></a>
+        }
+        
     </div>
 </div>
 
@@ -78,65 +83,58 @@
 <script>
    
 
-        function updateFilters() {
-            var selectedCountries = $('#countries li a input[type=checkbox]:checked').map(function () {
-                        return {
-                            name : this.name,
-                            id : this.value
-                        };
-                    });
-                    //console.log(selectedCountries);
+    function updateFilters() {
+        var selectedCountries = $('#countries li a input[type=checkbox]:checked').map(function () {
+                    return {
+                        name : this.name,
+                        id : this.value
+                    };
+                });
 
-            var selectedCities = $('#cities li a input[type=checkbox]:checked').map(function () {
-                return {
-                    name: this.name,
-                    id: this.value
-                };
-            });
-            //console.log(selectedCities);
+        var selectedCities = $('#cities li a input[type=checkbox]:checked').map(function () {
+            return {
+                name: this.name,
+                id: this.value
+            };
+        });
 
-            var selectedTheme = $('#themes li a input[type=checkbox]:checked').map(function () {
-                return {
-                    name: this.name,
-                    id: this.value
-                };
-            });
-            //console.log(selectedtheme);
+        var selectedTheme = $('#themes li a input[type=checkbox]:checked').map(function () {
+            return {
+                name: this.name,
+                id: this.value
+            };
+        });
 
-            var selectedSkill = $('#skills li a input[type=checkbox]:checked').map(function () {
-                return {
-                    name: this.name,
-                    id: this.value
-                };
-            });
-            //console.log(selectedskill);
-            var filters = $('#selectedFilters');
-            filters.empty();
-            addSelected(selectedCountries);
-            addSelected(selectedCities);
-            addSelected(selectedTheme);
-            addSelected(selectedSkill);
+        var selectedSkill = $('#skills li a input[type=checkbox]:checked').map(function () {
+            return {
+                name: this.name,
+                id: this.value
+            };
+        });
+        var filters = $('#selectedFilters');
+        filters.empty();
+        addSelected(selectedCountries);
+        addSelected(selectedCities);
+        addSelected(selectedTheme);
+        addSelected(selectedSkill);
 
-            var clearall = document.createElement("a");
-            clearall.id = "clearAll";
-            clearall.classList.add("field-text","my-1","col-auto");
-            clearall.style.textDecoration = "none";
-            clearall.innerHTML = "Clear All";
-            clearall.onclick = clearAll;
+        var clearall = document.createElement("a");
+        clearall.id = "clearAll";
+        clearall.classList.add("field-text","my-1","col-auto");
+        clearall.style.textDecoration = "none";
+        clearall.innerHTML = "Clear All";
+        clearall.onclick = clearAll;
         
         
-            if ($('#selectedFilters').find('div').length != 0) {
-                filters.append(clearall);
-            }
-
+        if ($('#selectedFilters').find('div').length != 0) {
+            filters.append(clearall);
         }
+
+    }
     
     function addSelected(selected){
         selected.each(function(){
             var filters = $('#selectedFilters');
-            //cityName = currentCity.substring(0, currentCity.indexOf("_"));
-            //console.log(this.name);
-            //console.log(this.id);
 
             var main = document.createElement('div');
             main.classList.add("field", "col-auto", "py-1", "mb-3", "px-3");
@@ -179,10 +177,6 @@
 
         $('#countries li a input[type=checkbox]').click(function (e) {
             var CountryId = $(this).val();
-            console.log(CountryId);
-            //console.log(CountryId.substring(CountryId.indexOf("-")+1));
-            ////console.log(CountryId);
-            //var CountryId = parseInt(CountryId);
             if (e.currentTarget.checked) {
 
                 $.ajax({
@@ -221,8 +215,6 @@
                             li.appendChild(anc);
 
                             cities.append(li);
-                            //items += `<li><a class="dropdown-item"><input type="checkbox" name=`+ item.name.replaceAll(' ','') +` class="me-2" id=` + item.name.replaceAll(' ', '') + ` value=` + item.cityId + `><label class="form-check-label" for=`+ item.name.replaceAll(' ', '') +` >` + item.name + `</label></li>`
-                            
                         });
                         
                         
@@ -269,14 +261,12 @@
         });
 
         $('#cityfinal').change(function (e){
-            //console.log('ccc');
             applyFilter("1");
             moveToFirstPage();
             changeCount();
         });
 
         $('#themes li a input[type=checkbox]').click(function (e){
-            //console.log("thc");
             applyFilter("1");
             moveToFirstPage();
             changeCount();
@@ -291,7 +281,6 @@
             applyFilter("1");
             moveToFirstPage();
             changeCount();
-            //console.log($(this).val());
         });
 
         $('#search').keyup(function(){
@@ -301,6 +290,11 @@
         });
         
         
+        applyPagination();
+        
+         
+    });
+    function applyPagination(){
         $('#paginationContainer div a').click(function (e){
             //console.log(e.target.id);
             if(e.target.id == "fr"){
@@ -381,25 +375,43 @@
             //console.log(e.target.parentElement.id);
             
         });
-        
-         
-    });
-    
+    }
     function changeCount() {
         setTimeout(function(){
             document.getElementById("missionCount").innerHTML = $('#missionCo').text() + " Missions";
             var misssionCountText = $("#missionCo").text();
             var missionCount =  parseInt(misssionCountText);
-            console.log(missionCount);
-            
+            var pageCount;
 
-        },500);
+            $("#pagination").empty();
+            var pages = "";
+
+            if(missionCount % 6 == 0) {pageCount = missionCount / 6;}
+            else {pageCount = missionCount / 6 +1;}
+
+            if(pageCount>=2){
+                pages +=`<a id="fr"><img src="/images/previous.png" alt="Previous" /></a>
+                <a id="pre"><img src="/images/left.png" alt="Previous" /></a>`
+                for(var i = 1;i<=pageCount; i++){
+                    if (i == 1)
+                    {
+                         pages += `<a class="active pt-1" id="first">${i}</a>`
+                    }else{
+                         pages += `<a class="pt-1">${i}</a>`;
+                    }
+                }
+                pages += `<a id="next"><img src="/images/right-arrow1.png" alt="Previous" /></a>
+                        <a id="last"><img src="/images/next.png" alt="Previous" /></a>`;
+                $("#pagination").html(pages);
+                applyPagination();
+            }
+        },1000);
 
     }
     function moveToFirstPage(){
         var first = $('#first');
         $('#paginationContainer div a').each(function(){
-                //console.log(this.classList);
+                
                 var x = $(this);
                 if(x.hasClass('active')){
                     x.removeClass('active');
@@ -417,7 +429,6 @@
             success: function (data) {
                 var cities = $('#cities');
 
-                //console.log("df");
                 $.each(data, function (i, item) {
                     var li = document.createElement('li');
 
@@ -452,8 +463,6 @@
     function clearAll() {
         console.log("clicked");
         $('input[type=checkbox]:checked').each(function () {
-            //console.log($(this));
-            //$(this).checked = false;
             $(this).prop('checked', false);
             $('#selectedFilters').empty();
 
@@ -476,7 +485,7 @@
         changeCount();
     }
     function applyFilter(pageIndex){
-        //console.log("applied")
+        
         var selectedCountryID = $('#countries li a input[type=checkbox]:checked').map(function () {return this.value;}).get().join();
         
         var selectedCityID = $('#cities li a input[type=checkbox]:checked').map(function () {return this.value;}).get().join();
@@ -509,13 +518,13 @@
                 return this.value;
             }).get().join();
         }
-        //console.log("SkillList = ", selectedSkillID);
+        
         if(selectedSkillID == ""){
             selectedSkillID = $('#skills li a input[type=checkbox]').map(function () {
                 return this.value;
             }).get().join();
         }
-        //console.log("SkillList Update ",selectedSkillID);
+        
         $.ajax({
             url: '/Home/GetCards',
             type: 'POST',
@@ -528,10 +537,8 @@
             PageIndex: pageIndex},
             dataType: 'html',
             success:function (viewModel) {
-                //console.log("success");
                 
                 $('#cardContainer').html(viewModel);
-                
                 
             }
             

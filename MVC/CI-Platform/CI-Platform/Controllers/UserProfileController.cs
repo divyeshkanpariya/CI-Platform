@@ -78,12 +78,21 @@ namespace CI_Platform.Controllers
                     ModelState.AddModelError("City", "Please Select Country");
                     return View();
                 }
-
+                if (formData["MySkills"] == "")
+                {
+                    ModelState.AddModelError("MySkills", "Please Select Skills");
+                    return View();
+                }
 
                 UserProfileViewModel userProfileViewModel = new UserProfileViewModel();
                 string path = "";
                 if (formData.Files.Count != 0)
                 {
+                    if (formData.Files[0].ContentType.Substring(0,5) == "image")
+                    {
+                        ModelState.AddModelError("ProfileImage", "Profile Photo must be Image");
+                        return View();
+                    }
                     userProfileViewModel.ProfileImage = formData.Files[0];
 
                     var file = formData.Files[0];
@@ -111,6 +120,7 @@ namespace CI_Platform.Controllers
                 if (formData["MySkills"] != "") userProfileViewModel.MySkills = formData["MySkills"];
 
                 _userProfileRepo.AddUserData(userProfileViewModel, UserId, path);
+                TempData["SuccessMessage"] = "Profile Updated Successfully";
                 return View();
             }
             else
@@ -145,9 +155,9 @@ namespace CI_Platform.Controllers
                 arr.Add("Please Enter New Password");
                 return Json(arr);
             }
-            if(OldPwd != NewPwd)
+            if(OldPwd == NewPwd)
             {
-                arr.Add("Old Password and New Password are not Same");
+                arr.Add("Old Password and New Password Should not Same");
                 return Json(arr);
             }
             long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));

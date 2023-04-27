@@ -137,7 +137,6 @@ namespace CI_Platform.Controllers
                 ModelState.AddModelError("Photos", "Please Add Photos");
                 return View();
             }
-            long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
 
             ShareYourStoryViewModel viewModel = new ShareYourStoryViewModel()
             {
@@ -149,23 +148,46 @@ namespace CI_Platform.Controllers
                 Photos = formData.Files,
             };
 
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
 
                 UploadStory(viewModel, "PENDING");
+                TempData["SuccessMessage"] = "Story Submitted Successfully !!!";
                 return RedirectToAction("StoryListing");
 
-            }
-            else
-            {
-                return View();
-            }
             
         }
 
         [HttpPost]
         public IActionResult SaveStoryDraft(IFormCollection formData)
         {
+            if (formData["StoryTitle"] == "")
+            {
+                ModelState.AddModelError("StoryTitle", "Please Add Story Title");
+                return View();
+            }
+            if (formData["Date"] == "")
+            {
+                ModelState.AddModelError("Date", "Please Select Valid Date");
+                return View();
+            }
+            if (formData["StoryDescription"] == "")
+            {
+                ModelState.AddModelError("StoryDescription", "Please Add Some Text");
+                return View();
+            }
+            if (formData.Files.Count == 0)
+            {
+                ModelState.AddModelError("Photos", "Please Add Photos");
+                return View();
+            }
+            foreach(var file in formData.Files)
+            {
+                if (file.ContentType.Substring(0,5) != "image")
+                {
+                    ModelState.AddModelError("Photos", "File must be Image");
+                }
+            }
             ShareYourStoryViewModel viewModel = new ShareYourStoryViewModel()
             {
                 
@@ -177,18 +199,11 @@ namespace CI_Platform.Controllers
                 Photos = formData.Files,
             };
 
-            if (ModelState.IsValid)
-            {
+           
                 UploadStory(viewModel, "DRAFT");
-
+                TempData["SuccessMessage"] = "Story Saved Successfully !!!";
                 return RedirectToAction("StoryListing");
 
-            }
-            else
-            {
-                return View();
-            }
-            return View();
         }
         [HttpPost]
         public IActionResult GetStoryDetails(string MissionId)

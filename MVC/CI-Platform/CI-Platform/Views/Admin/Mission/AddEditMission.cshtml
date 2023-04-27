@@ -321,7 +321,7 @@
                 }
             }
     }
-
+    // ---------------------------------- Validation -----------------------------------
     $("#saveMissionbtn").click( () => {
         var Availability = document.getElementById("selectedAvailability").value;
         var CityId = document.getElementById("selectedCity").value;
@@ -633,7 +633,7 @@
                     });
                     return;
                 }
-
+                // ------------------------ Get Media ------------------------
                 $.ajax({
                     url: '/Admin/GetMediaPaths',
                     type: 'GET',
@@ -673,16 +673,15 @@
                             });
                             const dTImage = new DataTransfer();
                             let image;
-                            let ext;
                             for(var j=0;j<data[1].length;j++){
                                 toDataUrl(data[1][j],function(x){   
                                     image = x;
                                     //console.log(image);
                                     
-                                    dTImage.items.add(new File([image], "xyz", {
+                                    dTImage.items.add(new File([image], "Image", {
                                         type: image.type
                                     }));
-                                    imagesArray.push(new File([image], "xyz", {
+                                    imagesArray.push(new File([image], "image", {
                                         type: image.type
                                     }));
                                     //console.log("image: ", dT);

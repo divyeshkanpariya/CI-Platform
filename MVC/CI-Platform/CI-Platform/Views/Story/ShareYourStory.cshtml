@@ -56,6 +56,7 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
             <label asp-for="StoryVideoUrl" class="form-label" for="videoURL">Enter Video URL</label>
             <textarea asp-for="StoryVideoUrl" class="form-control" id="videoURL" placeholder="Enter your URL"></textarea>
             <span asp-validation-for="StoryVideoUrl" class="text-danger small-text"></span>
+            <span id="valStoryVideoUrl" class="text-danger small-text"></span>
 
         </div>
         <div class="row mt-2">
@@ -66,7 +67,7 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
 
 
                             @*<input asp-for="Photos" id="imageupload" type="file" class="file " multiple="multiple" accept="image/jpeg, image/png, image/jpg"><img src="~/images/drag-and-drop.png" />*@
-                            <input asp-for="Photos" id="imageupload"  class="file"><img src="~/images/drag-and-drop.png">
+                            <input asp-for="Photos" id="imageupload"  class="file" accept="image/jpeg, image/png, image/jpg"><img src="~/images/drag-and-drop.png">
 
                         </div>
                 </div>
@@ -89,11 +90,13 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
               
             <div class="col-6 justify-content-end">
                 <div class="d-flex justify-content-end">
-                    <div class="py-3 mx-3">              
-                        <button type="submit" id="saveStory" formaction="@Url.Action("SaveStoryDraft","Story")" class="Apply-mission-btn px-3 py-2 text-decoration-none">Save</button>
+                    <div class="py-3 mx-3">         
+                        <button type="submit" class="d-none" formaction="@Url.Action("SaveStoryDraft","Story")" id="saveStoryButton"></button>
+                        <button type="button" id="saveStory"  class="Apply-mission-btn px-3 py-2 text-decoration-none">Save</button>
                     </div>
-                    <div class="py-3 mx-3">           
-                        <button type="submit" id="submitStory" formaction="@Url.Action("ShareYourStory","Story")" class="Apply-mission-btn px-3 py-2 text-decoration-none">Submit</button>
+                    <div class="py-3 mx-3">   
+                        <button type="submit" id="submitStoryButton" class="d-none" formaction="@Url.Action("ShareYourStory","Story")"></button>
+                        <button type="button" id="submitStory" class="Apply-mission-btn px-3 py-2 text-decoration-none">Submit</button>
                     </div>
                 </div>  
             </div>
@@ -103,8 +106,37 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
         
 </div>
 <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 <script>
+    $("#saveStory").click( () =>{
+        var VideoUrls = document.getElementById("videoURL").value.split("\n");
+        document.getElementById("valStoryVideoUrl").innerHTML = ""
+        if(!(VideoUrls.length == 1 && VideoUrls[0] == "")){
+            for(var i=0;i<VideoUrls.length;i++){
+                if(!validateYouTubeUrl(VideoUrls[i])){
+                    document.getElementById("valStoryVideoUrl").innerHTML = "All Youtube URLs Must be Valid";
+                    return;
+                };
+            }
+        }
+        $("#saveStoryButton").click();
+
+    });
+    $("#submitStory").click( () =>{
+        var VideoUrls = document.getElementById("videoURL").value.split("\n");
+        document.getElementById("valStoryVideoUrl").innerHTML = "";
+        if(!(VideoUrls.length == 1 && VideoUrls[0] == "")){
+            for(var i=0;i<VideoUrls.length;i++){
+                if(!validateYouTubeUrl(VideoUrls[i])){
+                    document.getElementById("valStoryVideoUrl").innerHTML = "All Youtube URLs Must be Valid";
+                    return;
+                };
+            }
+        }
+        $("#submitStoryButton").click();
+    });
+    
     tinymce.init({
         selector: 'textarea#editor',
         //statusbar: false,
@@ -294,5 +326,21 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
         fillInp();
         console.log(imagesArray);
     }
-  
+    function validateYouTubeUrl(url)
+    {
+            if (url != undefined || url != '') {
+                var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+                var match = url.match(regExp);
+                if (match && match[2].length == 11) {
+                    // Do anything for being valid
+                    return true;
+                    // if need to change the url to embed url then use below line
+                    $('#ytplayerSide').attr('src', 'https://www.youtube.com/embed/' + match[2] + '?autoplay=0');
+                }
+                else {
+                    // Do anything for not being valid
+                    return false;
+                }
+            }
+    }
 </script>

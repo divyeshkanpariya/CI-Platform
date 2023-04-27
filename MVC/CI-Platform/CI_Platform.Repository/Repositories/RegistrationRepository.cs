@@ -12,10 +12,12 @@ namespace CI_Platform.Repository.Repositories
     public class RegistrationRepository : Repository<User>, IRegistrationRepository
     {
         private readonly CiPlatformContext _db;
+        private readonly IRepository<Admin> _Admins;
 
-        public RegistrationRepository(CiPlatformContext db) : base(db)
+        public RegistrationRepository(CiPlatformContext db,IRepository<Admin> Admins) : base(db)
         {
             _db = db;
+            _Admins = Admins;
         }
 
         public User NewUser(RegistrationViewModel data)
@@ -29,6 +31,11 @@ namespace CI_Platform.Repository.Repositories
                 Password = data.Password,
             };
             return user;
+        }
+
+        public bool ExistAdmin(string EmailId)
+        {
+            return _Admins.ExistUser(admin => admin.Email == EmailId && admin.DeletedAt == null);
         }
     }
 }

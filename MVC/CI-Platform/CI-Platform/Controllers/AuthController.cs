@@ -92,12 +92,17 @@ namespace CI_Platform.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Registration(RegistrationViewModel data)
         {
+            if (_registrationDb.ExistAdmin(data.Email))
+            {
+                ModelState.AddModelError("Email", "Email is already Used !!");
+                return View(data);
+            }
             if (ModelState.IsValid)
             {
                 var userFromDB = _registrationDb.ExistUser(u => u.Email == data.Email && u.DeletedAt == null);
                 if (userFromDB)
                 {
-                    ModelState.AddModelError("", "Email is already Used");
+                    ModelState.AddModelError("Email", "Email is already Used");
 
                     return View(data);
                 }

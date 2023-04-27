@@ -74,6 +74,12 @@
     </header>
     <div class="mainbody">
         <main role="main" class="">
+            
+            <div class="alert alert-success" style="display:none;" id="success-alert-contact">
+                <strong>Succeed!!</strong>
+                <span class="mb-0">Submitted Successfully</span>
+            </div>
+            
             @RenderBody()
         </main>
     </div>
@@ -132,13 +138,17 @@
             var email = document.getElementById("email").value;
             var subject = document.getElementById("subject").value;
             var message = document.getElementById("message").value;
+            document.getElementById("validateMessage").innerHTML = "";
+            document.getElementById("validateSubject").innerHTML = "";
             if(subject == ""){
-                document.getElementById("validateMessage").innerHTML = "";
                 document.getElementById("validateSubject").innerHTML = "Subject is Required";
                 return;
             }
+            if(subject.length >255){
+                document.getElementById("validateSubject").innerHTML = "Subject is Invalid";
+                return;
+            }
             if(message == ""){
-                document.getElementById("validateSubject").innerHTML = "";
                 document.getElementById("validateMessage").innerHTML = "Message is Required";
                 return;
             }
@@ -151,6 +161,10 @@
                     document.getElementById("subject").value = "";
                     document.getElementById("message").value = "";
                     $(".close").click();
+                    $("#success-alert-contact").alert().show();
+                    window.setTimeout(function () { 
+                    $("#success-alert-contact").alert().hide(); 
+                }, 2000);
                 }
             });
             

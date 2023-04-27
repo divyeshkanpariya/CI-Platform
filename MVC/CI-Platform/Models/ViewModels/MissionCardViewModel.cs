@@ -19,6 +19,8 @@ namespace CI_Platform.Models.ViewModels
 
         public short ? Ratings { get; set; }
 
+        public short ? CurrMissionRatings { get; set; }
+
         public int ratingCount { get; set; }
         
         public bool? IsOngoingActivity { get; set; } = false;

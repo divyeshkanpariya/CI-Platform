@@ -57,7 +57,7 @@ namespace CI_Platform.Repository.Repositories
             
 
             MissionListingViewModel viewModel = new MissionListingViewModel();
-            IEnumerable<Mission> AllMissions = _Missions.GetAll();
+            IEnumerable<Mission> AllMissions = _Missions.GetRecordsWhere(m =>m.DeletedAt == null);
             if(Countryids != null && Countryids != "")
             {
 

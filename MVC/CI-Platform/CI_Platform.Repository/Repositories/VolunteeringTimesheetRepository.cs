@@ -28,7 +28,7 @@ namespace CI_Platform.Repository.Repositories
         public List<List<string>> Missions(long UserId)
         {
             List<List<string>> opList = new List<List<string>>();
-            var missionApps = _missionApplications.GetAll().Where(u => u.UserId == UserId && u.ApprovalStatus == "APPROVE");
+            var missionApps = _missionApplications.GetAll().Where(u => u.UserId == UserId && u.ApprovalStatus == "APPROVE" && u.DeletedAt == null);
             foreach (var missionApp in missionApps)
             {
                 var mission = _Missions.GetFirstOrDefault(u => missionApp.MissionId == u.MissionId);
@@ -91,7 +91,36 @@ namespace CI_Platform.Repository.Repositories
 
         public void SaveVolDetails(string Type, long UserId, long MissionId, DateTime Date, int Hours, int Minutes, int Action, string Message, string Status)
         {
-            if(Status == "" || Status ==null)
+            if(_TimeSheet.ExistUser(u => u.UserId == UserId && u.MissionId == MissionId && u.DateVolunteered == Date && u.DeletedAt == null))
+            {
+                Timesheet field = _TimeSheet.GetFirstOrDefault(u => u.UserId == UserId && u.MissionId == MissionId && u.DateVolunteered == Date && u.DeletedAt == null);
+                if (field != null)
+                {
+                    field.DateVolunteered = Date;
+                    field.Notes = Message;
+                    field.Status = "SUBMIT_FOR_APPROVAL";
+                    field.UpdatedAt = DateTime.Now;
+                    if (Type == "Time")
+                    {
+                        field.Time = new TimeSpan(Hours, Minutes, 0);
+
+                    }
+                    else
+                    {
+                        field.Action = Action;
+                        var ms = _MissionGoals.GetFirstOrDefault(u => u.MissionId == MissionId);
+                        ms.GoalArchived += ms.GoalArchived + Action - field.Action;
+                        _MissionGoals.Update(ms);
+                        _MissionGoals.Save();
+
+                    }
+                    _TimeSheet.Update(field);
+                    _TimeSheet.Save();
+                }
+                
+
+            }
+            else if(Status == "" || Status ==null)
             {
                 Timesheet newEntry = new Timesheet()
                 {
