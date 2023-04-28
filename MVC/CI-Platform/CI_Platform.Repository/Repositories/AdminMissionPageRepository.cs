@@ -81,14 +81,7 @@ namespace CI_Platform.Repository.Repositories
             }
             var pagesize = 8;
             int PageIndex = pageIndex;
-            if (PageIndex != null)
-            {
-                if (PageIndex == null)
-                {
-                    PageIndex = 1;
-                }
-                MissionList = MissionList.Skip((PageIndex - 1) * pagesize).Take(pagesize).ToList();
-            }
+            MissionList = MissionList.Skip((PageIndex - 1) * pagesize).Take(pagesize).ToList();
             return MissionList;
         }
 
@@ -165,7 +158,7 @@ namespace CI_Platform.Repository.Repositories
             List<string> DocumentsName = new List<string>();
             if (_MissionMediums.ExistUser(ms => ms.MissionId == MissionId && ms.Default == "1"))
             {
-                string file = _MissionMediums.GetFirstOrDefault(ms => ms.MissionId == MissionId && ms.Default == "1" && ms.MediaType == "image").MediaPath;
+                string file = _MissionMediums.GetFirstOrDefault(ms => ms.MissionId == MissionId && ms.Default == "1" && ms.MediaType == "image").MediaPath!;
                 DefaultImage.Add(file);
             }
             if (_MissionMediums.ExistUser(ms => ms.MissionId == MissionId && ms.Default == "0"))
@@ -173,7 +166,7 @@ namespace CI_Platform.Repository.Repositories
                 IEnumerable<MissionMedium> files = _MissionMediums.GetRecordsWhere(ms => ms.MissionId == MissionId && ms.Default == "0" && ms.MediaType == "image");
                 foreach (MissionMedium file in files)
                 {
-                    Images.Add(file.MediaPath);
+                    Images.Add(file.MediaPath!);
                 }
             }
             if (_MissionDocuments.ExistUser(ms => ms.MissionId == MissionId))
@@ -181,8 +174,8 @@ namespace CI_Platform.Repository.Repositories
                 IEnumerable<MissionDocument> Docs = _MissionDocuments.GetRecordsWhere(ms => ms.MissionId == MissionId);
                 foreach (MissionDocument file in Docs)
                 {
-                    Documents.Add(file.DocumentPath);
-                    DocumentsName.Add(file.DocumentName);
+                    Documents.Add(file.DocumentPath!);
+                    DocumentsName.Add(file.DocumentName!);
                 }
             }
             mediaList.Add(DefaultImage);
@@ -196,7 +189,7 @@ namespace CI_Platform.Repository.Repositories
         public List<string> GetMissionLoc(long MissionId)
         {
             List<string> missionLoc = new List<string>();
-            if(MissionId != null && MissionId != 0)
+            if(MissionId != 0)
             {
                 if(_Missions.ExistUser(ms => ms.MissionId == MissionId))
                 {
@@ -205,7 +198,7 @@ namespace CI_Platform.Repository.Repositories
                     missionLoc.Add(mission.CityId.ToString());
                     missionLoc.Add(mission.ThemeId.ToString());
                     missionLoc.Add(mission.MissionType);
-                    missionLoc.Add(mission.Availability);
+                    missionLoc.Add(mission.Availability!);
                 }
                 
             }
@@ -223,7 +216,7 @@ namespace CI_Platform.Repository.Repositories
             else
             {
                 Mission newMission = new Mission();
-                if (viewModel.MissionId != 0 && viewModel.MissionId != null) newMission = _Missions.GetFirstOrDefault(m => m.MissionId == viewModel.MissionId);
+                if (viewModel.MissionId != 0) newMission = _Missions.GetFirstOrDefault(m => m.MissionId == viewModel.MissionId);
                 
                 newMission.Title = viewModel.Title;
                 newMission.Description = viewModel.Description;
@@ -241,13 +234,13 @@ namespace CI_Platform.Repository.Repositories
                 
                 newMission.OrganizationDetail = viewModel.OrganizationDetail;
                 
-                if (viewModel.MissionId == 0 || viewModel.MissionId == null) _Missions.AddNew(newMission);
+                if (viewModel.MissionId == 0) _Missions.AddNew(newMission);
                 
                 else _Missions.Update(newMission);
                 
                 _Missions.Save();
 
-                if (viewModel.MissionId == 0 || viewModel.MissionId == null)
+                if (viewModel.MissionId == 0)
                 {
                     if(_Missions.ExistUser(m => m.Title == viewModel.Title && m.CityId == Convert.ToInt64(viewModel.CityId) && viewModel.StartDate == m.StartDate && m.MissionType == viewModel.MissionType))
                     {
@@ -480,7 +473,7 @@ namespace CI_Platform.Repository.Repositories
                     }
 
                     IEnumerable<MissionSkill> missionSK = _MissionSkills.GetRecordsWhere(m => m.MissionId == MissionId);
-                    string[] newSkills = viewModel.Skills;
+                    string[] newSkills = viewModel.Skills!;
 
                     
                     if (viewModel.Skills != null)
@@ -627,7 +620,7 @@ namespace CI_Platform.Repository.Repositories
                 {
                     if(image.MediaType == "image")
                     {
-                        string path = Path.Combine(Root, image.MediaPath.Substring(1));
+                        string path = Path.Combine(Root, image.MediaPath!.Substring(1));
                         
                         if (File.Exists(path))
                         {
@@ -654,7 +647,7 @@ namespace CI_Platform.Repository.Repositories
             {
                 foreach(MissionDocument document in Documents)
                 {
-                    string path = Path.Combine(Root, document.DocumentPath.Substring(1));
+                    string path = Path.Combine(Root, document.DocumentPath!.Substring(1));
                     if (File.Exists(path))
                     {
                         try

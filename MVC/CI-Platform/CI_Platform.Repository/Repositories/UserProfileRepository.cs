@@ -55,7 +55,7 @@ namespace CI_Platform.Repository.Repositories
             CurrUser.LinkedInUrl = viewModel.LinkedinURL;
             CurrUser.UpdatedAt = DateTime.Now;
 
-            string[] skills = viewModel.MySkills.Split(",");
+            string[] skills = viewModel.MySkills!.Split(",");
             List<int> UserSkills = new List<int> { };
             for (int i = 0; i < skills.Length; i++)
             {
@@ -140,16 +140,16 @@ namespace CI_Platform.Repository.Repositories
             foreach(var u in userSkills)
             {
                 skillIdList.Add(Convert.ToString(u.SkillId));
-                usersk.Add(_Skills.GetFirstOrDefault(r=> r.SkillId == u.SkillId).SkillName);
+                usersk.Add(_Skills.GetFirstOrDefault(r=> r.SkillId == u.SkillId).SkillName!);
             }
             UserProfileViewModel userData = new UserProfileViewModel()
             { 
-                Name = user.FirstName,
-                Surname = user.LastName,
-                EmployeeId = user.EmployeeId,
+                Name = user.FirstName!,
+                Surname = user.LastName!,
+                EmployeeId = user.EmployeeId!,
                 Title = user.Title,
                 Department = user.Department,
-                MyProfileText = user.ProfileText,
+                MyProfileText = user.ProfileText!,
                 WhyIVol = user.WhyIVolunteer,
                 City = Convert.ToString(user.CityId),
                 Country = Convert.ToString(user.CountryId),

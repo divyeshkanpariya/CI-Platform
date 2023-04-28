@@ -25,7 +25,7 @@ namespace CI_Platform.Repository.Repositories
         {
             List<AdminBannerViewModel> Banners = new List<AdminBannerViewModel>();
             IEnumerable<Banner> BannerDb = (from banner in _db.Banners
-                                                 where banner.DeletedAt == null && ( banner.Title.Contains(SearchText) || banner.Image.Contains(SearchText) )
+                                                 where banner.DeletedAt == null && ( banner.Title!.Contains(SearchText) || banner.Image.Contains(SearchText) )
                                                  select banner).ToList();
 
             foreach (Banner banner in BannerDb)
@@ -33,8 +33,8 @@ namespace CI_Platform.Repository.Repositories
                 AdminBannerViewModel newmodel = new AdminBannerViewModel
                 {
                     Id = banner.BannerId,
-                    Title = banner.Title,
-                    Text = banner.Text,
+                    Title = banner.Title!,
+                    Text = banner.Text!,
                     SortOrder = banner.SortOrder,
                     Image = banner.Image,
                     BannerCount = BannerDb.Count(),
@@ -42,14 +42,7 @@ namespace CI_Platform.Repository.Repositories
                 Banners.Add(newmodel);
             }
             var pagesize = 9;
-            if (PageIndex != null)
-            {
-                if (PageIndex == null)
-                {
-                    PageIndex = 1;
-                }
-                Banners = Banners.Skip((PageIndex - 1) * pagesize).Take(pagesize).ToList();
-            }
+            Banners = Banners.Skip((PageIndex - 1) * pagesize).Take(pagesize).ToList();
             return Banners;
         }
 
@@ -61,8 +54,8 @@ namespace CI_Platform.Repository.Repositories
             if (curr != null)
             {
                 model.Id = curr.BannerId;
-                model.Title = curr.Title;
-                model.Text = curr.Text;
+                model.Title = curr.Title!;
+                model.Text = curr.Text!;
                 model.SortOrder = curr.SortOrder;
                 model.Image = curr.Image;
             }
@@ -76,13 +69,13 @@ namespace CI_Platform.Repository.Repositories
             if(ViewModel.Id == null || ViewModel.Id == "0")
             {
                 Banner newBanner = new Banner();
-                newBanner.Title = ViewModel.Title.Trim();
-                newBanner.Text = ViewModel.Text.Trim().Replace("  "," ");
+                newBanner.Title = ViewModel.Title!.Trim();
+                newBanner.Text = ViewModel.Text!.Trim().Replace("  "," ");
                 newBanner.SortOrder = Convert.ToInt32(ViewModel.SortOrder);
 
                 var file = ViewModel.Image;
                 string folder = "Uploads/Banners/";
-                string ext = file.ContentType.ToLower().Substring(file.ContentType.LastIndexOf("/") + 1);
+                string ext = file!.ContentType.ToLower().Substring(file.ContentType.LastIndexOf("/") + 1);
                 string Filename = file.FileName.Split(".")[0] + "-" + Guid.NewGuid().ToString().Substring(0, 8);
                 folder += Filename + "." + ext;
                 string serverFolder = Path.Combine(Webroot, folder);
@@ -112,14 +105,14 @@ namespace CI_Platform.Repository.Repositories
                                 Console.WriteLine("Error" + ex.Message);
                             }
                         }
-                        currBanner.Text = ViewModel.Text.Trim().Replace("  ", " ");
-                        currBanner.Title =ViewModel.Title.Trim();
+                        currBanner.Text = ViewModel.Text!.Trim().Replace("  ", " ");
+                        currBanner.Title =ViewModel.Title!.Trim();
                         currBanner.SortOrder = Convert.ToInt32(ViewModel.SortOrder);
                         currBanner.UpdatedAt = DateTime.Now;
 
                         var file = ViewModel.Image;
                         string folder = "Uploads/Banners/";
-                        string ext = file.ContentType.ToLower().Substring(file.ContentType.LastIndexOf("/") + 1);
+                        string ext = file!.ContentType.ToLower().Substring(file.ContentType.LastIndexOf("/") + 1);
                         string Filename = file.FileName.Split(".")[0] + "-" + Guid.NewGuid().ToString().Substring(0, 8);
                         folder += Filename + "." + ext;
                         string serverFolder = Path.Combine(Webroot, folder);

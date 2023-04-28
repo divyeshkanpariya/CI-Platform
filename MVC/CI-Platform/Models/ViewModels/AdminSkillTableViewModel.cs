@@ -11,9 +11,9 @@ namespace CI_Platform.Models.ViewModels
 
         public long SkillId { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         public int SkillCount { get; set; }
     }

@@ -14,7 +14,7 @@ namespace CI_Platform.Models.ViewModels
 
         public string? LastName { get; set; }
 
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         public string? EmployeeId { get; set; }
 

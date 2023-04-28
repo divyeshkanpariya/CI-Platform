@@ -68,7 +68,7 @@ namespace CI_Platform.Repository.Repositories
                 mediaL.Add("/images/Default.jpg");
             }
 
-            currCard.FirstOrDefault().StoryMediaList = mediaL;
+            currCard.FirstOrDefault()!.StoryMediaList = mediaL;
 
             IEnumerable<StoryMedium> VideoList = _StoryMediaList.GetAll().Where(u => u.StoryId == StoryId && u.Type == "URL");
             List<string> videoUrlList = new List<string>();
@@ -82,26 +82,26 @@ namespace CI_Platform.Repository.Repositories
             
             
 
-            currCard.FirstOrDefault().StoryVideoPaths = videoUrlList;
+            currCard.FirstOrDefault()!.StoryVideoPaths = videoUrlList;
 
 
-            var StoryWriter = _Users.GetFirstOrDefault(u => u.UserId == story.FirstOrDefault().UserId);
+            var StoryWriter = _Users.GetFirstOrDefault(u => u.UserId == story.FirstOrDefault()!.UserId);
             if(StoryWriter.Avatar != null)
             {
-                currCard.FirstOrDefault().UserProfile = StoryWriter.Avatar;
+                currCard.FirstOrDefault()!.UserProfile = StoryWriter.Avatar;
             }
             else
             {
-                currCard.FirstOrDefault().UserProfile = "/images/default-user-icon.jpg";
+                currCard.FirstOrDefault()!.UserProfile = "/images/default-user-icon.jpg";
             }
             
 
-            currCard.FirstOrDefault().FirstName = StoryWriter.FirstName;
+            currCard.FirstOrDefault()!.FirstName = StoryWriter.FirstName;
 
-            currCard.FirstOrDefault().LastName = StoryWriter.LastName;
+            currCard.FirstOrDefault()!.LastName = StoryWriter.LastName;
 
             
-            currCard.FirstOrDefault().WhyIVol = StoryWriter.WhyIVolunteer;
+            currCard.FirstOrDefault()!.WhyIVol = StoryWriter.WhyIVolunteer;
 
             List<List<string>> UserList = new List<List<string>>();
 
@@ -109,8 +109,8 @@ namespace CI_Platform.Repository.Repositories
             {
                 List<string> newuser = new List<string>();
                 newuser.Add(Convert.ToString(user.UserId));
-                newuser.Add(user.FirstName);
-                newuser.Add(user.LastName);
+                newuser.Add(user.FirstName!);
+                newuser.Add(user.LastName!);
                 newuser.Add(user.Email);
                 UserList.Add(newuser);
             }

@@ -62,12 +62,15 @@ namespace CI_Platform.Repository.Repositories
             if (_Storys.GetAll().Any(u=> u.MissionId ==Convert.ToInt64(ShareStoryModel.Mission) && u.UserId == UserId && u.Status == "DRAFT") == true)
             {
                 var story = _Storys.GetAll().FirstOrDefault(u => u.MissionId == MissionId && u.UserId == UserId);
-                story.Title = ShareStoryModel.StoryTitle;
-                story.Description = ShareStoryModel.StoryDescription;
-                story.Status = status;
-                story.PublishedAt = Convert.ToDateTime(ShareStoryModel.Date);
-                _Storys.Update(story);
-                _Storys.Save();
+                if(story != null)
+                {
+                    story.Title = ShareStoryModel.StoryTitle;
+                    story.Description = ShareStoryModel.StoryDescription;
+                    story.Status = status;
+                    story.PublishedAt = Convert.ToDateTime(ShareStoryModel.Date);
+                    _Storys.Update(story);
+                    _Storys.Save();
+                }
             }
             else
             {
@@ -86,7 +89,7 @@ namespace CI_Platform.Repository.Repositories
                 _Storys.Save();
             }
             
-            return _Storys.GetAll().Where(u=> u.UserId == UserId && u.MissionId == MissionId).LastOrDefault().StoryId;
+            return _Storys.GetAll().Where(u=> u.UserId == UserId && u.MissionId == MissionId).LastOrDefault()!.StoryId;
         }
 
         public void UploadMedia(long StoryId, string Type, string Path)
@@ -138,9 +141,9 @@ namespace CI_Platform.Repository.Repositories
             var storyMedia = _StoryMediaList.GetAll().Where(u=>u.StoryId == story.StoryId);
             List<List<string>> storyDetails = new List<List<string>>();
             List<string> storyId = new List<string> { Convert.ToString(story.StoryId) };
-            List<string> title = new List<string>() { story.Title };
-            List<string> Date = new List<string>() { Convert.ToString(story.PublishedAt).Split(" ")[0] };
-            List<string> Description = new List<string>() {story.Description };
+            List<string> title = new List<string>() { story.Title! };
+            List<string> Date = new List<string>() { Convert.ToString(story.PublishedAt)!.Split(" ")[0] };
+            List<string> Description = new List<string>() {story.Description!};
             List<string> VideoUrls = new List<string>();
             List<string> Photos = new List<string>();
             foreach(var item in storyMedia)

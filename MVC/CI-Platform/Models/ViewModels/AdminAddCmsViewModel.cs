@@ -10,7 +10,7 @@ namespace CI_Platform.Models.ViewModels
     public class AdminAddCmsViewModel
     {
         [Required]
-        public string Id { get; set; }
+        public string? Id { get; set; }
         [Required]
         public string? Title { get; set; }
         [Required]

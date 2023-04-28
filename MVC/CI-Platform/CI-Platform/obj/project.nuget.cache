@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "JRW8DKAiIRjfXZicKlFEbYbh6I+Fze51DIjBlYPiGlz/HqyxXX+PMBSz3kLGBgvV/gqWD8P6YSx1oZBVm1cwkw==",
+  "dgSpecHash": "HW4lwOOCF5QRkWzFIv/3izt2AtDsUg/PfpluKQUtp73yFb5AuIAwIL87ngZXAgKbZY6F5UqWN/9Mm2mE1xh1ww==",
   "success": true,
   "projectFilePath": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\CI-Platform.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pci117\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\pci117\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
+    "C:\\Users\\pci117\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\pci117\\.nuget\\packages\\grpc.core\\2.46.6\\grpc.core.2.46.6.nupkg.sha512",
     "C:\\Users\\pci117\\.nuget\\packages\\grpc.core.api\\2.46.6\\grpc.core.api.2.46.6.nupkg.sha512",
     "C:\\Users\\pci117\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

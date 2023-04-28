@@ -90,7 +90,7 @@ namespace CI_Platform.Repository.Repositories
                     newM.ThemeId = Convert.ToInt64(row["theme_id"]);
                     newM.CityId = Convert.ToInt64(row["city_id"]);
                     newM.CountryId = Convert.ToInt64(row["Country_id"]);
-                    newM.Title = Convert.ToString(row["title"]);
+                    newM.Title = Convert.ToString(row["title"])!;
                     if (row["end_date"] != DBNull.Value)
                     {
                         newM.EndDate = Convert.ToDateTime(row["end_date"]);
@@ -107,8 +107,8 @@ namespace CI_Platform.Repository.Repositories
                         newM.EndDate = Convert.ToDateTime(row["end_date"]);
 
                     }
-                    newM.MissionType = Convert.ToString(row["mission_type"]);
-                    newM.Status = Convert.ToString(row["status"]);
+                    newM.MissionType = Convert.ToString(row["mission_type"])!;
+                    newM.Status = Convert.ToString(row["status"])!;
                     newM.OrganizationName = Convert.ToString(row["organization_name"]);
                     if (row["organization_detail"] != DBNull.Value)
                     {
@@ -149,7 +149,7 @@ namespace CI_Platform.Repository.Repositories
 
                 mission.Country = _CountryList.GetFirstOrDefault(u => u.CountryId == mission.CountryId).Name;
 
-                mission.Theme = _ThemeList.GetFirstOrDefault(u => u.MissionThemeId == mission.ThemeId).Title;
+                mission.Theme = _ThemeList.GetFirstOrDefault(u => u.MissionThemeId == mission.ThemeId).Title!;
 
                 /* Path */
                 if (_MissionMedia.ExistUser(u => u.MissionId == mission.MissionId))
@@ -218,8 +218,6 @@ namespace CI_Platform.Repository.Repositories
                     var current = _MissionSeats.GetFirstOrDefault(u => u.MissionId == mission.MissionId);
                     
                     var islimited = current.Islimited;
-                    if(islimited != null)
-                    {
                         if (islimited == 1)
                         {
                             mission.IsLimitedSeats = islimited;
@@ -233,7 +231,6 @@ namespace CI_Platform.Repository.Repositories
                             mission.IsLimitedSeats = islimited;
                             mission.SeatsFilled = current.SeatsFilled;
                         }
-                    }
                 }
 
                 /* Mission Skills */
@@ -245,7 +242,7 @@ namespace CI_Platform.Repository.Repositories
                     foreach (var skill in Skills)
                     {
                         int skillId = skill.SkillId;
-                        skillArr.Add(_SkillList.GetFirstOrDefault(u=>u.SkillId == skillId).SkillName);
+                        skillArr.Add(_SkillList.GetFirstOrDefault(u=>u.SkillId == skillId).SkillName!);
                     }
                     mission.MissionSkills= skillArr;
                 }

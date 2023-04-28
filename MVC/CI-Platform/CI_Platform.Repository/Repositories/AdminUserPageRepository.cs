@@ -24,7 +24,7 @@ namespace CI_Platform.Repository.Repositories
         {
             List<AdminUserTableViewModel> UsersList = new List<AdminUserTableViewModel>();
             var Users = (from u in _db.Users
-                    where (u.FirstName.Contains(searchText) || u.LastName.Contains(searchText) || u.Email.Contains(searchText))
+                    where (u.FirstName!.Contains(searchText) || u.LastName!.Contains(searchText) || u.Email.Contains(searchText))
                     && (u.DeletedAt == null)
                     select new
                     {
@@ -54,14 +54,9 @@ namespace CI_Platform.Repository.Repositories
             }
             var pagesize = 9;
             int PageIndex = pageIndex;
-            if (PageIndex != null)
-            {
-                if (PageIndex == null)
-                {
-                    PageIndex = 1;
-                }
-                UsersList = UsersList.Skip((PageIndex - 1) * pagesize).Take(pagesize).ToList();
-            }
+            PageIndex = 1;
+            UsersList = UsersList.Skip((PageIndex - 1) * pagesize).Take(pagesize).ToList();
+            
 
             return UsersList;
         }
@@ -106,7 +101,7 @@ namespace CI_Platform.Repository.Repositories
             if(_UserList.ExistUser(user => user.UserId == Convert.ToInt64(model.UserId)))
             {
                 User user = _UserList.GetFirstOrDefault(user => user.UserId == Convert.ToInt64(model.UserId));
-                user.Email = model.Email.Trim().Replace(" ","");
+                user.Email = model.Email!.Trim().Replace(" ","");
                 user.CountryId = Convert.ToInt64(model.Country);
                 user.CityId = Convert.ToInt64(model.City);
                 user.FirstName = model.Name;
@@ -124,7 +119,7 @@ namespace CI_Platform.Repository.Repositories
             {
                 User newUser = new User()
                 {
-                    Email = model.Email,
+                    Email = model.Email!,
                     FirstName = model.Name,
                     LastName = model.Surname,
                     Department = model.Department,

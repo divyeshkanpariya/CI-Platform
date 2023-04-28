@@ -27,8 +27,8 @@ namespace CI_Platform.Repository.Repositories
                 PrivacyPolicyViewModel newmodel = new PrivacyPolicyViewModel()
                 {
                     PrivacyPolicyId = page.CmsPageId,
-                    Title = page.Title,
-                    Description = page.Description,
+                    Title = page.Title!,
+                    Description = page.Description!,
                     Slug = page.Slug,
                     Status = page.Status,
                 };

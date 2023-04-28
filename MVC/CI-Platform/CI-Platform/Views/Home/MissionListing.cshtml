@@ -7,14 +7,13 @@
 @{
     Layout = "Home_Layout";
 }
-
-@Html.Partial("Filters")
+<partial name="filters" />
 
 <div class="container-fluid" id="viewContainer">
     <div class="row justify-content-between px-4 align-items-center pb-4">
         <div class="col-sm-6 d-flex">
             <p style="font-size:24px;">Explore </p>&nbsp;
-            <h2 id="missionCount">@Model.MissionCount Missions</h2>
+                <h2 id="missionCount">@Model.MissionCount Missions</h2>
         </div>
         <div class="col-sm-6 d-flex  align-items-center justify-content-end" style="padding-right:0px;">
             <select class="mx-3 px-2 py-1 sort-by-dd text-wrap" id="sortBy">

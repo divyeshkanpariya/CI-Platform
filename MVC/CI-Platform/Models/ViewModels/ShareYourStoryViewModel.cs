@@ -13,18 +13,18 @@ namespace CI_Platform.Models.ViewModels
     public class ShareYourStoryViewModel
     {
         [Required]
-        public string Mission { get; set; }
+        public string? Mission { get; set; }
         [Required]
         [MaxLength(255)]
-        public string StoryTitle { get; set; }
+        public string? StoryTitle { get; set; }
         [Required]
         public DateTime Date { get; set; }
         [Required]
-        public string StoryDescription { get; set;}
+        public string? StoryDescription { get; set;}
 
-        public string StoryVideoUrl { get; set;}
+        public string? StoryVideoUrl { get; set;}
         
-        public IFormFileCollection Photos { get; set;}
+        public IFormFileCollection? Photos { get; set;}
 
     }
 }

@@ -38,9 +38,9 @@ namespace CI_Platform.Repository.Repositories
                     x.Add(Convert.ToString(mission.MissionId));
                     x.Add(mission.Title);
                     x.Add(mission.MissionType);
-                    if (mission.StartDate != null) x.Add(mission.StartDate.ToString().Split(" ")[0]);
+                    if (mission.StartDate != null) x.Add(mission.StartDate.ToString()!.Split(" ")[0]);
                     else x.Add("");
-                    if (mission.EndDate != null) x.Add(mission.EndDate.ToString().Split(" ")[0]);
+                    if (mission.EndDate != null) x.Add(mission.EndDate.ToString()!.Split(" ")[0]);
                     else x.Add("");
                     opList.Add(x);
                 }
@@ -64,7 +64,7 @@ namespace CI_Platform.Repository.Repositories
             {
                 List<string> vol = new List<string>();
                 vol.Add(Convert.ToString(timesheetApp.TimesheetId));
-                vol.Add(Convert.ToString(timesheetApp.MissionId));
+                vol.Add(Convert.ToString(timesheetApp.MissionId)!);
                 vol.Add(_Missions.GetFirstOrDefault(u =>u.MissionId == timesheetApp.MissionId).Title);
                 vol.Add(_Missions.GetFirstOrDefault(u =>u.MissionId == timesheetApp.MissionId).MissionType);
                 vol.Add(timesheetApp.DateVolunteered.ToString().Split(" ")[0]);
@@ -75,13 +75,13 @@ namespace CI_Platform.Repository.Repositories
                 }
                 else
                 {
-                    vol.Add(timesheetApp.Time.ToString().Split(":")[0]);
-                    vol.Add(timesheetApp.Time.ToString().Split(":")[1]);
+                    vol.Add(timesheetApp.Time.ToString()!.Split(":")[0]);
+                    vol.Add(timesheetApp.Time.ToString()!.Split(":")[1]);
                 }
                 if (timesheetApp.Action == null) vol.Add("");
-                else vol.Add(timesheetApp.Action.ToString());
+                else vol.Add(timesheetApp.Action.ToString()!);
 
-                vol.Add(timesheetApp.Notes);
+                vol.Add(timesheetApp.Notes!);
 
                 target.Add(vol);
             }

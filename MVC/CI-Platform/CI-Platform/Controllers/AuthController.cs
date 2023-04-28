@@ -44,7 +44,7 @@ namespace CI_Platform.Controllers
         }
         public IActionResult Login()
         {
-            LoginViewModel vm = new LoginViewModel();
+            LoginViewModel vm = new();
             this.Response.Cookies.Delete(CookieRequestCultureProvider.DefaultCookieName);
             HttpContext.Session.Clear();
             return View(vm);
@@ -172,7 +172,7 @@ namespace CI_Platform.Controllers
                 Credentials = new NetworkCredential(fromMail.Address, frompwd)
             };
 
-            MailMessage message = new MailMessage(fromMail, toEmail);
+            MailMessage message = new(fromMail, toEmail);
             message.Subject = subject;
             message.Body = body;
             message.IsBodyHtml = true;
@@ -187,7 +187,7 @@ namespace CI_Platform.Controllers
         [HttpGet]
         public IActionResult Reset_Password(string Email, string Token)
         {
-            ResetPasswordViewModel rp = new ResetPasswordViewModel()
+            ResetPasswordViewModel rp = new()
             {
                 Email = Email,
                 Token = Token,
@@ -219,9 +219,10 @@ namespace CI_Platform.Controllers
                 {
                     userFromDB.Password = data.Password;
                     userFromDB.UpdatedAt = DateTime.Now;
+                    _UserDb.Update(userFromDB);
+                    _UserDb.Save();
                 }
-                _UserDb.Update(userFromDB);
-                _UserDb.Save();
+                
                 return RedirectToAction("Login");
 
             }

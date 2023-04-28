@@ -56,7 +56,7 @@ namespace CI_Platform.Models.ViewModels
         
         public int GoalValue { get; set; }
 
-        public string GoalObjectiveText { get; set; }
+        public string? GoalObjectiveText { get; set; }
 
         public string? VideoURLs { get; set; }
         

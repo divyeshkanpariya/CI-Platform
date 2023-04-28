@@ -22,7 +22,7 @@ namespace CI_Platform.Repository.Repositories
         public IEnumerable<AdminCmsPageViewModel> getCmsPages(string searchText, int pageIndex)
         {
             List<CmsPage> cmsPages = (from item in _db.CmsPages
-                                      where item.Title.Contains(searchText) && item.DeletedAt == null
+                                      where item.Title!.Contains(searchText) && item.DeletedAt == null
                                       select item).ToList();
 
             List<AdminCmsPageViewModel> pagesFin = new List<AdminCmsPageViewModel>();
@@ -43,14 +43,8 @@ namespace CI_Platform.Repository.Repositories
 
             var pagesize = 9;
             int PageIndex = pageIndex;
-            if (PageIndex != null)
-            {
-                if (PageIndex == null)
-                {
-                    PageIndex = 1;
-                }
-                pagesFin = pagesFin.Skip((PageIndex - 1) * pagesize).Take(pagesize).ToList();
-            }
+            pagesFin = pagesFin.Skip((PageIndex - 1) * pagesize).Take(pagesize).ToList();
+            
             return pagesFin;
         }
 
@@ -61,7 +55,7 @@ namespace CI_Platform.Repository.Repositories
             {
                 Id = CmsId.ToString(),
                 Title = page.Title,
-                Description = page.Description.Replace("'\n'",""),
+                Description = page.Description!.Replace("'\n'",""),
                 Slug = page.Slug,
                 Status= page.Status,
             };

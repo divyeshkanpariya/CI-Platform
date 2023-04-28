@@ -10,9 +10,9 @@ namespace CI_Platform.Models.ViewModels
     {
         public long ThemeId { get; set; }   
 
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         public int ThemeCount { get; set; }
 

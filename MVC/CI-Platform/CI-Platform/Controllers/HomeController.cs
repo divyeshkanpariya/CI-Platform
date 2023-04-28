@@ -12,14 +12,12 @@ namespace CI_Platform.Controllers
     {
 
         private readonly IMissionListingRepository _missionListingDb;
-        private readonly IMissionCardRepository _MissionCard;
         private readonly IVolunteeringMissionRepository _VolunteeringMission;
         private readonly IFavouriteMission _FavouriteMissions;
         private readonly IRepository<City> _Cities;
         private readonly IRepository<Mission> _Missions;
         public HomeController(
             IMissionListingRepository missionListingDb,
-            IMissionCardRepository MissionCard,
             IRepository<City> Cities,
             IVolunteeringMissionRepository volunteeringMission,
             IFavouriteMission FavouriteMissions,
@@ -27,7 +25,6 @@ namespace CI_Platform.Controllers
         {
 
             _missionListingDb = missionListingDb;
-            _MissionCard = MissionCard;
             _Cities = Cities;
             _VolunteeringMission = volunteeringMission;
             _FavouriteMissions = FavouriteMissions;
@@ -45,7 +42,7 @@ namespace CI_Platform.Controllers
                 string SortBy = "1";
                 string SearchText = "";
                 string PageIndex = "";
-                string UserId = HttpContext.Session.GetString("UserId");
+                string UserId = HttpContext.Session.GetString("UserId")!;
                 var data = _missionListingDb.GetAllData(CountryIDs, CityIDs, ThemeIDs, SkillIDs, SortBy, SearchText, UserId, PageIndex);
                 return View(data);
             }
@@ -77,7 +74,7 @@ namespace CI_Platform.Controllers
                 citystr = citystr.Substring(0, citystr.Length - 2);
                 CityIDs = citystr;
             }
-            string UserId = HttpContext.Session.GetString("UserId");
+            string UserId = HttpContext.Session.GetString("UserId")!;
             var data = _missionListingDb.GetAllData(CountryIDs, CityIDs, ThemeIDs, SkillIDs, SortBy, SearchText, UserId, PageIndex);
 
             return PartialView("Cards", data);
@@ -132,8 +129,8 @@ namespace CI_Platform.Controllers
         public void SendInvitation(long EmailTo, long MissionId)
         {
             long senderId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
-            string senderName = HttpContext.Session.GetString("UserName");
-            string url = Url.ActionLink("VolunteeringMission", "Home", new { mid = MissionId });
+            string senderName = HttpContext.Session.GetString("UserName")!;
+            string url = Url.ActionLink("VolunteeringMission", "Home", new { mid = MissionId })!;
             var MissionTitle = _Missions.GetFirstOrDefault(u => u.MissionId == MissionId).Title;
             string body = "Greetings of the Day !! <br><br>        " + senderName + " Invited you to join '" + MissionTitle + "' Mission. <br><br>" + url;
 

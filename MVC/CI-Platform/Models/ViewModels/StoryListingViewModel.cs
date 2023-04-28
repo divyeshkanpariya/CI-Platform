@@ -9,15 +9,15 @@ namespace CI_Platform.Models.ViewModels
 {
     public class StoryListingViewModel
     {
-        public IEnumerable<City> Cities { get; set; }
+        public IEnumerable<City>? Cities { get; set; }
 
-        public IEnumerable<Country> Countries { get; set; }
+        public IEnumerable<Country>? Countries { get; set; }
 
-        public IEnumerable<MissionTheme> MissionThemes { get; set; }
+        public IEnumerable<MissionTheme>? MissionThemes { get; set; }
 
-        public IEnumerable<Skill> Skills { get; set; }
+        public IEnumerable<Skill>? Skills { get; set; }
 
-        public IEnumerable<StoryCardViewModel> StoryCards { get; set; }
+        public IEnumerable<StoryCardViewModel>? StoryCards { get; set; }
 
         public int StoryCount { get; set; }
     }

@@ -119,7 +119,6 @@ namespace CI_Platform.Repository.Repositories
             command.Parameters.Add("@theme_ids", SqlDbType.VarChar).Value = ThemeIDs;
             command.Parameters.Add("@skill_ids", SqlDbType.VarChar).Value = SkillIDs;
             command.Parameters.Add("@searchtext", SqlDbType.VarChar).Value = SearchText;
-            //command.Parameters.Add("@user_id", SqlDbType.VarChar).Value = UserId;
 
             SqlDataAdapter adapter = new SqlDataAdapter(command);
 
@@ -142,7 +141,7 @@ namespace CI_Platform.Repository.Repositories
                     story.Description = Convert.ToString(row["description"]);
 
                 }
-                story.Status = Convert.ToString(row["status"]);
+                story.Status = Convert.ToString(row["status"])!;
                 if(row["published_at"] != DBNull.Value)
                 {
                     story.PublishedAt = Convert.ToDateTime(row["published_at"]);

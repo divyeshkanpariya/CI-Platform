@@ -33,7 +33,7 @@ namespace CI_Platform.Repository.Repositories
             IEnumerable<MissionApplication> missionApplications = (from apps in _db.MissionApplications
                                                                    join missions in _db.Missions on apps.MissionId equals missions.MissionId
                                                                    join user in _db.Users on apps.UserId equals user.UserId
-                                                                   where apps.ApprovalStatus == "PENDING" && (missions.Title.Contains(SearchText) || user.FirstName.Contains(SearchText) || user.LastName.Contains(SearchText))
+                                                                   where apps.ApprovalStatus == "PENDING" && (missions.Title.Contains(SearchText) || user.FirstName!.Contains(SearchText) || user.LastName!.Contains(SearchText))
                                                                    select apps).ToList();
 
             foreach(MissionApplication missionApplication in missionApplications)
@@ -59,14 +59,8 @@ namespace CI_Platform.Repository.Repositories
             }
 
             var pagesize = 9;
-            if (PageIndex != null)
-            {
-                if (PageIndex == null)
-                {
-                    PageIndex = 1;
-                }
-                Applications = Applications.Skip((PageIndex - 1) * pagesize).Take(pagesize).ToList();
-            }
+            
+            Applications = Applications.Skip((PageIndex - 1) * pagesize).Take(pagesize).ToList();
 
             return Applications;
         }

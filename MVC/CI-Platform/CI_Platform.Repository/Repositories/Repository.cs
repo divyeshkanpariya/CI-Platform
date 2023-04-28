@@ -37,7 +37,7 @@ namespace CI_Platform.Repository.Repositories
         {
             IQueryable<T> query = dbSet;
             query = query.Where(filter);
-            return query.FirstOrDefault();
+            return query.FirstOrDefault()!;
         }
 
         public void Update(T entity)

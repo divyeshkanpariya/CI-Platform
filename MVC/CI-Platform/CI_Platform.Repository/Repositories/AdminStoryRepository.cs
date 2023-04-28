@@ -34,7 +34,7 @@ namespace CI_Platform.Repository.Repositories
             IEnumerable<Story> storyApplications = (from story in _db.Stories
                                                                    join missions in _db.Missions on story.MissionId equals missions.MissionId
                                                                    join user in _db.Users on story.UserId equals user.UserId
-                                                                   where story.Status == "PENDING" && (story.Title.Contains(SearchText)|| missions.Title.Contains(SearchText) || user.FirstName.Contains(SearchText) || user.LastName.Contains(SearchText))
+                                                                   where story.Status == "PENDING" && (story.Title!.Contains(SearchText)|| missions.Title.Contains(SearchText) || user.FirstName!.Contains(SearchText) || user.LastName!.Contains(SearchText))
                                                                    select story).ToList();
 
             foreach (Story storyApplication in storyApplications)
@@ -57,14 +57,8 @@ namespace CI_Platform.Repository.Repositories
                 Applications.Add(newstory);
             }
             var pagesize = 2;
-            if (PageIndex != null)
-            {
-                if (PageIndex == null)
-                {
-                    PageIndex = 1;
-                }
-                Applications = Applications.Skip((PageIndex - 1) * pagesize).Take(pagesize).ToList();
-            }
+            
+            Applications = Applications.Skip((PageIndex - 1) * pagesize).Take(pagesize).ToList();
 
             return Applications;
         }

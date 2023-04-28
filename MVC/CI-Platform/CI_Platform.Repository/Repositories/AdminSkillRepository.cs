@@ -25,7 +25,7 @@ namespace CI_Platform.Repository.Repositories
         {
             List<AdminSkillTableViewModel> Skills = new List<AdminSkillTableViewModel>();
             IEnumerable<Skill> skilldb = (from skill in _db.Skills
-                                                    where skill.SkillName.Contains(SearchText) && skill.DeletedAt == null
+                                                    where skill.SkillName!.Contains(SearchText) && skill.DeletedAt == null
                                                     select skill).ToList();
 
             foreach(Skill skill in skilldb)
@@ -33,33 +33,27 @@ namespace CI_Platform.Repository.Repositories
                 AdminSkillTableViewModel newmodel = new AdminSkillTableViewModel
                 {
                     SkillId = skill.SkillId,
-                    Name = skill.SkillName,
+                    Name = skill.SkillName!,
                     Status = skill.Status,
                     SkillCount = skilldb.Count(),
                 };
                 Skills.Add(newmodel);
             }
             var pagesize = 9;
-            if (PageIndex != null)
-            {
-                if (PageIndex == null)
-                {
-                    PageIndex = 1;
-                }
-                Skills = Skills.Skip((PageIndex - 1) * pagesize).Take(pagesize).ToList();
-            }
+            Skills = Skills.Skip((PageIndex - 1) * pagesize).Take(pagesize).ToList();
+            
             return Skills;
         }
 
         public string SaveSkill(int SkillId,string Name, string Status)
         {
-            if(SkillId == 0 || SkillId == null)
+            if(SkillId == 0)
             {
-                if(_Skills.ExistUser(u => u.SkillName.Replace(" ","") == Name.Trim().Replace(" ", "") && u.DeletedAt == null)){
+                if(_Skills.ExistUser(u => u.SkillName!.Replace(" ","") == Name.Trim().Replace(" ", "") && u.DeletedAt == null)){
                     return "Skill Already Exist";
-                }else if(_Skills.ExistUser(u => u.SkillName.Replace(" ", "") == Name.Trim().Replace(" ", "") && u.DeletedAt != null))
+                }else if(_Skills.ExistUser(u => u.SkillName!.Replace(" ", "") == Name.Trim().Replace(" ", "") && u.DeletedAt != null))
                 {
-                    Skill skill = _Skills.GetFirstOrDefault(u => u.SkillName.Replace(" ", "") == Name.Trim().Replace(" ", "") && u.DeletedAt != null);
+                    Skill skill = _Skills.GetFirstOrDefault(u => u.SkillName!.Replace(" ", "") == Name.Trim().Replace(" ", "") && u.DeletedAt != null);
                     skill.DeletedAt = null;
                     skill.UpdatedAt = DateTime.Now;
                     _Skills.Update(skill);
@@ -82,7 +76,7 @@ namespace CI_Platform.Repository.Repositories
                     Skill skill = _Skills.GetFirstOrDefault(sk => sk.SkillId == SkillId);
                     if (skill.Status == Status && skill.SkillName == Name) return "Skill not changed";
 
-                    else if (_Skills.ExistUser(u => u.SkillName.Replace(" ", "") == Name.Trim().Replace(" ", "") && u.SkillId != SkillId && u.DeletedAt == null))
+                    else if (_Skills.ExistUser(u => u.SkillName!.Replace(" ", "") == Name.Trim().Replace(" ", "") && u.SkillId != SkillId && u.DeletedAt == null))
                     {
                         return "Skill Already Exist";
                     }

@@ -167,7 +167,7 @@
                             <div class="d-flex align-items-center justify-content-center">
                                 <img class="timing-img" src="~/images/Seats-left.png" alt="" />
                                 <div>
-                                    <strong><p class="mb-0 card-timing-big">@item.SeatsLeft</p></strong>
+                                    <p class="mb-0 card-timing-big"><strong>@item.SeatsLeft</strong></p>
                                     <p class="card-text">Seats Left</p>
                                 </div>
                             </div>
@@ -176,7 +176,7 @@
                             <div class="d-flex align-items-center justify-content-center">
                                 <img class="timing-img" src="~/images/Already-volunteered.png" alt="" />
                                 <div>
-                                    <strong><p class="mb-0 card-timing-big">@item.SeatsFilled</p></strong>
+                                    <p class="mb-0 card-timing-big"><strong>@item.SeatsFilled</strong></p>
                                     <p class="card-text">Already Volunteered</p>
                                 </div>
                             </div>
@@ -485,9 +485,9 @@
                         @foreach(var comment in Model.Comments)
                         {
                             <div class="comment bg-white p-2 align-items-center border mb-3">
-                                <img src="@Model.Users.FirstOrDefault(u=>u.UserId == comment.UserId).Avatar" />
+                                <img src="@Model.Users.FirstOrDefault(u=>u.UserId == comment.UserId)!.Avatar" />
                                 <div class="ms-3 text-wrap">
-                                    <h5>@Model.Users.FirstOrDefault(u=>u.UserId == comment.UserId).FirstName @Model.Users.FirstOrDefault(u=>u.UserId == comment.UserId).LastName</h5>
+                                    <h5>@Model.Users.FirstOrDefault(u=>u.UserId == comment.UserId)!.FirstName @Model.Users.FirstOrDefault(u=>u.UserId == comment.UserId)!.LastName</h5>
                                     <p>@comment.CreatedAt (India Standard Time)</p>
                                     <p>@comment.CommentText</p>
                                 </div>

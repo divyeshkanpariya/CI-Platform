@@ -51,7 +51,7 @@ namespace CI_Platform.Repository.Repositories
             string avatar = "/images/default-user-icon.jpg";
             if(_userRepository.GetFirstOrDefault(u => u.Email == email).Avatar != null)
             {
-                avatar = _userRepository.GetFirstOrDefault(u => u.Email == email).Avatar;
+                avatar = _userRepository.GetFirstOrDefault(u => u.Email == email).Avatar!;
             }
             
             return avatar;
@@ -59,19 +59,21 @@ namespace CI_Platform.Repository.Repositories
 
         public long getUserId(string email)
         {
-            IEnumerable<User> users = _userRepository.GetAll();
+            User users = _userRepository.GetFirstOrDefault(u => u.Email == email);
 
-            long id = users.FirstOrDefault(u => u.Email == email).UserId;
+            long id = users.UserId;
             return id;
 
         }
 
         public string getUserName(string email)
         {
-            IEnumerable<User> users = _userRepository.GetAll();
+            User users = _userRepository.GetFirstOrDefault(u => u.Email == email);
             string name = "";
-            name += users.FirstOrDefault(u=> u.Email == email).FirstName;
-            name += " " + users.FirstOrDefault(u => u.Email == email).LastName;
+            if(users.FirstName != null)
+                name += users.FirstName;
+            if (users.LastName != null)
+                name += " " + users.LastName;
 
             return name;
 

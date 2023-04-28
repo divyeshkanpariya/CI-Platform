@@ -45,7 +45,7 @@ namespace CI_Platform.Controllers
                 string SkillIDs = "";
                 string SearchText = "";
                 string PageIndex = "";
-                string UserId = HttpContext.Session.GetString("UserId");
+                string UserId = HttpContext.Session.GetString("UserId")!;
                 var data = _StoriyListingDb.GetAllData(CountryIDs, CityIDs, ThemeIDs, SkillIDs, SearchText, UserId, PageIndex);
                 return View(data);
             }
@@ -75,7 +75,7 @@ namespace CI_Platform.Controllers
                 citystr = citystr.Substring(0, citystr.Length - 2);
                 CityIDs = citystr;
             }
-            string UserId = HttpContext.Session.GetString("UserId");
+            string UserId = HttpContext.Session.GetString("UserId")!;
             var data = _StoriyListingDb.GetAllData(CountryIDs, CityIDs, ThemeIDs, SkillIDs, SearchText, UserId, PageIndex);
 
             return PartialView("StoryCards", data);
@@ -140,11 +140,11 @@ namespace CI_Platform.Controllers
 
             ShareYourStoryViewModel viewModel = new ShareYourStoryViewModel()
             {
-                Mission = formData["Mission"],
+                Mission = formData["Mission"]!,
                 Date = Convert.ToDateTime(formData["Date"]),
-                StoryTitle = formData["StoryTitle"],
-                StoryDescription = formData["StoryDescription"],
-                StoryVideoUrl = formData["StoryVideoUrl"],
+                StoryTitle = formData["StoryTitle"]!,
+                StoryDescription = formData["StoryDescription"]!,
+                StoryVideoUrl = formData["StoryVideoUrl"]!,
                 Photos = formData.Files,
             };
 
@@ -191,11 +191,11 @@ namespace CI_Platform.Controllers
             ShareYourStoryViewModel viewModel = new ShareYourStoryViewModel()
             {
                 
-                Mission = formData["Mission"],
+                Mission = formData["Mission"]!,
                 Date = Convert.ToDateTime(formData["Date"]),
-                StoryTitle = formData["StoryTitle"],
-                StoryDescription = formData["StoryDescription"],
-                StoryVideoUrl = formData["StoryVideoUrl"],
+                StoryTitle = formData["StoryTitle"]!,
+                StoryDescription = formData["StoryDescription"]!,
+                StoryVideoUrl = formData["StoryVideoUrl"]!,
                 Photos = formData.Files,
             };
 
@@ -223,7 +223,7 @@ namespace CI_Platform.Controllers
             {
                 _ShareStory.DeleteMedia(StoryId);
             }
-            foreach (var file in viewModel.Photos)
+            foreach (var file in viewModel.Photos!)
             {
                 string folder = "Uploads/Story/";
                 string ext = file.ContentType.ToLower().Substring(file.ContentType.LastIndexOf("/") + 1);
@@ -235,7 +235,7 @@ namespace CI_Platform.Controllers
                 _ShareStory.UploadMedia(StoryId, FileType, path);
             }
 
-            string[] Urls = viewModel.StoryVideoUrl.Split('\r');
+            string[] Urls = viewModel.StoryVideoUrl!.Split('\r');
             int x = 0;
             foreach (string Url in Urls)
             {
@@ -280,14 +280,13 @@ namespace CI_Platform.Controllers
             long EmailTo = Convert.ToInt64(SendTo);
             long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
             long Sid = Convert.ToInt64(StoryId);
-            string UserName = HttpContext.Session.GetString("UserName");
+            string UserName = HttpContext.Session.GetString("UserName")!;
             long Mid = _StoryList.GetFirstOrDefault(u => u.StoryId == Sid).MissionId;
             string MissionTitle = _Missions.GetFirstOrDefault(u => u.MissionId == Mid).Title;
 
-            string url = Url.ActionLink("StoryDetails", "Story", new { sid = Sid });
+            string url = Url.ActionLink("StoryDetails", "Story", new { sid = Sid })!;
 
             string body = "Greetings of the Day !! <br><br>        " + UserName + " Invited you to join '" + MissionTitle + "' Mission if you have not joined yet and watch this Story. <br><br>" + url;
-            //_VolunteeringMission.SendInvitation(EmailTo, UserId, Sid, body);
             _StoryDetails.AddStoryInvite(UserId, EmailTo, Sid);
             return Json(SendTo);
         }

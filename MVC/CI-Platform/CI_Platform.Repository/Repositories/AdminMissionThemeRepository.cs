@@ -26,7 +26,7 @@ namespace CI_Platform.Repository.Repositories
         {
             List<AdminMissionThemeViewModel> Themes = new List<AdminMissionThemeViewModel>();
             IEnumerable<MissionTheme> ThemeDb = (from theme in _db.MissionThemes
-                                          where theme.Title.Contains(SearchText) && theme.DeletedAt == null
+                                          where theme.Title!.Contains(SearchText) && theme.DeletedAt == null
                                           select theme).ToList();
 
             foreach (MissionTheme theme in ThemeDb)
@@ -41,27 +41,21 @@ namespace CI_Platform.Repository.Repositories
                 Themes.Add(newmodel);
             }
             var pagesize = 9;
-            if (PageIndex != null)
-            {
-                if (PageIndex == null)
-                {
-                    PageIndex = 1;
-                }
-                Themes = Themes.Skip((PageIndex - 1) * pagesize).Take(pagesize).ToList();
-            }
+            Themes = Themes.Skip((PageIndex - 1) * pagesize).Take(pagesize).ToList();
+            
             return Themes;
         }
 
         public string SaveTheme(long ThemeId, string Name, string Status)
         {
-            if (ThemeId == 0 || ThemeId == null)
+            if (ThemeId == 0)
             {
-                if (_Themes.ExistUser(u => u.Title.Replace(" ", "") == Name.Trim().Replace(" ", "") && u.DeletedAt == null))
+                if (_Themes.ExistUser(u => u.Title!.Replace(" ", "") == Name.Trim().Replace(" ", "") && u.DeletedAt == null))
                 {
                     return "Theme Already Exist";
-                }else if(_Themes.ExistUser(u => u.Title.Replace(" ", "") == Name.Trim().Replace(" ", "") && u.DeletedAt != null))
+                }else if(_Themes.ExistUser(u => u.Title!.Replace(" ", "") == Name.Trim().Replace(" ", "") && u.DeletedAt != null))
                 {
-                    MissionTheme missionTheme = _Themes.GetFirstOrDefault(u => u.Title.Replace(" ", "") == Name.Trim().Replace(" ", "") && u.DeletedAt != null);
+                    MissionTheme missionTheme = _Themes.GetFirstOrDefault(u => u.Title!.Replace(" ", "") == Name.Trim().Replace(" ", "") && u.DeletedAt != null);
                     if (missionTheme != null)
                     {
                         missionTheme.DeletedAt = null;
@@ -87,7 +81,7 @@ namespace CI_Platform.Repository.Repositories
                     MissionTheme theme = _Themes.GetFirstOrDefault(sk => sk.MissionThemeId == ThemeId);
                     if (theme.Status == Status && theme.Title == Name) return "Theme not changed";
 
-                    else if (_Themes.ExistUser(u => u.Title.Replace(" ", "") == Name.Trim().Replace(" ", "") && u.MissionThemeId != ThemeId && u.DeletedAt == null))
+                    else if (_Themes.ExistUser(u => u.Title!.Replace(" ", "") == Name.Trim().Replace(" ", "") && u.MissionThemeId != ThemeId && u.DeletedAt == null))
                     {
                          return "Theme Already Exist"; 
                     }

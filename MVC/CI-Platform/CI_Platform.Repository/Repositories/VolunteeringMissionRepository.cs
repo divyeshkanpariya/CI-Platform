@@ -101,7 +101,7 @@ namespace CI_Platform.Repository.Repositories
 
                 mission.Country = _CountryList.GetFirstOrDefault(u => u.CountryId == mission.CountryId).Name;
 
-                mission.Theme = _ThemeList.GetFirstOrDefault(u => u.MissionThemeId == mission.ThemeId).Title;
+                mission.Theme = _ThemeList.GetFirstOrDefault(u => u.MissionThemeId == mission.ThemeId).Title!;
 
                 /* Path */
                 if (_MissionMedia.ExistUser(u => u.MissionId == mission.MissionId))
@@ -180,8 +180,6 @@ namespace CI_Platform.Repository.Repositories
                     var current = _MissionSeats.GetFirstOrDefault(u => u.MissionId == mission.MissionId);
 
                     var islimited = current.Islimited;
-                    if (islimited != null)
-                    {
                         if (islimited == 1)
                         {
                             mission.IsLimitedSeats = islimited;
@@ -195,7 +193,6 @@ namespace CI_Platform.Repository.Repositories
                             mission.IsLimitedSeats = islimited;
                             mission.SeatsFilled = current.SeatsFilled;
                         }
-                    }
                 }
 
                 /* Mission Skills */
@@ -207,7 +204,7 @@ namespace CI_Platform.Repository.Repositories
                     foreach (var skill in Skills)
                     {
                         int skillId = skill.SkillId;
-                        skillArr.Add(_SkillList.GetFirstOrDefault(u => u.SkillId == skillId).SkillName);
+                        skillArr.Add(_SkillList.GetFirstOrDefault(u => u.SkillId == skillId).SkillName!);
                     }
                     mission.MissionSkills = skillArr;
                 }
@@ -226,7 +223,7 @@ namespace CI_Platform.Repository.Repositories
                     List<string> mediaArr = new List<string>();
                     foreach(var item in media)
                     {
-                        mediaArr.Add(item.MediaPath);
+                        mediaArr.Add(item.MediaPath!);
                     }
                     mission.MissionMediaPaths = mediaArr;
                 }
@@ -341,7 +338,7 @@ namespace CI_Platform.Repository.Repositories
 
                 mission.Country = _CountryList.GetFirstOrDefault(u => u.CountryId == mission.CountryId).Name;
 
-                mission.Theme = _ThemeList.GetFirstOrDefault(u => u.MissionThemeId == mission.ThemeId).Title;
+                mission.Theme = _ThemeList.GetFirstOrDefault(u => u.MissionThemeId == mission.ThemeId).Title!;
 
                 /* Path */
                 if (_MissionMedia.ExistUser(u => u.MissionId == mission.MissionId))
@@ -414,8 +411,6 @@ namespace CI_Platform.Repository.Repositories
                     var current = _MissionSeats.GetFirstOrDefault(u => u.MissionId == mission.MissionId);
 
                     var islimited = current.Islimited;
-                    if (islimited != null)
-                    {
                         if (islimited == 1)
                         {
                             mission.IsLimitedSeats = islimited;
@@ -429,7 +424,6 @@ namespace CI_Platform.Repository.Repositories
                             mission.IsLimitedSeats = islimited;
                             mission.SeatsFilled = current.SeatsFilled;
                         }
-                    }
                 }
 
                 /* Mission Skills */
@@ -441,7 +435,7 @@ namespace CI_Platform.Repository.Repositories
                     foreach (var skill in Skills)
                     {
                         int skillId = skill.SkillId;
-                        skillArr.Add(_SkillList.GetFirstOrDefault(u => u.SkillId == skillId).SkillName);
+                        skillArr.Add(_SkillList.GetFirstOrDefault(u => u.SkillId == skillId).SkillName!);
                     }
                     mission.MissionSkills = skillArr;
                 }

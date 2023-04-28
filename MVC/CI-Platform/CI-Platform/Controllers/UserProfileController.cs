@@ -62,7 +62,7 @@ namespace CI_Platform.Controllers
         public IActionResult UserEditProfile(IFormCollection formData)
         {
             long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
-            if (UserId != null)
+            if (HttpContext.Session.GetString("UserId") != null)
             {
                 if (formData == null)
                 {
@@ -104,20 +104,20 @@ namespace CI_Platform.Controllers
                     file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
                     path += "/" + folder;
                 }
-                userProfileViewModel.Name = formData["Name"];
-                userProfileViewModel.Surname = formData["Surname"];
-                userProfileViewModel.MyProfileText = formData["MyProfileText"];
+                userProfileViewModel.Name = formData["Name"]!;
+                userProfileViewModel.Surname = formData["Surname"]!;
+                userProfileViewModel.MyProfileText = formData["MyProfileText"]!;
 
-                if (formData["Country"] != "0") userProfileViewModel.Country = formData["Country"];
-                if (formData["EmployeeId"] != "") userProfileViewModel.EmployeeId = formData["EmployeeId"];
-                if (formData["Manager"] != "") userProfileViewModel.Manager = formData["Manager"];
+                if (formData["Country"] != "0") userProfileViewModel.Country = formData["Country"]!;
+                if (formData["EmployeeId"] != "") userProfileViewModel.EmployeeId = formData["EmployeeId"]!;
+                if (formData["Manager"] != "") userProfileViewModel.Manager = formData["Manager"]!;
                 if (formData["Title"] != "") userProfileViewModel.Title = formData["Title"];
                 if (formData["Department"] != "") userProfileViewModel.Department = formData["Department"];
                 if (formData["WhyIVol"] != "") userProfileViewModel.WhyIVol = formData["WhyIVol"];
                 if (formData["LinkedinURL"] != "") userProfileViewModel.LinkedinURL = formData["LinkedinURL"];
-                if (formData["City"] != "0") userProfileViewModel.City = formData["City"];
-                if (formData["Availability"] != "Select Your Availability") userProfileViewModel.Availability = formData["Availability"];
-                if (formData["MySkills"] != "") userProfileViewModel.MySkills = formData["MySkills"];
+                if (formData["City"] != "0") userProfileViewModel.City = formData["City"]!;
+                if (formData["Availability"] != "Select Your Availability") userProfileViewModel.Availability = formData["Availability"]!;
+                if (formData["MySkills"] != "") userProfileViewModel.MySkills = formData["MySkills"]!;
 
                 _userProfileRepo.AddUserData(userProfileViewModel, UserId, path);
                 TempData["SuccessMessage"] = "Profile Updated Successfully";
@@ -129,7 +129,6 @@ namespace CI_Platform.Controllers
 
                 return RedirectToAction("Login", "Auth");
             }
-            return View();
         }
 
         public string GetUserData()

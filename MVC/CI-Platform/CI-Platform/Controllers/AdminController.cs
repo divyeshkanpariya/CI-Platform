@@ -96,17 +96,17 @@ namespace CI_Platform.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult SaveUserDetails(AdminAddUserViewModel viewModel)
         {
-            if (viewModel.Name == "" ||viewModel.Name.Length > 16)
+            if (viewModel.Name == "" ||viewModel.Name!.Length > 16)
             {
                 TempData["UserEditError"] = "InValid Name";
                 return RedirectToAction("User", "Admin");
             }
-            if (viewModel.Surname == "" || viewModel.Surname.Length > 16)
+            if (viewModel.Surname == "" || viewModel.Surname!.Length > 16)
             {
                 TempData["UserEditError"] = "InValid SurName";
                 return RedirectToAction("User", "Admin");
             }
-            if (viewModel.Email == "" || viewModel.Email.Length > 128 || viewModel.Email.Length < 8)
+            if (viewModel.Email == "" || viewModel.Email!.Length > 128 || viewModel.Email.Length < 8)
             {
                 TempData["UserEditError"] = "InValid Email";
                 return RedirectToAction("User", "Admin");
@@ -120,12 +120,12 @@ namespace CI_Platform.Controllers
                 }
             }
             
-            if (viewModel.EmployeeId == "" || viewModel.EmployeeId.Length > 16)
+            if (viewModel.EmployeeId == "" || viewModel.EmployeeId!.Length > 16)
             {
                 TempData["UserEditError"] = "Invalid EmployeeId";
                 return RedirectToAction("User", "Admin");
             }
-            if (viewModel.Department == "" || viewModel.Department.Length > 16)
+            if (viewModel.Department == "" || viewModel.Department!.Length > 16)
             {
                 TempData["UserEditError"] = "Invalid department";
                 return RedirectToAction("User", "Admin");
@@ -309,7 +309,7 @@ namespace CI_Platform.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult SaveMissionDetails(AdminAddEditMissionViewModel formData)
         {
-            if (formData.Availability == "0" || formData.Skills.Length <= 0 || formData.StartDate >= formData.EndDate || formData.CityId == "0" || formData.CountryId == "0" || formData.ThemeId == "0" || formData.Description == "")
+            if (formData.Availability == "0" || formData.Skills!.Length <= 0 || formData.StartDate >= formData.EndDate || formData.CityId == "0" || formData.CountryId == "0" || formData.ThemeId == "0" || formData.Description == "")
             {
                 TempData["ErrorMessage"] = "Trying to Modify Scripts !!! Please Try Again";
                 return View("Mission/Mission");
@@ -332,7 +332,7 @@ namespace CI_Platform.Controllers
             }
             string x = _webHostEnvironment.WebRootPath;
             _adminMissionPageRepo.SaveMissionDetails(formData, _webHostEnvironment.WebRootPath);
-            if(formData.MissionId == 0 || formData.MissionId == null)
+            if(formData.MissionId == 0)
             {
                 TempData["SuccessMessage"] = "Mission Added Successfully";
             }
@@ -566,11 +566,11 @@ namespace CI_Platform.Controllers
         [HttpPost]
         public string SaveBannerDetails(AdminAddEditBannerViewModel Model)
         {
-            if (Model.Title.Trim() == "") return "Enter Valid Title";
+            if (Model.Title!.Trim() == "") return "Enter Valid Title";
 
             if (Model.SortOrder == "") Model.SortOrder = "0";
 
-            if (Model.Text.Trim() == "") return "Enter Valid Text";
+            if (Model.Text!.Trim() == "") return "Enter Valid Text";
 
             if (Model.Image == null) return "Please Upload Image";
             string result =_adminBanners.SaveBannerDetails(Model,_webHostEnvironment.WebRootPath);
