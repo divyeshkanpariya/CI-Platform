@@ -47,6 +47,7 @@ namespace CI_Platform.Controllers
                 return View(data);
             }
             else
+
             {
                 TempData["SuccessMessage"] = "Login is Required";
 

@@ -97,7 +97,7 @@ namespace CI_Platform.Repository.Repositories
             {
                 return "Password Not Matched";
             }
-            user.Password = NewPwd;
+            user.Password = BCrypt.Net.BCrypt.HashPassword(NewPwd);
             _Users.Update(user);
             _Users.Save();
             return "";

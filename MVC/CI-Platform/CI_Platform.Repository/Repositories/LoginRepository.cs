@@ -21,29 +21,42 @@ namespace CI_Platform.Repository.Repositories
         public List<string> GetLoginDetails(string EmailId,string Password)
         {
             List<string> LoginDetails = new List<string>();
-            if(_admins.ExistUser(u => u.Email == EmailId && u.Password == Password))
+            if(EmailId  != null)
             {
-                Admin admin = _admins.GetFirstOrDefault(u => u.Email == EmailId && u.Password == Password);
-                LoginDetails.Add("Admin");
-                LoginDetails.Add(admin.AdminId.ToString());
-                LoginDetails.Add(admin.Email);
-                string Name = "";
-                if(admin.FirstName != null) Name += admin.FirstName + " ";
-                if(admin.LastName != null) Name += admin.LastName;
-                LoginDetails.Add(Name);
-            }else if(_userRepository.ExistUser(u => u.Email == EmailId && u.Password == Password && u.DeletedAt == null))
-            {
-                User user = _userRepository.GetFirstOrDefault(u => u.Email == EmailId && u.Password == Password && u.DeletedAt == null);
-                LoginDetails.Add("User");
-                LoginDetails.Add(user.UserId.ToString());
-                LoginDetails.Add(user.Email);
-                string Name = "";
-                if (user.FirstName != null) Name += user.FirstName + " ";
-                if (user.LastName != null) Name += user.LastName;
-                LoginDetails.Add(Name);
-                if (user.Avatar != null) LoginDetails.Add(user.Avatar);
-                else LoginDetails.Add("");
+                if(_admins.ExistUser(u => u.Email == EmailId && u.DeletedAt == null))
+                {
+                    Admin admin = _admins.GetFirstOrDefault(u => u.Email == EmailId && u.Password == Password && u.DeletedAt == null);
+                    if(admin != null)
+                    {
+                        LoginDetails.Add("Admin");
+                        LoginDetails.Add(admin.AdminId.ToString());
+                        LoginDetails.Add(admin.Email);
+                        string Name = "";
+                        if (admin.FirstName != null) Name += admin.FirstName + " ";
+                        if (admin.LastName != null) Name += admin.LastName;
+                        LoginDetails.Add(Name);
+                    }
+                }
+                else if (_userRepository.ExistUser(u => u.Email == EmailId && u.DeletedAt == null))
+                {
+                    User user = _userRepository.GetFirstOrDefault(u => u.Email == EmailId && u.DeletedAt == null);
+                    if (BCrypt.Net.BCrypt.Verify(Password, user.Password))
+                    {
+                        LoginDetails.Add("User");
+                        LoginDetails.Add(user.UserId.ToString());
+                        LoginDetails.Add(user.Email);
+                        string Name = "";
+                        if (user.FirstName != null) Name += user.FirstName + " ";
+                        if (user.LastName != null) Name += user.LastName;
+                        LoginDetails.Add(Name);
+                        if (user.Avatar != null) LoginDetails.Add(user.Avatar);
+                        else LoginDetails.Add("");
+                    }
+                }
             }
+            
+
+            
             return LoginDetails;
         }
         public string getUserAvatar(string email)

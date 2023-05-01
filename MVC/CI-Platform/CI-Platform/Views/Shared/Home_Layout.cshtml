@@ -40,7 +40,7 @@
                                 <span>Policy</span>
                                 <img src="~/images/drop-down.png" class="mx-2 dropdown-img" alt="">
                             </a>
-                            <ul class="dropdown-menu" id="PrivacyPolicyDd">
+                            <ul class="dropdown-menu " id="PrivacyPolicyDd">
                                 <li><a class="dropdown-item" href="#">Action</a></li>
                                 <li><a class="dropdown-item" href="#">Another action</a></li>
                                 
@@ -62,7 +62,7 @@
                         <span class="mx-1 header-text">@Context.Session.GetString("UserName")</span>
                         <img src="~/images/drop-down.png" class="mx-1" alt="">
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-lg-right">
+                    <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" asp-action="UserEditProfile" asp-controller="UserProfile">My Profile</a></li>
                         <li><a class="dropdown-item" asp-action="VolunteeringTimesheet" asp-controller="UserProfile">Volunteering Timesheet</a></li>
                         <li><a class="dropdown-item" asp-action="Login" asp-controller="Auth">Logout</a></li>

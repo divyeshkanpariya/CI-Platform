@@ -28,7 +28,7 @@ namespace CI_Platform.Repository.Repositories
                 LastName = data.LastName,
                 Email = data.Email,
                 PhoneNumber = data.PhoneNumber,
-                Password = data.Password,
+                Password = BCrypt.Net.BCrypt.HashPassword(data.Password),
             };
             return user;
         }

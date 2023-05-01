@@ -71,7 +71,7 @@ namespace CI_Platform.Repository.Repositories
                 {
                     curr.Title = model.Title;
                     curr.Description = model.Description;
-                    curr.Slug = model.Slug;
+                    curr.Slug = model.Slug.Trim().Replace(" ","");
                     curr.Status = model.Status;
                     curr.UpdatedAt = DateTime.Now;
                     _cmsPages.Update(curr);
@@ -85,7 +85,7 @@ namespace CI_Platform.Repository.Repositories
                 {
                     Title = model.Title,
                     Description =model.Description,
-                    Slug=model.Slug,
+                    Slug=model.Slug.Trim().Replace(" ", ""),
                     Status = model.Status,
                 };
                 _cmsPages.AddNew(newpage);
@@ -101,6 +101,11 @@ namespace CI_Platform.Repository.Repositories
                 _cmsPages.Update(page);
                 _cmsPages.Save();
             }
+        }
+
+        public bool IsSlugExist(string slug)
+        {
+            return _cmsPages.ExistUser(c => c.Slug.Trim().ToLower() == slug.Trim().ToLower() && c.DeletedAt == null);
         }
     }
 }

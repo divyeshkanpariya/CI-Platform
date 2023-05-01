@@ -213,6 +213,7 @@ namespace CI_Platform.Controllers
 
         public IActionResult AddNewCmsPage()
         {
+
             AdminAddCmsViewModel viewModel = new AdminAddCmsViewModel();
             return PartialView("~/Views/Admin/CMS/AddEditCMS.cshtml", viewModel);
         }
@@ -229,9 +230,18 @@ namespace CI_Platform.Controllers
         {
             if(viewModel.Description == null)
             {
-                TempData["Description"] = "Description can not be Empty";
+                TempData["Description"] = "Description can not be Empty!! Please Try again.";
                 return RedirectToAction("CMSPage", "Admin");
             }
+            if(viewModel.Id == "0")
+            {
+                if (_adminCMSPageRepo.IsSlugExist(viewModel.Slug))
+                {
+                    TempData["Description"] = "Slug is already Used!! Please Try again.";
+                    return RedirectToAction("CMSPage", "Admin");
+                }
+            }
+            
             if (ModelState.IsValid)
             {
                 _adminCMSPageRepo.SaveCmsPage(viewModel);
@@ -343,6 +353,7 @@ namespace CI_Platform.Controllers
             
             return View("Mission/Mission");
         }
+
         public string GetMissionLoc(string Mid)
         {
             AdminAddEditMissionViewModel viewModel = _adminMissionPageRepo.GetMissionDetails(Convert.ToInt64(Mid), _webHostEnvironment.WebRootPath);

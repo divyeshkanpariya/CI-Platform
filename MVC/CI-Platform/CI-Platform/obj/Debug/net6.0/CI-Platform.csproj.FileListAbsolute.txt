@@ -271,3 +271,4 @@ C:\Users\pci117\source\repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI-Pla
 C:\Users\pci117\source\repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI-Platform\bin\Debug\net6.0\runtimes\osx-x64\native\libgrpc_csharp_ext.x64.dylib
 C:\Users\pci117\source\repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI-Platform\bin\Debug\net6.0\runtimes\win-x64\native\grpc_csharp_ext.x64.dll
 C:\Users\pci117\source\repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI-Platform\bin\Debug\net6.0\runtimes\win-x86\native\grpc_csharp_ext.x86.dll
+C:\Users\pci117\source\repos\divyeshkanpariya\CI-Platform\MVC\CI-Platform\CI-Platform\bin\Debug\net6.0\BCrypt.Net-Next.dll

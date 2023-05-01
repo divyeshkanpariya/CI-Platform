@@ -12,6 +12,10 @@
     <span class="mb-0">@TempData["SuccessMessage"]</span>
 </div>
 }
+<div class="alert alert-success" style="display: none;" id="success-alert-change">
+    <strong>Succeed!!</strong>
+    <span class="mb-0">Password Changed Successfully</span>
+</div>
 <form method="post" enctype="multipart/form-data">
 <div class="row my-4 mx-3 mx-lg-5 px-lg-5">
     
@@ -350,6 +354,10 @@
                 }
                 else{
                     $(".close").click();
+                    $("#success-alert-change").alert().show();
+                    window.setTimeout(function () { 
+                        $("#success-alert-change").alert().hide(); 
+                    }, 2000);
                 }
 
             },

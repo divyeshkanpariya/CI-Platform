@@ -18,5 +18,7 @@ namespace CI_Platform.Repository.Interface
 
         public void DeleteCmsPage(long CmsId);
 
+        public bool IsSlugExist(string slug);
+
     }
 }

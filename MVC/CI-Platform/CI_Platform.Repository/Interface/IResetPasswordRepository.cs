@@ -11,6 +11,6 @@ namespace CI_Platform.Repository.Interface
 {
     public interface IResetPasswordRepository : IRepository<PasswordReset>
     {
-        bool IsTokenValid(Lost_passwordViewModel data, string token);
+        public bool IsTokenValid(ResetPasswordViewModel data, string token);
     }
 }

@@ -23,7 +23,7 @@
     </header>
     <div class="mainbody">
         <main role="main" class="">
-            <div class="container-fluid px-0" class="admin-pages-main">
+            <div class="container-fluid px-0 admin-pages-main">
                 <div class="row flex-nowrap g-0 ">
                     <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 admin-sidebar">
                         <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 mt-4 min-vh-100 ">
@@ -98,7 +98,7 @@
                                         <span class="mx-1 header-text">@Context.Session.GetString("UserName")</span>
                                         <img src="~/images/drop-down.png" class="mx-1" alt="">
                                     </a>
-                                    <ul class="dropdown-menu dropdown-menu-lg-right">
+                                    <ul class="dropdown-menu dropdown-menu-end">
                                         <li><a class="dropdown-item" asp-action="Login" asp-controller="Auth">Logout</a></li>
                                     </ul>
 

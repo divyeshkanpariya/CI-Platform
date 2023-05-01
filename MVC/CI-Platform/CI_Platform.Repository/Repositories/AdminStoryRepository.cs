@@ -56,7 +56,7 @@ namespace CI_Platform.Repository.Repositories
 
                 Applications.Add(newstory);
             }
-            var pagesize = 2;
+            var pagesize = 9;
             
             Applications = Applications.Skip((PageIndex - 1) * pagesize).Take(pagesize).ToList();
 

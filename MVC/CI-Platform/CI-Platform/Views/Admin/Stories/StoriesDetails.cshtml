@@ -53,13 +53,13 @@
 
 @{
     int pageCount;
-    if(@Model.FirstOrDefault().StoryCount % 2 == 0)
+    if(@Model.FirstOrDefault().StoryCount % 9 == 0)
     {
-        pageCount = @Model.FirstOrDefault().StoryCount / 2;
+        pageCount = @Model.FirstOrDefault().StoryCount / 9;
     }
     else    
     {
-        pageCount = @Model.FirstOrDefault().StoryCount / 2 +1;
+        pageCount = @Model.FirstOrDefault().StoryCount / 9 +1;
 
     }
 }
@@ -167,10 +167,10 @@
         var text="";
         pagination.empty();
         console.log(total)
-        if(total % 2 == 0){
-            pages = total/2;
+        if(total % 9 == 0){
+            pages = total/9;
         }else{
-            pages = total/2 + 1;
+            pages = total/9 + 1;
         }
         if(pages <2) return;
         console.log(pages);

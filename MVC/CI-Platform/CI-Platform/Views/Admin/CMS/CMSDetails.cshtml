@@ -4,7 +4,7 @@
 {
     <div class="alert alert-danger" style="" id="success-alert">
        <strong>Failed</strong>
-        Description can not be Empty!!   Please try Again...
+        @TempData["Description"]
     </div>
 }
 @if(TempData["Success"] != null)
@@ -323,7 +323,7 @@
     $(document).ready( function() {
        setTimeout(function(){
            $("#success-alert").hide();
-       },2000);
+       },2500);
     });
 
     

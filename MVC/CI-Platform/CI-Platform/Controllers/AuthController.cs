@@ -138,7 +138,7 @@ namespace CI_Platform.Controllers
                     var reset_pwd = _LostPwdDb.newToken(data, token);
                     _LostPwdDb.AddNew(reset_pwd);
                     _LostPwdDb.Save();
-                    TempData["SuccessMessage"] = "Email sent for Password Reset !!!";
+                    TempData["SuccessMessage"] = "Email sent for Password Reset !!! Link is Valid till 10 minutes";
                     return RedirectToAction("Login");
                 }
                 else
@@ -192,32 +192,36 @@ namespace CI_Platform.Controllers
                 Email = Email,
                 Token = Token,
             };
-            return View();
+            return View(rp);
 
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Reset_Password(ResetPasswordViewModel data)
         {
             if (ModelState.IsValid)
             {
                 if (data.Password != data.ConfirmPassword)
                 {
-                    ModelState.AddModelError("", "Password and Connfirm Password are not same");
+                    ModelState.AddModelError("ConfirmPassword", "Password and Confirm Password are not same");
                     return View(data);
                 }
-                var isTokenValid = _ResetPwdDb.IsTokenValid;
-                if (isTokenValid == null)
+                bool isTokenValid = _ResetPwdDb.IsTokenValid(data,data.Token);
+                if (isTokenValid == false)
                 {
 
-                    ModelState.AddModelError("", "Link is Invalid");
-                    return View(data);
+                    //ModelState.AddModelError("", "Link is Invalid");
+                    //return View(data);
+                    TempData["SuccessMessage"] = "Link is Invalid";
+
+                    return RedirectToAction("Login", "Auth");
                 }
                 var userFromDB = _UserDb.GetFirstOrDefault(u => u.Email == data.Email);
 
                 if (userFromDB != null)
                 {
-                    userFromDB.Password = data.Password;
+                    userFromDB.Password = BCrypt.Net.BCrypt.HashPassword(data.Password);
                     userFromDB.UpdatedAt = DateTime.Now;
                     _UserDb.Update(userFromDB);
                     _UserDb.Save();
@@ -228,10 +232,7 @@ namespace CI_Platform.Controllers
             }
             else
             {
-                //HttpContext.Abort();
-                
-                
-                return RedirectToAction("Login");
+                return View(data);
 
             }
         }

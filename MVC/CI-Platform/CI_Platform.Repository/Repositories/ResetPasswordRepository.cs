@@ -18,16 +18,18 @@ namespace CI_Platform.Repository.Repositories
             _db = db;
         }
 
-        public bool IsTokenValid(Lost_passwordViewModel data, string token)
+        public bool IsTokenValid(ResetPasswordViewModel data, string token)
         {
-            var query = dbSet.Where(u=> u.Email == data.Email).OrderBy(u=>u.Id).LastOrDefault();
+            var query = dbSet.Where(u=> u.Email == data.Email && u.Token == token).OrderBy(u=>u.Id).LastOrDefault();
+            
             if (query == null)
             {
                 return false;
             }
             else
             {
-                return true;
+                if (query.CreatedAt.AddMinutes(10) >= DateTime.Now) return true;
+                else return false;
             }
         }
     }
