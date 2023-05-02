@@ -130,10 +130,14 @@
                         <p class="text-danger small-text" id="valSortOrder"></p>
                    </div>
                     <div>
-                        <label for="BannerImage" class="form-label">Add Image</label>
-                        <input for="BannerImage" class="form-control" accept="image/jpeg, image/png, image/jpg" type="file" id="BannerImage">
-                        <p class="text-danger small-text" id="valImager"></p>
-                </div>
+                        <div>
+                            <label for="BannerImage" class="form-label">Add Image</label>
+                            <input for="BannerImage" class="form-control" accept="image/jpeg, image/png, image/jpg" type="file" id="BannerImage">
+                            <p class="text-danger small-text" id="valImager"></p>
+                        </div>
+                        
+                        <output class="mt-3 " id="previewDef"></output>
+                    </div>
             </div>     
                         
             <div class="modal-footer">
@@ -173,6 +177,13 @@
     </div>
 </div>
 <script>
+    $("#BannerImage").change( () =>{
+        const files = document.getElementById("BannerImage").files[0];
+        var image = `<div class="image">
+                    <img src="${URL.createObjectURL(files)}" alt="image">
+                    </div>`;
+            document.getElementById("previewDef").innerHTML = image;
+    });
     function DeleteBanner(Id){
         $("#DeleteBanner").modal("show");
         document.getElementById("targetDelId").value = Id;
@@ -233,6 +244,10 @@
                         }));
                         document.querySelector("#BannerImage").files = dT.files;
                 });
+                var image = `<div class="image">
+                    <img src="${data.Image}" alt="image">
+                    </div>`;
+                document.getElementById("previewDef").innerHTML = image;
             }
         });
         $("#AddEditBanner").modal("show");
@@ -251,6 +266,7 @@
         document.getElementById("BannerText").value = "";
         document.getElementById("SortOrder").value = 0;
         document.querySelector("#BannerImage").files = dT.files;
+        $("#previewDef").empty();
     }
 
     function SaveBannerDetails(){
