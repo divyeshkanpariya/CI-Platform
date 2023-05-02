@@ -105,6 +105,11 @@ namespace CI_Platform.Repository.Repositories
                     if(row["end_date"] != DBNull.Value)
                     {
                         newM.EndDate = Convert.ToDateTime(row["end_date"]);
+                            
+                    }
+                    if (row["registration_deadline"] != DBNull.Value)
+                    {
+                        newM.RegistrationDeadline = Convert.ToDateTime(row["registration_deadline"]);
 
                     }
                     newM.MissionType = Convert.ToString(row["mission_type"])!;

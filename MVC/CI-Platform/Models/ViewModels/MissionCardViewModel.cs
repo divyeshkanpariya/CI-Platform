@@ -51,6 +51,8 @@ namespace CI_Platform.Models.ViewModels
 
         public List<string>? MissionMediaPaths { get; set; }
 
+        public List<string>? MissionVideos { get; set; }
+
         public List<List<string>>? RecentVolunteers { get; set; }
 
         public IEnumerable<MissionDocument>? MissionDocumentss { get; set; }

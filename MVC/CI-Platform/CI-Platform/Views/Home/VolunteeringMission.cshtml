@@ -8,8 +8,33 @@
    <strong>Success!</strong>
    Email Sent Successfully
 </div>
+@{
+    var currCard = @Model!.MissionCards!.FirstOrDefault();
+    var totalMediaCount = currCard!.MissionMediaPaths!.Count + currCard.MissionVideos!.Count;
+    var totalScreens = (totalMediaCount/4) + 1;
+    if(totalMediaCount % 4 == 0)
+    {
+        totalScreens -= 1;
+    }
+    string GetVideoUrl(string path)
+    {
+        string src = "";
+        src += "https://www.youtube.com/embed/";
+        src += path.Substring(path.IndexOf("=") + 1);
+        src += "?autoplay=1&mute=1";
+        return src;
+    }
+    string GetThumbnail(string path)
+    {
+        string src = "";
+        src += "https://img.youtube.com/vi/";
+        src += path.Substring(path.IndexOf("=") + 1);
+        src += "/0.jpg";
+        return src;
 
-@foreach(var item in Model.MissionCards)
+    }
+}
+@foreach(var item in Model.MissionCards!)
 {
 <p id="getMissionId" style="display:none;">@item.MissionId</p>
 <p id="getUserName" style="display:none;">@Context.Session.GetString("UserName")</p>
@@ -26,21 +51,37 @@
 
                     <div id="myCarousel" class="carousel px-0 slide" data-ride="carousel">
                         <div class="carousel-inner" id= "carouselInnerDiv">
-                                @if (@item.MissionMediaPaths.Count != null)
+                                @if (@totalMediaCount != 0)
                                 {
-                                    @for (var i=0;i<@item.MissionMediaPaths.Count;i++)
+                                    var x = 0;
+                                    @for (x=0;x<@item.MissionMediaPaths.Count;x++)
                                     {
-                                        @if (i == 0)
+                                        @if (x == 0)
                                         {
-                                            <div class="carousel-item carousel-img-div active" data-slide-number="@i" style="max-height:625px ;">
-                                                <img src="@item.MissionMediaPaths[i]" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/Pn6iimgM-wo/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
+                                            <div class="carousel-item carousel-img-div active" data-slide-number="@x" style="max-height:625px ;">
+                                                <img src="@item.MissionMediaPaths[x]" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/Pn6iimgM-wo/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
                                             </div>
                                         }else{
-                                            <div class="carousel-item carousel-img-div" data-slide-number="@i" style="max-height:625px ;">
-                                                <img src="@item.MissionMediaPaths[i]" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/Pn6iimgM-wo/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
+                                            <div class="carousel-item carousel-img-div" data-slide-number="@x" style="max-height:625px ;">
+                                                <img src="@item.MissionMediaPaths[x]" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/Pn6iimgM-wo/" data-type="image" data-toggle="lightbox" data-gallery="example-gallery">
                                             </div>
                                         }
+                                    }
+                                    @for (x = @currCard.MissionMediaPaths.Count; x < totalMediaCount; x++)
+                                    {
+                                        
+                                        @if (x == 0)
+                                        {
+                                            <div class="carousel-item carousel-img-div active" data-slide-number="@x" style="max-height:625px ">
 
+                                                <img src="@GetVideoUrl(@currCard.MissionVideos[0])" class="d-block scroll-img w-100" alt="..." data-remote="https://source.unsplash.com/Pn6iimgM-wo/" data-type="video" data-toggle="lightbox" data-gallery="example-gallery">
+                                            </div>
+                                        }
+                                        else{
+                                            <div class="carousel-item carousel-img-div" data-slide-number="@x" style="max-height:625px ;">
+                                                <iframe class="d-block scroll-img w-100" src="@GetVideoUrl(@currCard.MissionVideos[0])" allowfullscreen></iframe>
+                                            </div>
+                                        }
                                     }
                                 }
 
@@ -53,11 +94,14 @@
                     <div id="carousel-thumbs" class="carousel slide">
                             <div class="carousel-inner h-100 w-100" id="carouselInnerDiv">
                                 
-                                   
-                                        @for(var j = 0; j < (@item.MissionMediaPaths.Count / 4)+1; j++)
+                                @if(@totalMediaCount != 0)
+                                {
+                                    var x = 0;
+                                    @for (var j = 0; j < (totalScreens); j++)
                                         {
-                                            var count = @item.MissionMediaPaths.Count;
-                                            var x = j*4;
+                                        
+                                            var count = @totalMediaCount;
+                                            x = j*4;
                                             if(x == 0){
                                                 <div class="carousel-item h-100 active">
                                                     <div class="row mx-0 h-100">
@@ -73,11 +117,15 @@
                                                                     <img  src="@item.MissionMediaPaths[x]" class="img-fluid w-100" alt="...">
                                                                 </div>
 
-                                                            }else{
+                                                            }else if(x < @currCard.MissionMediaPaths.Count){
                                                                 <div id="carousel-selector-@x" class="thumb col-3 h-100 px-1 pt-1" data-target="#myCarousel" data-slide-to="@x">
                                                                     <img src="@item.MissionMediaPaths[x]" class="img-fluid w-100" alt="...">
                                                                 </div>
-                                                            }                                                           
+                                                            }else{
+                                                                <div id="carousel-selector-@x" class="thumb col-3 h-100 px-1 pt-1" data-target="#myCarousel" data-slide-to="@x">
+                                                                    <img class="img-fluid w-100 h-100" src="@GetThumbnail(@currCard.MissionVideos[@x - @currCard.MissionMediaPaths.Count])"></img>
+                                                                </div>
+                                                            }                                                      
                                                             x++;
                                                         }
                                                     </div>
@@ -93,9 +141,19 @@
                                                             {
                                                                 break;
                                                             }
-                                                            <div id="carousel-selector-@x" class="thumb col-3 h-100 px-1 pt-1" data-target="#myCarousel" data-slide-to="@x">
-                                                                <img src="@item.MissionMediaPaths[x]" class="img-fluid w-100" alt="...">
-                                                            </div>
+                                                            if(x < @currCard.MissionMediaPaths.Count)
+                                                            {
+                                                                <div id="carousel-selector-@x" class="thumb col-3 h-100 px-1 pt-1" data-target="#myCarousel" data-slide-to="@x">
+                                                                    <img src="@item.MissionMediaPaths[x]" class="img-fluid w-100" alt="...">
+                                                                </div>
+
+                                                            }else
+                                                            {
+                                                                <div id="carousel-selector-@x" class="thumb col-3 h-100 px-1 pt-1" data-target="#myCarousel" data-slide-to="@x">
+                                                                    <img class="img-fluid w-100 h-100" src="@GetThumbnail(@currCard.MissionVideos[@x - @currCard.MissionMediaPaths.Count])"></img>
+                                                                </div>
+                                                            }
+
                                                             x++;
 
                                                         }
@@ -105,6 +163,8 @@
                                             }
 
                                         }
+                                }
+                                
 
                         </div>
                         <a class="carousel-control-prev bg-black" href="#carousel-thumbs" role="button" data-slide="prev" style="width:25px;">
@@ -137,17 +197,17 @@
                         else if (@item.StartDate != null && @item.EndDate != null)
                         {
 
-                                <p class="enrol-time px-3 pt-1">From @item.StartDate.ToString().Substring(0,10) until @item.EndDate.ToString().Substring(0,10)</p>
+                                <p class="enrol-time px-3 pt-1">From @item.StartDate.ToString()!.Substring(0,10) until @item.EndDate.ToString().Substring(0,10)</p>
 
                         }
                         else if (@item.StartDate != null && @item.EndDate == null)
                         {
-                            <p class="enrol-time px-3 pt-1">From @item.StartDate.ToString().Substring(0,10)</p>
+                            <p class="enrol-time px-3 pt-1">From @item.StartDate.ToString()!.Substring(0,10)</p>
 
                         }
                         else if (@item.StartDate == null && @item.EndDate != null)
                         {
-                            <p class="enrol-time px-3 pt-1">Until @item.EndDate.ToString().Substring(0,10)</p>
+                            <p class="enrol-time px-3 pt-1">Until @item.EndDate.ToString()!.Substring(0,10)</p>
 
                         }
                     }
@@ -221,13 +281,13 @@
                     }
                     else
                     {
-                        @if (@item.StartDate is not null)
+                        @if (@item.RegistrationDeadline is not null)
                         {
                             <div class="d-flex align-items-center justify-content-center">
                                 <img class="timing-img" src="~/images/deadline.png" alt="" />
                                 <div>
 
-                                    <strong><p class="mb-0 card-timing-big">@Convert.ToDateTime(@item.StartDate.ToString().Substring(0,10)).AddDays(-1).ToString().Substring(0,10)</p></strong>
+                                    <strong><p class="mb-0 card-timing-big">(@item.RegistrationDeadline.ToString()!.Substring(0,10)</p></strong>
                                     <p class="card-text">Deadline</p>
 
 
@@ -269,51 +329,51 @@
                     </button>
                 </div>
               
-
+               @* ----------------- Recommand to Coworker Model --------------- *@
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Send Invitation</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <div class="mb-3  user-invite-table">
-                            <table class="table table-bordered text-center user-invite-table table-striped" >
-                                <thead>
-                                  <tr>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Send Invite</th>  
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach(var user in Model.Users){
-                                        if(@Convert.ToInt64(@Context.Session.GetString("UserId")) != user.UserId)
-                                        {
-                                            <tr class="">
-                                            <th>@user.FirstName @user.LastName</th>
-                                            <th>
-                                                <div class="py-1">                               
-                                                    <button  class="Apply-mission-btn px-3" data-dismiss="modal" onclick="sendInvitation(@item.MissionId,@Convert.ToInt64(@user.UserId))" value="@user.UserId">Send<img src="~/images/right-arrow.png" /></button>
-                                                </div>
-                                            </th>
-                                        </tr> 
-                                        }
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Send Invitation</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3  user-invite-table">
+                                    <table class="table table-bordered text-center user-invite-table table-striped" >
+                                        <thead>
+                                            <tr>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Send Invite</th>  
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach(var user in Model.Users!){
+                                                if(@Convert.ToInt64(@Context.Session.GetString("UserId")) != user.UserId)
+                                                {
+                                                    <tr class="">
+                                                    <th>@user.FirstName @user.LastName</th>
+                                                    <th>
+                                                        <div class="py-1">                               
+                                                            <button  class="Apply-mission-btn px-3" data-dismiss="modal" onclick="sendInvitation(@item.MissionId,@Convert.ToInt64(@user.UserId))" value="@user.UserId">Send<img src="~/images/right-arrow.png" /></button>
+                                                        </div>
+                                                    </th>
+                                                </tr> 
+                                                }
                                                     
-                                    }
-                                </tbody>
-                            </table>
+                                            }
+                                        </tbody>
+                                    </table>
                             
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
                         </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      </div>
                     </div>
-                  </div>
                 </div>
             </div>
 

@@ -247,7 +247,7 @@
 
     function applypagination(){
         $("#pagination a").click( (e) =>{
-
+            console.log("target",e.target.innerHTML)
             var pagination = document.getElementById("pagination").getElementsByTagName("a");
             if(e.target.id == "fr"){
 

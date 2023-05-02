@@ -38,6 +38,7 @@
             <label class="form-label" asp-for="Slug">Slug</label>
             <input asp-for="Slug" name="Slug" class="form-control" id="slug" placeholder="Slug">
             <span asp-validation-for="Slug" class="text-danger small-text"></span>
+            <span class="text-danger small-text" id="validateSlug"></span>
         </div>
 
         <div class="col-12 mt-3">
@@ -57,7 +58,8 @@
     <a class="rec-btns px-4 text-muted text-decoration-none d-flex align-items-center" type="button" style="width:fit-content" asp-action="User" asp-controller="Admin">
         <span class="ps-2">Cancel</span>
     </a> 
-    <button type="submit" formaction="@Url.Action("SaveCmsDetails","Admin")" class="Apply-mission-btn px-4 ms-3" id = "saveSkillls">Save</button>
+    <button type="button"  class="Apply-mission-btn px-4 ms-3" onclick = "SaveCms()">Save</button>
+    <button type="submit" formaction="@Url.Action("SaveCmsDetails","Admin")" class="d-none" id = "SubmitCmsDetails"></button>
 </div>
 </form>
 
@@ -70,6 +72,28 @@
         toolbar: 'bold italic underline strikethrough forecolor backcolor bullist numlist indent outdent image link media undo redo removeformat',
         menubar: false,
     });
+    function SaveCms(){
+        //console.log("dsdsfdsfs")
+        var slug = document.getElementById("slug").value;
+        console.log(slug);
+        $.ajax({
+                url: '/Auth/getPolicies',
+                type: 'get',
+                data: {},
+                dataType: 'json',
+                success:function (data) {
+                    for(var i=0;i< data.length;i++){
+                        
+                        if(data[i].Slug.toLowerCase() == slug.toLowerCase()){
+                            document.getElementById("validateSlug").innerHTML = "Slug is already Used";
+                            return;
+                        }
+                    }
+                    $("#SubmitCmsDetails").click();
+                }
+            });
+        //$("#SubmitCmsDetails").click();
+    }
 </script>
 
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>

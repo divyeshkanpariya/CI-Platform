@@ -65,13 +65,13 @@
     int pageCount;
     if(@Model != null)
     {
-        if(@Model.FirstOrDefault().TotalPages % 9 == 0)
+        if(@Model.FirstOrDefault()!.TotalPages % 9 == 0)
         {
-            pageCount = @Model.FirstOrDefault().TotalPages / 9;
+            pageCount = @Model.FirstOrDefault()!.TotalPages / 9;
         }
         else    
         {
-            pageCount = @Model.FirstOrDefault().TotalPages / 9 +1;
+            pageCount = @Model.FirstOrDefault()!.TotalPages / 9 +1;
 
         }
     }

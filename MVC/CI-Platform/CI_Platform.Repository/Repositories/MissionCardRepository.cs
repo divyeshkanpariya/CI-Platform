@@ -37,7 +37,7 @@ namespace CI_Platform.Repository.Repositories
                 view.OrganizationName = mission.OrganizationName;
                 view.OrganizationDetail = mission.OrganizationDetail;
                 view.Availability = mission.Availability;
-                
+                view.RegistrationDeadline = mission.RegistrationDeadline;
                 MissionCard.Add(view);
             }
             IEnumerable<MissionCardViewModel> fin = MissionCard;

@@ -15,16 +15,19 @@ namespace CI_Platform.Repository.Repositories
         private readonly IRepository<MissionApplication> _MissionApplications;
         private readonly IRepository<Mission> _Missions;
         private readonly IRepository<User> _Users;
+        private readonly IRepository<MissionSeat> _MissionSeat;
 
         public AdminMissionApplicationsRepository(CiPlatformContext db,
             IRepository<MissionApplication> missionApplications,
             IRepository<Mission> missions,
-            IRepository<User> users
+            IRepository<User> users,
+            IRepository<MissionSeat> MissionSeats
         ){
             _db = db;
             _MissionApplications = missionApplications;
             _Missions = missions;
             _Users = users;
+            _MissionSeat = MissionSeats;
         }
 
         public IEnumerable<AdminMissionAppicationTableViewModel> GetMissionApplications(string SearchText,int PageIndex)
@@ -73,7 +76,19 @@ namespace CI_Platform.Repository.Repositories
 
                 if (missionApplication != null)
                 {
-                    if(Status != "DELETE") missionApplication.ApprovalStatus = Status;
+                    if (Status != "DELETE")
+                    {
+                        missionApplication.ApprovalStatus = Status;
+                        MissionSeat ms = _MissionSeat.GetFirstOrDefault(ms => ms.MissionId == missionApplication.MissionId );
+                        if (ms != null)
+                        {
+                            ms.SeatsFilled += 1;
+                            ms.UpdatedAt = DateTime.Now;
+                            _MissionSeat.Update(ms);
+                            _MissionSeat.Save();
+                        }
+                    }
+                    
                     missionApplication.UpdatedAt = DateTime.Now;
                     if(Status == "DELETE") missionApplication.DeletedAt = DateTime.Now;
                     _MissionApplications.Update(missionApplication);

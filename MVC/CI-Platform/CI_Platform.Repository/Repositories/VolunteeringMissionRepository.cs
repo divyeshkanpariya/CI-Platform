@@ -218,13 +218,23 @@ namespace CI_Platform.Repository.Repositories
 
                 /* Mission Media */
 
-                if(_MissionMedia.ExistUser(u => u.MissionId == mission.MissionId)){
-                    var media = _MissionMedia.GetAll().Where(u => u.MissionId == mission.MissionId);
+                if(_MissionMedia.ExistUser(u => u.MissionId == mission.MissionId && u.DeletedAt == null)){
+                    var media = _MissionMedia.GetAll().Where(u => u.MissionId == mission.MissionId && u.DeletedAt == null);
                     List<string> mediaArr = new List<string>();
+                    List<string> VideoURLs = new List<string>();
                     foreach(var item in media)
                     {
-                        mediaArr.Add(item.MediaPath!);
+                        if(item.MediaType == "image")
+                        {
+                            mediaArr.Add(item.MediaPath!);
+                        }
+                        else if(item.MediaType == "Video")
+                        {
+                            VideoURLs.Add(item.MediaPath!);
+                        }
+                        
                     }
+                    mission.MissionVideos = VideoURLs;
                     mission.MissionMediaPaths = mediaArr;
                 }
                 else
@@ -232,6 +242,7 @@ namespace CI_Platform.Repository.Repositories
                     List<string> mediaArr = new List<string>();
                     mediaArr.Add("/images/Default.jpg");
                     mission.MissionMediaPaths = mediaArr;
+                    mission.MissionVideos = new List<string>();
                 }
 /*                Recent Volunteer */
                 if (_MissionApplicationList.ExistUser(u => u.MissionId == mission.MissionId))

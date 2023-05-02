@@ -54,7 +54,6 @@ namespace CI_Platform.Repository.Repositories
             }
             var pagesize = 9;
             int PageIndex = pageIndex;
-            PageIndex = 1;
             UsersList = UsersList.Skip((PageIndex - 1) * pagesize).Take(pagesize).ToList();
             
 

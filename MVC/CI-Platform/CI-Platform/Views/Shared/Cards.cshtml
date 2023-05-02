@@ -21,10 +21,10 @@
                     <div id="passMissionSkills" style="display:none;">
                         
                         @if(@item.MissionSkills != null){
-                        @foreach (var skill in item.MissionSkills)
-                        {
-                            <p id="@skill">@skill</p>
-                        }
+                            @foreach (var skill in item.MissionSkills)
+                            {
+                                <p id="@skill">@skill</p>
+                            }
                         }
                         
                     </div>
@@ -41,10 +41,14 @@
                                 </div>
                             }else if(@item.ApprovalStatus == "NotApplied")
                             {
-                                @if(@item.StartDate != null && @item.StartDate <DateTime.Now)
+                                @if(@item.RegistrationDeadline != null && @item.RegistrationDeadline <DateTime.Now)
                                 {
                                     <div class="apply-status-passed" style="">
                                         <span>Deadline Passed</span>
+                                    </div>
+                                }else if(@item.EndDate != null && @item.EndDate < DateTime.Now){
+                                    <div class="apply-status-passed" style="">
+                                        <span>Mission Finished</span>
                                     </div>
                                 }else if(@item.GoalArchived >= @item.GoalValue && @item.GoalObjectiveText != null)
                                 {
@@ -197,13 +201,13 @@
                                     }
                                     else
                                     {
-                                        @if (@item.StartDate is not null)
+                                        @if (@item.RegistrationDeadline is not null)
                                         {
                                             <div class="d-flex align-items-center justify-content-center">
                                                 <img class="timing-img" src="~/images/deadline.png" alt="" />
                                                 <div>
 
-                                                    <strong><p class="mb-0 card-timing-big">@Convert.ToDateTime(@item.StartDate.ToString().Substring(0,10)).AddDays(-1).ToString().Substring(0,10)</p></strong> 
+                                                    <strong><p class="mb-0 card-timing-big">@item.RegistrationDeadline.ToString().Substring(0,10)</p></strong> 
                                                     <p class="card-text">Deadline</p>
 
 
