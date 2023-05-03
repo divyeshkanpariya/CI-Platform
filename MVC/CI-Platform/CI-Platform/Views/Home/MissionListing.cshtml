@@ -3,7 +3,11 @@
     @using CI_Platform.Models.ViewModels
     @*@model CI_Platform.Models.ViewModels.MissionListingViewModel;*@
     @model CI_Platform.Models.ViewModels.MissionListingViewModel
-
+<style>
+    #exploreDropDown{
+        display: flex !important;
+    }
+</style>
 @{
     Layout = "Home_Layout";
 }
@@ -13,7 +17,7 @@
     <div class="row justify-content-between px-4 align-items-center pb-4">
         <div class="col-sm-6 d-flex">
             <p style="font-size:24px;">Explore </p>&nbsp;
-                <h2 id="missionCount">@Model.MissionCount Missions</h2>
+                <h2 id="missionCount">@Model!.MissionCount Missions</h2>
         </div>
         <div class="col-sm-6 d-flex  align-items-center justify-content-end" style="padding-right:0px;">
             <select class="mx-3 px-2 py-1 sort-by-dd text-wrap" id="sortBy">
@@ -23,7 +27,10 @@
                 <option value='4'>Highest available seats</option>
                 <option value='5'>My favourites</option>
                 <option value='6'>Registration Deadline</option>
-                
+                <option class="d-none" value='7'></option>
+                <option class="d-none" value='8'></option>
+                <option class="d-none" value='9'></option>
+                <option class="d-none" value='10'></option>
             </select>
            
             <div>
@@ -148,7 +155,7 @@
             img.classList.add("bi", "bi-x");
             img.id = "closeFilter";
             img.addEventListener("click", function(){
-                console.log(this.parentElement);
+               
                 document.getElementById(this.parentElement.id).click();
                 this.parentElement.remove();
                 applyFilter("1");
@@ -168,7 +175,7 @@
             data: {CountryIDs: "", CityIDs: "",ThemeIDs: "",SkillIds: "",SortBy: "1",SearchText:"",PageIndex:"1"},
             dataType: 'html',
             success:function (viewModel) {
-                console.log("All");
+                
                 $('#cardContainer').html(viewModel);
             }
         });
@@ -236,11 +243,9 @@
                         var items = "";
                         $.each(data, function (i, item) {
                             var id = "#" + item.name.replaceAll(' ', '');
-                            console.log(id);
                             $(id).parent().parent().remove();
                         });
                         if($('#cities li').map(function(){return this}).get().join().length == 0){
-                            console.log('getall');
                             $.when(getAllCities()).then(applyFilter("1"));
                             changeCount();
 
@@ -277,6 +282,7 @@
             changeCount();
         });
         $('#sortBy').change(function(){
+            console.log("ddd")
             applyFilter("1");
             moveToFirstPage();
             changeCount();
@@ -288,6 +294,13 @@
             changeCount();
         });
         
+        $("#exploreDropDown ul li").click(function(){
+            var index = $(this).index();
+            document.getElementById("sortBy").value = index + 7;
+            applyFilter("1");
+            moveToFirstPage();
+            changeCount();
+        })
         
         applyPagination();
         
@@ -295,9 +308,7 @@
     });
     function applyPagination(){
         $('#paginationContainer div a').click(function (e){
-            //console.log(e.target.id);
             if(e.target.id == "fr"){
-                console.log("x");
                 moveToFirstPage();
                 applyFilter("1");
 
@@ -335,7 +346,6 @@
                     }
                 });
                 y.addClass('active');
-                console.log(y);
                 applyFilter(targetText);
 
             }else if(e.target.id == "pre"){
@@ -354,13 +364,11 @@
                         
                         x.removeClass('active');
                         
-                        console.log(x.text());
                     }
                 });
                 y.addClass('active');
             }else{
                 $('#paginationContainer div a').each(function(){
-                    //console.log(this.classList);
                     var x = $(this);
                     if(x.hasClass('active')){
                         x.removeClass('active');
@@ -370,8 +378,6 @@
                 applyFilter(e.target.innerHTML);
             }
             
-            
-            //console.log(e.target.parentElement.id);
             
         });
     }
@@ -460,7 +466,6 @@
         });
     }
     function clearAll() {
-        console.log("clicked");
         $('input[type=checkbox]:checked').each(function () {
             $(this).prop('checked', false);
             $('#selectedFilters').empty();
@@ -475,9 +480,7 @@
             data: {CountryIDs: "", CityIDs: "",ThemeIDs: "",SkillIds: "",SortBy: "1",SearchText:"",PageIndex:"1"},
             dataType: 'html',
             success:function (viewModel) {
-                console.log("All");
                 $('#cardContainer').html(viewModel);
-                console.log(viewModel);
 
             }
         });
@@ -496,8 +499,6 @@
         var selectedSort = $('#sortBy').map(function(){return this.value;}).get().join();
 
         var searchText = $('#search').map(function(){return this.value;}).get().join();
-
-        console.log(selectedCountryID);
 
         if(selectedCityID == "") {
             selectedCityID = $('#cities li a input[type=checkbox]').map(function () {
@@ -546,24 +547,6 @@
         
         updateFilters();
     }
-//    function addtofav(missionid) {
-//        //var button = $(this);
-//        var x= $(this);
-//       console.log(x);
-//        //console.log(missionid);
-//        //$.ajax({
-//        //    url: '/Home/AddToFavourite',
-//        //    type: 'POST',
-//        //    data: {MissionId: missionid},
-//        //    dataType: 'json',
-//        //    success:function (viewModel) {
-//        //        //console.log(viewModel);
-                
-                
-//        //    }
-//        //});
-    
-//}
 
 
 </script>

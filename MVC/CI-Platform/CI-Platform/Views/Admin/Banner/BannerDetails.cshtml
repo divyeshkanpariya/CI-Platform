@@ -208,19 +208,19 @@
         });
     }
     function EditBanner(BannerId){
-        console.log(BannerId);
+
         $.ajax({
             url: '/Admin/GetBanner',
             type: 'GET',
             data: {BannerId: BannerId},
             dataType: 'json',
             success: function (data) {
-                //console.log(data.Id)
+                
                 document.getElementById("targetId").value = data.Id;
                 document.getElementById("BannerTitle").value = data.Title;
                 document.getElementById("BannerText").value = data.Text;
                 document.getElementById("SortOrder").value = data.SortOrder;
-                //console.log()
+                
                 
                 function toDataUrl(url, callback) {
                     var newUrl = url;
@@ -308,7 +308,7 @@
             processData: false,
             contentType: false,
             success: function (data) {
-                console.log(data);
+                
                 if(data == "Enter Valid Title"){
                     document.getElementById("valBannerTitle").innerHTML = data;
                 }else if(data == "Enter Valid Text"){
@@ -332,7 +332,6 @@
             }
         });
 
-        //console.log(Image[0]);
     }
 
     function updatePagination(total, currIndex) {
@@ -347,11 +346,11 @@
             pages = total / 9 + 1;
         }
         if (pages < 2) return;
-        //console.log(pages);
+
         text += `<a id="fr"><img src="/images/previous.png" alt="Previous" /></a>
                     <a id="pre"><img src="/images/left.png" alt="Previous" /></a>`;
         for (var i = 1; i <= pages; i++) {
-            console.log(i)
+            
             if (i == currIndex) {
                 text += `<a  class="active pt-1" id="first">${i}</a>`;
             } else {
@@ -360,7 +359,7 @@
         }
         text += `<a id="next"><img src="/images/right-arrow1.png" alt="Previous" /></a>
                     <a id="last"><img src="/images/next.png" alt="Previous" /></a>`;
-        //console.log(text);
+        
         pagination.html(text);
         applypagination();
     }
@@ -409,7 +408,6 @@
 
     function applypagination() {
         $("#pagination a").click((e) => {
-            console.log("terget", e.target.id)
             var pagination = document.getElementById("pagination").getElementsByTagName("a");
             if (e.target.id == "fr") {
 
@@ -423,7 +421,6 @@
 
             } else if (e.target.id == "last") {
 
-                console.log("sds")
                 for (i = 0; i < pagination.length; i++) {
                     if (pagination[i].classList.contains("active")) {
                         pagination[i].classList.remove("active");
@@ -448,11 +445,11 @@
 
             } else if (e.target.id == "pre") {
                 for (i = 0; i < pagination.length; i++) {
-                    console.log(pagination[i])
+                    
                     if (pagination[i].classList.contains("active")) {
 
                         if (pagination[i].innerHTML != pagination[2].innerHTML) {
-                            console.log("not1st")
+                            
                             pagination[i].classList.remove("active");
                             pagination[i - 1].classList.add("active");
                             ShowUsers(pagination[i - 1].innerHTML);

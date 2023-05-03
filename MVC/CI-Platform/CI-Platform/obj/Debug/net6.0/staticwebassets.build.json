@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "L1qtfo+RQ5yLkoeXGQZDvUe7lPXat+B0sV/3ijYTnPs=",
+  "Hash": "fwuaYu9VnSkliVJyXfAtxcQfyKhsi3HyOrRjIk9rPmM=",
   "Source": "CI-Platform",
   "BasePath": "_content/CI-Platform",
   "Mode": "Default",
@@ -984,6 +984,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\heart1.png"
+    },
+    {
+      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\images\\help.png",
+      "SourceId": "CI-Platform",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\",
+      "BasePath": "_content/CI-Platform",
+      "RelativePath": "images/help.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\help.png"
+    },
+    {
+      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\images\\help-active.png",
+      "SourceId": "CI-Platform",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\",
+      "BasePath": "_content/CI-Platform",
+      "RelativePath": "images/help-active.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\help-active.png"
     },
     {
       "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\images\\hours.png",
@@ -3502,6 +3536,23 @@
       "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Documents\\10033-d4852de7-62f1-483e-a.openxmlformats-officedocument.wordprocessingml.document"
     },
     {
+      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Documents\\10034-01723e42-7208-41a3-a.xml",
+      "SourceId": "CI-Platform",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\",
+      "BasePath": "_content/CI-Platform",
+      "RelativePath": "Uploads/Mission/Documents/10034-01723e42-7208-41a3-a.xml",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Documents\\10034-01723e42-7208-41a3-a.xml"
+    },
+    {
       "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Documents\\10034-831abd8b-c7e1-4940-b.docx",
       "SourceId": "CI-Platform",
       "SourceType": "Discovered",
@@ -3517,6 +3568,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Documents\\10034-831abd8b-c7e1-4940-b.docx"
+    },
+    {
+      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Documents\\10035-8713b94a-95f7-4be5-9.xml",
+      "SourceId": "CI-Platform",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\",
+      "BasePath": "_content/CI-Platform",
+      "RelativePath": "Uploads/Mission/Documents/10035-8713b94a-95f7-4be5-9.xml",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Documents\\10035-8713b94a-95f7-4be5-9.xml"
     },
     {
       "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Documents\\10035-bddb117f-1bb5-4450-9.pdf",
@@ -3619,6 +3687,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Documents\\imp.txt"
+    },
+    {
+      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Photos\\10009-Default-6319bed5-e476-4c29-8.png",
+      "SourceId": "CI-Platform",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\",
+      "BasePath": "_content/CI-Platform",
+      "RelativePath": "Uploads/Mission/Photos/10009-Default-6319bed5-e476-4c29-8.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Photos\\10009-Default-6319bed5-e476-4c29-8.png"
+    },
+    {
+      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Photos\\10009-Default-e33d6dc2-d96b-412c-8.png",
+      "SourceId": "CI-Platform",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\",
+      "BasePath": "_content/CI-Platform",
+      "RelativePath": "Uploads/Mission/Photos/10009-Default-e33d6dc2-d96b-412c-8.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Photos\\10009-Default-e33d6dc2-d96b-412c-8.png"
     },
     {
       "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Photos\\10032-210f3a4b-e5e8-4de0-9.png",
@@ -3774,12 +3876,12 @@
       "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Photos\\10033-ec6aeb86-2e3a-4bb9-a.png"
     },
     {
-      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Photos\\10034-19ee96ee-0c26-47ad-9.png",
+      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Photos\\10034-200e403d-5785-4ecb-8.png",
       "SourceId": "CI-Platform",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\",
       "BasePath": "_content/CI-Platform",
-      "RelativePath": "Uploads/Mission/Photos/10034-19ee96ee-0c26-47ad-9.png",
+      "RelativePath": "Uploads/Mission/Photos/10034-200e403d-5785-4ecb-8.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -3788,15 +3890,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Photos\\10034-19ee96ee-0c26-47ad-9.png"
+      "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Photos\\10034-200e403d-5785-4ecb-8.png"
     },
     {
-      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Photos\\10034-3d9054d6-dcfd-4c50-b.png",
+      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Photos\\10034-7e7a8d16-017c-4427-a.png",
       "SourceId": "CI-Platform",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\",
       "BasePath": "_content/CI-Platform",
-      "RelativePath": "Uploads/Mission/Photos/10034-3d9054d6-dcfd-4c50-b.png",
+      "RelativePath": "Uploads/Mission/Photos/10034-7e7a8d16-017c-4427-a.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -3805,15 +3907,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Photos\\10034-3d9054d6-dcfd-4c50-b.png"
+      "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Photos\\10034-7e7a8d16-017c-4427-a.png"
     },
     {
-      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Photos\\10034-43afc813-d090-4f49-b.png",
+      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Photos\\10034-a305260a-2b80-4e25-a.png",
       "SourceId": "CI-Platform",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\",
       "BasePath": "_content/CI-Platform",
-      "RelativePath": "Uploads/Mission/Photos/10034-43afc813-d090-4f49-b.png",
+      "RelativePath": "Uploads/Mission/Photos/10034-a305260a-2b80-4e25-a.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -3822,15 +3924,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Photos\\10034-43afc813-d090-4f49-b.png"
+      "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Photos\\10034-a305260a-2b80-4e25-a.png"
     },
     {
-      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Photos\\10034-48a7c286-257d-4657-b.png",
+      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Photos\\10034-aa51b913-c317-487a-8.png",
       "SourceId": "CI-Platform",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\",
       "BasePath": "_content/CI-Platform",
-      "RelativePath": "Uploads/Mission/Photos/10034-48a7c286-257d-4657-b.png",
+      "RelativePath": "Uploads/Mission/Photos/10034-aa51b913-c317-487a-8.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -3839,15 +3941,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Photos\\10034-48a7c286-257d-4657-b.png"
+      "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Photos\\10034-aa51b913-c317-487a-8.png"
     },
     {
-      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Photos\\10034-Default-2f2622ee-f0df-4e3f-9.png",
+      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Photos\\10034-Default-99399767-6618-462c-b.png",
       "SourceId": "CI-Platform",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\",
       "BasePath": "_content/CI-Platform",
-      "RelativePath": "Uploads/Mission/Photos/10034-Default-2f2622ee-f0df-4e3f-9.png",
+      "RelativePath": "Uploads/Mission/Photos/10034-Default-99399767-6618-462c-b.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -3856,15 +3958,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Photos\\10034-Default-2f2622ee-f0df-4e3f-9.png"
+      "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Photos\\10034-Default-99399767-6618-462c-b.png"
     },
     {
-      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Photos\\10035-60c36738-a901-438a-8.png",
+      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Photos\\10035-9d634068-2200-4656-a.png",
       "SourceId": "CI-Platform",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\",
       "BasePath": "_content/CI-Platform",
-      "RelativePath": "Uploads/Mission/Photos/10035-60c36738-a901-438a-8.png",
+      "RelativePath": "Uploads/Mission/Photos/10035-9d634068-2200-4656-a.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -3873,15 +3975,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Photos\\10035-60c36738-a901-438a-8.png"
+      "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Photos\\10035-9d634068-2200-4656-a.png"
     },
     {
-      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Photos\\10035-b636bc7e-a845-4b39-b.png",
+      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Photos\\10035-aa4b5195-f12f-4d84-a.png",
       "SourceId": "CI-Platform",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\",
       "BasePath": "_content/CI-Platform",
-      "RelativePath": "Uploads/Mission/Photos/10035-b636bc7e-a845-4b39-b.png",
+      "RelativePath": "Uploads/Mission/Photos/10035-aa4b5195-f12f-4d84-a.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -3890,15 +3992,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Photos\\10035-b636bc7e-a845-4b39-b.png"
+      "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Photos\\10035-aa4b5195-f12f-4d84-a.png"
     },
     {
-      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Photos\\10035-Default-2c6cf03a-4375-4c2b-8.png",
+      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Photos\\10035-Default-e63ecb55-3397-4f39-a.png",
       "SourceId": "CI-Platform",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\",
       "BasePath": "_content/CI-Platform",
-      "RelativePath": "Uploads/Mission/Photos/10035-Default-2c6cf03a-4375-4c2b-8.png",
+      "RelativePath": "Uploads/Mission/Photos/10035-Default-e63ecb55-3397-4f39-a.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -3907,7 +4009,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Photos\\10035-Default-2c6cf03a-4375-4c2b-8.png"
+      "OriginalItemSpec": "wwwroot\\Uploads\\Mission\\Photos\\10035-Default-e63ecb55-3397-4f39-a.png"
     },
     {
       "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Mission\\Photos\\10036-b4c2da0d-a688-4c42-b.png",

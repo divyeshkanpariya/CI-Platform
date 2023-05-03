@@ -275,6 +275,7 @@ namespace CI_Platform.Controllers
             }
             
         }
+
         public IActionResult GetMissions()
         {
             if (HttpContext.Session.GetString("Role") == "Admin" && HttpContext.Session.GetString("UserId") != "")
@@ -289,6 +290,7 @@ namespace CI_Platform.Controllers
             }
             
         }
+
         public string GetUpdatedMissions(string SearchText, string PageIndex)
         {
             if (SearchText == null)
@@ -303,6 +305,7 @@ namespace CI_Platform.Controllers
         {
             _adminMissionPageRepo.DeleteMission(MissionId);
         }
+
         public IActionResult AddNewMission()
         {
             AdminAddEditMissionViewModel viewModel = new AdminAddEditMissionViewModel();
@@ -315,6 +318,7 @@ namespace CI_Platform.Controllers
             AdminAddEditMissionViewModel viewModel = _adminMissionPageRepo.GetMissionDetails(MissionId, x);
             return PartialView("~/Views/Admin/Mission/AddEditMission.cshtml", viewModel);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult SaveMissionDetails(AdminAddEditMissionViewModel formData)
@@ -392,11 +396,13 @@ namespace CI_Platform.Controllers
             IEnumerable<AdminMissionAppicationTableViewModel> viewModel = _adminMissionApps.GetMissionApplications("",1);
             return PartialView("~/Views/Admin/Mission Application/MissionApplicationDetails.cshtml",viewModel);
         }
+
         [HttpPost]
         public void UpdateStatus(string AppId, string Status)
         {
             _adminMissionApps.UpdateStatus(Convert.ToInt64(AppId), Status);
         }
+
         public string GetUpdatedApplications(string SearchText, string PageIndex)
         {
             if (SearchText == null)
@@ -592,6 +598,27 @@ namespace CI_Platform.Controllers
         public void DeleteBanner(string BannerId)
         {
             _adminBanners.DeleteBanner(Convert.ToInt64(BannerId),_webHostEnvironment.WebRootPath);
+        }
+
+        /* ------------------------- Volunteering Management --------------------------------- */
+
+        public IActionResult VolunteeingReq()
+        {
+            if (HttpContext.Session.GetString("Role") == "Admin" && HttpContext.Session.GetString("UserId") != "")
+            {
+                return View("Volunteering/VolunteeringReq");
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Login is Required";
+
+                return RedirectToAction("Login", "Auth");
+            }
+        }
+
+        public IActionResult GetVolunteeringDetails()
+        {
+            return PartialView("~/Views/Admin/Volunteering/VolunteeringDetailsTable.cshtml");
         }
     }
 }

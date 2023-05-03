@@ -293,9 +293,7 @@ namespace CI_Platform.Controllers
         
         public IActionResult PreviewStory(string sid)
         {
-            long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
             long StoryId = Convert.ToInt64(sid);
-            _StoryDetails.addStoryView(UserId, StoryId);
             IEnumerable<StoryCardViewModel> storyCard = _StoryDetails.GetAllData(StoryId);
             return View(storyCard);
         }

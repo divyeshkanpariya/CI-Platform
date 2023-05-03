@@ -179,6 +179,7 @@ namespace CI_Platform.Controllers
             }
             
         }
+
         public IActionResult GetMissions()
         {
             long UserId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));

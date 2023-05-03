@@ -337,7 +337,7 @@
         var Description = tinymce.get("editor").getContent();
         var VideoUrls = document.getElementById("VideoURLs").value.split("\n");
         
-        console.log(VideoUrls);
+        
         document.getElementById("valDescription").innerHTML = document.getElementById("valVideoUrls").innerHTML =
         document.getElementById("valSkills").innerHTML = document.getElementById("valDeadline").innerHTML = 
         document.getElementById("valGoalText").innerHTML = document.getElementById("valGoalValue").innerHTML = 
@@ -441,7 +441,7 @@
         for (let i = 0; i < files.length; i++) {
             imagesArray.push(files[i])
         }
-        //console.log(imagesArray);
+        
         fillInp();
         displayImages();
     });
@@ -451,7 +451,7 @@
         for (let i = 0; i < files.length; i++) {
             docsArray.push(files[i])
         }
-        //console.log(imagesArray);
+        
         fillInpDocs();
         displayDocs();
     });
@@ -487,28 +487,26 @@
             dt.items.add(imagesArray[i]);
         }
         document.querySelector("#imageupload").files = dt.files;
-        console.log(imagesArray);
     }
     function fillInpDocs() {
         var dt = new DataTransfer();
         for (let i = 0; i < docsArray.length && i < 20; i++) {
             dt.items.add(docsArray[i]);
         }
-        document.querySelector("#docupload").files = dt.files;
-        console.log(docsArray);
+        document.querySelector("#docupload").files = dt.files; 
     }
 
     function deleteImage(index) {
         imagesArray.splice(index, 1);
         displayImages();
         fillInp();
-        console.log(imagesArray);
+        
     }
     function deleteDocs(index) {
         docsArray.splice(index, 1);
         displayDocs();
         fillInpDocs();
-        console.log(docsArray);
+        
     }
 
     function displayImages() {
@@ -520,14 +518,14 @@
                 <span onclick="deleteImage(${index})">&times;</span>
                 </div>`
         });
-        //console.log(images)
+        
         output.innerHTML = images;
     }
     function displayDocs() {
         
         let images = "";
         docsArray.forEach((image, index) => {
-            console.log(image)
+            
             images += `<div class="d-flex align-items-center me-3"><a class="btn btn-outline-secondary px-3 mb-2 fav-button border" style="border-radius:23px;" href="${URL.createObjectURL(image)}" target="_blank">
                             <img src="/images/doc.png">
                             ${image.name}
@@ -580,7 +578,7 @@
 
                     $( event.target ).blur();
       
-                    console.log( options );
+                    
                     return false;
                 });
             }
@@ -604,7 +602,7 @@
                     
                 } 
                 var missionId = document.getElementById("missionId").value;
-                console.log(missionId);
+                
                 if(missionId == null || missionId =="0") {
                     $(".missionTypeGoal").hide();
                     $.ajax({
@@ -640,7 +638,6 @@
                     data: {Mid: missionId},
                     dataType: 'json',
                     success:function (data) {
-                        console.log(data)
 
                         function toDataUrl(url, callback) {
                             var newUrl = url;
@@ -676,7 +673,6 @@
                             for(var j=0;j<data[1].length;j++){
                                 toDataUrl(data[1][j],function(x){   
                                     image = x;
-                                    //console.log(image);
                                     
                                     dTImage.items.add(new File([image], "Image", {
                                         type: image.type
@@ -684,7 +680,6 @@
                                     imagesArray.push(new File([image], "image", {
                                         type: image.type
                                     }));
-                                    //console.log("image: ", dT);
                                 displayImages();
                                 document.querySelector('#imageupload').files = dTImage.files;
                                 });
@@ -696,7 +691,7 @@
                                 toDataUrl(data[2][j],function(x){   
                                     doc = x;
                                     let ext = doc.type.split("/");
-                                    console.log(ext)
+                                    
                                     var name = "document" + j.toString() + "." +ext[1];
                                     
                                     dTDoc.items.add(new File([doc], name, {
@@ -705,7 +700,7 @@
                                     docsArray.push(new File([doc], name, {
                                         type: doc.type
                                     }));
-                                    //console.log("image: ", dT);
+                                    
                                 displayDocs();
                                 document.querySelector('#docupload').files = dTDoc.files;
                                 });
@@ -719,7 +714,7 @@
                     data: {Mid: missionId},
                     dataType: 'json',
                     success:function (data) {
-                        console.log(data);
+                        
                         locations = data;
 
                         document.getElementById("selectedCountry").value = data.CountryId;
@@ -727,7 +722,7 @@
                         if(data.MissionType == "Go"){
                             $(".missionTypeTime").hide();
                         }else{
-                            console.log("go")
+                            
                             $(".missionTypeGoal").hide();
                         }
                         $.ajax({
@@ -746,7 +741,6 @@
                                 document.getElementById("selectedCity").value = locations.CityId;
                                 document.getElementById("selectedTheme").value = locations.ThemeId;
 
-                                console.log(locations.Skills)
                                 for(var index in locations.Skills){
                                     id = "skill" + locations.Skills[index];
                                     document.getElementById(id).checked = true;
@@ -767,7 +761,7 @@
                 $(".missionTypeTime").hide();
                 $(".missionTypeGoal").show();
             }else{
-                console.log("go")
+                
                 $(".missionTypeGoal").hide();
                 $(".missionTypeTime").show();
             }

@@ -206,7 +206,7 @@ namespace CI_Platform.Repository.Repositories
         }
         public IEnumerable<MissionTheme> getMissionThemes()
         {
-            return _MissionThemes.GetAll().Where(mt => mt.Status == "1");
+            return _MissionThemes.GetAll().Where(mt => mt.Status == "1" && mt.DeletedAt == null);
         }
 
 

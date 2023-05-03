@@ -166,18 +166,18 @@
         var pages ;
         var text="";
         pagination.empty();
-        console.log(total)
+        
         if(total % 9 == 0){
             pages = total/9;
         }else{
             pages = total/9 + 1;
         }
         if(pages <2) return;
-        console.log(pages);
+        
         text += `<a id="fr"><img src="/images/previous.png" alt="Previous" /></a>
                 <a id="pre"><img src="/images/left.png" alt="Previous" /></a>`;
         for(var i=1;i <= pages;i++){
-            console.log(i)
+            
             if(i == currIndex){
                 text += `<a  class="active pt-1" id="first">${i}</a>`;
             }else{
@@ -186,7 +186,7 @@
         }
         text += `<a id="next"><img src="/images/right-arrow1.png" alt="Previous" /></a>
                 <a id="last"><img src="/images/next.png" alt="Previous" /></a>`;
-        //console.log(text);
+        
         pagination.html(text);
         applypagination();
     }
@@ -201,7 +201,7 @@
             PageIndex: pageIndex},
             dataType: 'json',
             success:function (data) {
-                console.log(data);
+                
                 var tbody = $("#myTimeTable tbody");
                 tbody.empty();
 
@@ -214,7 +214,7 @@
                             <td>${data[i].FullName}</td>
                             <td>${data[i].MissionTitle}</td>
                             <td>
-                                <a class="text-decoration-none text-small me-2 px-2 py-1 admin-story-viewbtn" asp-controller="Story" asp-action="StoryDetails" asp-route-sid = "${data[i].StoryId}">View</a>
+                                <a class="text-decoration-none text-small me-2 px-2 py-1 admin-story-viewbtn" href="/Story/PreviewStory?sid=${data[i].StoryId}">View</a>
                                 <i class="bi me-2 bi-check-circle status"  onclick="UpdateStatus(${data[i].StoryId},'PUBLISHED')"></i>
                                 <i class="bi me-2 bi-x-circle text-danger" itemid="deleteUser" onclick="UpdateStatus(${data[i].StoryId},'DECLINED')"></i>
                                  <i class="bi bi-trash" onclick="UpdateStatus(${data[i].StoryId},'DELETE')"></i>
@@ -232,7 +232,7 @@
 
     function applypagination(){
         $("#pagination a").click( (e) =>{
-            console.log("terget",e.target.id)
+            
             var pagination = document.getElementById("pagination").getElementsByTagName("a");
             if(e.target.id == "fr"){
 
@@ -246,7 +246,6 @@
 
             }else if(e.target.id == "last"){
                     
-                    console.log("sds")
                 for(i=0;i<pagination.length;i++){
                     if(pagination[i].classList.contains("active")){
                         pagination[i].classList.remove("active");
@@ -271,11 +270,11 @@
             
             }else if(e.target.id == "pre"){
                 for(i=0;i<pagination.length;i++){
-                    console.log(pagination[i])
+                    
                     if(pagination[i].classList.contains("active")){
                             
                         if(pagination[i].innerHTML != pagination[2].innerHTML){
-                            console.log("not1st")
+                            
                             pagination[i].classList.remove("active");
                             pagination[i-1].classList.add("active");
                             ShowUsers(pagination[i-1].innerHTML);

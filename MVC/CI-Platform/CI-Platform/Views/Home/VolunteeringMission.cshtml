@@ -439,7 +439,7 @@
             </div>
                 @if(@item.ApprovalStatus == "NotApplied")
                 {
-                    @if(@item.StartDate != null && @item.StartDate < DateTime.Now){
+                    @if(@item.RegistrationDeadline != null && @item.RegistrationDeadline < DateTime.Now){
                         <div class="my-3 alert alert-danger" style="" id="success-alert">
                        
                         Deadline is already Passed.
@@ -463,7 +463,7 @@
                 }else if(@item.ApprovalStatus == "PENDING"){
                     
                     <div class="my-3 d-flex justify-content-center">
-                        <button type="button" class="Apply-mission-btn bg-danger"><span class="me-2">@item.ApprovalStatus APPROVAL</span> <img src="~/images/right-arrow.png" /></button>
+                        <button type="button" class="Apply-mission-btn bg-danger text-white"><span class="me-2">@item.ApprovalStatus APPROVAL</span> <img src="~/images/right-arrow.png" /></button>
                     </div>
                 }else if(@item.ApprovalStatus == "APPROVE")
                 {
@@ -762,32 +762,26 @@
             data: {MissionId: missionId},
             
             success:function () {
-                console.log("email Sent");
-                
                 
             }
         });
     }
     
     function sendInvitation(missionId,userId) {
-        console.log(userId);
-        console.log(missionId);
+        
         $.ajax({
             url: '/Home/SendInvitation',
             type: 'POST',
             data: {EmailTo: userId,
             MissionId: missionId},
-            
             success:function () {
-                console.log("email Sent");
-                
-                
+                $("#success-alert").alert().show();
+            window.setTimeout(function () { 
+                $("#success-alert").alert().hide(); 
+            }, 1000);   
             }
         });
-        $("#success-alert").alert().show();
-        window.setTimeout(function () { 
-            $("#success-alert").alert().hide(); 
-        }, 1000);   
+        
         
         
     }
@@ -797,8 +791,7 @@
             $('#commenterr').removeClass("d-none");
         }else{
             var missionId = $('#getMissionId').text();
-        @*console.log(text);*@
-            console.log(missionId);
+        
             $.ajax({
                 url: '/Home/PostComment',
                 type: 'POST',
@@ -849,9 +842,6 @@
 
     }
     function addtofav(missionid) {
-        @*var button = $(this);*@
-        @*console.log(this);
-        console.log(missionid);*@
         $.ajax({
             url: '/Home/AddToFavourite',
             type: 'POST',
@@ -867,11 +857,7 @@
     }
     $(document).ready(function(){
         var missionId = $('#getMissionId').text();
-        @*console.log(missionId);*@
-
-        @*$("#recentVolunteersSlider.carousel").carousel({
-            interval: false,
-        });*@
+        
        $.ajax({
             url: '/Home/RelatedMissions',
             type: 'POST',

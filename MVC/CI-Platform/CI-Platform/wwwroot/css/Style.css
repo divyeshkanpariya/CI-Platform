@@ -1183,8 +1183,11 @@ output .span--hidden {
 #menu li:nth-child(8):hover img{
     content: url("/images/tale-active.png");
 }
- #menu li:nth-child(9):hover img{
+#menu li:nth-child(9):hover img{
     content: url("/images/folded-ribbon-active.png");
+}
+#menu li:nth-child(10):hover img{
+    content: url("/images/help-active.png");
 }
 
 /* ====== Inner Content ======== */
