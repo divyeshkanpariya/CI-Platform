@@ -110,6 +110,7 @@ const jqueryValidate = require("../../wwwroot/lib/jquery-validation/dist/jquery.
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 <script>
     $("#saveStory").click( () =>{
+
         var VideoUrls = document.getElementById("videoURL").value.split("\n");
         document.getElementById("valStoryVideoUrl").innerHTML = ""
         if(!(VideoUrls.length == 1 && VideoUrls[0] == "")){

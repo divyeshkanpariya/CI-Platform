@@ -115,27 +115,27 @@ namespace CI_Platform.Controllers
             if(formData["Mission"] == "Select Your Mission")
             {
                 ModelState.AddModelError("Mission", "Please Select Mission");
-                return View();
+                return RedirectToAction("ShareYourStory", "Story");
             }
             if(formData["StoryTitle"] == "")
             {
                 ModelState.AddModelError("StoryTitle", "Please Add Story Title");
-                return View();
+                return RedirectToAction("ShareYourStory", "Story");
             }
             if (formData["Date"] == "")
             {
                 ModelState.AddModelError("Date", "Please Select Valid Date");
-                return View();
+                return RedirectToAction("ShareYourStory", "Story");
             }
             if (formData["StoryDescription"] == "")
             {
                 ModelState.AddModelError("StoryDescription", "Please Add Some Text");
-                return View();
+                return RedirectToAction("ShareYourStory", "Story");
             }
             if(formData.Files.Count == 0)
             {
                 ModelState.AddModelError("Photos", "Please Add Photos");
-                return View();
+                return RedirectToAction("ShareYourStory", "Story");
             }
 
             ShareYourStoryViewModel viewModel = new ShareYourStoryViewModel()
@@ -164,22 +164,22 @@ namespace CI_Platform.Controllers
             if (formData["StoryTitle"] == "")
             {
                 ModelState.AddModelError("StoryTitle", "Please Add Story Title");
-                return View();
+                return RedirectToAction("ShareYourStory", "Story");
             }
             if (formData["Date"] == "")
             {
                 ModelState.AddModelError("Date", "Please Select Valid Date");
-                return View();
+                return RedirectToAction("ShareYourStory", "Story");
             }
             if (formData["StoryDescription"] == "")
             {
                 ModelState.AddModelError("StoryDescription", "Please Add Some Text");
-                return View();
+                return RedirectToAction("ShareYourStory","Story");
             }
             if (formData.Files.Count == 0)
             {
                 ModelState.AddModelError("Photos", "Please Add Photos");
-                return View();
+                return RedirectToAction("ShareYourStory", "Story");
             }
             foreach(var file in formData.Files)
             {

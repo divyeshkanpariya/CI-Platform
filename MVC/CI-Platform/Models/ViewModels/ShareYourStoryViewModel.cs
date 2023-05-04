@@ -20,10 +20,11 @@ namespace CI_Platform.Models.ViewModels
         [Required]
         public DateTime Date { get; set; }
         [Required]
-        public string? StoryDescription { get; set;}
+        [MinLength(2)]
+        public string StoryDescription { get; set;}
 
         public string? StoryVideoUrl { get; set;}
-        
+        [MinLength(1)]
         public IFormFileCollection? Photos { get; set;}
 
     }

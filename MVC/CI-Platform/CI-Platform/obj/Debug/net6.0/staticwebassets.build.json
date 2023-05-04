@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "fwuaYu9VnSkliVJyXfAtxcQfyKhsi3HyOrRjIk9rPmM=",
+  "Hash": "LHwG+FMv8+1e33m/GN6skxEH/7uF/xJyM2jFYoIn4/0=",
   "Source": "CI-Platform",
   "BasePath": "_content/CI-Platform",
   "Mode": "Default",
@@ -3247,6 +3247,23 @@
       "OriginalItemSpec": "wwwroot\\Uploads\\Banners\\Banner-1fccd03e.png"
     },
     {
+      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Banners\\Banner-3b8fdfbe.png",
+      "SourceId": "CI-Platform",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\",
+      "BasePath": "_content/CI-Platform",
+      "RelativePath": "Uploads/Banners/Banner-3b8fdfbe.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\Banners\\Banner-3b8fdfbe.png"
+    },
+    {
       "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Banners\\Banner-44d88d80.png",
       "SourceId": "CI-Platform",
       "SourceType": "Discovered",
@@ -3313,23 +3330,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Uploads\\Banners\\Banner-d5019b1c.png"
-    },
-    {
-      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Banners\\Banner-fa45e1ee.png",
-      "SourceId": "CI-Platform",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\",
-      "BasePath": "_content/CI-Platform",
-      "RelativePath": "Uploads/Banners/Banner-fa45e1ee.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Uploads\\Banners\\Banner-fa45e1ee.png"
     },
     {
       "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Banners\\banner-img-1-3253cabc.jpeg",
@@ -4843,6 +4843,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Uploads\\Story\\21-17-3d4f317d-b4b7-4073-9ed8-052dae5691ae.png"
+    },
+    {
+      "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Story\\22-10-31dab1c9-4fbe-4b84-8522-6945213971a3.png",
+      "SourceId": "CI-Platform",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\",
+      "BasePath": "_content/CI-Platform",
+      "RelativePath": "Uploads/Story/22-10-31dab1c9-4fbe-4b84-8522-6945213971a3.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\Story\\22-10-31dab1c9-4fbe-4b84-8522-6945213971a3.png"
     },
     {
       "Identity": "C:\\Users\\pci117\\source\\repos\\divyeshkanpariya\\CI-Platform\\MVC\\CI-Platform\\CI-Platform\\wwwroot\\Uploads\\Story\\3-10-0892d7b2-08f0-464f-b449-e5afa897c145.png",

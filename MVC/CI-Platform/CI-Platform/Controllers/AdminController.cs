@@ -81,7 +81,7 @@ namespace CI_Platform.Controllers
 
         public IActionResult AddNewUser()
         {
-            AdminAddUserViewModel viewModel = new AdminAddUserViewModel();
+            AdminAddUserViewModel viewModel = new();
             return PartialView("~/Views/Admin/User/AddNewUser.cshtml", viewModel);
         }
 
@@ -344,7 +344,6 @@ namespace CI_Platform.Controllers
                     return View("Mission/Mission");
                 }
             }
-            string x = _webHostEnvironment.WebRootPath;
             _adminMissionPageRepo.SaveMissionDetails(formData, _webHostEnvironment.WebRootPath);
             if(formData.MissionId == 0)
             {
@@ -361,7 +360,6 @@ namespace CI_Platform.Controllers
         public string GetMissionLoc(string Mid)
         {
             AdminAddEditMissionViewModel viewModel = _adminMissionPageRepo.GetMissionDetails(Convert.ToInt64(Mid), _webHostEnvironment.WebRootPath);
-            List<string> result = _adminMissionPageRepo.GetMissionLoc(Convert.ToInt64(Mid));
             return JsonSerializer.Serialize(viewModel);
         }
         public IActionResult GetMediaPaths(string Mid)

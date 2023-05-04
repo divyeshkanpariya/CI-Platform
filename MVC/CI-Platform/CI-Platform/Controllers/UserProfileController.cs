@@ -88,7 +88,7 @@ namespace CI_Platform.Controllers
                 string path = "";
                 if (formData.Files.Count != 0)
                 {
-                    if (formData.Files[0].ContentType.Substring(0,5) == "image")
+                    if (formData.Files[0].ContentType.Substring(0,5) != "image")
                     {
                         ModelState.AddModelError("ProfileImage", "Profile Photo must be Image");
                         return View();
