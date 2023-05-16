@@ -16,6 +16,7 @@ namespace CI_Platform.Controllers
         private readonly IAdminSkillRepository _adminSkills;
         private readonly IAdminMissionThemeRepository _adminThemes;
         private readonly IAdminBannerRepository _adminBanners;
+        private readonly IAdminVolunteering _volunteerings;
         private readonly IWebHostEnvironment _webHostEnvironment;
        
 
@@ -27,6 +28,7 @@ namespace CI_Platform.Controllers
             IAdminSkillRepository adminSkills,
             IAdminMissionThemeRepository adminThemes,
             IAdminBannerRepository adminBanners,
+            IAdminVolunteering volunteerings,
             IAdminMissionApplicationsRepository adminMissionApplications)
         {
             _adminUserPageRepo = adminUserPageRepo;
@@ -37,6 +39,7 @@ namespace CI_Platform.Controllers
             _adminSkills = adminSkills;
             _adminThemes = adminThemes;
             _adminBanners = adminBanners;
+            _volunteerings = volunteerings;
             _adminStories = adminStoryRepo;
         }
         /* ------------------------- User ----------------------- */
@@ -600,11 +603,11 @@ namespace CI_Platform.Controllers
 
         /* ------------------------- Volunteering Management --------------------------------- */
 
-        public IActionResult VolunteeingReq()
+        public IActionResult Volunteering()
         {
             if (HttpContext.Session.GetString("Role") == "Admin" && HttpContext.Session.GetString("UserId") != "")
             {
-                return View("Volunteering/VolunteeringReq");
+                return View("Volunteering/Volunteering");
             }
             else
             {
@@ -616,7 +619,23 @@ namespace CI_Platform.Controllers
 
         public IActionResult GetVolunteeringDetails()
         {
-            return PartialView("~/Views/Admin/Volunteering/VolunteeringDetailsTable.cshtml");
+            IEnumerable<AdminTimesheetViewModel> viewModel = _volunteerings.GetVolunteeringDetails("", 1);
+            return PartialView("~/Views/Admin/Volunteering/VolunteeringDetailsTable.cshtml", viewModel);
+        }
+
+        public string GetUpdatedVolunteerings(string SearchText, string PageIndex)
+        {
+            if (SearchText == null)
+            {
+                SearchText = "";
+            }
+            IEnumerable<AdminTimesheetViewModel> viewModel = _volunteerings.GetVolunteeringDetails(SearchText, Convert.ToInt32(PageIndex));
+
+            return JsonSerializer.Serialize(viewModel);
+        }
+        public void UpdateVulunteeringStatus(string TimesheetId, string Status)
+        {
+            _volunteerings.UpdateStatus(Convert.ToInt64(TimesheetId), Status);
         }
     }
 }

@@ -108,10 +108,10 @@ namespace CI_Platform.Repository.Repositories
                     else
                     {
                         field.Action = Action;
-                        var ms = _MissionGoals.GetFirstOrDefault(u => u.MissionId == MissionId);
-                        ms.GoalArchived += ms.GoalArchived + Action - field.Action;
-                        _MissionGoals.Update(ms);
-                        _MissionGoals.Save();
+                        //var ms = _MissionGoals.GetFirstOrDefault(u => u.MissionId == MissionId);
+                        //ms.GoalArchived += ms.GoalArchived + Action - field.Action;
+                        //_MissionGoals.Update(ms);
+                        //_MissionGoals.Save();
 
                     }
                     _TimeSheet.Update(field);
@@ -138,11 +138,11 @@ namespace CI_Platform.Repository.Repositories
                 else
                 {
                     newEntry.Action = Action;
-                    var ms = _MissionGoals.GetFirstOrDefault(u => u.MissionId == MissionId);
-                    ms.GoalArchived += Action;
-                    ms.UpdatedAt = DateTime.Now;
-                    _MissionGoals.Update(ms);
-                    _MissionGoals.Save();
+                    //var ms = _MissionGoals.GetFirstOrDefault(u => u.MissionId == MissionId);
+                    //ms.GoalArchived += Action;
+                    //ms.UpdatedAt = DateTime.Now;
+                    //_MissionGoals.Update(ms);
+                    //_MissionGoals.Save();
 
                 }
                 _TimeSheet.AddNew(newEntry);
@@ -167,11 +167,11 @@ namespace CI_Platform.Repository.Repositories
                     else
                     {
 
-                        var ms = _MissionGoals.GetFirstOrDefault(u => u.MissionId == MissionId);
-                        ms.GoalArchived = ms.GoalArchived + Action - raw.Action;
+                        //var ms = _MissionGoals.GetFirstOrDefault(u => u.MissionId == MissionId);
+                        //ms.GoalArchived = ms.GoalArchived + Action - raw.Action;
                         raw.Action = Action;
-                        ms.UpdatedAt = DateTime.Now;
-                        _MissionGoals.Update(ms);
+                        //ms.UpdatedAt = DateTime.Now;
+                        //_MissionGoals.Update(ms);
                     }
                     _TimeSheet.Update(raw);
                     _TimeSheet.Save();
@@ -185,9 +185,9 @@ namespace CI_Platform.Repository.Repositories
 
             if(_MissionGoals.ExistUser(u=> u.MissionId == field.MissionId))
             {
-                var goalMs = _MissionGoals.GetFirstOrDefault(u => u.MissionId == field.MissionId);
-                goalMs.GoalArchived -= field.Action;
-                goalMs.UpdatedAt = DateTime.Now;
+                //var goalMs = _MissionGoals.GetFirstOrDefault(u => u.MissionId == field.MissionId);
+                //goalMs.GoalArchived -= field.Action;
+                //goalMs.UpdatedAt = DateTime.Now;
             }
             field.UpdatedAt = DateTime.Now;
             field.DeletedAt = DateTime.Now;

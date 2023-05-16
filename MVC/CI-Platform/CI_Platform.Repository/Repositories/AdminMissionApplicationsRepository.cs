@@ -16,18 +16,21 @@ namespace CI_Platform.Repository.Repositories
         private readonly IRepository<Mission> _Missions;
         private readonly IRepository<User> _Users;
         private readonly IRepository<MissionSeat> _MissionSeat;
+        
 
         public AdminMissionApplicationsRepository(CiPlatformContext db,
             IRepository<MissionApplication> missionApplications,
             IRepository<Mission> missions,
             IRepository<User> users,
             IRepository<MissionSeat> MissionSeats
+            
         ){
             _db = db;
             _MissionApplications = missionApplications;
             _Missions = missions;
             _Users = users;
             _MissionSeat = MissionSeats;
+            
         }
 
         public IEnumerable<AdminMissionAppicationTableViewModel> GetMissionApplications(string SearchText,int PageIndex)

@@ -64,9 +64,7 @@
                     @* </ul>*@
                 </div>
                 <div class="d-flex align-items-center ">
-                    <div class="pe-2">
-                        <img src="~/images/bell.png" />
-                    </div>
+                    <partial name="Notifications" />
                     <div class="profile-dropdown dropdown d-flex justify-content-center align-items-center">
                         <a class="dropdown-toggle  small-text" style="text-decoration:none" data-bs-toggle="dropdown" aria-expanded="false">
                             @if(@Context.Session.GetString("UserAvatar") == null || @Context.Session.GetString("UserAvatar") == "")

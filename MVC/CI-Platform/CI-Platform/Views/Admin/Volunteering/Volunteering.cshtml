@@ -1,0 +1,32 @@
+﻿
+@{
+    Layout = "Admin_Layout";
+}
+
+<div class="my-3 my-lg-5 mx-4 mx-lg-5" id="AdminVolunteeringPage">
+    
+
+</div>
+
+<script>
+    
+    //function dismissModal(){
+    //    $("#StoryStatusUpdate").modal("hide");
+    //}
+    $(document).ready( () => {
+        $.ajax({
+            url: '/Admin/GetVolunteeringDetails',
+            type: 'GET',
+            data: {},
+            dataType: 'html',
+            success:function (data) {
+                $("#AdminVolunteeringPage").html(data);
+            }
+        });
+
+        document.getElementById("menu").getElementsByTagName("li")[9].classList.add("active");
+        document.getElementById("menu").getElementsByTagName("li")[9].getElementsByTagName("a")[0].getElementsByTagName("img")[0].src = "/images/help-active.png";
+        
+
+    });
+</script>

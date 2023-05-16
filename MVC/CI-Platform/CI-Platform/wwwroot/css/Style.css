@@ -1232,6 +1232,14 @@ output .span--hidden {
     font-size:10px;
     border-radius: 13px;
 }
-    .admin-story-viewbtn:hover {
-        color: #F88634;
-    }
+.admin-story-viewbtn:hover {
+    color: #F88634;
+}
+
+.notification-dropdown {
+    min-width: 300px;
+    
+}
+.notification-dropdown img {
+    height:fit-content;
+}
