@@ -1,13 +1,13 @@
-﻿<div class="nav-item dropdown d-flex align-items-center">
+﻿@model IEnumerable<CI_Platform.Models.Models.Notification>
+
+<div class="nav-item dropdown d-flex align-items-center">
     <a class="nav-link dropdown-toggle text-dark header-text" data-bs-toggle="dropdown" aria-expanded="false">
         <img src="~/images/bell.png" />
     </a>
     <div class="dropdown-menu dropdown-menu-end notification-dropdown " >
         <div id="displayNotifications" class="">
             <div class="d-flex justify-content-between px-2">
-                <div>
-                    <img src="~/images/settings.png" />
-                </div>
+                <button id = "notificationSettingButton" class="bg-white border-white"><img src="~/images/settings.png" /></button>
                 <div>
                     Notification
                 </div>
@@ -40,34 +40,23 @@
             </div>
         </div>
         
-        <div id="notificationSettings" class="d-none">
+        <div id="notificationSettings" style="display:none;">
             <div class="text-center px-2">
                 <h6>Notification Settings</h6>
             </div>
             <hr/>
             <div>
-                <table class="table">
-  
-                    <tbody>
-                    <tr>
-                        <td><img src="~/images/add.png"/></td>
-                        <td>Otto</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td><img src="~/images/add.png"/></td>
-                        <td>Thornton</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td><img src="~/images/add.png"/></td>
-                        <td>the Bird</td>
-                        <td></td>
-                    </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
     
 </div>
+<script>
+    $('.notification-dropdown').on('click', function (event) {
+        event.stopPropagation();
+    });
+    $("#notificationSettingButton").click( () => {
+        document.getElementById("displayNotifications").style.display = "none";
+        document.getElementById("notificationSettings").style.display = "block";
+    })
+</script>

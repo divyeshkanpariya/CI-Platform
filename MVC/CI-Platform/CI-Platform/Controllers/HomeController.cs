@@ -16,12 +16,14 @@ namespace CI_Platform.Controllers
         private readonly IFavouriteMission _FavouriteMissions;
         private readonly IRepository<City> _Cities;
         private readonly IRepository<Mission> _Missions;
+        private readonly INotificationsRepository _Notifications;
         public HomeController(
             IMissionListingRepository missionListingDb,
             IRepository<City> Cities,
             IVolunteeringMissionRepository volunteeringMission,
             IFavouriteMission FavouriteMissions,
-            IRepository<Mission> Missions)
+            IRepository<Mission> Missions,
+            INotificationsRepository notifications)
         {
 
             _missionListingDb = missionListingDb;
@@ -29,6 +31,7 @@ namespace CI_Platform.Controllers
             _VolunteeringMission = volunteeringMission;
             _FavouriteMissions = FavouriteMissions;
             _Missions = Missions;
+            _Notifications = notifications;
         }
 
         public IActionResult MissionListing()
@@ -159,6 +162,13 @@ namespace CI_Platform.Controllers
             long Mid = Convert.ToInt64(MissionId);
             long uid = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
             _VolunteeringMission.ApplyMission(Mid, uid);
+        }
+
+        public IActionResult GetNotifications()
+        {
+            long userId = Convert.ToInt64(HttpContext.Session.GetString("UserId"));
+            IEnumerable<Notification> viewModel = _Notifications.getNotifications(userId);
+            return PartialView("Notifications",viewModel);
         }
 
     }

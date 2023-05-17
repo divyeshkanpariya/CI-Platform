@@ -59,6 +59,7 @@ builder.Services.AddScoped<IVolunteeringTimesheet, VolunteeringTimesheetReposito
 
 builder.Services.AddScoped<IMissionListingRepository, MissionListingRepository>();
 builder.Services.AddScoped<IMissionCardRepository,MissionCardRepository>();
+builder.Services.AddScoped<INotificationsRepository,NotificationsRepository>();
 
 builder.Services.AddScoped<IAdminUserPageRepositoty,AdminUserPageRepository>();
 builder.Services.AddScoped<IAdminCMSPageRepository,AdminCMSPageRepository>();
