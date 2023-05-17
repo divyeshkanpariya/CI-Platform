@@ -14,4 +14,8 @@ public partial class NotificationType
     public DateTime? UpdatedAt { get; set; }
 
     public DateTime? DeletedAt { get; set; }
+
+    public virtual ICollection<Notification> Notifications { get; } = new List<Notification>();
+
+    public virtual ICollection<UserSetNotification> UserSetNotifications { get; } = new List<UserSetNotification>();
 }

@@ -16,21 +16,24 @@ namespace CI_Platform.Repository.Repositories
         private readonly IRepository<Mission> _Missions;
         private readonly IRepository<User> _Users;
         private readonly IRepository<MissionSeat> _MissionSeat;
-        
+        private readonly IRepository<UserSetNotification> _UserSetNotification;
+        private readonly IRepository<Notification> _Notifications;
 
         public AdminMissionApplicationsRepository(CiPlatformContext db,
             IRepository<MissionApplication> missionApplications,
             IRepository<Mission> missions,
             IRepository<User> users,
-            IRepository<MissionSeat> MissionSeats
-            
+            IRepository<MissionSeat> MissionSeats,
+            IRepository<UserSetNotification> usersNotifications,
+            IRepository<Notification> notifications
         ){
             _db = db;
             _MissionApplications = missionApplications;
             _Missions = missions;
             _Users = users;
             _MissionSeat = MissionSeats;
-            
+            _UserSetNotification = usersNotifications;
+            _Notifications = notifications;
         }
 
         public IEnumerable<AdminMissionAppicationTableViewModel> GetMissionApplications(string SearchText,int PageIndex)
@@ -96,6 +99,29 @@ namespace CI_Platform.Repository.Repositories
                     if(Status == "DELETE") missionApplication.DeletedAt = DateTime.Now;
                     _MissionApplications.Update(missionApplication);
                     _MissionApplications.Save();
+
+                    if(Status == "APPROVE" || Status == "DECLINE")
+                    {
+                        if(_UserSetNotification.GetFirstOrDefault(us => us.UserId == missionApplication.UserId).Status == 1)
+                        {
+                            Notification newNotification = new();
+                            newNotification.NotificationTypeId = 10003;
+                            newNotification.UserId = missionApplication.UserId;
+                            newNotification.MissionId = missionApplication.MissionId;
+                            if(Status == "APPROVE")
+                            {
+                                newNotification.Text = "Mission Application Approved for Mission - " + _Missions.GetFirstOrDefault(m => m.MissionId == missionApplication.MissionId).Title;
+                                newNotification.Status = "APPROVED";
+                            }
+                            else
+                            {
+                                newNotification.Text = "Mission Application Declined for Mission - " + _Missions.GetFirstOrDefault(m => m.MissionId == missionApplication.MissionId).Title;
+                                newNotification.Status = "DECLINED";
+                            }
+                            _Notifications.AddNew(newNotification);
+                            _Notifications.Save();
+                        }
+                    }
                 }
             }
             

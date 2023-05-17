@@ -88,21 +88,37 @@ namespace CI_Platform.Repository.Repositories
             Vol.UpdatedAt = DateTime.Now;
             _Timesheets.Update(Vol);
             _Timesheets.Save();
-            if (_UserSetNotification.GetFirstOrDefault(us => us.UserId == Vol.UserId).Status == 1)
+            if (_Missions.GetFirstOrDefault(u => u.MissionId == Vol.MissionId).MissionType == "Go")
             {
-                Notification NewNotification = new Notification();
-                if (_Missions.GetFirstOrDefault(u => u.MissionId == Vol.MissionId).MissionType == "Go")
+                if (_UserSetNotification.GetFirstOrDefault(us => us.UserId == Vol.UserId && us.NotificationTypeId == 4).Status == 1)
                 {
+                    Notification NewNotification = new Notification();
+
                     NewNotification.NotificationTypeId = 4;
+                    NewNotification.UserId = Vol.UserId;
+                    NewNotification.Text = "Volunteering Request has been Approved for this Mission - " + _Missions.GetFirstOrDefault(ms => ms.MissionId == Vol.MissionId).Title;
+                    NewNotification.Status = Status;
+
+                    _Notifications.AddNew(NewNotification);
+                    _Notifications.Save();
                 }
-                NewNotification.UserId = Vol.UserId;
-                NewNotification.Text = "Volunteering Request has been Approved for this Mission - " + _Missions.GetFirstOrDefault(ms => ms.MissionId == Vol.MissionId).Title;
-                NewNotification.Status = Status;
+            }else if(_Missions.GetFirstOrDefault(u => u.MissionId == Vol.MissionId).MissionType == "Time")
+            {
+                if (_UserSetNotification.GetFirstOrDefault(us => us.UserId == Vol.UserId && us.NotificationTypeId == 4).Status == 1)
+                {
+                    Notification NewNotification = new Notification();
+                    
+                    NewNotification.NotificationTypeId = 3;
+                    NewNotification.UserId = Vol.UserId;
+                    NewNotification.Text = "Volunteering Request has been Approved for this Mission - " + _Missions.GetFirstOrDefault(ms => ms.MissionId == Vol.MissionId).Title;
+                    NewNotification.Status = Status;
 
-                _Notifications.AddNew(NewNotification);
-                _Notifications.Save();
+                    _Notifications.AddNew(NewNotification);
+                    _Notifications.Save();
 
+                }
             }
+                
         }
     }
 }

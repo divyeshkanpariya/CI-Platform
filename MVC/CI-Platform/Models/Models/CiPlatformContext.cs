@@ -716,10 +716,11 @@ public partial class CiPlatformContext : DbContext
 
         modelBuilder.Entity<Notification>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("notifications");
+            entity.HasKey(e => e.NotificationId).HasName("PK__notifica__E059842FD1D6E23E");
 
+            entity.ToTable("notifications");
+
+            entity.Property(e => e.NotificationId).HasColumnName("notification_id");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
@@ -728,9 +729,6 @@ public partial class CiPlatformContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("deleted_at");
             entity.Property(e => e.MissionId).HasColumnName("mission_id");
-            entity.Property(e => e.NotificationId)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("notification_id");
             entity.Property(e => e.NotificationTypeId).HasColumnName("notification_type_id");
             entity.Property(e => e.Status)
                 .HasMaxLength(55)
@@ -745,16 +743,16 @@ public partial class CiPlatformContext : DbContext
                 .HasColumnName("updated_at");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
-            entity.HasOne(d => d.Mission).WithMany()
+            entity.HasOne(d => d.Mission).WithMany(p => p.Notifications)
                 .HasForeignKey(d => d.MissionId)
                 .HasConstraintName("FK__notificat__missi__74444068");
 
-            entity.HasOne(d => d.NotificationType).WithMany()
+            entity.HasOne(d => d.NotificationType).WithMany(p => p.Notifications)
                 .HasForeignKey(d => d.NotificationTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__notificat__notif__725BF7F6");
 
-            entity.HasOne(d => d.User).WithMany()
+            entity.HasOne(d => d.User).WithMany(p => p.Notifications)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__notificat__user___73501C2F");
@@ -1060,10 +1058,11 @@ public partial class CiPlatformContext : DbContext
 
         modelBuilder.Entity<UserSetNotification>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("user_set_notifications");
+            entity.HasKey(e => e.Id).HasName("PK__user_set__3213E83FBDE67680");
 
+            entity.ToTable("user_set_notifications");
+
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
@@ -1071,9 +1070,6 @@ public partial class CiPlatformContext : DbContext
             entity.Property(e => e.DeletedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("deleted_at");
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("id");
             entity.Property(e => e.NotificationTypeId).HasColumnName("notification_type_id");
             entity.Property(e => e.Status)
                 .HasDefaultValueSql("((1))")
@@ -1083,12 +1079,12 @@ public partial class CiPlatformContext : DbContext
                 .HasColumnName("updated_at");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
-            entity.HasOne(d => d.NotificationType).WithMany()
+            entity.HasOne(d => d.NotificationType).WithMany(p => p.UserSetNotifications)
                 .HasForeignKey(d => d.NotificationTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__user_set___notif__6CA31EA0");
 
-            entity.HasOne(d => d.User).WithMany()
+            entity.HasOne(d => d.User).WithMany(p => p.UserSetNotifications)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__user_set___user___6BAEFA67");
