@@ -50,6 +50,39 @@ namespace CI_Platform.Repository.Repositories
             _FavoriteMissions = FavouriteMissions;
             _MissionApplicationList = MissionApplications;
         }
+        public long[] SplitsLong(string ids)
+        {
+            string[] CharArr = ids.Split(",");
+            long[] IntArr = new long[CharArr.Length];
+            for (int i = 0; i < CharArr.Length; i++)
+            {
+                IntArr[i] = Convert.ToInt64(CharArr[i]);
+            }
+            return IntArr;
+        }
+        public int[] SplitsInt(string ids)
+        {
+            string[] CharArr = ids.Split(",");
+            int[] IntArr = new int[CharArr.Length];
+            for (int i = 0; i < CharArr.Length; i++)
+            {
+                IntArr[i] = Convert.ToInt32(CharArr[i]);
+            }
+            return IntArr;
+        }
+
+        public int ValOrMaxInt(int? value)
+        {
+            if (value == null) return int.MaxValue;
+            else return (int)value;
+        }
+
+        public int ValOrZero(int? value)
+        {
+            if (value == null) return 0;
+            else return (int)value;
+        }
+
         
 
         public MissionListingViewModel GetAllData(string Countryids, string Cityids, string Themeids, string Skillids, string Sortby, string SearchText,string UserId,string PageIndex)
@@ -57,90 +90,186 @@ namespace CI_Platform.Repository.Repositories
             
 
             MissionListingViewModel viewModel = new MissionListingViewModel();
-            IEnumerable<Mission> AllMissions = _Missions.GetRecordsWhere(m =>m.DeletedAt == null);
-            if(Countryids != null && Countryids != "")
+            var pagesize = 6;
+            if (PageIndex != null)
             {
-
-                SqlConnection connection = new SqlConnection("Data Source=PCI117\\SQL2017;DataBase=CI-Platform;User ID=sa;Password=Tatva@123;Encrypt=False;MultipleActiveResultSets=True;TrustServerCertificate=True;");
-
-                SqlCommand command = new SqlCommand("my_stored_procedure", connection);
-                command.CommandType = CommandType.StoredProcedure;
-
-                command.Parameters.Add("@my_array", SqlDbType.VarChar).Value = Countryids;
-                command.Parameters.Add("@city_ids", SqlDbType.VarChar).Value = Cityids;
-                command.Parameters.Add("@theme_ids", SqlDbType.VarChar).Value = Themeids;
-                command.Parameters.Add("@skill_ids", SqlDbType.VarChar).Value = Skillids;   
-                command.Parameters.Add("@sortby", SqlDbType.VarChar).Value = Sortby;
-                command.Parameters.Add("@searchtext", SqlDbType.VarChar).Value = SearchText;
-                command.Parameters.Add("@user_id", SqlDbType.VarChar).Value = UserId;
-
-
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-
-                DataTable dataTable = new DataTable();
-                adapter.Fill(dataTable);
-           
-                List<Mission> newMissions = new List<Mission>();
-
-                foreach (DataRow row in dataTable.Rows)
+                if (PageIndex == "")
                 {
-                    // Access data from the row using the column name or index.
-                    Mission newM = new Mission();
-                    newM.MissionId = Convert.ToInt64(row["mission_id"]);
-                    newM.ThemeId = Convert.ToInt64(row["theme_id"]);
-                    newM.CityId = Convert.ToInt64(row["city_id"]);
-                    newM.CountryId = Convert.ToInt64(row["Country_id"]);
-                    newM.Title = Convert.ToString(row["title"])!;
-                    if (row["end_date"] != DBNull.Value)
-                    {
-                        newM.EndDate = Convert.ToDateTime(row["end_date"]);
-
-                    }
-                    
-                    newM.ShortDescription = Convert.ToString(row["short_description"]);
-                    if(row["start_date"] != DBNull.Value){
-                        newM.StartDate = Convert.ToDateTime(row["start_date"]);
-
-                    }
-                    if(row["end_date"] != DBNull.Value)
-                    {
-                        newM.EndDate = Convert.ToDateTime(row["end_date"]);
-                            
-                    }
-                    if (row["registration_deadline"] != DBNull.Value)
-                    {
-                        newM.RegistrationDeadline = Convert.ToDateTime(row["registration_deadline"]);
-
-                    }
-                    newM.MissionType = Convert.ToString(row["mission_type"])!;
-                    newM.Status = Convert.ToString(row["status"])!;
-                    newM.OrganizationName = Convert.ToString(row["organization_name"]);
-                    if (row["organization_detail"] != DBNull.Value)
-                    {
-                        newM.OrganizationDetail = Convert.ToString(row["organization_detail"]);
-
-                    }
-                    if (row["availability"] != DBNull.Value)
-                    {
-                        newM.Availability = Convert.ToString(row["availability"]);
-
-                    }
-                    newM.CreatedAt = Convert.ToDateTime(row["created_at"]);
-                    
-                  
-
-                    newMissions.Add(newM);
+                    PageIndex = "1";
                 }
-                connection.Close();
+            }
+            IEnumerable<Mission> AllMissions = _Missions.GetRecordsWhere(m =>m.DeletedAt == null).ToList();
+            viewModel.MissionCount = AllMissions.Count();
+            AllMissions = AllMissions.Skip((Convert.ToInt16(PageIndex) - 1) * pagesize).Take(pagesize).ToList();
+
+
+            if (Countryids != null && Countryids != "")
+            {
+                List<long> MissionFromSkills = (from m in _db.Missions
+                                                join sk in _db.MissionSkills on m.MissionId equals sk.MissionId
+                                                where SplitsInt(Skillids).Contains(sk.SkillId)
+                                                select m.MissionId).ToList();
                 
+                var Mss = (from m in _db.Missions              
+                            where SplitsLong(Countryids).Contains(m.CountryId) &&
+                                m.DeletedAt == null &&
+                                SplitsLong(Cityids).Contains(m.CityId) &&
+                                SplitsLong(Themeids).Contains(m.ThemeId) &&
+                                MissionFromSkills.Contains(m.MissionId) &&
+                                (m.Title.Contains(SearchText)|| m.OrganizationName!.Contains(SearchText))
+                            select m);
+
+                List<Mission> newMissions = new List<Mission>();
+                switch (Convert.ToInt32(Sortby))
+                {
+                    case 1:
+                        newMissions = (from m in Mss
+                                       orderby m.CreatedAt
+                                       select m).ToList();                                    
+                        break;
+
+                    case 2:
+                        newMissions = (from m in Mss
+                                       orderby m.CreatedAt descending
+                                       select m).ToList();
+                        break;
+                    case 3:
+                        newMissions = (from m in Mss
+                                       join ms in _db.MissionSeats on m.MissionId equals ms.MissionId
+                                       orderby ms.TotalSeats - ms.SeatsFilled
+                                       select m).ToList();
+                        break;
+                    case 4:
+                        newMissions = (from m in Mss
+                                       join ms in _db.MissionSeats on m.MissionId equals ms.MissionId 
+                                       orderby ms.TotalSeats - ms.SeatsFilled descending
+                                       select m).ToList();
+                        break;
+                    case 5:
+                        newMissions = (from m in Mss
+                                       join fv in _db.FavoriteMissions
+                                       on m.MissionId equals fv.MissionId
+                                       where fv.UserId == Convert.ToInt64(UserId)
+                                       select m).ToList();
+                        break;
+                    case 6:
+                        newMissions = (from m in Mss
+                                       where m.StartDate > DateTime.Now
+                                       orderby m.RegistrationDeadline 
+                                       select m).ToList();
+                        break;
+                    case 7:
+                        newMissions = (from m in Mss
+                                       join mth in (from mt in _db.Missions group mt by mt.ThemeId into grp select new { theme_id = grp.Key, count = grp.Count()})
+                                       on m.ThemeId equals mth.theme_id
+                                       orderby mth.count descending
+                                       select m).ToList();
+                        break;
+                    case 8:
+                        newMissions = (from m in Mss
+                                       join mrt in from ratings in _db.MissionRatings group ratings by ratings.MissionId into grp select new { mission_id = grp.Key, avg = grp.Average(r=>r.Rating)}
+                                       on m.MissionId equals mrt.mission_id into newt
+                                       from subt in newt.DefaultIfEmpty()
+                                       orderby subt.avg descending
+                                       select m).ToList();
+                        break;
+                    case 9:
+                        newMissions = (from m in Mss
+                                       join mfv in from f in _db.FavoriteMissions group f by f.MissionId into grp select new { mission_id = grp.Key, count = grp.Count()}
+                                       on m.MissionId equals mfv.mission_id into newt
+                                       from subt in newt.DefaultIfEmpty()
+                                       orderby subt.count descending
+                                       select m).ToList();
+                        break;
+                    case 10:
+                        newMissions = (from m in Mss
+                                       orderby Guid.NewGuid()
+                                       select m).ToList();
+                        break;
+
+                    
+                }
+                viewModel.MissionCount = newMissions.Count;
+                newMissions = newMissions.Skip((Convert.ToInt16(PageIndex) - 1) * pagesize).Take(pagesize).ToList();
+
+                //SqlConnection connection = new SqlConnection("Data Source=PCI117\\SQL2017;DataBase=CI-Platform;User ID=sa;Password=Tatva@123;Encrypt=False;MultipleActiveResultSets=True;TrustServerCertificate=True;");
+
+                //SqlCommand command = new SqlCommand("my_stored_procedure", connection);
+                //command.CommandType = CommandType.StoredProcedure;
+
+                //command.Parameters.Add("@my_array", SqlDbType.VarChar).Value = Countryids;
+                //command.Parameters.Add("@city_ids", SqlDbType.VarChar).Value = Cityids;
+                //command.Parameters.Add("@theme_ids", SqlDbType.VarChar).Value = Themeids;
+                //command.Parameters.Add("@skill_ids", SqlDbType.VarChar).Value = Skillids;   
+                //command.Parameters.Add("@sortby", SqlDbType.VarChar).Value = Sortby;
+                //command.Parameters.Add("@searchtext", SqlDbType.VarChar).Value = SearchText;
+                //command.Parameters.Add("@user_id", SqlDbType.VarChar).Value = UserId;
+
+
+                //SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                //DataTable dataTable = new DataTable();
+                //adapter.Fill(dataTable);
+
+                //List<Mission> newMissions = new List<Mission>();
+
+                //foreach (DataRow row in dataTable.Rows)
+                //{
+                //    // Access data from the row using the column name or index.
+                //    Mission newM = new Mission();
+                //    newM.MissionId = Convert.ToInt64(row["mission_id"]);
+                //    newM.ThemeId = Convert.ToInt64(row["theme_id"]);
+                //    newM.CityId = Convert.ToInt64(row["city_id"]);
+                //    newM.CountryId = Convert.ToInt64(row["Country_id"]);
+                //    newM.Title = Convert.ToString(row["title"])!;
+                //    if (row["end_date"] != DBNull.Value)
+                //    {
+                //        newM.EndDate = Convert.ToDateTime(row["end_date"]);
+
+                //    }
+
+                //    newM.ShortDescription = Convert.ToString(row["short_description"]);
+                //    if(row["start_date"] != DBNull.Value){
+                //        newM.StartDate = Convert.ToDateTime(row["start_date"]);
+
+                //    }
+                //    if(row["end_date"] != DBNull.Value)
+                //    {
+                //        newM.EndDate = Convert.ToDateTime(row["end_date"]);
+
+                //    }
+                //    if (row["registration_deadline"] != DBNull.Value)
+                //    {
+                //        newM.RegistrationDeadline = Convert.ToDateTime(row["registration_deadline"]);
+
+                //    }
+                //    newM.MissionType = Convert.ToString(row["mission_type"])!;
+                //    newM.Status = Convert.ToString(row["status"])!;
+                //    newM.OrganizationName = Convert.ToString(row["organization_name"]);
+                //    if (row["organization_detail"] != DBNull.Value)
+                //    {
+                //        newM.OrganizationDetail = Convert.ToString(row["organization_detail"]);
+
+                //    }
+                //    if (row["availability"] != DBNull.Value)
+                //    {
+                //        newM.Availability = Convert.ToString(row["availability"]);
+
+                //    }
+                //    newM.CreatedAt = Convert.ToDateTime(row["created_at"]);
+
+
+
+                //    newMissions.Add(newM);
+                //}
+                //connection.Close();
+
                 AllMissions = newMissions;
             }
             
 
             viewModel.MissionCards = _MissionCard.FillData(AllMissions);
-
-            viewModel.MissionCount = AllMissions.Count();
-
+            
             viewModel.Cities = _CityList.GetAll();
             viewModel.Countries = _CountryList.GetAll();
             viewModel.MissionThemes = _ThemeList.GetAll();
@@ -270,19 +399,8 @@ namespace CI_Platform.Repository.Repositories
                     mission.ApprovalStatus = "NotApplied";
                 }
 
-
-
             }
-           
-            var pagesize = 6;
-            if(PageIndex != null)
-            {
-                if(PageIndex == "")
-                {
-                    PageIndex = "1";
-                }
-                viewModel.MissionCards = viewModel.MissionCards.Skip((Convert.ToInt16(PageIndex) - 1) * pagesize).Take(pagesize).ToList();
-            }
+          
             
             return viewModel;
 

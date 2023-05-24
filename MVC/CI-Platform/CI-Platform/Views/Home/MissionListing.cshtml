@@ -487,7 +487,6 @@
         changeCount();
     }
     function applyFilter(pageIndex){
-        
         var selectedCountryID = $('#countries li a input[type=checkbox]:checked').map(function () {return this.value;}).get().join();
         
         var selectedCityID = $('#cities li a input[type=checkbox]:checked').map(function () {return this.value;}).get().join();
@@ -537,7 +536,7 @@
             PageIndex: pageIndex},
             dataType: 'html',
             success:function (viewModel) {
-                
+                console.log(viewModel)
                 $('#cardContainer').html(viewModel);
                 
             }
